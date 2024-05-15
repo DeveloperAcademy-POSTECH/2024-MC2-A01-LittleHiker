@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		025E29F12BF23F6E00874A24 /* SummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025E29F02BF23F6E00874A24 /* SummaryView.swift */; };
+		025E29F12BF23F6E00874A24 /* WatchSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */; };
 		1ABE5F4A2BF2085B00F9E0A6 /* LittleHikerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5F492BF2085B00F9E0A6 /* LittleHikerApp.swift */; };
 		1ABE5F4C2BF2085B00F9E0A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5F4B2BF2085B00F9E0A6 /* ContentView.swift */; };
 		1ABE5F4E2BF2085C00F9E0A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F4D2BF2085C00F9E0A6 /* Assets.xcassets */; };
@@ -44,7 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		025E29F02BF23F6E00874A24 /* SummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryView.swift; sourceTree = "<group>"; };
+		025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSummaryView.swift; sourceTree = "<group>"; };
 		1ABE5F462BF2085B00F9E0A6 /* LittleHiker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LittleHiker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ABE5F492BF2085B00F9E0A6 /* LittleHikerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleHikerApp.swift; sourceTree = "<group>"; };
 		1ABE5F4B2BF2085B00F9E0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -116,7 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
-				025E29F02BF23F6E00874A24 /* SummaryView.swift */,
+				025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */,
 				1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */,
 				1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */,
 				1ABE5F612BF2085D00F9E0A6 /* Preview Content */,
@@ -245,7 +245,7 @@
 			files = (
 				1ABE5F5E2BF2085C00F9E0A6 /* ContentView.swift in Sources */,
 				1ABE5F5C2BF2085C00F9E0A6 /* LittleHikerApp.swift in Sources */,
-				025E29F12BF23F6E00874A24 /* SummaryView.swift in Sources */,
+				025E29F12BF23F6E00874A24 /* WatchSummaryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

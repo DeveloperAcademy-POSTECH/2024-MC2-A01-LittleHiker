@@ -7,15 +7,24 @@
 
 import SwiftUI
 
-struct SummaryView: View {
+struct WatchSummaryView: View {
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 0) {
+                
+                // todo 이거 navigationTitle 로 지정하면 뜨는건지 확인 필요.
+                HStack {
+                    Spacer()
+                    Text("요약")
+                        .foregroundStyle(Color.blue)
+                }
                 Text("총 시간")
                 Text("5:20:36")
                     .font(.system(size: 32))
                     .foregroundColor(Color(red: 1, green: 0.84, blue: 0.04))
+                
                 Divider()
+                
                 Text("총 거리")
                 HStack (spacing: 0) {
                     Text("6.88")
@@ -25,9 +34,10 @@ struct SummaryView: View {
                         .font(.system(size: 18))
                         .foregroundColor(Color(red: 0.35, green: 0.78, blue: 0.98))
                         .padding(.top)
-                }
+                }.frame(height: 30)
                 
                 Divider()
+                
                 Text("하산 평균 충격량")
                 HStack (spacing: 0) {
                     Text("33")
@@ -37,15 +47,12 @@ struct SummaryView: View {
                         .font(.system(size: 18))
                         .foregroundColor(Color(red: 0.01, green: 0.96, blue: 0.92))
                         .padding(.top)
-                }
-                Divider()
-                Text("abc")
-                Text("스크롤을 위해 대충 써봄")
+                }.frame(height: 30)
             }
         }
     }
 }
 
 #Preview {
-    SummaryView()
+    WatchSummaryView()
 }
