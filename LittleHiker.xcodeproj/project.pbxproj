@@ -16,6 +16,7 @@
 		1ABE5F5E2BF2085C00F9E0A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */; };
 		1ABE5F602BF2085D00F9E0A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */; };
 		1ABE5F632BF2085D00F9E0A6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */; };
+		EED4A39C2BF495C00067EA19 /* WatchButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			children = (
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
 				1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */,
+				EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */,
 				1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */,
 				1ABE5F612BF2085D00F9E0A6 /* Preview Content */,
 			);
@@ -242,6 +245,7 @@
 			files = (
 				1ABE5F5E2BF2085C00F9E0A6 /* ContentView.swift in Sources */,
 				1ABE5F5C2BF2085C00F9E0A6 /* LittleHikerApp.swift in Sources */,
+				EED4A39C2BF495C00067EA19 /* WatchButtonView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
