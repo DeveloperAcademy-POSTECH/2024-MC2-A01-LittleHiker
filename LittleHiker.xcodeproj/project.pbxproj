@@ -17,6 +17,7 @@
 		1ABE5F602BF2085D00F9E0A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */; };
 		1ABE5F632BF2085D00F9E0A6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */; };
 		1ABE5FB82BF5EE2200F9E0A6 /* PhoneRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */; };
+		1ABE5FBA2BF5EEB800F9E0A6 /* PhoneListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5FB92BF5EEB800F9E0A6 /* PhoneListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +56,7 @@
 		1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRowView.swift; sourceTree = "<group>"; };
+		1ABE5FB92BF5EEB800F9E0A6 /* PhoneListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 				1ABE5F492BF2085B00F9E0A6 /* LittleHikerApp.swift */,
 				1ABE5F4B2BF2085B00F9E0A6 /* ContentView.swift */,
 				1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */,
+				1ABE5FB92BF5EEB800F9E0A6 /* PhoneListView.swift */,
 				1ABE5F4D2BF2085C00F9E0A6 /* Assets.xcassets */,
 				1ABE5F4F2BF2085C00F9E0A6 /* Preview Content */,
 			);
@@ -237,6 +240,7 @@
 				1ABE5FB82BF5EE2200F9E0A6 /* PhoneRowView.swift in Sources */,
 				1ABE5F4C2BF2085B00F9E0A6 /* ContentView.swift in Sources */,
 				1ABE5F4A2BF2085B00F9E0A6 /* LittleHikerApp.swift in Sources */,
+				1ABE5FBA2BF5EEB800F9E0A6 /* PhoneListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
