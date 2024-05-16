@@ -24,11 +24,9 @@ struct WatchDetailView: View {
                             .font(.system(size: 32))
 
                         VStack(alignment: .leading){
-                            Text("심박수")
-                            Text("")
+                            Image(systemName: "heart")
                         }
-                        .font(.system(size: 12))
-                        .padding(.horizontal)
+                        .font(.system(size:24))
                     }
                     .frame(height: 30)
                     
