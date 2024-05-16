@@ -33,7 +33,7 @@ struct WatchKickOffView: View {
         //        VStack {
         //            Circle()
         //                .trim(from: 0, to: progress)
-        //                .stroke(Color.green, 
+        //                .stroke(Color.green,
         //                        style: StrokeStyle(
         //                            lineWidth: 8,
         //                            lineCap: .round))
@@ -48,7 +48,7 @@ struct WatchKickOffView: View {
         //                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
         //                    self.decreaseProgress()
         //                }
-        //            
+        //
         //        }
         
         
@@ -64,7 +64,7 @@ struct WatchKickOffView: View {
     //        if progress == 0 {
     //            progress += 1
     //        } else if progress == 1 {
-    //            
+    //
     //        }
     //    }
 }
@@ -72,7 +72,7 @@ struct WatchKickOffView: View {
 //struct CircularProgressView: View {
 //    @State var progress: Double = 1
 //    @State var count: Int = 3
-//    
+//
 //    var body: some View {
 //        ZStack {
 //배경에 깔려있는 빈 프로그레스
@@ -97,7 +97,7 @@ struct WatchKickOffView: View {
 //                }
 //        }
 //    }
-//    
+//
 //1초가 지날 때마다 -.33값이 되는 progress입니다.
 //    func decreaseProgress() {
 //        if progress > 0.1 {
