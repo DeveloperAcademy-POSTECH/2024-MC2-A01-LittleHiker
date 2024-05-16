@@ -17,7 +17,7 @@ enum GifAnimation: String {
         case .run:
             return 4
         case .eat:
-            return 3
+            return 5
         case .peak:
             return 4
         }
@@ -31,6 +31,8 @@ enum GifAnimation: String {
 struct WatchRestView: View {
     @State var gifAnimation: GifAnimation = .peak
     @State private var frameIndex = 0
+    @State private var timer: Timer?
+    private let changeTime = 120.0
 
     var body: some View {
         squirrelGIF
@@ -45,19 +47,27 @@ struct WatchRestView: View {
                 animationGifTimer()
                 changeGifAnimationAfterDelay()
             }
+            .onDisappear{
+                stopGifTimer()
+            }
     }
 
     //MARK: - GIF 스케줄
     private func animationGifTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0 / 4.0, repeats: true) { timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0 / 4.0, repeats: true) { timer in
             frameIndex = (frameIndex + 1) % gifAnimation.frameCount
         }
     }
     
     private func changeGifAnimationAfterDelay() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 120) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + changeTime) {
             gifAnimation = .eat
         }
+    }
+    
+    private func stopGifTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
