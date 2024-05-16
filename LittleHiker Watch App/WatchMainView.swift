@@ -12,7 +12,7 @@ import SwiftUI
 enum GifAnimation: String {
     case run = "run"
     case eat = "eat"
-    case goal = "goal"
+    case peak = "peak"
 
     var frameCount: Int {
         switch self {
@@ -20,7 +20,7 @@ enum GifAnimation: String {
             return 4
         case .eat:
             return 3
-        case .goal:
+        case .peak:
             return 3
         }
     }
@@ -35,6 +35,7 @@ enum GifAnimation: String {
 struct WatchMainView: View {
     let gifAnimation: GifAnimation = .run
     @State private var frameIndex = 0
+    @State private var timer: Timer?
     @State var isDescent: Bool = true
     @State private var progress: CGFloat = 50
 
@@ -68,7 +69,6 @@ struct WatchMainView: View {
                 progressBar
             }
         }
-//        .background(.red)
     }
     
     //MARK: - 다람이GIF
@@ -80,9 +80,10 @@ struct WatchMainView: View {
             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
             .rotationEffect(.degrees(isDescent ? 30 : -30))
             .onAppear {
-                Timer.scheduledTimer(withTimeInterval: 1.0 / 10.0, repeats: true){ timer in
-                    frameIndex = (frameIndex + 1) % gifAnimation.frameCount
-                }
+                animationGifTimer()
+            }
+            .onDisappear {
+                stopGifTimer()
             }
     }
     
@@ -122,6 +123,18 @@ struct WatchMainView: View {
         default:
             return .yellow
         }
+    }
+    
+    //MARK: - GIF 스케쥴러
+    private func animationGifTimer() {
+        Timer.scheduledTimer(withTimeInterval: 1.0 / 10.0, repeats: true){ timer in
+            frameIndex = (frameIndex + 1) % gifAnimation.frameCount
+        }
+    }
+    
+    private func stopGifTimer() {
+        timer?.invalidate()
+        timer = nil
     }
 }
 
