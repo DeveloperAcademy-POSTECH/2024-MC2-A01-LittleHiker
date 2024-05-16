@@ -12,12 +12,15 @@ import SwiftUI
 enum GifAnimation: String {
     case run = "run"
     case eat = "eat"
+    case goal = "goal"
 
     var frameCount: Int {
         switch self {
         case .run:
             return 4
         case .eat:
+            return 3
+        case .goal:
             return 3
         }
     }
@@ -33,7 +36,7 @@ struct WatchMainView: View {
     let gifAnimation: GifAnimation = .run
     @State private var frameIndex = 0
     @State var isDescent: Bool = true
-    @State private var progress: CGFloat = 90
+    @State private var progress: CGFloat = 50
 
     var body: some View {
         VStack(alignment: .leading){

@@ -16,6 +16,7 @@
 		1ABE5F5E2BF2085C00F9E0A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */; };
 		1ABE5F602BF2085D00F9E0A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */; };
 		1ABE5F632BF2085D00F9E0A6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */; };
+		1E1B12792BF5E63300B8D970 /* WatchMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1B12782BF5E63300B8D970 /* WatchMainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1E1B12782BF5E63300B8D970 /* WatchMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchMainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			children = (
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
 				1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */,
+				1E1B12782BF5E63300B8D970 /* WatchMainView.swift */,
 				1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */,
 				1ABE5F612BF2085D00F9E0A6 /* Preview Content */,
 			);
@@ -242,6 +245,7 @@
 			files = (
 				1ABE5F5E2BF2085C00F9E0A6 /* ContentView.swift in Sources */,
 				1ABE5F5C2BF2085C00F9E0A6 /* LittleHikerApp.swift in Sources */,
+				1E1B12792BF5E63300B8D970 /* WatchMainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -383,6 +387,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = SanJimSeungDeul.LittleHiker;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -412,6 +417,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = SanJimSeungDeul.LittleHiker;
+				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
