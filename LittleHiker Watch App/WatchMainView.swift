@@ -7,29 +7,6 @@
 
 import SwiftUI
 
-//MARK: - GIF 파일 관리
-
-enum GifAnimation: String {
-    case run = "run"
-    case eat = "eat"
-    case peak = "peak"
-
-    var frameCount: Int {
-        switch self {
-        case .run:
-            return 4
-        case .eat:
-            return 3
-        case .peak:
-            return 3
-        }
-    }
-    
-    func frameImageName(index: Int) -> String {
-        "\(self.rawValue)\(index + 1)"
-    }
-}
-
 //MARK: - WatchMainView
 
 struct WatchMainView: View {
