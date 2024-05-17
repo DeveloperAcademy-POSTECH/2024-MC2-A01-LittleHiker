@@ -14,7 +14,7 @@ struct PhoneListView: View {
             List{
                 //ToDo : ForEach hikingRecord
                 NavigationLink{
-                    // PhoneDetailView()
+                    PhoneDetailView()
                     
                 } label: {
                     PhoneRowView()
