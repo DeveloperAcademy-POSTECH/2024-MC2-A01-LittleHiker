@@ -9,44 +9,52 @@ import SwiftUI
 
 //MARK: - GIF 파일 관리
 
-enum GifAnimation: String {
-    case run = "run"
-    case eat = "eat"
-    case peak = "peak"
-
-    var frameCount: Int {
-        switch self {
-        case .run:
-            return 4
-        case .eat:
-            return 3
-        case .peak:
-            return 3
-        }
-    }
-    
-    func frameImageName(index: Int) -> String {
-        "\(self.rawValue)\(index + 1)"
-    }
-}
+//enum GifAnimation: String {
+//    case run = "run"
+//    case eat = "eat"
+//    case peak = "peak"
+//
+//    var frameCount: Int {
+//        switch self {
+//        case .run:
+//            return 4
+//        case .eat:
+//            return 3
+//        case .peak:
+//            return 3
+//        }
+//    }
+//    
+//    func frameImageName(index: Int) -> String {
+//        "\(self.rawValue)\(index + 1)"
+//    }
+//}
 
 //MARK: - WatchMainView
 
 struct WatchMainView: View {
     let gifAnimation: GifAnimation = .run
+    @ObservedObject var viewModel: HikingViewModel
     @State private var frameIndex = 0
     @State private var timer: Timer?
-    @State var isDescent: Bool = true
     @State private var progress: CGFloat = 50
 
     var body: some View {
         VStack(alignment: .leading){
             HStack(alignment: .bottom){
-                Text("578")
+                Text("\(Int(viewModel.currentAltitude))")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
                 Text("M")
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.green)
+                Text("\(Int(viewModel.currentSpeed))")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.green)
+                Text("km/h")
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
@@ -65,7 +73,7 @@ struct WatchMainView: View {
                     .fontWeight(.semibold)
             }
             Spacer()
-            if isDescent{
+            if viewModel.isDescent{
                 progressBar
             }
         }
@@ -77,8 +85,9 @@ struct WatchMainView: View {
             .resizable()
             .scaledToFit()
             .frame(width: 106, height: 106)
+            .background(.clear)
             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-            .rotationEffect(.degrees(isDescent ? 30 : -30))
+            .rotationEffect(.degrees(viewModel.isDescent ? 30 : -30))
             .onAppear {
                 animationGifTimer()
             }
@@ -139,6 +148,6 @@ struct WatchMainView: View {
 }
 
 #Preview {
-    WatchMainView(isDescent: true)
+    WatchMainView(viewModel: HikingViewModel())
 //    WatchMainView(isDescent: false)
 }
