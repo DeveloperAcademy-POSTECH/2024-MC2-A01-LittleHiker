@@ -17,13 +17,14 @@
 		1ABE5F5E2BF2085C00F9E0A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */; };
 		1ABE5F602BF2085D00F9E0A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */; };
 		1ABE5F632BF2085D00F9E0A6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */; };
-		1E5BA4742BF6519A006EDBCC /* WatchRestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */; };
-		1E1B12792BF5E63300B8D970 /* WatchMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1B12782BF5E63300B8D970 /* WatchMainView.swift */; };
-		D37AF6432BF3768600AB9B83 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */; };
 		1ABE5FB82BF5EE2200F9E0A6 /* PhoneRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */; };
 		1ABE5FBA2BF5EEB800F9E0A6 /* PhoneListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5FB92BF5EEB800F9E0A6 /* PhoneListView.swift */; };
-		EED4A39C2BF495C00067EA19 /* WatchButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */; };
+		1E1B12792BF5E63300B8D970 /* WatchMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1B12782BF5E63300B8D970 /* WatchMainView.swift */; };
+		1E5BA4742BF6519A006EDBCC /* WatchRestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */; };
+		1E5BA47C2BF76A62006EDBCC /* HikingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */; };
 		72009EB52BF24D6100B92390 /* WatchKickOffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72009EB42BF24D6100B92390 /* WatchKickOffView.swift */; };
+		D37AF6432BF3768600AB9B83 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */; };
+		EED4A39C2BF495C00067EA19 /* WatchButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,13 +63,14 @@
 		1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRestView.swift; sourceTree = "<group>"; };
-		1E1B12782BF5E63300B8D970 /* WatchMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchMainView.swift; sourceTree = "<group>"; };
-		D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
 		1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRowView.swift; sourceTree = "<group>"; };
 		1ABE5FB92BF5EEB800F9E0A6 /* PhoneListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneListView.swift; sourceTree = "<group>"; };
-		EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchButtonView.swift; sourceTree = "<group>"; };
+		1E1B12782BF5E63300B8D970 /* WatchMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchMainView.swift; sourceTree = "<group>"; };
+		1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRestView.swift; sourceTree = "<group>"; };
+		1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingViewModel.swift; sourceTree = "<group>"; };
 		72009EB42BF24D6100B92390 /* WatchKickOffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchKickOffView.swift; sourceTree = "<group>"; };
+		D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
+		EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
 				025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */,
 				1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */,
+				1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */,
 				1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */,
 				1E1B12782BF5E63300B8D970 /* WatchMainView.swift */,
 				EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */,
@@ -270,6 +273,7 @@
 				D37AF6432BF3768600AB9B83 /* WatchDetailView.swift in Sources */,
 				72009EB52BF24D6100B92390 /* WatchKickOffView.swift in Sources */,
 				1ABE5F5C2BF2085C00F9E0A6 /* LittleHikerApp.swift in Sources */,
+				1E5BA47C2BF76A62006EDBCC /* HikingViewModel.swift in Sources */,
 				1E5BA4742BF6519A006EDBCC /* WatchRestView.swift in Sources */,
 				025E29F12BF23F6E00874A24 /* WatchSummaryView.swift in Sources */,
 				1E1B12792BF5E63300B8D970 /* WatchMainView.swift in Sources */,
@@ -412,9 +416,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LittleHiker Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = AQCS8SYVV6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = SanJimSeungDeul.LittleHiker;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
@@ -442,9 +448,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LittleHiker Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = AQCS8SYVV6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = SanJimSeungDeul.LittleHiker;
 				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
@@ -474,6 +482,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LittleHiker/Preview Content\"";
+				DEVELOPMENT_TEAM = AQCS8SYVV6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
@@ -506,6 +515,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LittleHiker/Preview Content\"";
+				DEVELOPMENT_TEAM = AQCS8SYVV6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
