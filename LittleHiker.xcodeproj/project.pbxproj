@@ -17,6 +17,7 @@
 		1ABE5F5E2BF2085C00F9E0A6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */; };
 		1ABE5F602BF2085D00F9E0A6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */; };
 		1ABE5F632BF2085D00F9E0A6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */; };
+		1E5BA4742BF6519A006EDBCC /* WatchRestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */; };
 		1E1B12792BF5E63300B8D970 /* WatchMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1B12782BF5E63300B8D970 /* WatchMainView.swift */; };
 		D37AF6432BF3768600AB9B83 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */; };
 		1ABE5FB82BF5EE2200F9E0A6 /* PhoneRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */; };
@@ -61,6 +62,7 @@
 		1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRestView.swift; sourceTree = "<group>"; };
 		1E1B12782BF5E63300B8D970 /* WatchMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchMainView.swift; sourceTree = "<group>"; };
 		D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
 		1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneRowView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
 				025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */,
 				1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */,
+				1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */,
 				1E1B12782BF5E63300B8D970 /* WatchMainView.swift */,
 				EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */,
 				72009EB42BF24D6100B92390 /* WatchKickOffView.swift */,
@@ -197,7 +200,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1530;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1540;
 				TargetAttributes = {
 					1ABE5F452BF2085B00F9E0A6 = {
 						CreatedOnToolsVersion = 15.3;
@@ -267,6 +270,7 @@
 				D37AF6432BF3768600AB9B83 /* WatchDetailView.swift in Sources */,
 				72009EB52BF24D6100B92390 /* WatchKickOffView.swift in Sources */,
 				1ABE5F5C2BF2085C00F9E0A6 /* LittleHikerApp.swift in Sources */,
+				1E5BA4742BF6519A006EDBCC /* WatchRestView.swift in Sources */,
 				025E29F12BF23F6E00874A24 /* WatchSummaryView.swift in Sources */,
 				1E1B12792BF5E63300B8D970 /* WatchMainView.swift in Sources */,
 				EED4A39C2BF495C00067EA19 /* WatchButtonView.swift in Sources */,
@@ -318,6 +322,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -379,6 +384,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
