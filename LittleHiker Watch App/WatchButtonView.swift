@@ -29,9 +29,9 @@ struct WatchButtonView: View {
                         StopButton(height: 44)
                         
                         //일시정지버튼
-                        PauseButton(height: 44)
+                        //                        PauseButton(height: 44)
                         //재개버튼
-//                      RestartButton(height: 44)
+                        RestartButton(height: 44)
                     }
                     HStack {
                         //정상버튼
@@ -62,7 +62,7 @@ struct WatchButtonView: View {
                         //일시정지버튼
                         PauseButton(height: 56)
                         //재개버튼
-//                      RestartButton(height: 56)
+                        //                      RestartButton(height: 56)
                     }
                 }
                 .padding()
@@ -76,18 +76,25 @@ struct WatchButtonView: View {
 //종료버튼
 struct StopButton: View {
     var height: CGFloat
-
+    
     var body: some View {
         VStack {
-            RoundedRectangle(cornerRadius: 28)
-                .frame(width: 68, height: height)
-                .foregroundColor(.red)
-                .opacity(0.25)
-                .overlay {
-                    Image(systemName: "xmark")
-                        .foregroundStyle(Color.red)
-                        .fontWeight(.bold)
-                }
+            Button(action: {
+                // Action to perform when button is tapped
+                print("Button tapped!")
+            }) {
+                RoundedRectangle(cornerRadius: 28)
+                    .frame(width: 68, height: height)
+                    .foregroundColor(.red)
+                    .opacity(0.25)
+                    .overlay {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(Color.red)
+                            .fontWeight(.bold)
+                    }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
             Text("종료")
                 .font(.system(size: 12))
         }
@@ -97,41 +104,59 @@ struct StopButton: View {
 //일시정지버튼
 struct PauseButton: View {
     var height: CGFloat
-
+    
     var body: some View {
-        VStack {
-            RoundedRectangle(cornerRadius: 28)
-                .frame(width: 68, height: height)
-                .foregroundColor(.yellow)
-                .opacity(0.25)
-                .overlay {
-                    Image(systemName: "arrow.circlepath")
-                        .foregroundStyle(Color.yellow)
-                        .fontWeight(.bold)
-                }
-            Text("재개")
-                .font(.system(size: 12))
+        
+        Button(action: {
+            // Action to perform when button is tapped
+            print("Button tapped!")
+        }) {
+            VStack {
+                RoundedRectangle(cornerRadius: 28)
+                    .frame(width: 68, height: height)
+                    .foregroundColor(.yellow)
+                    .opacity(0.25)
+                    .overlay {
+                        Image(systemName: "arrow.circlepath")
+                            .foregroundStyle(Color.yellow)
+                            .fontWeight(.bold)
+                    }
+                Text("일시정지")
+                    .font(.system(size: 12))
+            }
         }
+        .buttonStyle(PlainButtonStyle())
+        
     }
 }
 
 //재개버튼
 struct RestartButton: View {
     var height: CGFloat
-
+    
     var body: some View {
         VStack {
-            RoundedRectangle(cornerRadius: 28)
-                .frame(width: 68, height: height)
-                .foregroundColor(.yellow)
-                .opacity(0.25)
-                .overlay {
-                    Image(systemName: "arrow.circlepath")
-                        .foregroundStyle(Color.yellow)
-                        .fontWeight(.bold)
-                }
+            
+            Button(action: {
+                // Action to perform when button is tapped
+                print("Button tapped!")
+            }) {
+                RoundedRectangle(cornerRadius: 28)
+                    .frame(width: 68, height: 44) // Adjust height as needed
+                    .foregroundColor(.yellow)
+                    .opacity(0.25)
+                    .overlay {
+                        Image(systemName: "arrow.circlepath")
+                            .foregroundStyle(Color.yellow)
+                            .font(.system(size: 18))
+                            .fontWeight(.bold)
+                    }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
             Text("재개")
                 .font(.system(size: 12))
+            
         }
     }
 }
@@ -142,15 +167,22 @@ struct PeakButton: View {
     
     var body: some View {
         VStack {
-            RoundedRectangle(cornerRadius: 28)
-                .frame(width: 68, height: height)
-                .foregroundColor(.green)
-                .opacity(0.25)
-                .overlay {
-                    Image(systemName: "mountain.2.fill")
-                        .foregroundStyle(Color.green)
-                        .fontWeight(.bold)
-                }
+            Button(action: {
+                // Action to perform when button is tapped
+                print("Button tapped!")
+            }) {
+                RoundedRectangle(cornerRadius: 28)
+                    .frame(width: 68, height: height)
+                    .foregroundColor(.green)
+                    .opacity(0.25)
+                    .overlay {
+                        Image(systemName: "mountain.2.fill")
+                            .foregroundStyle(Color.green)
+                            .fontWeight(.bold)
+                    }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
             Text("정상")
                 .font(.system(size: 12))
         }
@@ -160,24 +192,30 @@ struct PeakButton: View {
 //하산버튼
 struct DescendButton: View {
     var height: CGFloat
-
+    
     var body: some View {
         VStack {
-            RoundedRectangle(cornerRadius: 28)
-                .frame(width: 68, height: height)
-                .foregroundColor(.white)
-                .opacity(0.12)
-                .overlay {
-                    Image(systemName: "arrow.down.right")
-                        .foregroundStyle(Color.white)
-                        .fontWeight(.bold)
-                }
+            Button(action: {
+                // Action to perform when button is tapped
+                print("Button tapped!")
+            }) {
+                RoundedRectangle(cornerRadius: 28)
+                    .frame(width: 68, height: height)
+                    .foregroundColor(.white)
+                    .opacity(0.12)
+                    .overlay {
+                        Image(systemName: "arrow.down.right")
+                            .foregroundStyle(Color.white)
+                            .fontWeight(.bold)
+                    }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
             Text("하산")
                 .font(.system(size: 12))
         }
     }
 }
-
 
 #Preview {
     WatchButtonView()
