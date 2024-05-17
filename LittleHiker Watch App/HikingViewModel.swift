@@ -9,11 +9,17 @@ import Foundation
 import CoreLocation
 import Combine
 
-
+//임시
+enum HikingStatus{
+    case ready
+    case hiking
+    case stop
+    case peak
+}
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     private var locationManager = CLLocationManager()
-//    @Published var status = 앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
+    @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
     @Published var isDescent: Bool = true
     @Published var currentAltitude: Double = 0
     @Published var currentSpeed: Double = 0
@@ -45,6 +51,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
     func updateAltitudes() {
         altitudeRecords.append(currentAltitude)
+        speedRecords.append(currentSpeed)
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

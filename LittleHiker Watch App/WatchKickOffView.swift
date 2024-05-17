@@ -8,26 +8,33 @@
 import SwiftUI
 
 struct WatchKickOffView: View {
+    @ObservedObject var viewModel: HikingViewModel
     @State var progress: Double = 0
     var body: some View {
         //시작화면
-        VStack {
-            Circle()
-                .frame(width: 96, height: 96)
-                .foregroundColor(.green)
-                .overlay {
-                    Text("시작")
-                        .font(.system(size: 24))
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.black)
-                }
-                .shadow(color: .green.opacity(0.5), radius: 12)
-            Text("리틀하이커랑 등산하기")
-                .font(.system(size: 12))
-                .fontWeight(.medium)
-                .padding(.top, 12)
+        
+        Button {
+            viewModel.status = .hiking
+        } label: {
+            VStack {
+                Circle()
+                    .frame(width: 96, height: 96)
+                    .foregroundColor(.green)
+                    .overlay {
+                        Text("시작")
+                            .font(.system(size: 24))
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.black)
+                    }
+                    .shadow(color: .green.opacity(0.5), radius: 12)
+                Text("리틀하이커랑 등산하기")
+                    .font(.system(size: 12))
+                    .fontWeight(.medium)
+                    .padding(.top, 12)
+            }
+            .padding()
         }
-        .padding()
+        
         
         //준비하기 화면
         //        VStack {
@@ -113,5 +120,5 @@ struct WatchKickOffView: View {
 //}
 
 #Preview {
-    WatchKickOffView()
+    WatchKickOffView(viewModel: HikingViewModel())
 }
