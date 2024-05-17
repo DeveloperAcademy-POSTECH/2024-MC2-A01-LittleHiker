@@ -24,6 +24,7 @@
 		1E5BA47C2BF76A62006EDBCC /* HikingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */; };
 		72009EB52BF24D6100B92390 /* WatchKickOffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72009EB42BF24D6100B92390 /* WatchKickOffView.swift */; };
 		D37AF6432BF3768600AB9B83 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */; };
+		EE6D45F32BF78AE10034C12B /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6D45F22BF78AE10034C12B /* WatchRootView.swift */; };
 		EED4A39C2BF495C00067EA19 /* WatchButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */; };
 /* End PBXBuildFile section */
 
@@ -70,6 +71,7 @@
 		1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingViewModel.swift; sourceTree = "<group>"; };
 		72009EB42BF24D6100B92390 /* WatchKickOffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchKickOffView.swift; sourceTree = "<group>"; };
 		D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
+		EE6D45F22BF78AE10034C12B /* WatchRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRootView.swift; sourceTree = "<group>"; };
 		EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -137,6 +139,7 @@
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
 				025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */,
 				1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */,
+				EE6D45F22BF78AE10034C12B /* WatchRootView.swift */,
 				1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */,
 				1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */,
 				1E1B12782BF5E63300B8D970 /* WatchMainView.swift */,
@@ -269,6 +272,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE6D45F32BF78AE10034C12B /* WatchRootView.swift in Sources */,
 				1ABE5F5E2BF2085C00F9E0A6 /* ContentView.swift in Sources */,
 				D37AF6432BF3768600AB9B83 /* WatchDetailView.swift in Sources */,
 				72009EB52BF24D6100B92390 /* WatchKickOffView.swift in Sources */,
