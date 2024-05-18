@@ -23,6 +23,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var isDescent: Bool = true
     @Published var currentAltitude: Double = 0
     @Published var currentSpeed: Double = 0
+    // 충격량 비율
+    @Published var impulseRate = 0
+
     
     //나중에 ios로 넘길 데이터들
     @Published var altitudeRecords: [Double] = []
@@ -67,5 +70,13 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
     deinit {
         timer?.invalidate()
+    }
+    
+    func calculateImpulseRate() -> Int{
+        var impulse = 0
+        
+        
+        
+        return impulseRate
     }
 }
