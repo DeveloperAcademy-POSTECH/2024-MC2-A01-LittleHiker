@@ -53,6 +53,11 @@
 
 /* Begin PBXFileReference section */
 		025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSummaryView.swift; sourceTree = "<group>"; };
+		025E29F22BF5ED2C00874A24 /* LittleHiker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LittleHiker.entitlements; sourceTree = "<group>"; };
+		025E29F32BF5ED7E00874A24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		025E29F82BF7754500874A24 /* HikingRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingRecord.swift; sourceTree = "<group>"; };
+		025E29FA2BF77C6100874A24 /* HikingLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingLog.swift; sourceTree = "<group>"; };
+		025E29FC2BF866CE00874A24 /* LittleHiker Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LittleHiker Watch App.entitlements"; sourceTree = "<group>"; };
 		1ABE5F462BF2085B00F9E0A6 /* LittleHiker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LittleHiker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ABE5F492BF2085B00F9E0A6 /* LittleHikerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleHikerApp.swift; sourceTree = "<group>"; };
 		1ABE5F4B2BF2085B00F9E0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +138,7 @@
 		1ABE5F5A2BF2085C00F9E0A6 /* LittleHiker Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				025E29FC2BF866CE00874A24 /* LittleHiker Watch App.entitlements */,
 				D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */,
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
 				025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */,
@@ -413,10 +419,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LittleHiker Watch App/LittleHiker Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LittleHiker Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = AQCS8SYVV6;
+				DEVELOPMENT_TEAM = 7D79VTP9PN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
@@ -445,10 +452,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LittleHiker Watch App/LittleHiker Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LittleHiker Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = AQCS8SYVV6;
+				DEVELOPMENT_TEAM = 7D79VTP9PN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;

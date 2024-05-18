@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 import Combine
+import HealthKit
 
 //임시
 enum HikingStatus{
