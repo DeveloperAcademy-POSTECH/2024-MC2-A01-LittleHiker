@@ -6,8 +6,13 @@
 //
 
 import SwiftUI
+import HealthKit
 
 struct WatchDetailView: View {
+    @ObservedObject var viewModel: HikingViewModel
+    var healthStore = HKHealthStore()
+    let heartRateQuantity = HKUnit(from: "count/min")
+    
     var body: some View {
         ScrollView{
             HStack {
@@ -18,19 +23,16 @@ struct WatchDetailView: View {
                         .frame(height: 30)
                     
                     
-                    
                     HStack (spacing: 0) {
-                        Text("80")
+                        Text("\(viewModel.currentHeartRate)")
                             .font(.system(size: 32))
-
+                        
                         VStack(alignment: .leading){
                             Image(systemName: "heart")
                         }
                         .font(.system(size:24))
                     }
                     .frame(height: 30)
-                    
-   
                     
                     HStack (spacing: 0) {
                         Text("4")
@@ -49,7 +51,7 @@ struct WatchDetailView: View {
                         .padding(.horizontal)
                     }
                     .frame(height: 30)
-
+                    
                     
                     HStack (spacing: 0) {
                         Text("897")
@@ -70,9 +72,6 @@ struct WatchDetailView: View {
                     .frame(height: 30)
                     
                     
-                    
-                    
-                    
                     HStack (spacing: 0) {
                         Text("2.21")
                             .font(.system(size: 32))
@@ -89,7 +88,7 @@ struct WatchDetailView: View {
                         .padding(.horizontal)
                     }
                     .frame(height: 30)
-
+                    
                 }
                 Spacer()
             }
@@ -97,6 +96,8 @@ struct WatchDetailView: View {
     }
 }
 
-#Preview {
-    WatchDetailView()
-}
+//
+//
+//#Preview {
+//    WatchDetailView()
+//}
