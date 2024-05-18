@@ -25,13 +25,14 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var currentAltitude: Double = 0
     @Published var currentSpeed: Double = 0
     @Published var currentHeartRate: Int = 0
-    @Published var currentDistanceWalkingRunning: Int = 0
+    @Published var currentDistanceWalkingRunning: Double = 0
     private var anchor: HKQueryAnchor?
     
     //나중에 ios로 넘길 데이터들
     @Published var altitudeRecords: [Double] = []
     @Published var speedRecords: [Double] = []
     @Published var heartRateRecords: [Int] = []
+    @Published var distanceRecords: [Double] = []
     
     private var timer: Timer?
 
@@ -39,6 +40,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     let healthStore = HKHealthStore()
     
     let heartRateQuantity = HKUnit(from: "count/min")
+    let distanceQuantity = HKUnit(from: "meter/1000")
         
     let read = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
     let share = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
@@ -81,6 +83,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         altitudeRecords.append(currentAltitude)
         speedRecords.append(currentSpeed)
         heartRateRecords.append(currentHeartRate)
+        distanceRecords.append(currentDistanceWalkingRunning)
     }
 
     // 위치가 바뀔 때 호출 됨
@@ -124,13 +127,19 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
         var lastHeartRate = 0.0
+        var lastDistance = 0.0
         
         for sample in samples {
             if type == .heartRate {
                 lastHeartRate = sample.quantity.doubleValue(for: heartRateQuantity)
+                    
+            }
+            else if type == .distanceWalkingRunning {
+                lastDistance = sample.quantity.doubleValue(for: distanceQuantity)
             }
             
             self.currentHeartRate = Int(lastHeartRate)
+            self.currentDistanceWalkingRunning = Double(lastDistance)
         }
     }
     
