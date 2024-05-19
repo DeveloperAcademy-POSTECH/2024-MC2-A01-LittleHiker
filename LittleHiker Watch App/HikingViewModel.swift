@@ -17,6 +17,7 @@ enum HikingStatus{
     case peak
 }
 
+
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     private var locationManager = CLLocationManager()
     @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
@@ -24,7 +25,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var currentAltitude: Double = 0
     @Published var currentSpeed: Double = 0
     // 충격량 비율
-    @Published var impulseRate = 0
+    @Published var impulse = 0
 
     
     //나중에 ios로 넘길 데이터들
@@ -49,6 +50,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             self?.updateAltitudes()
+            self?.calculateImpulseRate()
         }
     }
 
@@ -60,7 +62,16 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             self.currentAltitude = location.altitude
-            self.currentSpeed = location.speed
+            if location.speed == -1 {
+                if speedRecords.isEmpty{
+                    self.currentSpeed = 0
+                } else {
+                    self.currentSpeed = speedRecords.last!
+                }
+            }
+            else {
+                self.currentSpeed = location.speed
+            }
         }
     }
 
@@ -72,11 +83,18 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         timer?.invalidate()
     }
     
-    func calculateImpulseRate() -> Int{
-        var impulse = 0
+    func calculateImpulseRate(){
+        guard altitudeRecords.count > 1 else {
+                    return
+                }
+
+        let recentAltitudeChange = altitudeRecords.last! - altitudeRecords[altitudeRecords.count - 2]
+        let altitudeChangeSquared = recentAltitudeChange * recentAltitudeChange
+        let speedSquared = currentSpeed * currentSpeed
         
+        let impulse = sqrt(altitudeChangeSquared + speedSquared)
         
-        
-        return impulseRate
+        print(impulse)
+        self.impulse = Int(impulse)
     }
 }

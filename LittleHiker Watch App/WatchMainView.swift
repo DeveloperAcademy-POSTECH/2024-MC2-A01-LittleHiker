@@ -41,6 +41,7 @@ struct WatchMainView: View {
                 HStack{
                     Spacer()
                     squirrelGIF
+                        .background(.clear)
                     Spacer()
                 }
             }
@@ -62,7 +63,6 @@ struct WatchMainView: View {
             .resizable()
             .scaledToFit()
             .frame(width: 106, height: 106)
-            .background(.clear)
             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
             .rotationEffect(.degrees(viewModel.isDescent ? 30 : -30))
             .onAppear {
@@ -82,7 +82,7 @@ struct WatchMainView: View {
                     .scaledToFit()
                     .frame(width: geometry.size.width)
 
-                Text("\(Int(progress))")
+                Text(viewModel.impulse == 0 ? "--" : "\(viewModel.impulse)")
 //                    .font(.system(size: 18, weight: .semibold))
                     .font(.title3)
                     .fontWeight(.semibold)
