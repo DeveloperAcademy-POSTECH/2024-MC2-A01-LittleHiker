@@ -41,7 +41,6 @@ struct WatchMainView: View {
                 HStack{
                     Spacer()
                     squirrelGIF
-                        .background(.clear)
                     Spacer()
                 }
             }
@@ -65,6 +64,7 @@ struct WatchMainView: View {
             .frame(width: 106, height: 106)
             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
             .rotationEffect(.degrees(viewModel.isDescent ? 30 : -30))
+            .background(Color.clear)
             .onAppear {
                 animationGifTimer()
             }
@@ -81,16 +81,18 @@ struct WatchMainView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: geometry.size.width)
-
-                Text(viewModel.impulse == 0 ? "--" : "\(viewModel.impulse)")
-//                    .font(.system(size: 18, weight: .semibold))
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.black)
-                    .padding(.horizontal, 10)
-                    .background(Capsule().fill(colorForValue(progress)))
-                    .offset(x: min(CGFloat(self.progress/100) * geometry.size.width - 21, geometry.size.width - 50), y:0)
-                    .animation(.linear, value: progress)
+                HStack{
+                    Text(viewModel.impulse == 0 ? "--" : "\(viewModel.impulse)")
+                    //                    .font(.system(size: 18, weight: .semibold))
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.black)
+                        .padding(.horizontal, 10)
+                }
+                .frame(width: 40)
+                .background(Capsule().fill(colorForValue(progress)))
+                .offset(x: min(CGFloat(self.progress/100) * geometry.size.width - 20, geometry.size.width - 50), y:0)
+                .animation(.linear, value: progress)
             }
         }
         .frame(height: 20)
