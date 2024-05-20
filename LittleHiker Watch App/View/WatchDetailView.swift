@@ -30,9 +30,14 @@ struct WatchDetailView: View {
                             .font(.system(size: 32))
                         
                         VStack(alignment: .leading){
-                            Image(systemName: "heart")
+                            Image(systemName: "heart.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(.red)
                         }
                         .font(.system(size:24))
+                        .padding(.leading, 4)
                     }
                     .frame(height: 30)
                     
