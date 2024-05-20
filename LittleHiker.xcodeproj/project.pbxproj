@@ -24,6 +24,7 @@
 		1E5BA47C2BF76A62006EDBCC /* HikingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */; };
 		72009EB52BF24D6100B92390 /* WatchKickOffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72009EB42BF24D6100B92390 /* WatchKickOffView.swift */; };
 		D37AF6432BF3768600AB9B83 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */; };
+		D37AF66A2BF8884C00AB9B83 /* LittleHiker-Watch-App-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D37AF6692BF8884B00AB9B83 /* LittleHiker-Watch-App-Info.plist */; };
 		EE6D45F32BF78AE10034C12B /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6D45F22BF78AE10034C12B /* WatchRootView.swift */; };
 		EED4A39C2BF495C00067EA19 /* WatchButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */; };
 /* End PBXBuildFile section */
@@ -54,6 +55,7 @@
 
 /* Begin PBXFileReference section */
 		025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSummaryView.swift; sourceTree = "<group>"; };
+		025E29FC2BF866CE00874A24 /* LittleHiker Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LittleHiker Watch App.entitlements"; sourceTree = "<group>"; };
 		1ABE5F462BF2085B00F9E0A6 /* LittleHiker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LittleHiker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1ABE5F492BF2085B00F9E0A6 /* LittleHikerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleHikerApp.swift; sourceTree = "<group>"; };
 		1ABE5F4B2BF2085B00F9E0A6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 		1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingViewModel.swift; sourceTree = "<group>"; };
 		72009EB42BF24D6100B92390 /* WatchKickOffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchKickOffView.swift; sourceTree = "<group>"; };
 		D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
+		D37AF6692BF8884B00AB9B83 /* LittleHiker-Watch-App-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LittleHiker-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		EE6D45F22BF78AE10034C12B /* WatchRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRootView.swift; sourceTree = "<group>"; };
 		EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,6 +138,7 @@
 		1ABE5F5A2BF2085C00F9E0A6 /* LittleHiker Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				025E29FC2BF866CE00874A24 /* LittleHiker Watch App.entitlements */,
 				D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */,
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
 				025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */,
@@ -154,6 +158,8 @@
 		1ABE5F612BF2085D00F9E0A6 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				D37AF6692BF8884B00AB9B83 /* LittleHiker-Watch-App-Info.plist */,
+				D37AF66B2BF8885E00AB9B83 /* LittleHiker-Watch-App-Info.plist */,
 				1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -249,8 +255,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D37AF66C2BF8885E00AB9B83 /* LittleHiker-Watch-App-Info.plist in Resources */,
 				1ABE5F632BF2085D00F9E0A6 /* Preview Assets.xcassets in Resources */,
 				1ABE5F602BF2085D00F9E0A6 /* Assets.xcassets in Resources */,
+				D37AF66A2BF8884C00AB9B83 /* LittleHiker-Watch-App-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,13 +425,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LittleHiker Watch App/LittleHiker Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LittleHiker Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = AQCS8SYVV6;
+				DEVELOPMENT_TEAM = 7D79VTP9PN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LittleHiker-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = SanJimSeungDeul.LittleHiker;
@@ -449,13 +461,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LittleHiker Watch App/LittleHiker Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LittleHiker Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = AQCS8SYVV6;
+				DEVELOPMENT_TEAM = 7D79VTP9PN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LittleHiker-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = SanJimSeungDeul.LittleHiker;
