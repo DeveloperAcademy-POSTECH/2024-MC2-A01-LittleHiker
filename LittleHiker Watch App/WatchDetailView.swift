@@ -73,7 +73,7 @@ struct WatchDetailView: View {
                     
                     
                     HStack (spacing: 0) {
-                        Text("2.21")
+                        Text("\(viewModel.currentDistanceWalkingRunning)")
                             .font(.system(size: 32))
                         VStack{
                             Spacer(minLength: 1)
