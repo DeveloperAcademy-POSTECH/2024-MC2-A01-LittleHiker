@@ -13,13 +13,16 @@ struct LittleHiker_Watch_AppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            WatchDetailView(viewModel: viewModel)
-//            if viewModel.status == .ready{
-//                WatchKickOffView(viewModel: viewModel)
-//            }
-//            else if viewModel.status == .hiking{
-//                WatchMainView(viewModel: viewModel)
-//            }
+//            WatchDetailView(viewModel: viewModel)
+            if viewModel.status == .ready{
+                WatchKickOffView(viewModel: viewModel)
+            }
+            else if viewModel.status == .hiking{
+                WatchRootView(viewModel: viewModel)
+            }
+            else if viewModel.status == .hiking{
+                WatchSummaryView(viewModel: viewModel)
+            }
             
         }
     }
