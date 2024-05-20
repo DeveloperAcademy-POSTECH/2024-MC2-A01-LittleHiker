@@ -1,24 +1,16 @@
 //
-//  HikingViewModel.swift
+//  CoreLocationManager.swift
 //  LittleHiker Watch App
 //
 //  Created by sungkug_apple_developer_ac on 5/17/24.
 //
 
 import Foundation
-import CoreLocation
+
 import Combine
-import HealthKit
+import CoreLocation 
 
-//임시
-enum HikingStatus{
-    case ready
-    case hiking
-    case stop
-    case peak
-}
-
-class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
+class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObject {
     private var locationManager = CLLocationManager()
     private var previousLocation: CLLocation?
     private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
@@ -28,20 +20,12 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var isDescent: Bool = true
     @Published var currentAltitude: Double = 0
     @Published var currentSpeed: Double = 0
-    @Published var currentHeartRate: Int = 0
-    @Published var currentDistanceWalkingRunning: Double = 0
-    private var anchor: HKQueryAnchor?
 
     //나중에 ios로 넘길 데이터들
     @Published var altitudeLogs: [Double] = []
     @Published var speedLogs: [Double] = []
     @Published var distanceLogs: [Double] = []
-    @Published var impulseLogs = 0
-
-    //manager 가져오기
-    var healthKitManager = HealthKitManager()
-    var coreLocationManager = CoreLocationManager()
-    var impulseManager = ImpulseManager()
+    @Published var impulse = 0
     
     private var timer: Timer?
 
@@ -62,19 +46,39 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             self?.updateEveryMinute()
-            self?.impulseManager.calculateImpulseRate() //TODO: - 이게 맞는지 확인 필요
         }
     }
 
     func updateEveryMinute() {
-        //심박수 업데이트
-        healthKitManager.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
-        
-        //TODO: - 찝찝함..
-        coreLocationManager.altitudeLogs.append(coreLocationManager.currentAltitude)
-        coreLocationManager.speedLogs.append(coreLocationManager.currentSpeed)
-        healthKitManager.heartRateLogs.append(healthKitManager.currentHeartRate)
-        healthKitManager.distanceLogs.append(healthKitManager.currentDistanceWalkingRunning)
+        altitudeLogs.append(currentAltitude)
+        speedLogs.append(currentSpeed)
+    }
+
+    // 위치가 바뀔 때 호출 됨
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            self.currentAltitude = location.altitude
+            if location.speed == -1 {
+                if speedLogs.isEmpty{
+                    self.currentSpeed = 0
+                } else {
+                    self.currentSpeed = speedLogs.last!
+                }
+            }
+            else {
+                self.currentSpeed = location.speed * 3.6
+            }
+            // 총 이동한 거리 구하기
+            if let previousLocation = self.previousLocation {
+                let distance = location.distance(from: previousLocation)
+                self.totalDistance += distance
+                self.totalDistanceTraveled = self.totalDistance / 1000 //km변환
+            }
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription) : \(currentAltitude),\(currentAltitude)")
     }
 
     deinit {

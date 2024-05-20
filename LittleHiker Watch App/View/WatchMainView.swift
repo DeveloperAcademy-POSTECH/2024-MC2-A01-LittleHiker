@@ -82,7 +82,7 @@ struct WatchMainView: View {
                     .scaledToFit()
                     .frame(width: geometry.size.width)
                 HStack{
-                    Text(viewModel.impulse == 0 ? "--" : "\(viewModel.impulse)")
+                    Text(viewModel.impulseLogs == 0 ? "--" : "\(viewModel.impulseLogs)")
                     //                    .font(.system(size: 18, weight: .semibold))
                         .font(.title3)
                         .fontWeight(.semibold)
