@@ -12,6 +12,7 @@ import SwiftUI
 struct WatchMainView: View {
     let gifAnimation: GifAnimation = .run
     @ObservedObject var viewModel: HikingViewModel
+    @ObservedObject var locationViewModel: CoreLocationManager
     @State private var frameIndex = 0
     @State private var timer: Timer?
     @State private var progress: CGFloat = 50
@@ -19,7 +20,7 @@ struct WatchMainView: View {
     var body: some View {
         VStack(alignment: .leading){
             HStack(alignment: .bottom){
-                Text("\(Int(viewModel.coreLocationManager.currentAltitude))")
+                Text("\(Int(locationViewModel.currentAltitude))")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
@@ -27,7 +28,7 @@ struct WatchMainView: View {
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
-                Text("\(Int(viewModel.coreLocationManager.currentSpeed))")
+                Text("\(Int(locationViewModel.currentSpeed))")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
@@ -127,6 +128,6 @@ struct WatchMainView: View {
 }
 
 #Preview {
-    WatchMainView(viewModel: HikingViewModel())
+    WatchMainView(viewModel: HikingViewModel(), locationViewModel: HikingViewModel().coreLocationManager)
 //    WatchMainView(isDescent: false)
 }

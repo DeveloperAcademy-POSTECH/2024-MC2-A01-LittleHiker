@@ -15,9 +15,9 @@ struct WatchRootView: View {
         TabView(selection: $selection) {
             WatchButtonView()
             TabView() {
-                WatchMainView(viewModel: viewModel)
-                WatchDetailView(viewModel: viewModel)
-//                WatchSummaryView(viewModel: viewModel)
+                WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)
+                WatchDetailView(viewModel: viewModel, healthViewModel: viewModel.healthKitManager)
+                WatchSummaryView(viewModel: viewModel)
             }
             .tag("default")
             .tabViewStyle(.verticalPage)
