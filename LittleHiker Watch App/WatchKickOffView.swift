@@ -12,10 +12,10 @@ struct WatchKickOffView: View {
     @State var progress: Double = 0
     var body: some View {
         //시작화면
-        Button {
-            viewModel.status = .hiking
-        } label: {
-            VStack {
+        VStack {
+            Button {
+                viewModel.status = .hiking
+            } label: {
                 Circle()
                     .frame(width: 100, height: 100)
                     .foregroundColor(.main)
@@ -27,15 +27,14 @@ struct WatchKickOffView: View {
                     }
                     .shadow(color: .main.opacity(0.3), radius: 12)
             }
+            .buttonStyle(PlainButtonStyle())
             .padding()
         }
-        .buttonStyle(PlainButtonStyle())
         
         Text("리틀하이커랑 등산하기")
             .font(.system(size: 14))
             .fontWeight(.medium)
             .padding(.top, 16)
-        
         
         
         //준비하기 화면
