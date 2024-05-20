@@ -10,10 +10,10 @@ import Combine
 import HealthKit
 
 class HealthKitManager {
-    @Published var currentHeartRate: Int = 0
-    @Published var currentDistanceWalkingRunning: Double = 0
-    @Published var heartRateLogs: [Int] = []
-    @Published var distanceLogs: [Double] = []
+    var currentHeartRate: Int = 0
+    var currentDistanceWalkingRunning: Double = 0
+    var heartRateLogs: [Int] = []
+    var distanceLogs: [Double] = []
     private var anchor: HKQueryAnchor?
     
     private var timer: Timer?

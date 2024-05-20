@@ -169,7 +169,7 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = Model;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		1ABE5F3D2BF2085B00F9E0A6 = {
@@ -214,8 +214,8 @@
 		1ABE5F5A2BF2085C00F9E0A6 /* LittleHiker Watch App */ = {
 			isa = PBXGroup;
 			children = (
-				025E29FC2BF866CE00874A24 /* LittleHiker Watch App.entitlements */,
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
+				025E29FC2BF866CE00874A24 /* LittleHiker Watch App.entitlements */,
 				1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */,
 				0238498E2BFB3B3D003469C8 /* Manager */,
 				0238498F2BFB3B4A003469C8 /* Model */,

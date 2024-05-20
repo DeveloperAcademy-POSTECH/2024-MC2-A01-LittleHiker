@@ -39,20 +39,8 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation // 최고의 정확도 대신 배터리 소모 상승
         // 위 옵션 종류 kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters(10m), kCLLocationAccuracyHundredMeters(100m) 등 순으로 정확도, 배터리 상승
         locationManager.distanceFilter = kCLDistanceFilterNone  // 모든 움직임에 대해 업데이트를 받고 싶을 때
-        
-        startTimer()
     }
     
-    func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            self?.updateEveryMinute()
-        }
-    }
-
-    func updateEveryMinute() {
-        altitudeLogs.append(currentAltitude)
-        speedLogs.append(currentSpeed)
-    }
 
     // 위치가 바뀔 때 호출 됨
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

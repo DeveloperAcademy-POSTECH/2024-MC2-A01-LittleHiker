@@ -39,42 +39,31 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var impulseLogs = 0
 
     //manager 가져오기
-    var healthKitManager = HealthKitManager()
-    var coreLocationManager = CoreLocationManager()
-    var impulseManager = ImpulseManager()
+    @Published var healthKitManager = HealthKitManager()
+    @Published var coreLocationManager = CoreLocationManager()
+    @Published var impulseManager = ImpulseManager()
     
     private var timer: Timer?
 
     override init() {
         super.init()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
-        //밑에 부분은 시작 버튼누르고 321 지나고 나서 실행하게 바꿔야됨
-        locationManager.startUpdatingLocation()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation // 최고의 정확도 대신 배터리 소모 상승
-        // 위 옵션 종류 kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters(10m), kCLLocationAccuracyHundredMeters(100m) 등 순으로 정확도, 배터리 상승
-        locationManager.distanceFilter = kCLDistanceFilterNone  // 모든 움직임에 대해 업데이트를 받고 싶을 때
-        
-        startTimer()
+   
+        updateEveryMinute()
     }
     
-    func startTimer() {
+    func updateEveryMinute() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            self?.updateEveryMinute()
+            //심박수 업데이트
+        
+            self?.healthKitManager.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
+            
+            //TODO: - 찝찝함.. 구조체 만들기
+            self!.coreLocationManager.altitudeLogs.append(self!.coreLocationManager.currentAltitude)
+            self!.coreLocationManager.speedLogs.append(self!.coreLocationManager.currentSpeed)
+            self!.healthKitManager.heartRateLogs.append(self!.healthKitManager.currentHeartRate)
+            self!.healthKitManager.distanceLogs.append(self!.healthKitManager.currentDistanceWalkingRunning)
             self?.impulseManager.calculateImpulseRate() //TODO: - 이게 맞는지 확인 필요
         }
-    }
-
-    func updateEveryMinute() {
-        //심박수 업데이트
-        healthKitManager.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
-        
-        //TODO: - 찝찝함..
-        coreLocationManager.altitudeLogs.append(coreLocationManager.currentAltitude)
-        coreLocationManager.speedLogs.append(coreLocationManager.currentSpeed)
-        healthKitManager.heartRateLogs.append(healthKitManager.currentHeartRate)
-        healthKitManager.distanceLogs.append(healthKitManager.currentDistanceWalkingRunning)
     }
 
     deinit {
