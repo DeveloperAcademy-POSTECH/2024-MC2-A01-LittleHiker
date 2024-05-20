@@ -18,6 +18,7 @@ enum HikingStatus{
     case peak
 }
 
+
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     private var locationManager = CLLocationManager()
     private var previousLocation: CLLocation?
@@ -29,12 +30,13 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var currentHeartRate: Int = 0
     @Published var currentDistanceWalkingRunning: Int = 0
     private var anchor: HKQueryAnchor?
-    
+
     //나중에 ios로 넘길 데이터들
     @Published var altitudeRecords: [Double] = []
     @Published var speedRecords: [Double] = []
     @Published var heartRateRecords: [Int] = []
-    
+    @Published var impulse = 0
+
     private var timer: Timer?
 
     //MARK: - HKHealthStore 불러오기
@@ -73,6 +75,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             self?.updateEveryMinute()
+            self?.calculateImpulseRate()
         }
     }
 
@@ -89,7 +92,16 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             self.currentAltitude = location.altitude
-            self.currentSpeed = location.speed
+            if location.speed == -1 {
+                if speedRecords.isEmpty{
+                    self.currentSpeed = 0
+                } else {
+                    self.currentSpeed = speedRecords.last!
+                }
+            }
+            else {
+                self.currentSpeed = location.speed * 3.6
+            }
         }
     }
 
@@ -141,5 +153,18 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         timer?.invalidate()
     }
     
-    
+    func calculateImpulseRate(){
+        guard altitudeRecords.count > 1 else {
+                    return
+                }
+
+        let recentAltitudeChange = altitudeRecords.last! - altitudeRecords[altitudeRecords.count - 2]
+        let altitudeChangeSquared = recentAltitudeChange * recentAltitudeChange
+        let speedSquared = currentSpeed * currentSpeed
+        
+        let impulse = sqrt(altitudeChangeSquared + speedSquared)
+        
+        print(impulse)
+        self.impulse = Int(impulse)
+    }
 }
