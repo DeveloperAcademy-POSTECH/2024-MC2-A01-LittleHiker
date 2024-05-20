@@ -17,7 +17,7 @@ struct WatchRootView: View {
             TabView() {
                 WatchMainView(viewModel: viewModel)
                 WatchDetailView(viewModel: viewModel)
-                WatchSummaryView(viewModel: viewModel)
+//                WatchSummaryView(viewModel: viewModel)
             }
             .tag("default")
             .tabViewStyle(.verticalPage)

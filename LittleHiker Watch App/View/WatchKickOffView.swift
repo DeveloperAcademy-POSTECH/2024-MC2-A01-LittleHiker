@@ -78,10 +78,10 @@ struct PreparingView: View {
                             lineCap: .round))
                 .rotationEffect(.degrees(90))
                 .animation(.easeOut(duration: 1), value: progress)
-                .frame(width: 96, height: 96)
+                .frame(width: 100, height: 100)
                 .overlay {
                     Text("준비")
-                        .font(.system(size: 24))
+                        .font(.system(size: 32))
                         .fontWeight(.semibold)
                 }
                 //1초마다 타이머 이벤트를 수신하여 increase를 호출합니다.
@@ -112,6 +112,7 @@ struct CountdownView: View {
             //뒤에 깔린 빈 프로그레스
             Circle()
                 .stroke(Color.main.opacity(0.5), lineWidth: 8)
+                .frame(width: 100, height: 100)
             //채워지는 프로그레스
             Circle()
                 .trim(from: 0, to: progress)
@@ -119,6 +120,7 @@ struct CountdownView: View {
                         style: StrokeStyle(
                             lineWidth: 8,
                             lineCap: .round))
+                .frame(width: 100, height: 100)
                 .rotationEffect(.degrees(-90))
                 .animation(.easeOut, value: progress)
                 .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
@@ -126,7 +128,7 @@ struct CountdownView: View {
                 }
                 .overlay {
                     Text("\(count)")
-                        .font(.system(size: 40))
+                        .font(.system(size: 36))
                         .fontWeight(.medium)
                 }
         }
