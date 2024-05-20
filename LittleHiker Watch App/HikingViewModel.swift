@@ -18,8 +18,13 @@ enum HikingStatus{
     case peak
 }
 
+
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     private var locationManager = CLLocationManager()
+    private var previousLocation: CLLocation?
+    private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
+    @Published var totalDistanceTraveled: Double = 0.0 // 총 이동 거리 확인용 임시 변수
+
     @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
     @Published var isDescent: Bool = true
     @Published var currentAltitude: Double = 0
@@ -27,7 +32,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var currentHeartRate: Int = 0
     @Published var currentDistanceWalkingRunning: Double = 0
     private var anchor: HKQueryAnchor?
-    
+
     //나중에 ios로 넘길 데이터들
     @Published var altitudeRecords: [Double] = []
     @Published var speedRecords: [Double] = []
@@ -73,6 +78,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             self?.updateEveryMinute()
+            self?.calculateImpulseRate()
         }
     }
 
@@ -90,7 +96,22 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             self.currentAltitude = location.altitude
-            self.currentSpeed = location.speed
+            if location.speed == -1 {
+                if speedRecords.isEmpty{
+                    self.currentSpeed = 0
+                } else {
+                    self.currentSpeed = speedRecords.last!
+                }
+            }
+            else {
+                self.currentSpeed = location.speed * 3.6
+            }
+            // 총 이동한 거리 구하기
+            if let previousLocation = self.previousLocation {
+                let distance = location.distance(from: previousLocation)
+                self.totalDistance += distance
+                self.totalDistanceTraveled = self.totalDistance / 1000 //km변환
+            }
         }
     }
 
@@ -148,5 +169,18 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         timer?.invalidate()
     }
     
-    
+    func calculateImpulseRate(){
+        guard altitudeRecords.count > 1 else {
+                    return
+                }
+
+        let recentAltitudeChange = altitudeRecords.last! - altitudeRecords[altitudeRecords.count - 2]
+        let altitudeChangeSquared = recentAltitudeChange * recentAltitudeChange
+        let speedSquared = currentSpeed * currentSpeed
+        
+        let impulse = sqrt(altitudeChangeSquared + speedSquared)
+        
+        print(impulse)
+        self.impulse = Int(impulse)
+    }
 }

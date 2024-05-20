@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct WatchSummaryView: View {
+    @ObservedObject var viewModel: HikingViewModel
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
@@ -27,7 +29,7 @@ struct WatchSummaryView: View {
                 
                 Text("총 거리")
                 HStack (spacing: 0) {
-                    Text("6.88")
+                    Text("\(String(format: "%.2f", viewModel.totalDistanceTraveled))")
                         .font(.system(size: 32))
                         .foregroundColor(Color(red: 0.35, green: 0.78, blue: 0.98))
                     Text("KM")
@@ -54,5 +56,5 @@ struct WatchSummaryView: View {
 }
 
 #Preview {
-    WatchSummaryView()
+    WatchSummaryView(viewModel: HikingViewModel())
 }
