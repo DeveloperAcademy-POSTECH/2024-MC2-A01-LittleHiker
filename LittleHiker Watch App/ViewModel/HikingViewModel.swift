@@ -38,6 +38,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var speedRecords: [Double] = []
     @Published var heartRateRecords: [Int] = []
     @Published var distanceRecords: [Double] = []
+    @Published var impulse = 0
     
     private var timer: Timer?
 
@@ -45,7 +46,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     let healthStore = HKHealthStore()
     
     let heartRateQuantity = HKUnit(from: "count/min")
-    let distanceQuantity = HKUnit(from: "meter/1000")
+    let distanceQuantity = HKUnit(from: "m")
         
     let read = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
     let share = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
