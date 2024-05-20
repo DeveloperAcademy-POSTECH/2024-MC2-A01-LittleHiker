@@ -22,7 +22,9 @@ enum HikingStatus{
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     private var locationManager = CLLocationManager()
     private var previousLocation: CLLocation?
-    
+    private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
+    @Published var totalDistanceTraveled: Double = 0.0 // 총 이동 거리 확인용 임시 변수
+
     @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
     @Published var isDescent: Bool = true
     @Published var currentAltitude: Double = 0
@@ -101,6 +103,12 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             }
             else {
                 self.currentSpeed = location.speed * 3.6
+            }
+            // 총 이동한 거리 구하기
+            if let previousLocation = self.previousLocation {
+                let distance = location.distance(from: previousLocation)
+                self.totalDistance += distance
+                self.totalDistanceTraveled = self.totalDistance / 1000 //km변환
             }
         }
     }
