@@ -9,9 +9,9 @@ import Foundation
 import Combine
 import HealthKit
 
-class HealthKitManager {
-    var currentHeartRate: Int = 0
-    var currentDistanceWalkingRunning: Double = 0
+class HealthKitManager:NSObject, ObservableObject {
+    @Published var currentHeartRate: Int = 0
+    @Published var currentDistanceWalkingRunning: Double = 0
     var heartRateLogs: [Int] = []
     var distanceLogs: [Double] = []
     private var anchor: HKQueryAnchor?

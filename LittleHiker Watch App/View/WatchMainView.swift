@@ -19,7 +19,7 @@ struct WatchMainView: View {
     var body: some View {
         VStack(alignment: .leading){
             HStack(alignment: .bottom){
-                Text("\(Int(viewModel.currentAltitude))")
+                Text("\(Int(viewModel.coreLocationManager.currentAltitude))")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
@@ -27,7 +27,7 @@ struct WatchMainView: View {
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
-                Text("\(Int(viewModel.currentSpeed))")
+                Text("\(Int(viewModel.coreLocationManager.currentSpeed))")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
@@ -82,7 +82,7 @@ struct WatchMainView: View {
                     .scaledToFit()
                     .frame(width: geometry.size.width)
                 HStack{
-                    Text(viewModel.impulseLogs == 0 ? "--" : "\(viewModel.impulseLogs)")
+                    Text(viewModel.impulseManager.impulseLogs == 0 ? "--" : "\(viewModel.impulseManager.impulseLogs)")
                     //                    .font(.system(size: 18, weight: .semibold))
                         .font(.title3)
                         .fontWeight(.semibold)
@@ -115,7 +115,7 @@ struct WatchMainView: View {
     
     //MARK: - GIF 스케쥴러
     private func animationGifTimer() {
-        Timer.scheduledTimer(withTimeInterval: 1.0 / 10.0, repeats: true){ timer in
+        Timer.scheduledTimer(withTimeInterval: 1.0 / 4.0, repeats: true){ timer in
             frameIndex = (frameIndex + 1) % gifAnimation.frameCount
         }
     }

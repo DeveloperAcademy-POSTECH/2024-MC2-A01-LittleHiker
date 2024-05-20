@@ -53,7 +53,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     func updateEveryMinute() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-            //심박수 업데이트
         
             self?.healthKitManager.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
             

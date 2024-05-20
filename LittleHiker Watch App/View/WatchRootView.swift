@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct WatchRootView: View {
+    @ObservedObject var viewModel: HikingViewModel
     @State private var selection = "default"
 
     var body: some View {
         TabView(selection: $selection) {
             WatchButtonView()
             TabView() {
-                WatchMainView(viewModel: HikingViewModel())
-                WatchDetailView(viewModel: HikingViewModel())
+                WatchMainView(viewModel: viewModel)
+                WatchDetailView(viewModel: viewModel)
+                WatchSummaryView(viewModel: viewModel)
             }
             .tag("default")
             .tabViewStyle(.verticalPage)
@@ -25,5 +27,5 @@ struct WatchRootView: View {
 }
 
 #Preview {
-    WatchRootView()
+    WatchRootView(viewModel: HikingViewModel())
 }
