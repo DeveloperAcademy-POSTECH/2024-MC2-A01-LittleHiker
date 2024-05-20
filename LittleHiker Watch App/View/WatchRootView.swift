@@ -15,7 +15,7 @@ struct WatchRootView: View {
             WatchButtonView()
             TabView() {
                 WatchMainView(viewModel: HikingViewModel())
-                WatchDetailView()
+                WatchDetailView(viewModel: HikingViewModel())
             }
             .tag("default")
             .tabViewStyle(.verticalPage)

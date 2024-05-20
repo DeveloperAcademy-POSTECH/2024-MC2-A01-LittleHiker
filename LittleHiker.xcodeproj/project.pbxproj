@@ -98,6 +98,68 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0238498A2BFB3AE8003469C8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1ABE5F4B2BF2085B00F9E0A6 /* ContentView.swift */,
+				61ECAF042BF7950F00A9C193 /* PhoneDetailView.swift */,
+				1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */,
+				1ABE5FB92BF5EEB800F9E0A6 /* PhoneListView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0238498B2BFB3AFD003469C8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0238498C2BFB3B12003469C8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */,
+				1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */,
+				EE6D45F22BF78AE10034C12B /* WatchRootView.swift */,
+				D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */,
+				1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */,
+				1E1B12782BF5E63300B8D970 /* WatchMainView.swift */,
+				EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */,
+				72009EB42BF24D6100B92390 /* WatchKickOffView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		0238498D2BFB3B17003469C8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0238498E2BFB3B3D003469C8 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		0238498F2BFB3B4A003469C8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		023849902BFB3B77003469C8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		1ABE5F3D2BF2085B00F9E0A6 = {
 			isa = PBXGroup;
 			children = (
@@ -119,11 +181,10 @@
 		1ABE5F482BF2085B00F9E0A6 /* LittleHiker */ = {
 			isa = PBXGroup;
 			children = (
+				023849902BFB3B77003469C8 /* Model */,
+				0238498B2BFB3AFD003469C8 /* ViewModel */,
+				0238498A2BFB3AE8003469C8 /* View */,
 				1ABE5F492BF2085B00F9E0A6 /* LittleHikerApp.swift */,
-				1ABE5F4B2BF2085B00F9E0A6 /* ContentView.swift */,
-				1ABE5FB72BF5EE2200F9E0A6 /* PhoneRowView.swift */,
-				1ABE5FB92BF5EEB800F9E0A6 /* PhoneListView.swift */,
-				61ECAF042BF7950F00A9C193 /* PhoneDetailView.swift */,
 				1ABE5F4D2BF2085C00F9E0A6 /* Assets.xcassets */,
 				1ABE5F4F2BF2085C00F9E0A6 /* Preview Content */,
 			);
@@ -142,18 +203,13 @@
 			isa = PBXGroup;
 			children = (
 				025E29FC2BF866CE00874A24 /* LittleHiker Watch App.entitlements */,
-				D37AF6422BF3768600AB9B83 /* WatchDetailView.swift */,
 				1ABE5F5B2BF2085C00F9E0A6 /* LittleHikerApp.swift */,
-				025E29F02BF23F6E00874A24 /* WatchSummaryView.swift */,
-				1ABE5F5D2BF2085C00F9E0A6 /* ContentView.swift */,
-				EE6D45F22BF78AE10034C12B /* WatchRootView.swift */,
-				1E5BA47B2BF76A62006EDBCC /* HikingViewModel.swift */,
-				1E5BA4732BF6519A006EDBCC /* WatchRestView.swift */,
-				1E1B12782BF5E63300B8D970 /* WatchMainView.swift */,
-				EED4A39B2BF495C00067EA19 /* WatchButtonView.swift */,
-				72009EB42BF24D6100B92390 /* WatchKickOffView.swift */,
 				1ABE5F5F2BF2085D00F9E0A6 /* Assets.xcassets */,
+				0238498E2BFB3B3D003469C8 /* Manager */,
+				0238498F2BFB3B4A003469C8 /* Model */,
 				1ABE5F612BF2085D00F9E0A6 /* Preview Content */,
+				0238498C2BFB3B12003469C8 /* View */,
+				0238498D2BFB3B17003469C8 /* ViewModel */,
 			);
 			path = "LittleHiker Watch App";
 			sourceTree = "<group>";
@@ -162,7 +218,6 @@
 			isa = PBXGroup;
 			children = (
 				D37AF6692BF8884B00AB9B83 /* LittleHiker-Watch-App-Info.plist */,
-				D37AF66B2BF8885E00AB9B83 /* LittleHiker-Watch-App-Info.plist */,
 				1ABE5F622BF2085D00F9E0A6 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -258,7 +313,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D37AF66C2BF8885E00AB9B83 /* LittleHiker-Watch-App-Info.plist in Resources */,
 				1ABE5F632BF2085D00F9E0A6 /* Preview Assets.xcassets in Resources */,
 				1ABE5F602BF2085D00F9E0A6 /* Assets.xcassets in Resources */,
 				D37AF66A2BF8884C00AB9B83 /* LittleHiker-Watch-App-Info.plist in Resources */,
