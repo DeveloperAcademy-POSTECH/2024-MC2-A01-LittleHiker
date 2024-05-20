@@ -32,6 +32,7 @@ class HealthKitManager:NSObject, ObservableObject {
         autorizeHealthKit()
         startTimer()
     }
+    
     func autorizeHealthKit() {
         let healthKitTypes: Set = [
             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!]
@@ -40,7 +41,7 @@ class HealthKitManager:NSObject, ObservableObject {
     }
     
     func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
             self?.updateEveryMinute()
         }
     }

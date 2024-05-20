@@ -29,7 +29,7 @@ struct WatchSummaryView: View {
                 
                 Text("총 거리")
                 HStack (spacing: 0) {
-                    Text("\(String(format: "%.2f", viewModel.totalDistanceTraveled))")
+                    Text("\(String(format: "%.2f", viewModel.healthKitManager.currentDistanceWalkingRunning))")
                         .font(.system(size: 32))
                         .foregroundColor(Color(red: 0.35, green: 0.78, blue: 0.98))
                     Text("KM")
