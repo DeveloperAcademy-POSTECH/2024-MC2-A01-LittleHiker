@@ -66,7 +66,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 if speedRecords.isEmpty{
                     self.currentSpeed = 0
                 } else {
-                    self.currentSpeed = speedRecosrds.last!
+                    self.currentSpeed = speedRecords.last!
                 }
             }
             else {
