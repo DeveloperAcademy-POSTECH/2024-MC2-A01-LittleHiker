@@ -46,6 +46,7 @@ class ImpulseManager: NSObject, ObservableObject {
         return (diagonalVelocityCriterion * weight) / 0.1 / 100 //100나눔
     }
     
+    
     func appendToLogs(_ impulse: Double){
         impulseLogs.append(impulse)
     }
@@ -55,7 +56,7 @@ class ImpulseManager: NSObject, ObservableObject {
             return 0
         }
         
-        if impulseCriterion*2 < impulse {
+        if impulseCriterion * 2 < impulse {
             return 100
         }
         

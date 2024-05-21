@@ -11,6 +11,7 @@ import HealthKit
 struct WatchDetailView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var healthViewModel: HealthKitManager
+    @ObservedObject var timeManager: TimeManager
 
     var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
@@ -19,7 +20,7 @@ struct WatchDetailView: View {
         ScrollView{
             HStack {
                 VStack(alignment: .leading) {
-                    Text("00:58:30")
+                    Text("\(timeManager.displayTime)")
                         .font(.system(size: 32))
                         .foregroundColor(Color.yellow)
                         .frame(height: 30)
@@ -103,8 +104,6 @@ struct WatchDetailView: View {
     }
 }
 
-//
-//
-//#Preview {
-//    WatchDetailView()
-//}
+#Preview {
+    WatchDetailView(viewModel: HikingViewModel(), healthViewModel: HealthKitManager(), timeManager: TimeManager())
+}

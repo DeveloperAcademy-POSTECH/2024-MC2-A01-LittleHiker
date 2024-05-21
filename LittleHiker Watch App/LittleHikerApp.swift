@@ -10,6 +10,7 @@ import SwiftUI
 @main
 struct LittleHiker_Watch_AppApp: App {
     @ObservedObject private var viewModel = HikingViewModel()
+    @ObservedObject private var timeManager = TimeManager()
     
     var body: some Scene {
         WindowGroup {
@@ -18,7 +19,7 @@ struct LittleHiker_Watch_AppApp: App {
                 WatchKickOffView(viewModel: viewModel)
             }
             else if viewModel.status == .hiking{
-                WatchRootView(viewModel: viewModel)
+                WatchRootView(viewModel: viewModel, timeManager: timeManager)
             }
             else if viewModel.status == .hiking{
                 WatchSummaryView(viewModel: viewModel)
