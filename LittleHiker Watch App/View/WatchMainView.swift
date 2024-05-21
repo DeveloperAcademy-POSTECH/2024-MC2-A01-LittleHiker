@@ -28,7 +28,7 @@ struct WatchMainView: View {
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
-                Text("\(Int(locationViewModel.currentSpeed))")
+                Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)

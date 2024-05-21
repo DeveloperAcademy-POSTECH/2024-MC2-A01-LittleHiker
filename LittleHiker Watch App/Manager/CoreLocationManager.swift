@@ -25,9 +25,11 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     @Published var speedLogs: [Double] = []
     @Published var distanceLogs: [Double] = []
     @Published var impulse = 0
+    //등반 고도 값
+    @Published var climbingAltitude: Double = 0.0
     
     private var timer: Timer?
-
+    
     override init() {
         super.init()
         locationManager.delegate = self
@@ -55,17 +57,8 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
             else {
                 self.currentSpeed = location.speed * 3.6
             }
-            // 총 이동한 거리 구하기
-            
-            //임시 경사 속도 구하기
-//            if let previousLocation = previousLocation {
-//                let timeInterval = location.timestamp.timeIntervalSince(previousLocation.timestamp)
-//                let altitudeChange = location.altitude - previousLocation.altitude
-//                let verticalSpeed = altitudeChange / timeInterval
-//                self.verticalSpeed = verticalSpeed
-//                print("Vertical Speed: \(verticalSpeed) meters per second")
-//            }
-//            previousLocation = location
+            //임의 등반고도 구하기
+            self.calculateAltitudeDifference()
         }
     }
 
@@ -73,18 +66,19 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         print("Failed to find user's location: \(error.localizedDescription) : \(currentAltitude),\(currentAltitude)")
     }
     
-    func calculateAltitudeDifference() -> Double? {
+    //이거 등반 고도 나중에 함수 따로 빼야됨 -> log탐색 하는 것을 매번 불러오기 부담일 수 있어서 시작고도 저장해 놓고 최고고도 변경해가면서 등반고도값도 변경되게 만들어야 될 듯
+    func calculateAltitudeDifference() {
         guard let firstValidValue = altitudeLogs.first(where: { $0 != 0 }) else {
             print("유효한 첫 번째 값이 없습니다.")
-            return nil
+            return
         }
 
         guard let maxValue = altitudeLogs.max() else {
             print("최고 값을 찾을 수 없습니다.")
-            return nil
+            return
         }
         let difference = maxValue - firstValidValue
-        return difference
+        climbingAltitude = difference
     }
     
     func findNonZeroMin() -> Double? {
