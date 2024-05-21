@@ -28,7 +28,7 @@ class ImpulseManager: NSObject, ObservableObject {
         let speedSquared = currentSpeed * currentSpeed
         
         let impulse = sqrt(altitudeChangeSquared + speedSquared) * weight / 0.1
-        print(impulseLogs.last!)
+//        print(impulseLogs.last!)
         self.appendToLogs(impulse)
     }
      
