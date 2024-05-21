@@ -14,7 +14,7 @@ struct WatchButtonView: View {
     //MARK: - norang 일시정지, 재개 버튼 토글
     @ObservedObject var timeManager: TimeManager
     @State var pauseResumeToggle: Bool = true
-
+    
     
     var body: some View {
         VStack {
@@ -72,7 +72,7 @@ struct WatchButtonView: View {
                         } else {
                             RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
                         }
-
+                        
                     }
                 }
                 .padding()
@@ -82,19 +82,36 @@ struct WatchButtonView: View {
     }
 }
 
-
 //종료버튼
 struct StopButton: View {
+    var viewModelWatch = ViewModelWatch()
+    
     var height: CGFloat
     var timeManager: TimeManager
+    @State var arrayText = ""
+    //FIXME: - 테스트용으로 Array를 만들어보았습니다. 수정합시다.
+    var heartRateArray = [100, 90, 80, 70]
     @ObservedObject var viewModel: HikingViewModel
     
     var body: some View {
         VStack {
             Button(action: {
-                // Action to perform when button is tapped
                 //1. 버튼을 누르면 타이머를 멈춘다
                 timeManager.pauseStopWatch()
+                // TODO: - 2. 기록이 SummaryView로 넘어감
+                let joinedString = heartRateArray.map { String($0) }.joined(separator: ", ")
+                
+                //3. iOS로 데이터 동기화(배열 보내기)=
+                self.viewModelWatch.session.sendMessage(["message" : joinedString], replyHandler: nil) { error in
+                    /**
+                     다음의 상황에서 오류가 발생할 수 있음
+                     -> property-list 데이터 타입이 아닐 때
+                     -> watchOS가 reachable 상태가 아닌데 전송할 때
+                     */
+                    print(error.localizedDescription)
+                    
+                }
+
                 //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
                 timeManager.setDescendingTime()
                 //2. 기록이 SummaryView로 넘어감
@@ -130,8 +147,9 @@ struct PauseButton: View {
     var body: some View {
         Button(action: {
             print("PauseButton Tapped")
+            //1. 타이머가 멈춘다.
             timeManager.pauseStopWatch()
-            toggle.toggle()
+            //2. 기록이 멈춘다.
         }) {
             VStack {
                 RoundedRectangle(cornerRadius: 28)
@@ -193,6 +211,7 @@ struct PeakButton: View {
         VStack {
             Button(action: {
                 print("PeakButton Tapped")
+
                 timeManager.pauseStopWatch()
                 //전체산행시간에서 등산시간이 정해짐
                 timeManager.setAscendingTime()
