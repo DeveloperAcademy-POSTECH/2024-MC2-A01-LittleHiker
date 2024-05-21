@@ -49,6 +49,7 @@ struct SummaryModel{
     var totalAltitude = 0
     var minAltitude = 0
     var maxAltitude = 0
+    var totalDistance = 0.0
     
 }
 
@@ -123,6 +124,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         
         summaryModel.maxAltitude = Int(coreLocationManager.altitudeLogs.max()!)
         summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
+        summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
         
         
     }

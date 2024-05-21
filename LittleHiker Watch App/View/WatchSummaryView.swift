@@ -56,7 +56,7 @@ struct WatchSummaryView: View {
                     .font(.system(size: 16))
                     .padding(.top, 8)
                 HStack (spacing: 0) {
-                    Text("\(String(format: "%.2f", viewModel.healthKitManager.currentDistanceWalkingRunning))")
+                    Text("\(String(format: "%.2f", viewModel.summaryModel.totalDistance))")
                         .font(.system(size: 32))
                         .foregroundColor(Color.cyan)
                         .fontWeight(.medium)
