@@ -13,6 +13,7 @@ class ImpulseManager: NSObject, ObservableObject {
     @Published var impulseLogs: [Double] = []
     let weight = 50.0
     
+    
     func appendToLogs(_ impulse: Double){
         impulseLogs.append(impulse)
     }
