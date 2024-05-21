@@ -66,7 +66,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to find user's location: \(error.localizedDescription) : \(currentAltitude),\(currentAltitude)")
     }
-
+    
     deinit {
         timer?.invalidate()
     }
