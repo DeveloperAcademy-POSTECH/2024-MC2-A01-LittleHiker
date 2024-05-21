@@ -42,14 +42,10 @@ class HealthKitManager:NSObject, ObservableObject {
     
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
-            self?.updateEveryMinute()
+            self?.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
         }
     }
     
-    func updateEveryMinute() {
-        //심박수 업데이트
-        startHeartRateQuery(quantityTypeIdentifier: .heartRate)
-    }
     
     //MARK: - 여기부터는 심박수 쿼리
     public func startHeartRateQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
