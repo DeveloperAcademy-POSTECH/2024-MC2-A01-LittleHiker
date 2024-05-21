@@ -86,9 +86,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
             guard let self = self else { return }
             
-            self.coreLocationManager.altitudeLogs.append(self.coreLocationManager.currentAltitude)
-            self.coreLocationManager.speedLogs.append(self.coreLocationManager.currentSpeed)
-
             //HealthKit append 수정
             self.healthKitManager
                 .appendHealthKitLogs(self.healthKitManager.currentHeartRate, distance: self.healthKitManager.currentDistanceWalkingRunning)
@@ -96,6 +93,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
                 currentSpeed: self.coreLocationManager.currentSpeed
             )
+            //location append 수정 및 위치 변환
+            self.coreLocationManager.appendCoreLocationLogs()
         }
     }
     

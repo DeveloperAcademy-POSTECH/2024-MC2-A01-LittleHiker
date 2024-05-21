@@ -23,7 +23,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     //나중에 ios로 넘길 데이터들
     @Published var altitudeLogs: [Double] = []
     @Published var speedLogs: [Double] = []
-    @Published var distanceLogs: [Double] = []
+    @Published var impulseLogs: [Int] = []
     @Published var impulse = 0
     //등반 고도 값
     @Published var climbingAltitude: Double = 0.0
@@ -64,6 +64,12 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to find user's location: \(error.localizedDescription) : \(currentAltitude),\(currentAltitude)")
+    }
+    //append func 따로 만들고 충격량 로그도 만듦
+    func appendCoreLocationLogs(){
+        altitudeLogs.append(currentAltitude)
+        speedLogs.append(currentSpeed)
+        impulseLogs.append(impulse)
     }
     
     //이거 등반 고도 나중에 함수 따로 빼야됨 -> log탐색 하는 것을 매번 불러오기 부담일 수 있어서 시작고도 저장해 놓고 최고고도 변경해가면서 등반고도값도 변경되게 만들어야 될 듯

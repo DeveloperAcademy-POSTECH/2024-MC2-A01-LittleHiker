@@ -90,7 +90,7 @@ struct StopButton: View {
     var timeManager: TimeManager
     @State var arrayText = ""
     //FIXME: - 테스트용으로 Array를 만들어보았습니다. 수정합시다.
-    var heartRateArray = [100, 90, 80, 70]
+//    var heartRateArray = [100, 90, 80, 70]
     @ObservedObject var viewModel: HikingViewModel
     
     var body: some View {
@@ -99,7 +99,9 @@ struct StopButton: View {
                 //1. 버튼을 누르면 타이머를 멈춘다
                 timeManager.pauseStopWatch()
                 // TODO: - 2. 기록이 SummaryView로 넘어감
-                let joinedString = heartRateArray.map { String($0) }.joined(separator: ", ")
+                let joinedString = zip(viewModel.coreLocationManager.impulseLogs , viewModel.coreLocationManager.speedLogs)
+                    .map { "impulse : \($0), H_speed : \($1)" }
+                    .joined(separator: "\n")
                 
                 //3. iOS로 데이터 동기화(배열 보내기)=
                 self.viewModelWatch.session.sendMessage(["message" : joinedString], replyHandler: nil) { error in
