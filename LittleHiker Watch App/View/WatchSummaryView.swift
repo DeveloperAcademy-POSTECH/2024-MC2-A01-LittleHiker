@@ -215,16 +215,16 @@ struct WatchSummaryView: View {
                 //기록 타임
                 Text("2024년 05월 21일")
                     .font(.system(size: 12))
-                    .foregroundColor(.gray)
+                    .foregroundColor(.white)
                     .padding(.top, 8)
                 HStack {
-                    Text("09시 25분")
+                    Text("오전 09시 25분")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                     Text("~")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
-                    Text("15시 57분")
+                    Text("오후 15시 57분")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                 }
