@@ -59,7 +59,7 @@ class TimeManager: NSObject, ObservableObject {
     func setDescendingTime() {
         //종료를 누르면 호출되는 함수
         //종료시 전체 시간에서 등산 시간을 뺀 시간을 구해줌
-        var ascendingTimeInt = convertTimeStringToTimeInt(ascendingTime)
+        let ascendingTimeInt = convertTimeStringToTimeInt(ascendingTime)
         let elapsedTimeInt = Int(elapsedTime)
         
         //위에서 얻은 결과값을 descendingTime 에 넣어줌. 이제 이걸로 요약화면이나 아이폰 화면에 보내주면 됨
