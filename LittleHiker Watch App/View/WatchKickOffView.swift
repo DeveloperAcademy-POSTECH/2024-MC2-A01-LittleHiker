@@ -15,6 +15,8 @@ enum MyHikingStatus {
 
 struct WatchKickOffView: View {
     @ObservedObject var viewModel: HikingViewModel
+    @ObservedObject var timeManager: TimeManager
+
     @State var status: MyHikingStatus = .kickoff
     
     var body: some View {
@@ -25,7 +27,7 @@ struct WatchKickOffView: View {
             case .preparing:
                 PreparingView(viewModel: viewModel, status: $status)
             case .countdown:
-                CountdownView(viewModel: viewModel)
+                CountdownView(viewModel: viewModel, timeManager: timeManager)
             }
         }
     }
@@ -104,6 +106,8 @@ struct PreparingView: View {
 // 카운트다운 화면
 struct CountdownView: View {
     @ObservedObject var viewModel: HikingViewModel
+    @ObservedObject var timeManager: TimeManager
+
     @State var count: Int = 3
     @State var progress: Double = 1
     
@@ -142,6 +146,10 @@ struct CountdownView: View {
                 progress -= 0.33
             } else {
                 progress -= 0.1
+
+                //3,2,1 끝나고 뷰가 바뀌기 직전에 스탑워치 시작!
+                timeManager.runStopWatch()
+
                 viewModel.status = .hiking
             }
         }
@@ -150,6 +158,6 @@ struct CountdownView: View {
 //Preview
 struct WatchKickOffView_Previews: PreviewProvider {
     static var previews: some View {
-        WatchKickOffView(viewModel: HikingViewModel())
+        WatchKickOffView(viewModel: HikingViewModel(), timeManager: TimeManager())
     }
 }

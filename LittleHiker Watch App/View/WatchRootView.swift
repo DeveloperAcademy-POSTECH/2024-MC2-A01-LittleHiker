@@ -16,7 +16,12 @@ struct WatchRootView: View {
         TabView(selection: $selection) {
             WatchButtonView(viewModel: viewModel, timeManager: timeManager)
             TabView() {
-                WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)
+                if viewModel.status == .hiking{
+                    WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)
+                }
+                else if viewModel.status == .peak{
+                    WatchRestView()
+                }
                 WatchDetailView(viewModel: viewModel, healthViewModel: viewModel.healthKitManager, timeManager: timeManager)
                 WatchSummaryView(viewModel: viewModel)
             }

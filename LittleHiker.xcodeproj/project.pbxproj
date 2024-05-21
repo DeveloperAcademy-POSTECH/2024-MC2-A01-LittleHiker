@@ -181,14 +181,14 @@
 			isa = PBXGroup;
 			children = (
 			);
-			path = ViewModel;
+			name = ViewModel;
 			sourceTree = "<group>";
 		};
 		1A43DFA92BFCACB200E62BA6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = Model;
+			name = Model;
 			sourceTree = "<group>";
 		};
 		1A43DFB02BFCAD7400E62BA6 /* Manager */ = {
