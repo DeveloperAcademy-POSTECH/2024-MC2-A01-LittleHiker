@@ -40,8 +40,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
             guard let self = self else { return }
             
-            self.healthKitManager.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
-            
             self.coreLocationManager.altitudeLogs.append(self.coreLocationManager.currentAltitude)
             self.coreLocationManager.speedLogs.append(self.coreLocationManager.currentSpeed)
             self.healthKitManager.heartRateLogs.append(self.healthKitManager.currentHeartRate)
