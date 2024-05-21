@@ -27,6 +27,12 @@ class HealthKitManager:NSObject, ObservableObject {
     let share = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
     
     
+    override init() {
+        super.init()
+        autorizeHealthKit()
+        startTimer()
+    }
+    
     func autorizeHealthKit() {
         let healthKitTypes: Set = [
             HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!]
@@ -35,7 +41,7 @@ class HealthKitManager:NSObject, ObservableObject {
     }
     
     func startTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
             self?.updateEveryMinute()
         }
     }
@@ -84,9 +90,11 @@ class HealthKitManager:NSObject, ObservableObject {
             else if type == .distanceWalkingRunning {
                 lastDistance = sample.quantity.doubleValue(for: distanceQuantity)
             }
-            
-            self.currentHeartRate = Int(lastHeartRate)
-            self.currentDistanceWalkingRunning = Double(lastDistance)
+            DispatchQueue.main.async {
+                self.currentHeartRate = Int(lastHeartRate)
+                self.currentDistanceWalkingRunning = Double(lastDistance)
+            }
+
         }
     }
     

@@ -10,6 +10,8 @@ import HealthKit
 
 struct WatchDetailView: View {
     @ObservedObject var viewModel: HikingViewModel
+    @ObservedObject var healthViewModel: HealthKitManager
+
     var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
     
@@ -24,13 +26,18 @@ struct WatchDetailView: View {
                     
                     
                     HStack (spacing: 0) {
-                        Text("\(viewModel.currentHeartRate)")
+                        Text("\(healthViewModel.currentHeartRate)")
                             .font(.system(size: 32))
                         
                         VStack(alignment: .leading){
-                            Image(systemName: "heart")
+                            Image(systemName: "heart.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 20, height: 20)
+                                .foregroundColor(.red)
                         }
                         .font(.system(size:24))
+                        .padding(.leading, 4)
                     }
                     .frame(height: 30)
                     
@@ -73,7 +80,7 @@ struct WatchDetailView: View {
                     
                     
                     HStack (spacing: 0) {
-                        Text("\(viewModel.currentDistanceWalkingRunning)")
+                        Text("\(String(format:"%.2f", healthViewModel.currentDistanceWalkingRunning))")
                             .font(.system(size: 32))
                         VStack{
                             Spacer(minLength: 1)

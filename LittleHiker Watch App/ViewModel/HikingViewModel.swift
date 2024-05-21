@@ -41,17 +41,14 @@ enum HikingStatus{
 }
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
+
     private var locationManager = CLLocationManager()
     private var previousLocation: CLLocation?
     private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
     @Published var totalDistanceTraveled: Double = 0.0 // 총 이동 거리 확인용 임시 변수
-    
+
     @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
     @Published var isDescent: Bool = true
-    @Published var currentAltitude: Double = 0
-    @Published var currentSpeed: Double = 0
-    @Published var currentHeartRate: Int = 0
-    @Published var currentDistanceWalkingRunning: Double = 0
     private var anchor: HKQueryAnchor?
     
     //나중에 ios로 넘길 데이터들
@@ -76,13 +73,18 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     func updateEveryMinute() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+
+            guard let self = self else { return }
             
-            //TODO: - 찝찝함.. 구조체 만들기
-            self!.coreLocationManager.altitudeLogs.append(self!.coreLocationManager.currentAltitude)
-            self!.coreLocationManager.speedLogs.append(self!.coreLocationManager.currentSpeed)
-            self!.healthKitManager.heartRateLogs.append(self!.healthKitManager.currentHeartRate)
-            self!.healthKitManager.distanceLogs.append(self!.healthKitManager.currentDistanceWalkingRunning)
-            self?.impulseManager.calculateImpulseRate() //TODO: - 이게 맞는지 확인 필요
+            self.coreLocationManager.altitudeLogs.append(self.coreLocationManager.currentAltitude)
+            self.coreLocationManager.speedLogs.append(self.coreLocationManager.currentSpeed)
+            self.healthKitManager.heartRateLogs.append(self.healthKitManager.currentHeartRate)
+            self.healthKitManager.distanceLogs.append(self.healthKitManager.currentDistanceWalkingRunning)
+            
+            self.impulseManager.calculateImpulseRate(
+                altitudeLogs: self.coreLocationManager.altitudeLogs,
+                currentSpeed: self.coreLocationManager.currentSpeed
+            )
         }
     }
     

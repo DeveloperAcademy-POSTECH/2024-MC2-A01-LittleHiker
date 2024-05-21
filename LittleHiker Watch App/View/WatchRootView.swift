@@ -15,8 +15,8 @@ struct WatchRootView: View {
         TabView(selection: $selection) {
             WatchButtonView(viewModel: viewModel)
             TabView() {
-                WatchMainView(viewModel: viewModel)
-                WatchDetailView(viewModel: viewModel)
+                WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)
+                WatchDetailView(viewModel: viewModel, healthViewModel: viewModel.healthKitManager)
                 WatchSummaryView(viewModel: viewModel)
             }
             .tag("default")

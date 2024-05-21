@@ -25,6 +25,7 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
+
                         
                         
                         // TODO: - 일단 여기다가 그냥 붙임
@@ -52,6 +53,7 @@ struct WatchButtonView: View {
                         }
 //                        StopButton(height: 44)
                         //TODO: - 여기까지 수정 가라로 함
+
                         
                         //일시정지버튼
                         //                        PauseButton(height: 44)
@@ -61,9 +63,11 @@ struct WatchButtonView: View {
                     HStack {
                         //정상버튼
                         PeakButton(height: 44)
+                            .padding(.trailing, 8)
                         //하산버튼
                         DescendButton(height: 44)
                     }
+                    .padding(.top, 8)
                     
                 }
                 .padding()
@@ -228,11 +232,11 @@ struct DescendButton: View {
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
-                    .foregroundColor(.white)
-                    .opacity(0.12)
+                    .foregroundColor(.green)
+                    .opacity(0.25)
                     .overlay {
                         Image(systemName: "arrow.down.right")
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(Color.green)
                             .fontWeight(.bold)
                     }
             }
