@@ -14,7 +14,7 @@ struct WatchButtonView: View {
     //MARK: - norang 일시정지, 재개 버튼 토글
     @ObservedObject var timeManager: TimeManager
     @State var pauseResumeToggle: Bool = true
-
+    
     
     var body: some View {
         VStack {
@@ -29,33 +29,7 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
-                        // TODO: - 일단 여기다가 그냥 붙임
-                        VStack {
-                            Button(action: {
-                                // Action to perform when button is tapped
-                                //1. 버튼을 누르면 타이머를 멈춘다
-                                timeManager.pauseStopWatch()
-                                //2. 기록이 SummaryView로 넘어감
-                                //3. iOS로 데이터 동기화(배열 보내기)
-                            }) {
-                                RoundedRectangle(cornerRadius: 28)
-                                    .frame(width: 68, height: 44)
-                                    .foregroundColor(.red)
-                                    .opacity(0.25)
-                                    .overlay {
-                                        Image(systemName: "xmark")
-                                            .foregroundStyle(Color.red)
-                                            .fontWeight(.bold)
-                                    }
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            
-                            Text("종료")
-                                .font(.system(size: 12))
-                        }
-                        //TODO: - 여기까지 수정 가라로 함
-
-//                        StopButton(height: 44, timeManager: timeManager)
+                        StopButton(height: 44, timeManager: timeManager)
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
@@ -98,7 +72,7 @@ struct WatchButtonView: View {
                         } else {
                             RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
                         }
-
+                        
                     }
                 }
                 .padding()
@@ -107,7 +81,6 @@ struct WatchButtonView: View {
         }
     }
 }
-
 
 //종료버튼
 struct StopButton: View {
@@ -151,8 +124,9 @@ struct PauseButton: View {
     var body: some View {
         Button(action: {
             print("PauseButton Tapped")
+            //1. 타이머가 멈춘다.
             timeManager.pauseStopWatch()
-            toggle.toggle()
+            //2. 기록이 멈춘다.
         }) {
             VStack {
                 RoundedRectangle(cornerRadius: 28)
@@ -182,6 +156,7 @@ struct RestartButton: View {
         VStack {
             Button(action: {
                 print("RestartButton Tapped")
+                //1. 타이머가 멈춘다.
                 timeManager.resumeStopWatch()
                 toggle.toggle()
             }) {
@@ -213,11 +188,11 @@ struct PeakButton: View {
         VStack {
             Button(action: {
                 print("PeakButton Tapped")
-//                timeManager.pauseStopwatch()
+                //                timeManager.pauseStopwatch()
                 
                 //이건 시작 버튼 테스트하려고 임시로 넣어둠. 정상버튼은 원래 일시정지 임
                 timeManager.startStopWatch()
-
+                
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
