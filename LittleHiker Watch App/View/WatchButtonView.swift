@@ -216,7 +216,10 @@ struct PeakButton: View {
 //                timeManager.pauseStopwatch()
                 
                 //이건 시작 버튼 테스트하려고 임시로 넣어둠. 정상버튼은 원래 일시정지 임
-                timeManager.startStopWatch()
+                timeManager.runStopWatch()
+                
+                
+                timeManager.setAscendingTime()
 
             }) {
                 RoundedRectangle(cornerRadius: 28)

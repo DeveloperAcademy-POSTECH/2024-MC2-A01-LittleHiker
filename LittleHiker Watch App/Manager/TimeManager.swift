@@ -12,21 +12,15 @@ class TimeManager: NSObject, ObservableObject {
     @Published var elapsedTime: TimeInterval = 0
     @Published var isRunning = false
     @Published var displayTime: String = "00:00:00"
+    @Published var ascendingTime: String = "00:00:00"
+    @Published var descendingTime: String = "00:00:00"
     
-//    var formattedElapsedTime: String {
-//        let minutes = Int(elapsedTime) / 60
-//        let seconds = Int(elapsedTime) % 60
-//        let milliseconds = Int((elapsedTime * 100).truncatingRemainder(dividingBy: 100))
-//        time = String(format: "%02d:%02d.%02d", minutes, seconds, milliseconds)
-//        return String(format: "%02d:%02d.%02d", minutes, seconds, milliseconds)
-//    }
-    
-    func startStopWatch() {
+    func runStopWatch() {
         print("startStopWatch")
 
         isRunning = true
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
-            self.elapsedTime += 0.01
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            self.elapsedTime += 1
             self.setTime()
         }
     }
@@ -37,31 +31,30 @@ class TimeManager: NSObject, ObservableObject {
         isRunning = false
         timer?.invalidate()
     }
-    
-    func resumeStopWatch() {
-        print("resumeStopWatch")
-
-        isRunning = true
-        timer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
-            self.elapsedTime += 0.01
-            self.setTime()
-        }
-    }
-    
-    func resetStopWatch() {
-        print("resetStopWatch")
-
-        isRunning = false
-        timer?.invalidate()
-        timer = nil
-        elapsedTime = 0
-    }
-    
+        
     func setTime() {
-        let minutes = Int(elapsedTime) / 60
+        let hours = Int(elapsedTime) / 3600
+        let minutes = (Int(elapsedTime) % 3600) / 60
         let seconds = Int(elapsedTime) % 60
-        let milliseconds = Int((elapsedTime * 100).truncatingRemainder(dividingBy: 100))
-        self.displayTime = String(format: "%02d:%02d:%02d", minutes, seconds, milliseconds)
-        print("SetTime \(displayTime)")
+
+//        let milliseconds = Int((elapsedTime * 100).truncatingRemainder(dividingBy: 100))
+//        self.displayTime = String(format: "%02d:%02d:%02d", minutes, seconds, milliseconds)
+
+        self.displayTime = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
+
+
+        print("SetTime \(elapsedTime)")
+
+        print("displayTime \(displayTime)")
     }
+    
+    func setAscendingTime() {
+        ascendingTime = displayTime
+    }
+    
+    func setDescendingTime() {
+        //
+    }
+    
+    
 }
