@@ -40,6 +40,13 @@ class HealthKitManager:NSObject, ObservableObject {
         healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { _, _ in }
     }
     
+    //append 기능 추가
+    func appendHealthKitLogs(_ heartRate: Int, distance: Double){
+        heartRateLogs.append(heartRate)
+        distanceLogs.append(distance)
+    }
+    
+    
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
             self?.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
