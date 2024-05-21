@@ -40,6 +40,19 @@ enum HikingStatus{
     }
 }
 
+struct SummaryModel{
+    var minImpulse = 0.0
+    var maxImpulse = 0.0
+    var heartRateAvg = 0
+    var minheartRate = 0
+    var maxheartRate = 0
+    var totalAltitude = 0
+    var minAltitude = 0
+    var maxAltitude = 0
+    var totalDistance = 0.0
+    
+}
+
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
     private var locationManager = CLLocationManager()
@@ -55,6 +68,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var healthKitManager = HealthKitManager()
     @Published var coreLocationManager = CoreLocationManager()
     @Published var impulseManager = ImpulseManager()
+    @Published var summaryModel = SummaryModel()
     
     @Published var isPaused: Bool = false
     
@@ -88,6 +102,31 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     deinit {
         timer?.invalidate()
+    }
+    
+    //하이킹 종료
+    func endHiking(){
+        healthKitManager.fetchHeartRateStatistics{ (averageHeartRate, minHeartRate, maxHeartRate, error) in
+            if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
+                self.summaryModel.heartRateAvg = Int(averageHeartRate)
+                self.summaryModel.maxheartRate = Int(maxHeartRate)
+                self.summaryModel.minheartRate = Int(minHeartRate)
+            }else {
+                print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
+            }
+        }
+        
+        if let totalAltitude = coreLocationManager.calculateAltitudeDifference() {
+            summaryModel.totalAltitude = Int(totalAltitude)
+        } else {
+            print("고도 데이터를 가져오는데 실패했습니다")
+        }
+        
+        summaryModel.maxAltitude = Int(coreLocationManager.altitudeLogs.max()!)
+        summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
+        summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
+        
+        
     }
     
     // 버튼별로 타이머 기능을 조절하도록 만들었다. by.벨

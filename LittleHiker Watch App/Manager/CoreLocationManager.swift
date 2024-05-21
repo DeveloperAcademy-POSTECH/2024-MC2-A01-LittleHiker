@@ -67,6 +67,25 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         print("Failed to find user's location: \(error.localizedDescription) : \(currentAltitude),\(currentAltitude)")
     }
     
+    func calculateAltitudeDifference() -> Double? {
+        guard let firstValidValue = altitudeLogs.first(where: { $0 != 0 }) else {
+            print("유효한 첫 번째 값이 없습니다.")
+            return nil
+        }
+
+        guard let maxValue = altitudeLogs.max() else {
+            print("최고 값을 찾을 수 없습니다.")
+            return nil
+        }
+        let difference = maxValue - firstValidValue
+        return difference
+    }
+    
+    func findNonZeroMin() -> Double? {
+        let nonZeroValues = altitudeLogs.filter { $0 != 0 }
+        return nonZeroValues.min()
+    }
+    
     deinit {
         timer?.invalidate()
     }
