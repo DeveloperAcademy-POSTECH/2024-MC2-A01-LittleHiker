@@ -29,33 +29,7 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
-//                        // TODO: - 일단 여기다가 그냥 붙임
-//                        VStack {
-//                            Button(action: {
-//                                // Action to perform when button is tapped
-//                                //1. 버튼을 누르면 타이머를 멈춘다
-//                                timeManager.pauseStopWatch()
-//                                //2. 기록이 SummaryView로 넘어감
-//                                //3. iOS로 데이터 동기화(배열 보내기)
-//                            }) {
-//                                RoundedRectangle(cornerRadius: 28)
-//                                    .frame(width: 68, height: 44)
-//                                    .foregroundColor(.red)
-//                                    .opacity(0.25)
-//                                    .overlay {
-//                                        Image(systemName: "xmark")
-//                                            .foregroundStyle(Color.red)
-//                                            .fontWeight(.bold)
-//                                    }
-//                            }
-//                            .buttonStyle(PlainButtonStyle())
-//                            
-//                            Text("종료")
-//                                .font(.system(size: 12))
-//                        }
-//                        //TODO: - 여기까지 수정 가라로 함
-
-                        StopButton(height: 44, timeManager: timeManager)
+                        StopButton(height: 44, timeManager: timeManager, viewModel: viewModel)
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
@@ -66,10 +40,10 @@ struct WatchButtonView: View {
                     }
                     HStack {
                         //정상버튼
-                        PeakButton(height: 44, timeManager: timeManager)
+                        PeakButton(height: 44, timeManager: timeManager, viewModel: viewModel)
                             .padding(.trailing, 8)
                         //하산버튼
-                        DescendButton(height: 44, timeManager: timeManager)
+                        DescendButton(height: 44, timeManager: timeManager, viewModel: viewModel)
                     }
                     .padding(.top, 8)
                     
@@ -79,9 +53,9 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
-                        StopButton(height: 56, timeManager: timeManager)
+                        StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
                         //하산버튼
-                        DescendButton(height: 56, timeManager: timeManager)
+                        DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel)
                     }
                     Spacer()
                 }
@@ -90,7 +64,7 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
-                        StopButton(height: 56, timeManager: timeManager)
+                        StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
@@ -113,6 +87,7 @@ struct WatchButtonView: View {
 struct StopButton: View {
     var height: CGFloat
     var timeManager: TimeManager
+    @ObservedObject var viewModel: HikingViewModel
     
     var body: some View {
         VStack {
@@ -124,6 +99,8 @@ struct StopButton: View {
                 timeManager.setDescendingTime()
                 //2. 기록이 SummaryView로 넘어감
                 //3. iOS로 데이터 동기화(배열 보내기)=
+                //산행상태를 "완료"로 변경
+                viewModel.status = .complete
                 print("StopButton Tapped")
             }) {
                 RoundedRectangle(cornerRadius: 28)
@@ -210,6 +187,7 @@ struct RestartButton: View {
 struct PeakButton: View {
     var height: CGFloat
     var timeManager: TimeManager
+    @ObservedObject var viewModel: HikingViewModel
     
     var body: some View {
         VStack {
@@ -218,6 +196,8 @@ struct PeakButton: View {
                 timeManager.pauseStopWatch()
                 //전체산행시간에서 등산시간이 정해짐
                 timeManager.setAscendingTime()
+                //뷰모델에서 산행상태를 정상으로 변경
+                viewModel.status = .peak
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
@@ -241,11 +221,15 @@ struct PeakButton: View {
 struct DescendButton: View {
     var height: CGFloat
     var timeManager: TimeManager
-    
+    @ObservedObject var viewModel: HikingViewModel
+
     var body: some View {
         VStack {
             Button(action: {
                 timeManager.runStopWatch()
+                
+                //뷰모델에서 산행상태를 정상으로 변경
+                viewModel.status = .descending
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
