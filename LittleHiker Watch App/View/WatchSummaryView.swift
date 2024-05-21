@@ -71,6 +71,26 @@ struct WatchSummaryView: View {
                 
                 Divider()
                 
+                //평균 페이스
+                Text("평균 페이스")
+                    .font(.system(size: 16))
+                    .padding(.top, 8)
+                HStack (spacing: 0) {
+                    Text("3")
+                        .font(.system(size: 32))
+                        .foregroundColor(Color.mint)
+                        .fontWeight(.medium)
+                        .padding(.trailing, 2)
+                    Text("km/h")
+                        .font(.system(size: 18))
+                        .foregroundColor(Color.mint)
+                        .fontWeight(.medium)
+                        .padding(.top)
+                }
+                .padding(.bottom, 8)
+                
+                Divider()
+                
                 //충격량
                 Text("하산 평균 충격량")
                     .font(.system(size: 16))
