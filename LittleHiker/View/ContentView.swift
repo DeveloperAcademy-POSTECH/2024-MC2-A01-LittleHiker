@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
+    @ObservedObject var model = ViewModelIPhone()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("여기 밑에 Array가 뜰 것임 테스트용으로 써놈")
+            //TODO: - WatchOS에서 전달받은 데이터가 여기 바로 뜨면 됨!
+            Text(self.model.message)
         }
         .padding()
     }

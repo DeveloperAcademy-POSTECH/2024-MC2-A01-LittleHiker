@@ -84,17 +84,32 @@ struct WatchButtonView: View {
 
 //종료버튼
 struct StopButton: View {
+    var viewModelWatch = ViewModelWatch()
+    
     var height: CGFloat
     var timeManager: TimeManager
+    @State var arrayText = ""
+    //FIXME: - 테스트용으로 Array를 만들어보았습니다. 수정합시다.
+    var heartRateArray = [100, 90, 80, 70]
     
     var body: some View {
         VStack {
             Button(action: {
-                // Action to perform when button is tapped
                 //1. 버튼을 누르면 타이머를 멈춘다
                 timeManager.pauseStopWatch()
-                //2. 기록이 SummaryView로 넘어감
+                // TODO: - 2. 기록이 SummaryView로 넘어감
+                let joinedString = heartRateArray.map { String($0) }.joined(separator: ", ")
+                
                 //3. iOS로 데이터 동기화(배열 보내기)=
+                self.viewModelWatch.session.sendMessage(["message" : joinedString], replyHandler: nil) { error in
+                    /**
+                     다음의 상황에서 오류가 발생할 수 있음
+                     -> property-list 데이터 타입이 아닐 때
+                     -> watchOS가 reachable 상태가 아닌데 전송할 때
+                     */
+                    print(error.localizedDescription)
+                    
+                }
                 print("StopButton Tapped")
             }) {
                 RoundedRectangle(cornerRadius: 28)
