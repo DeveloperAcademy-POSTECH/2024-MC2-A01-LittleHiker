@@ -29,33 +29,33 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
-                        // TODO: - 일단 여기다가 그냥 붙임
-                        VStack {
-                            Button(action: {
-                                // Action to perform when button is tapped
-                                //1. 버튼을 누르면 타이머를 멈춘다
-                                timeManager.pauseStopWatch()
-                                //2. 기록이 SummaryView로 넘어감
-                                //3. iOS로 데이터 동기화(배열 보내기)
-                            }) {
-                                RoundedRectangle(cornerRadius: 28)
-                                    .frame(width: 68, height: 44)
-                                    .foregroundColor(.red)
-                                    .opacity(0.25)
-                                    .overlay {
-                                        Image(systemName: "xmark")
-                                            .foregroundStyle(Color.red)
-                                            .fontWeight(.bold)
-                                    }
-                            }
-                            .buttonStyle(PlainButtonStyle())
-                            
-                            Text("종료")
-                                .font(.system(size: 12))
-                        }
-                        //TODO: - 여기까지 수정 가라로 함
+//                        // TODO: - 일단 여기다가 그냥 붙임
+//                        VStack {
+//                            Button(action: {
+//                                // Action to perform when button is tapped
+//                                //1. 버튼을 누르면 타이머를 멈춘다
+//                                timeManager.pauseStopWatch()
+//                                //2. 기록이 SummaryView로 넘어감
+//                                //3. iOS로 데이터 동기화(배열 보내기)
+//                            }) {
+//                                RoundedRectangle(cornerRadius: 28)
+//                                    .frame(width: 68, height: 44)
+//                                    .foregroundColor(.red)
+//                                    .opacity(0.25)
+//                                    .overlay {
+//                                        Image(systemName: "xmark")
+//                                            .foregroundStyle(Color.red)
+//                                            .fontWeight(.bold)
+//                                    }
+//                            }
+//                            .buttonStyle(PlainButtonStyle())
+//                            
+//                            Text("종료")
+//                                .font(.system(size: 12))
+//                        }
+//                        //TODO: - 여기까지 수정 가라로 함
 
-//                        StopButton(height: 44, timeManager: timeManager)
+                        StopButton(height: 44, timeManager: timeManager)
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
@@ -120,6 +120,8 @@ struct StopButton: View {
                 // Action to perform when button is tapped
                 //1. 버튼을 누르면 타이머를 멈춘다
                 timeManager.pauseStopWatch()
+                //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
+                timeManager.setDescendingTime()
                 //2. 기록이 SummaryView로 넘어감
                 //3. iOS로 데이터 동기화(배열 보내기)=
                 print("StopButton Tapped")
@@ -182,7 +184,7 @@ struct RestartButton: View {
         VStack {
             Button(action: {
                 print("RestartButton Tapped")
-                timeManager.resumeStopWatch()
+                timeManager.runStopWatch()
                 toggle.toggle()
             }) {
                 RoundedRectangle(cornerRadius: 28)
@@ -213,14 +215,9 @@ struct PeakButton: View {
         VStack {
             Button(action: {
                 print("PeakButton Tapped")
-//                timeManager.pauseStopwatch()
-                
-                //이건 시작 버튼 테스트하려고 임시로 넣어둠. 정상버튼은 원래 일시정지 임
-                timeManager.runStopWatch()
-                
-                
+                timeManager.pauseStopWatch()
+                //전체산행시간에서 등산시간이 정해짐
                 timeManager.setAscendingTime()
-
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
@@ -248,7 +245,7 @@ struct DescendButton: View {
     var body: some View {
         VStack {
             Button(action: {
-                timeManager.resumeStopWatch()
+                timeManager.runStopWatch()
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
