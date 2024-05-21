@@ -75,7 +75,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             self.healthKitManager.heartRateLogs.append(self.healthKitManager.currentHeartRate)
             self.healthKitManager.distanceLogs.append(self.healthKitManager.currentDistanceWalkingRunning)
             
-            self.impulseManager.calculateImpulseRate(
+            self.impulseManager.calculateAndAppendRecentImpulse(
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
                 currentSpeed: self.coreLocationManager.currentSpeed
             )
