@@ -44,15 +44,19 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     func updateEveryMinute() {
         timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-        
-            self?.healthKitManager.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
+            guard let self = self else { return }
             
-            //TODO: - 찝찝함.. 구조체 만들기
-            self!.coreLocationManager.altitudeLogs.append(self!.coreLocationManager.currentAltitude)
-            self!.coreLocationManager.speedLogs.append(self!.coreLocationManager.currentSpeed)
-            self!.healthKitManager.heartRateLogs.append(self!.healthKitManager.currentHeartRate)
-            self!.healthKitManager.distanceLogs.append(self!.healthKitManager.currentDistanceWalkingRunning)
-            self?.impulseManager.calculateImpulseRate() //TODO: - 이게 맞는지 확인 필요
+            self.healthKitManager.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
+            
+            self.coreLocationManager.altitudeLogs.append(self.coreLocationManager.currentAltitude)
+            self.coreLocationManager.speedLogs.append(self.coreLocationManager.currentSpeed)
+            self.healthKitManager.heartRateLogs.append(self.healthKitManager.currentHeartRate)
+            self.healthKitManager.distanceLogs.append(self.healthKitManager.currentDistanceWalkingRunning)
+            
+            self.impulseManager.calculateImpulseRate(
+                altitudeLogs: self.coreLocationManager.altitudeLogs,
+                currentSpeed: self.coreLocationManager.currentSpeed
+            )
         }
     }
 

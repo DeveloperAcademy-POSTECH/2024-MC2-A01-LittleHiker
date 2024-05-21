@@ -8,11 +8,12 @@
 import Foundation
 
 class ImpulseManager: NSObject, ObservableObject {
-    @Published var currentSpeed: Double = 0
-    @Published var altitudeLogs: [Double] = []
+//    @Published var currentSpeed: Double = 0
+//    @Published var altitudeLogs: [Double] = []
     @Published var impulseLogs = 0
+    let weight = 50.0
         
-    func calculateImpulseRate(){
+    func calculateImpulseRate(altitudeLogs:[Double] , currentSpeed: Double){
         guard altitudeLogs.count > 1 else {
                     return
                 }
@@ -21,7 +22,7 @@ class ImpulseManager: NSObject, ObservableObject {
         let altitudeChangeSquared = recentAltitudeChange * recentAltitudeChange
         let speedSquared = currentSpeed * currentSpeed
         
-        let impulse = sqrt(altitudeChangeSquared + speedSquared)
+        let impulse = sqrt(altitudeChangeSquared + speedSquared) * weight / 0.1
         
         print(impulse)
         self.impulseLogs = Int(impulse)

@@ -84,7 +84,6 @@ struct WatchMainView: View {
                     .frame(width: geometry.size.width)
                 HStack{
                     Text(viewModel.impulseManager.impulseLogs == 0 ? "--" : "\(viewModel.impulseManager.impulseLogs)")
-                    //                    .font(.system(size: 18, weight: .semibold))
                         .font(.title3)
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
