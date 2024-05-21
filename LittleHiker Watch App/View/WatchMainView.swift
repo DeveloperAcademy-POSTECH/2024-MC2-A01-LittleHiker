@@ -15,7 +15,7 @@ struct WatchMainView: View {
     @ObservedObject var locationViewModel: CoreLocationManager
     @State private var frameIndex = 0
     @State private var timer: Timer?
-    @State private var progress: CGFloat = 50
+//    @State private var progress: CGFloat = 50
 
     var body: some View {
         VStack(alignment: .leading){
@@ -38,7 +38,7 @@ struct WatchMainView: View {
                     .foregroundStyle(.green)
             }
             Spacer()
-            if progress <= 80{
+            if viewModel.impulseManager.impulseRatio <= 80{
                 HStack{
                     Spacer()
                     squirrelGIF
@@ -90,9 +90,9 @@ struct WatchMainView: View {
                         .padding(.horizontal, 10)
                 }
                 .frame(width: 40)
-                .background(Capsule().fill(colorForValue(progress)))
-                .offset(x: min(CGFloat(self.progress/100) * geometry.size.width - 20, geometry.size.width - 50), y:0)
-                .animation(.linear, value: progress)
+                .background(Capsule().fill(colorForValue(viewModel.impulseManager.impulseRatio)))
+                .offset(x: min(CGFloat(viewModel.impulseManager.impulseRatio/100) * geometry.size.width - 20, geometry.size.width - 50), y:0)
+                .animation(.linear, value: viewModel.impulseManager.impulseRatio)
             }
         }
         .frame(height: 20)
@@ -115,6 +115,7 @@ struct WatchMainView: View {
     
     //MARK: - GIF 스케쥴러
     private func animationGifTimer() {
+        // 1.0 / 4.0이면 1초당 이미지 4번 바뀜
         Timer.scheduledTimer(withTimeInterval: 1.0 / 4.0, repeats: true){ timer in
             frameIndex = (frameIndex + 1) % gifAnimation.frameCount
         }
