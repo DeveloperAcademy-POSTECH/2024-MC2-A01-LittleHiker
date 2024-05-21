@@ -91,7 +91,16 @@ struct WatchMainView: View {
                 }
                 .frame(width: 40)
                 .background(Capsule().fill(colorForValue(viewModel.impulseManager.impulseRatio)))
-                .offset(x: min(CGFloat(viewModel.impulseManager.impulseRatio/100) * geometry.size.width - 20, geometry.size.width - 50), y:0)
+                .offset(
+                    x: min(
+                        max(
+                            CGFloat(viewModel.impulseManager.impulseRatio / 100 * geometry.size.width) - 20,
+                            0
+                        ),
+                        CGFloat(geometry.size.width - 40)
+                    ),
+                    y: 0
+                )
                 .animation(.linear, value: viewModel.impulseManager.impulseRatio)
             }
         }
