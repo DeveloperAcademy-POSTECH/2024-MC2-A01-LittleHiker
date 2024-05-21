@@ -13,7 +13,7 @@ struct WatchRootView: View {
 
     var body: some View {
         TabView(selection: $selection) {
-            WatchButtonView()
+            WatchButtonView(viewModel: viewModel)
             TabView() {
                 WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)
                 WatchDetailView(viewModel: viewModel, healthViewModel: viewModel.healthKitManager)

@@ -9,24 +9,51 @@ import SwiftUI
 
 // [등산 중], [정상], [하산 중] 3 가지 상태에 따른 버튼 뷰 구현
 struct WatchButtonView: View {
-    var hikingStatus: String = "등산 중"
+    @ObservedObject var viewModel: HikingViewModel
     
     var body: some View {
         VStack {
             HStack {
                 Spacer()
-                //State or Binding 변수에 따라 등산중/ 정상/ 하산중 구현 예정
-                //이 부분 아마 네비게이션으로 될듯?
-                Text("\(hikingStatus)")
+
+                Text("\(viewModel.status.getData)")
                     .foregroundStyle(Color.blue)
             }
             Spacer()
             
-            if hikingStatus == "등산 중" {
+            if viewModel.status == .hiking {
                 VStack {
                     HStack {
                         //종료버튼
-                        StopButton(height: 44)
+
+                        
+                        
+                        // TODO: - 일단 여기다가 그냥 붙임
+                        VStack {
+                            Button(action: {
+                                // Action to perform when button is tapped
+                                //1. 버튼을 누르면 타이머를 멈춘다
+                                //2. 기록이 SummaryView로 넘어감
+                                //3. iOS로 데이터 동기화(배열 보내기)
+                            }) {
+                                RoundedRectangle(cornerRadius: 28)
+                                    .frame(width: 68, height: 44)
+                                    .foregroundColor(.red)
+                                    .opacity(0.25)
+                                    .overlay {
+                                        Image(systemName: "xmark")
+                                            .foregroundStyle(Color.red)
+                                            .fontWeight(.bold)
+                                    }
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            
+                            Text("종료")
+                                .font(.system(size: 12))
+                        }
+//                        StopButton(height: 44)
+                        //TODO: - 여기까지 수정 가라로 함
+
                         
                         //일시정지버튼
                         //                        PauseButton(height: 44)
@@ -36,13 +63,15 @@ struct WatchButtonView: View {
                     HStack {
                         //정상버튼
                         PeakButton(height: 44)
+                            .padding(.trailing, 8)
                         //하산버튼
                         DescendButton(height: 44)
                     }
+                    .padding(.top, 8)
                     
                 }
                 .padding()
-            } else if hikingStatus == "정상" {
+            } else if viewModel.status == .peak {
                 VStack {
                     HStack {
                         //종료버튼
@@ -53,7 +82,7 @@ struct WatchButtonView: View {
                     Spacer()
                 }
                 .padding()
-            } else if hikingStatus == "하산 중" {
+            } else if viewModel.status == .descending {
                 VStack {
                     HStack {
                         //종료버튼
@@ -81,7 +110,9 @@ struct StopButton: View {
         VStack {
             Button(action: {
                 // Action to perform when button is tapped
-                print("Button tapped!")
+                //1. 버튼을 누르면 타이머를 멈춘다
+                //2. 기록이 SummaryView로 넘어감
+                //3. iOS로 데이터 동기화(배열 보내기)
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
@@ -201,11 +232,11 @@ struct DescendButton: View {
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
-                    .foregroundColor(.white)
-                    .opacity(0.12)
+                    .foregroundColor(.green)
+                    .opacity(0.25)
                     .overlay {
                         Image(systemName: "arrow.down.right")
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(Color.green)
                             .fontWeight(.bold)
                     }
             }
@@ -218,5 +249,5 @@ struct DescendButton: View {
 }
 
 #Preview {
-    WatchButtonView()
+    WatchButtonView(viewModel: HikingViewModel())
 }
