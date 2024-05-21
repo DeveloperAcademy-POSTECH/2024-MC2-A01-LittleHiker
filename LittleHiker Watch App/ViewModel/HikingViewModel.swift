@@ -23,12 +23,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var isDescent: Bool = true
     private var anchor: HKQueryAnchor?
 
-    //나중에 ios로 넘길 데이터들
-    @Published var altitudeLogs: [Double] = []
-    @Published var speedLogs: [Double] = []
-    @Published var distanceLogs: [Double] = []
-    @Published var impulseLogs = 0
-
     //manager 가져오기
     @Published var healthKitManager = HealthKitManager()
     @Published var coreLocationManager = CoreLocationManager()
