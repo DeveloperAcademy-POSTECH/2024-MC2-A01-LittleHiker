@@ -43,7 +43,7 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double{
-        return (diagonalVelocityCriterion * weight) / 0.1
+        return (diagonalVelocityCriterion * weight) / 0.1 / 100 //100나눔
     }
     
     func appendToLogs(_ impulse: Double){
@@ -59,23 +59,29 @@ class ImpulseManager: NSObject, ObservableObject {
             return 100
         }
         
-        return (impulse - impulseCriterion) / (impulseCriterion * 2 - impulseCriterion)
+        return (impulse - impulseCriterion) / (impulseCriterion * 2 - impulseCriterion) * 100
     }
     
     func calculateImpulse(_ currentVerticalVelocity: Double, _ currentHorizontalVelocity: Double) ->Double {
-        return sqrt(pow(currentVerticalVelocity, 2)+pow(currentHorizontalVelocity, 2)) * weight / 0.1
+        return sqrt(pow(currentVerticalVelocity, 2)+pow(currentHorizontalVelocity, 2)) * weight / 0.1 / 100 // 단위 줄이기 100 나눔
     }
     
     
-    func calculateAndAppendRecentImpulse(_ altitudeLogs:[Double] ,_ currentSpeed: Double){
+    func calculateAndAppendRecentImpulse(altitudeLogs:[Double] ,currentSpeed: Double){
         guard altitudeLogs.count > 1 else {
             return
         }
         
-        let recentAltitudeChange = altitudeLogs.last! - altitudeLogs[altitudeLogs.count - 2]
+        let recentAltitudeChange = (altitudeLogs.last! - altitudeLogs[altitudeLogs.count - 2]) / 1000 * 60
+        print("recentAltitudeChange : \(recentAltitudeChange)")
+        print("수평_Vel : \(currentSpeed)")
+        print("경사_Vel : \(sqrt((pow(recentAltitudeChange, 2) + pow(currentSpeed, 2))))")
         let impulse = self.calculateImpulse(recentAltitudeChange, currentSpeed)
         self.appendToLogs(impulse)
+        print("impulse : \(impulse)")
         impulseRatio = self.calculateImpulseRatio(impulse)
+        print("impulseRatio : \(impulseRatio)")
+
     }
     
 }

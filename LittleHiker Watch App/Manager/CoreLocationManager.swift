@@ -18,6 +18,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     
     @Published var currentAltitude: Double = 0
     @Published var currentSpeed: Double = 0
+    @Published var verticalSpeed: Double = 0.0
 
     //나중에 ios로 넘길 데이터들
     @Published var altitudeLogs: [Double] = []
@@ -55,11 +56,16 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
                 self.currentSpeed = location.speed * 3.6
             }
             // 총 이동한 거리 구하기
-            if let previousLocation = self.previousLocation {
-                let distance = location.distance(from: previousLocation)
-                self.totalDistance += distance
-                self.totalDistanceTraveled = self.totalDistance / 1000 //km변환
-            }
+            
+            //임시 경사 속도 구하기
+//            if let previousLocation = previousLocation {
+//                let timeInterval = location.timestamp.timeIntervalSince(previousLocation.timestamp)
+//                let altitudeChange = location.altitude - previousLocation.altitude
+//                let verticalSpeed = altitudeChange / timeInterval
+//                self.verticalSpeed = verticalSpeed
+//                print("Vertical Speed: \(verticalSpeed) meters per second")
+//            }
+//            previousLocation = location
         }
     }
 
