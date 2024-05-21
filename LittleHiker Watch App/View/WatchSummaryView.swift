@@ -107,7 +107,6 @@ struct WatchSummaryView: View {
                         .fontWeight(.medium)
                         .padding(.top)
                 }
-                
                 HStack(spacing: 0) {
                     Text("범위:")
                         .font(.system(size: 14))

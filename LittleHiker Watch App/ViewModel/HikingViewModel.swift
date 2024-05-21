@@ -80,20 +80,17 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     func updateEveryMinute() {
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
 
             guard let self = self else { return }
             
             self.coreLocationManager.altitudeLogs.append(self.coreLocationManager.currentAltitude)
             self.coreLocationManager.speedLogs.append(self.coreLocationManager.currentSpeed)
-            
+
             //HealthKit append 수정
             self.healthKitManager
                 .appendHealthKitLogs(self.healthKitManager.currentHeartRate, distance: self.healthKitManager.currentDistanceWalkingRunning)
-    
-            
-            
-            self.impulseManager.calculateImpulseRate(
+            self.impulseManager.calculateAndAppendRecentImpulse(
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
                 currentSpeed: self.coreLocationManager.currentSpeed
             )
