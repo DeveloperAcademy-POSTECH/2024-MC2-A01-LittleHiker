@@ -19,6 +19,7 @@ enum HikingStatus{
     case descendingStop
     case peak
     case descending
+    case complete
     
     // 상태별 네이게이션바에 보여줄 텍스트
     var getData : String {
@@ -35,7 +36,8 @@ enum HikingStatus{
             return "정상"
         case .descending :
             return "하산중"
-            
+        case .complete :
+            return "완료"
         }
     }
 }
