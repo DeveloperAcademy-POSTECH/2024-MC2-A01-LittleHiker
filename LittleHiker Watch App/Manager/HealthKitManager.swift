@@ -22,7 +22,9 @@ class HealthKitManager:NSObject, ObservableObject {
     let healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
     let distanceQuantity = HKUnit(from: "m")
-    
+    //심박수 평균을 위한 시작 시간
+    let startDate = Date()
+
     let read = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
     let share = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
     
@@ -101,6 +103,48 @@ class HealthKitManager:NSObject, ObservableObject {
         }
     }
     
+    func fetchHeartRateStatistics(completion: @escaping (Double?, Double?, Double?, Error?) -> Void) {
+        let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate)!
+        
+        let endDate = Date()
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+        
+        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, results, error) in
+            guard let results = results as? [HKQuantitySample], error == nil else {
+                completion(nil, nil, nil, error)
+                return
+            }
+            
+            // 심박수 데이터의 합과 개수를 계산하여 평균값 도출, 최소값 및 최대값 초기화
+            var totalHeartRate = 0.0
+            var count = 0.0
+            var minHeartRate = Double.greatestFiniteMagnitude
+            var maxHeartRate = Double.leastNormalMagnitude
+            
+            for sample in results {
+                let heartRateUnit = HKUnit(from: "count/min")
+                let heartRate = sample.quantity.doubleValue(for: heartRateUnit)
+                totalHeartRate += heartRate
+                count += 1
+                
+                if heartRate < minHeartRate {
+                    minHeartRate = heartRate
+                }
+                
+                if heartRate > maxHeartRate {
+                    maxHeartRate = heartRate
+                }
+            }
+            
+            let averageHeartRate = count == 0 ? 0 : totalHeartRate / count
+            minHeartRate = count == 0 ? 0 : minHeartRate
+            maxHeartRate = count == 0 ? 0 : maxHeartRate
+            
+            completion(averageHeartRate, minHeartRate, maxHeartRate, nil)
+        }
+        
+        healthStore.execute(query)
+    }
     
     deinit {
         timer?.invalidate()
