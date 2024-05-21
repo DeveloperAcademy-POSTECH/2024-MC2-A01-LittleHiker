@@ -115,6 +115,16 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             }
         }
         
+        if let totalAltitude = coreLocationManager.calculateAltitudeDifference() {
+            summaryModel.totalAltitude = Int(totalAltitude)
+        } else {
+            print("고도 데이터를 가져오는데 실패했습니다")
+        }
+        
+        summaryModel.maxAltitude = Int(coreLocationManager.altitudeLogs.max()!)
+        summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
+        
+        
     }
     
     // 버튼별로 타이머 기능을 조절하도록 만들었다. by.벨
