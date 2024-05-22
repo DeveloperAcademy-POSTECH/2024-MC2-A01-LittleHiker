@@ -75,7 +75,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var isPaused: Bool = false
     
     private var timer: Timer?
-        
+    //테스트용
+    var viewModelWatch = ViewModelWatch()
+
     override init() {
         super.init()
         updateEveryMinute()
@@ -95,6 +97,25 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             )
             //location append 수정 및 위치 변환
             self.coreLocationManager.appendCoreLocationLogs()
+            self.testCode()
+
+        }
+    }
+    
+    func testCode(){
+        self.viewModelWatch.session.sendMessage(["message" : "고도 : \(Int(self.coreLocationManager.currentAltitude)), "], replyHandler: nil) { error in
+        }
+        self.viewModelWatch.session.sendMessage(["message" : "속도 : \(String(format: "%.2f", self.coreLocationManager.currentSpeed)), "], replyHandler: nil) { error in
+        }
+        self.viewModelWatch.session.sendMessage(["message" : "기준 속도 : \(String(format: "%.2f", self.impulseManager.diagonalVelocityCriterion)), "], replyHandler: nil) { error in
+        }
+        self.viewModelWatch.session.sendMessage(["message" : "기준 충격량 : \(String(format: "%.2f", self.impulseManager.impulseCriterion)), "], replyHandler: nil) { error in
+        }
+        self.viewModelWatch.session.sendMessage(["message" : "충격량 : \(String(format: "%.2f", self.impulseManager.impulseLogs.last ?? 0.0)), "], replyHandler: nil) { error in
+        }
+        self.viewModelWatch.session.sendMessage(["message" : "충격량 비율 : \(String(format: "%.2f", self.impulseManager.impulseRatio)), "], replyHandler: nil) { error in
+        }
+        self.viewModelWatch.session.sendMessage(["message" : "\n"], replyHandler: nil) { error in
         }
     }
     

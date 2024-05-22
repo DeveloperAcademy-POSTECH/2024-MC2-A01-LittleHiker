@@ -32,7 +32,7 @@ final class ViewModelIPhone: NSObject, WCSessionDelegate, ObservableObject {
 
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
-            self.message = message["message"] as? String ?? ""
+            self.message.append(message["message"] as? String ?? "")
         }
     }
 
