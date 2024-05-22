@@ -77,7 +77,7 @@ struct WatchSummaryView: View {
                     .font(.system(size: 16))
                     .padding(.top, 8)
                 HStack (spacing: 0) {
-                    Text("3")
+                    Text("\(String(format: "%.2f", viewModel.summaryModel.speedAvg))")
                         .font(.system(size: 32))
                         .foregroundColor(Color.mint)
                         .fontWeight(.medium)
@@ -97,7 +97,7 @@ struct WatchSummaryView: View {
                     .font(.system(size: 16))
                     .padding(.top, 8)
                 HStack (spacing: 0) {
-                    Text("\(viewModel.summaryModel.impulseAvg)")
+                    Text("\(String(format: "%.2f", viewModel.summaryModel.impulseAvg))")
                         .font(.system(size: 32))
                         .foregroundColor(Color(red: 0.00, green: 0.92, blue: 0.64, opacity: 1.00))
                         .fontWeight(.medium)

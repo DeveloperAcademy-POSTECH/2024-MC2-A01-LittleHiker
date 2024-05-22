@@ -149,19 +149,4 @@ class HealthKitManager:NSObject, ObservableObject {
     deinit {
         timer?.invalidate()
     }
-    
-    //    func calculateImpulseRate(){
-    //        guard altitudeRecords.count > 1 else {
-    //                    return
-    //                }
-    //
-    //        let recentAltitudeChange = altitudeRecords.last! - altitudeRecords[altitudeRecords.count - 2]
-    //        let altitudeChangeSquared = recentAltitudeChange * recentAltitudeChange
-    //        let speedSquared = currentSpeed * currentSpeed
-    //
-    //        let impulse = sqrt(altitudeChangeSquared + speedSquared)
-    //
-    //        print(impulse)
-    //        self.impulse = Int(impulse)
-    //    }
 }

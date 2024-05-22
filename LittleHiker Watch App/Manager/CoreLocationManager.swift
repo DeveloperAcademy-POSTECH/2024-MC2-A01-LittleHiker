@@ -93,13 +93,16 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     }
     
     func getSpeedAvg() -> Double {
-        guard !speedLogs.isEmpty else {
-             return 0.0
-         }
+        //0.5km/h이상의 값만 유효한 값으로 인식
+        let nonZeroImpulseLogs = speedLogs.filter { $0 >= 0.5 }
+
+        guard !nonZeroImpulseLogs.isEmpty else {
+            return 0.0
+        }
         
-        let sum = speedLogs.reduce(0, +)
-        // 유효한 값이 없을때 카운드 값 수정 필요
-        let average = sum / Double(speedLogs.count)
+        let sum = nonZeroImpulseLogs.reduce(0, +)
+        
+        let average = sum / Double(nonZeroImpulseLogs.count)
         
         return average
     }
