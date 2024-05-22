@@ -10,6 +10,7 @@ import WatchConnectivity
 
 final class ViewModelWatch: NSObject, WCSessionDelegate, ObservableObject {
     @Published var count: Int = 0
+
     var session: WCSession
 
     init(session: WCSession = .default) {
