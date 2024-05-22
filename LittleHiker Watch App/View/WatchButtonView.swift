@@ -28,7 +28,7 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
-                        StopButton(height: 44, timeManager: timeManager, viewModel: viewModel)
+                        EndButton(height: 44, timeManager: timeManager, viewModel: viewModel)
                             .padding(.trailing, 8)
                         
                         //일시정지,재개버튼
@@ -53,7 +53,7 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
-                        StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
+                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel)
                         //하산버튼
                         DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel)
                     }
@@ -64,7 +64,7 @@ struct WatchButtonView: View {
                 VStack {
                     HStack {
                         //종료버튼
-                        StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
+                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel)
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
@@ -86,7 +86,7 @@ struct WatchButtonView: View {
 }
 
 //종료버튼
-struct StopButton: View {
+struct EndButton: View {
 //    var viewModelWatch = ViewModelWatch()
     
     var height: CGFloat
@@ -253,6 +253,9 @@ struct DescendButton: View {
     var body: some View {
         VStack {
             Button(action: {
+                if ((timeManager.timer?.isValid) != nil) {
+                    timeManager.timer?.invalidate()
+                }
                 timeManager.runStopWatch()
                 
                 //뷰모델에서 산행상태를 정상으로 변경
