@@ -37,6 +37,7 @@ class ImpulseManager: NSObject, ObservableObject {
     @Published var diagonalVelocityCriterion: String = "2.7"
 //    var diagonalVelocityCriterion = Int(viewModelWatch.impulseRate)  // km/h  - TODO: - WatchViewModel에서 전달된 impulseRate 값을 받아서 int로 형변환 해서 쓰고 싶음
     var impulseCriterion: Double {
+        print("\(Double(diagonalVelocityCriterion) ?? 1.0)")
         return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.7)
     }
         
