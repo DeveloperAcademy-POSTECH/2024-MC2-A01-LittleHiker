@@ -82,6 +82,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     //테스트용
     var viewModelWatch = ViewModelWatch()
     var testCodeTimer: Timer?
+    var timestampLog: [String] = []
 
     override init() {
         super.init()
@@ -89,7 +90,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     func updateEveryMinute() {
-        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { [weak self] _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
 
             guard let self = self else { return }
             
@@ -104,6 +105,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             self.coreLocationManager.appendCoreLocationLogs()
             //testcode 기준속도 변경
             self.impulseManager.diagonalVelocityCriterion = viewModelWatch.impulseRate
+            //timestamptest
+            self.timestampLog.append(getCurrentTimestamp())
+            
         }
         //테스트용 스케쥴러
         testCodeTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
@@ -111,6 +115,14 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             self.testCode()
         }
 
+    }
+    //타임스탬프 만드는 함수
+    func getCurrentTimestamp() -> String {
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let timestampString = dateFormatter.string(from: currentDate)
+        return timestampString
     }
     
     func testCode(){
@@ -131,8 +143,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 //        }
 //        self.impulseManager.diagonalVelocityCriterion = self.viewModelWatch.impulseRate
         //3분마다 log 업데이트 보내기 -> 임의 기준속도 로그 생성
-        let combinedString = (0..<min(self.coreLocationManager.altitudeLogs.count, self.coreLocationManager.speedLogs.count, self.impulseManager.impulseLogs.count, self.impulseManager.diagonalVelocityCriterionLogs.count)).map { index in
-            "고도 : \(Int(self.coreLocationManager.altitudeLogs[index])),속도 : \(String(format: "%.2f",self.coreLocationManager.speedLogs[index])), 기준 속도 : \(String(format: "%.2f",self.impulseManager.diagonalVelocityCriterionLogs[index])), 기준 충격량 : \(String(format: "%.2f",self.impulseManager.impulseCriterionLogs[index])), 충격량 : \(String(format: "%.2f",self.impulseManager.impulseLogs[index]))"
+        let combinedString = (0..<min(self.timestampLog.count ,self.coreLocationManager.altitudeLogs.count, self.coreLocationManager.speedLogs.count, self.impulseManager.impulseLogs.count, self.impulseManager.diagonalVelocityCriterionLogs.count)).map { index in
+            "\(self.timestampLog[index]) : 고도 : \(Int(self.coreLocationManager.altitudeLogs[index])),속도 : \(String(format: "%.2f",self.coreLocationManager.speedLogs[index])), 기준 속도 : \(String(format: "%.2f",self.impulseManager.diagonalVelocityCriterionLogs[index])), 기준 충격량 : \(String(format: "%.2f",self.impulseManager.impulseCriterionLogs[index])), 충격량 : \(String(format: "%.2f",self.impulseManager.impulseLogs[index]))"
         }.joined(separator: "\n")
         self.viewModelWatch.session.sendMessage(["message" : combinedString], replyHandler: nil) { error in
         }
