@@ -19,22 +19,24 @@ struct WatchMainView: View {
 
     var body: some View {
         VStack(alignment: .leading){
+            Text("현재 고도")
+                .font(.system(size: 18))
             HStack(alignment: .bottom){
                 Text("\(Int(locationViewModel.currentAltitude))")
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 32))
+                    .fontWeight(.medium)
                     .foregroundStyle(.green)
                 Text("M")
-                    .font(.title3)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 22))
+                    .fontWeight(.medium)
                     .foregroundStyle(.green)
                 Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 32))
+                    .fontWeight(.medium)
                     .foregroundStyle(.green)
                 Text("km/h")
-                    .font(.title3)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 22))
+                    .fontWeight(.medium)
                     .foregroundStyle(.green)
             }
             Spacer()
