@@ -33,11 +33,12 @@ final class ViewModelWatch: NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
-    func handleImpulseRate(impulseRate: String) {
-        let impulseManager = ImpulseManager()
-        impulseManager.diagonalVelocityCriterion = impulseRate
-        // Now use viewModelWatch.impulseRate in your view or other logic
-    }
+//    func handleImpulseRate(impulseRate: String) -> String{
+//        let impulseManager = ImpulseManager()
+//        impulseManager.diagonalVelocityCriterion = impulseRate
+//        // Now use viewModelWatch.impulseRate in your view or other logic
+//        
+//    }
     
     
     

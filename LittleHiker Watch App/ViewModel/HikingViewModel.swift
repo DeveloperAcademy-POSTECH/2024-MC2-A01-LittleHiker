@@ -98,6 +98,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             )
             //location append 수정 및 위치 변환
             self.coreLocationManager.appendCoreLocationLogs()
+            //testcode 기준속도 변경
+            self.impulseManager.diagonalVelocityCriterion = viewModelWatch.impulseRate
         }
         //테스트용 스케쥴러
         testCodeTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
