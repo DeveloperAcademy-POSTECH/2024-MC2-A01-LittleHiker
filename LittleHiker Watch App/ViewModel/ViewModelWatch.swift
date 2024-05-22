@@ -38,6 +38,4 @@ final class ViewModelWatch: NSObject, WCSessionDelegate, ObservableObject {
         // Now use viewModelWatch.impulseRate in your view or other logic
     }
     
-    
-    
 }
