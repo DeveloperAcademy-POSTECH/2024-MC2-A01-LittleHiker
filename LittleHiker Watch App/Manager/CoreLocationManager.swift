@@ -23,8 +23,8 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     //나중에 ios로 넘길 데이터들
     @Published var altitudeLogs: [Double] = []
     @Published var speedLogs: [Double] = []
-    @Published var impulseLogs: [Int] = []
-    @Published var impulse = 0
+    //필요없어서 삭제
+
     //등반 고도 값
     @Published var climbingAltitude: Double = 0.0
     
@@ -69,7 +69,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     func appendCoreLocationLogs(){
         altitudeLogs.append(currentAltitude)
         speedLogs.append(currentSpeed)
-        impulseLogs.append(impulse)
+        //필요 없어서 삭제
     }
     
     //이거 등반 고도 나중에 함수 따로 빼야됨 -> log탐색 하는 것을 매번 불러오기 부담일 수 있어서 시작고도 저장해 놓고 최고고도 변경해가면서 등반고도값도 변경되게 만들어야 될 듯
