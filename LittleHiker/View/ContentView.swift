@@ -11,12 +11,14 @@ struct ContentView: View {
     @ObservedObject var model = ViewModelIPhone()
     
     var body: some View {
-        VStack {
-            Text("여기 밑에 Array가 뜰 것임 테스트용으로 써놈")
-            //TODO: - WatchOS에서 전달받은 데이터가 여기 바로 뜨면 됨!
-            Text(self.model.message)
+        ScrollView {
+            VStack {
+                Text("여기 밑에 Array가 뜰 것임 테스트용")
+                //TODO: - WatchOS에서 전달받은 데이터가 여기 바로 뜨면 됨!
+                Text(self.model.message)
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
