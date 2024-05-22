@@ -107,7 +107,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         }
         self.viewModelWatch.session.sendMessage(["message" : "속도 : \(String(format: "%.2f", self.coreLocationManager.currentSpeed)), "], replyHandler: nil) { error in
         }
-        self.viewModelWatch.session.sendMessage(["message" : "기준 속도 : \(String(format: "%.2f", self.impulseManager.diagonalVelocityCriterion)), "], replyHandler: nil) { error in
+        self.viewModelWatch.session.sendMessage(["message" : "기준 속도 : \(self.impulseManager.diagonalVelocityCriterion), "], replyHandler: nil) { error in
         }
         self.viewModelWatch.session.sendMessage(["message" : "기준 충격량 : \(String(format: "%.2f", self.impulseManager.impulseCriterion)), "], replyHandler: nil) { error in
         }
@@ -117,6 +117,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         }
         self.viewModelWatch.session.sendMessage(["message" : "\n"], replyHandler: nil) { error in
         }
+        self.impulseManager.diagonalVelocityCriterion = self.viewModelWatch.impulseRate
     }
     
     deinit {

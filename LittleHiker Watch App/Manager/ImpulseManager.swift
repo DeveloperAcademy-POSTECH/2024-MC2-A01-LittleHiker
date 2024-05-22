@@ -34,7 +34,8 @@ class ImpulseManager: NSObject, ObservableObject {
     let weight = 50.0
     let diagonalVelocityCriterion = 2.7 // km/h
     var impulseCriterion: Double {
-        return self.convertVelocityToImpulse(diagonalVelocityCriterion)
+        print("\(Double(diagonalVelocityCriterion) ?? 1.0)")
+        return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.7)
     }
         
     override init() {
