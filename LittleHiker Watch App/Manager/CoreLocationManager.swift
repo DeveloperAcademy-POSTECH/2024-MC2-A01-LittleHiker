@@ -92,6 +92,18 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         return nonZeroValues.min()
     }
     
+    func getSpeedAvg() -> Double {
+        guard !speedLogs.isEmpty else {
+             return 0.0
+         }
+        
+        let sum = speedLogs.reduce(0, +)
+        // 유효한 값이 없을때 카운드 값 수정 필요
+        let average = sum / Double(speedLogs.count)
+        
+        return average
+    }
+    
     deinit {
         timer?.invalidate()
     }

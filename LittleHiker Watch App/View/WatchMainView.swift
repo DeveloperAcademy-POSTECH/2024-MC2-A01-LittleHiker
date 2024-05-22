@@ -42,6 +42,9 @@ struct WatchMainView: View {
                 HStack{
                     Spacer()
                     squirrelGIF
+                        .onDisappear{
+                            stopGifTimer()
+                        }
                     Spacer()
                 }
             }
@@ -84,20 +87,20 @@ struct WatchMainView: View {
                     .frame(width: geometry.size.width)
                 HStack{
                     Text(viewModel.impulseManager.impulseLogs.count == 0 ? "--" : "\(Int(viewModel.impulseManager.impulseLogs.last!))")
-                        .font(.title3)
+                        .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
                         .padding(.horizontal, 10)
                 }
-                .frame(width: 40)
+                .frame(width: 50, height: 30)
                 .background(Capsule().fill(colorForValue(viewModel.impulseManager.impulseRatio)))
                 .offset(
                     x: min(
                         max(
-                            CGFloat(viewModel.impulseManager.impulseRatio / 100 * geometry.size.width) - 20,
+                            CGFloat(viewModel.impulseManager.impulseRatio / 100 * geometry.size.width) - 25,
                             0
                         ),
-                        CGFloat(geometry.size.width - 40)
+                        CGFloat(geometry.size.width - 50)
                     ),
                     y: 0
                 )
@@ -122,11 +125,32 @@ struct WatchMainView: View {
         }
     }
     
+    func speedForValue(_ value: CGFloat) -> Double {
+        switch value {
+        case 0..<15:
+            return 1/4
+        case 15..<30:
+            return 1/8
+        case 30..<45:
+            return 1/12
+        case 45..<60:
+            return 1/16
+        case 60...75:
+            return 1/20
+        case 75...90:
+            return 1/24
+        case 90...100:
+            return 1/28
+        default:
+            return 1/8
+        }
+    }
+    
     //MARK: - GIF 스케쥴러
     private func animationGifTimer() {
         stopGifTimer()
         // 1.0 / 4.0이면 1초당 이미지 4번 바뀜
-        Timer.scheduledTimer(withTimeInterval: 1.0 / 8.0 / (viewModel.impulseManager.impulseRatio / 50)  , repeats: true){ timer in
+        timer = Timer.scheduledTimer(withTimeInterval: speedForValue(viewModel.impulseManager.impulseRatio), repeats: true) { _ in
             frameIndex = (frameIndex + 1) % gifAnimation.frameCount
         }
     }
