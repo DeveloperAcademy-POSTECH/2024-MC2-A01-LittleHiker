@@ -36,8 +36,12 @@ class ImpulseManager: NSObject, ObservableObject {
     let weight = 50.0
     @Published var diagonalVelocityCriterion: String = "2.7"
 //    var diagonalVelocityCriterion = Int(viewModelWatch.impulseRate)  // km/h  - TODO: - WatchViewModel에서 전달된 impulseRate 값을 받아서 int로 형변환 해서 쓰고 싶음
+    //임의 테스트용 로그
+    var diagonalVelocityCriterionLogs: [Double] = []
+    var impulseCriterionLogs: [Double] = []
+    
     var impulseCriterion: Double {
-        print("\(Double(diagonalVelocityCriterion) ?? 1.0)")
+        print("기준 충격량 \(Double(diagonalVelocityCriterion) ?? 1.0)")
         return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.7)
     }
         
@@ -53,6 +57,9 @@ class ImpulseManager: NSObject, ObservableObject {
     
     func appendToLogs(_ impulse: Double){
         impulseLogs.append(impulse)
+        //테스트용
+        diagonalVelocityCriterionLogs.append(Double(diagonalVelocityCriterion) ?? -1)
+        impulseCriterionLogs.append(impulseCriterion)
     }
     
     func calculateImpulseRatio(_ impulse: Double) -> Double{

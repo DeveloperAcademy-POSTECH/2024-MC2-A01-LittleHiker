@@ -77,6 +77,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     private var timer: Timer?
     //테스트용
     var viewModelWatch = ViewModelWatch()
+    var testCodeTimer: Timer?
 
     override init() {
         super.init()
@@ -97,27 +98,38 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             )
             //location append 수정 및 위치 변환
             self.coreLocationManager.appendCoreLocationLogs()
-            self.testCode()
-
         }
+        //테스트용 스케쥴러
+        testCodeTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            self.testCode()
+        }
+
     }
     
     func testCode(){
-        self.viewModelWatch.session.sendMessage(["message" : "고도 : \(Int(self.coreLocationManager.currentAltitude)), "], replyHandler: nil) { error in
+        //10초마다 하나씩 보내기
+//        self.viewModelWatch.session.sendMessage(["message" : "고도 : \(Int(self.coreLocationManager.currentAltitude)), "], replyHandler: nil) { error in
+//        }
+//        self.viewModelWatch.session.sendMessage(["message" : "속도 : \(String(format: "%.2f", self.coreLocationManager.currentSpeed)), "], replyHandler: nil) { error in
+//        }
+//        self.viewModelWatch.session.sendMessage(["message" : "기준 속도 : \(self.impulseManager.diagonalVelocityCriterion), "], replyHandler: nil) { error in
+//        }
+//        self.viewModelWatch.session.sendMessage(["message" : "기준 충격량 : \(String(format: "%.2f", self.impulseManager.impulseCriterion)), "], replyHandler: nil) { error in
+//        }
+//        self.viewModelWatch.session.sendMessage(["message" : "충격량 : \(String(format: "%.2f", self.impulseManager.impulseLogs.last ?? 0.0)), "], replyHandler: nil) { error in
+//        }
+//        self.viewModelWatch.session.sendMessage(["message" : "충격량 비율 : \(String(format: "%.2f", self.impulseManager.impulseRatio)), "], replyHandler: nil) { error in
+//        }
+//        self.viewModelWatch.session.sendMessage(["message" : "\n"], replyHandler: nil) { error in
+//        }
+//        self.impulseManager.diagonalVelocityCriterion = self.viewModelWatch.impulseRate
+        //3분마다 log 업데이트 보내기 -> 임의 기준속도 로그 생성
+        let combinedString = (0..<min(self.coreLocationManager.altitudeLogs.count, self.coreLocationManager.speedLogs.count, self.impulseManager.impulseLogs.count, self.impulseManager.diagonalVelocityCriterionLogs.count)).map { index in
+            "고도 : \(Int(self.coreLocationManager.altitudeLogs[index])),속도 : \(String(format: "%.2f",self.coreLocationManager.speedLogs[index])), 기준 속도 : \(String(format: "%.2f",self.impulseManager.diagonalVelocityCriterionLogs[index])), 기준 충격량 : \(String(format: "%.2f",self.impulseManager.impulseCriterionLogs[index])), 충격량 : \(String(format: "%.2f",self.impulseManager.impulseLogs[index]))"
+        }.joined(separator: "\n")
+        self.viewModelWatch.session.sendMessage(["message" : combinedString], replyHandler: nil) { error in
         }
-        self.viewModelWatch.session.sendMessage(["message" : "속도 : \(String(format: "%.2f", self.coreLocationManager.currentSpeed)), "], replyHandler: nil) { error in
-        }
-        self.viewModelWatch.session.sendMessage(["message" : "기준 속도 : \(self.impulseManager.diagonalVelocityCriterion), "], replyHandler: nil) { error in
-        }
-        self.viewModelWatch.session.sendMessage(["message" : "기준 충격량 : \(String(format: "%.2f", self.impulseManager.impulseCriterion)), "], replyHandler: nil) { error in
-        }
-        self.viewModelWatch.session.sendMessage(["message" : "충격량 : \(String(format: "%.2f", self.impulseManager.impulseLogs.last ?? 0.0)), "], replyHandler: nil) { error in
-        }
-        self.viewModelWatch.session.sendMessage(["message" : "충격량 비율 : \(String(format: "%.2f", self.impulseManager.impulseRatio)), "], replyHandler: nil) { error in
-        }
-        self.viewModelWatch.session.sendMessage(["message" : "\n"], replyHandler: nil) { error in
-        }
-        self.impulseManager.diagonalVelocityCriterion = self.viewModelWatch.impulseRate
     }
     
     deinit {
@@ -137,11 +149,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         }
         
         summaryModel.totalAltitude = Int(coreLocationManager.climbingAltitude)
-
         summaryModel.maxAltitude = Int(coreLocationManager.altitudeLogs.max()!)
         summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
         summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
-        
         
     }
     
@@ -190,6 +200,10 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
        status = .descendingStop
        // TODO: 전체종료 기능 넣기
        timer?.invalidate()
+       timer = nil
+       //test용
+       testCodeTimer?.invalidate()
+       testCodeTimer = nil
        // TODO: 기록을 SummaryView 로 넘긴다. by. 벨
    }
     
