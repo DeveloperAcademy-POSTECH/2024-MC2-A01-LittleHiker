@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 // [등산 중], [정상], [하산 중] 3 가지 상태에 따른 버튼 뷰 구현
 struct WatchButtonView: View {
     @ObservedObject var viewModel: HikingViewModel
@@ -14,7 +13,7 @@ struct WatchButtonView: View {
     //MARK: - norang 일시정지, 재개 버튼 토글
     @ObservedObject var timeManager: TimeManager
     @State var pauseResumeToggle: Bool = true
-    
+//    @State private var isShowingModal = false
     
     var body: some View {
         VStack {
@@ -30,6 +29,7 @@ struct WatchButtonView: View {
                     HStack {
                         //종료버튼
                         StopButton(height: 44, timeManager: timeManager, viewModel: viewModel)
+                            .padding(.trailing, 8)
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
@@ -79,6 +79,9 @@ struct WatchButtonView: View {
             }
             
         }
+        .fullScreenCover(isPresented: $viewModel.isShowingModal) {
+            WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+        }
     }
 }
 
@@ -117,6 +120,8 @@ struct StopButton: View {
                 //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
                 timeManager.setDescendingDuration()
                 //2. 기록이 SummaryView로 넘어감
+                //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
+                viewModel.isShowingModal = true
                 //3. iOS로 데이터 동기화(배열 보내기)=
                 //산행상태를 "완료"로 변경
                 viewModel.status = .complete

@@ -74,6 +74,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     @Published var isPaused: Bool = false
     
+    @Published var isShowingModal = false
+    
     private var timer: Timer?
     //테스트용
     var viewModelWatch = ViewModelWatch()
