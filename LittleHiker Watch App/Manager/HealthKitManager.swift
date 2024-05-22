@@ -9,12 +9,13 @@ import Foundation
 import Combine
 import HealthKit
 
-class HealthKitManager:NSObject, ObservableObject {
+class HealthKitManager: NSObject, ObservableObject {
     @Published var currentHeartRate: Int = 0
     @Published var currentDistanceWalkingRunning: Double = 0
     var heartRateLogs: [Int] = []
     var distanceLogs: [Double] = []
     private var anchor: HKQueryAnchor?
+    private var totalDistanceWalkingRunning: Double = 0.0
     
     private var timer: Timer?
     
@@ -48,58 +49,75 @@ class HealthKitManager:NSObject, ObservableObject {
         distanceLogs.append(distance)
     }
     
-    
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
             self?.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
+            self?.startDistanceQuery(quantityTypeIdentifier: .distanceWalkingRunning)
         }
     }
     
-    
-    //MARK: - 여기부터는 심박수 쿼리
+    //MARK: - 심박수 쿼리 시작
     public func startHeartRateQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
-        
-        // 1
         let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
-        // 2
         let updateHandler: (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = {
             query, samples, deletedObjects, queryAnchor, error in
             
-            // 3
             guard let samples = samples as? [HKQuantitySample] else {
                 return
             }
             
             self.process(samples, type: quantityTypeIdentifier)
-            
         }
         
-        // 4
         let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: nil, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
         
         query.updateHandler = updateHandler
         
-        // 5
+        healthStore.execute(query)
+    }
+    
+    //MARK: - 거리 쿼리 시작
+    public func startDistanceQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
+        let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
+        let updateHandler: (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = {
+            query, samples, deletedObjects, queryAnchor, error in
+            
+            guard let samples = samples as? [HKQuantitySample] else {
+                return
+            }
+            
+            self.processDistance(samples)
+        }
+        
+        let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: nil, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
+        
+        query.updateHandler = updateHandler
+        
         healthStore.execute(query)
     }
     
     private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
         var lastHeartRate = 0.0
-        var lastDistance = 0.0
         
         for sample in samples {
             if type == .heartRate {
                 lastHeartRate = sample.quantity.doubleValue(for: heartRateQuantity)
                 
+                DispatchQueue.main.async {
+                    self.currentHeartRate = Int(lastHeartRate)
+                }
             }
-            else if type == .distanceWalkingRunning {
-                lastDistance = sample.quantity.doubleValue(for: distanceQuantity)
-            }
+        }
+    }
+    
+    private func processDistance(_ samples: [HKQuantitySample]) {
+        for sample in samples {
+            let distance = sample.quantity.doubleValue(for: distanceQuantity)
+            totalDistanceWalkingRunning += distance
+            
             DispatchQueue.main.async {
-                self.currentHeartRate = Int(lastHeartRate)
-                self.currentDistanceWalkingRunning = Double(lastDistance)
+                self.currentDistanceWalkingRunning = self.totalDistanceWalkingRunning
             }
-
         }
     }
     
