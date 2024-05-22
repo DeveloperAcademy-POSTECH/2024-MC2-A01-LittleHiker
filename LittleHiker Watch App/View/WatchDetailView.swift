@@ -46,7 +46,7 @@ struct WatchDetailView: View {
                     
                     //현재 페이스
                     HStack (spacing: 0) {
-                        Text("4")
+                        Text("\(String(format: "%.1f", viewModel.coreLocationManager.currentSpeed))")
                             .font(.system(size: 32))
                         
                         VStack{
@@ -65,7 +65,7 @@ struct WatchDetailView: View {
                     
                     //등반고도
                     HStack (spacing: 0) {
-                        Text("898")
+                        Text("\(Int(viewModel.coreLocationManager.climbingAltitude))")
                             .font(.system(size: 32))
                         
                         VStack{

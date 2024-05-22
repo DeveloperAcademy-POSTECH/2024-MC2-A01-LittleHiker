@@ -28,7 +28,7 @@ struct WatchMainView: View {
                     .font(.title3)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
-                Text("\(Int(locationViewModel.currentSpeed))")
+                Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundStyle(.green)
@@ -124,6 +124,7 @@ struct WatchMainView: View {
     
     //MARK: - GIF 스케쥴러
     private func animationGifTimer() {
+        stopGifTimer()
         // 1.0 / 4.0이면 1초당 이미지 4번 바뀜
         Timer.scheduledTimer(withTimeInterval: 1.0 / 8.0 / (viewModel.impulseManager.impulseRatio / 50)  , repeats: true){ timer in
             frameIndex = (frameIndex + 1) % gifAnimation.frameCount

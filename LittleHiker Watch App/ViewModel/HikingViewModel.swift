@@ -86,9 +86,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
             guard let self = self else { return }
             
-            self.coreLocationManager.altitudeLogs.append(self.coreLocationManager.currentAltitude)
-            self.coreLocationManager.speedLogs.append(self.coreLocationManager.currentSpeed)
-
             //HealthKit append 수정
             self.healthKitManager
                 .appendHealthKitLogs(self.healthKitManager.currentHeartRate, distance: self.healthKitManager.currentDistanceWalkingRunning)
@@ -96,6 +93,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
                 currentSpeed: self.coreLocationManager.currentSpeed
             )
+            //location append 수정 및 위치 변환
+            self.coreLocationManager.appendCoreLocationLogs()
         }
     }
     
@@ -115,12 +114,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             }
         }
         
-        if let totalAltitude = coreLocationManager.calculateAltitudeDifference() {
-            summaryModel.totalAltitude = Int(totalAltitude)
-        } else {
-            print("고도 데이터를 가져오는데 실패했습니다")
-        }
-        
+        summaryModel.totalAltitude = Int(coreLocationManager.climbingAltitude)
+
         summaryModel.maxAltitude = Int(coreLocationManager.altitudeLogs.max()!)
         summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
         summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
