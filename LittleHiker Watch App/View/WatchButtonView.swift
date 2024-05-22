@@ -119,6 +119,7 @@ struct StopButton: View {
                 //2. 기록이 SummaryView로 넘어감
                 //3. iOS로 데이터 동기화(배열 보내기)=
                 //산행상태를 "완료"로 변경
+                viewModel.endHiking()
                 viewModel.status = .complete
                 print("StopButton Tapped")
             }) {

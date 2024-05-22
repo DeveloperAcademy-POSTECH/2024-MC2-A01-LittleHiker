@@ -43,8 +43,8 @@ enum HikingStatus{
 }
 
 struct SummaryModel{
-    var minImpulse = 0.0
-    var maxImpulse = 0.0
+    var minImpulse = 0
+    var maxImpulse = 0
     var heartRateAvg = 0
     var minheartRate = 0
     var maxheartRate = 0
@@ -157,8 +157,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
         summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
         summaryModel.speedAvg = coreLocationManager.getSpeedAvg()
-//        summaryModel.minImpulse = impulseManager.impulseLogs
-//        summaryModel.maxImpulse =
+        summaryModel.minImpulse = Int(impulseManager.findNonZeroMin()!)
+        summaryModel.maxImpulse = Int(impulseManager.impulseLogs.max()!)
 
     }
     
