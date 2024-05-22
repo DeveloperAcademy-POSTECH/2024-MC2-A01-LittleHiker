@@ -52,7 +52,9 @@ struct SummaryModel{
     var minAltitude = 0
     var maxAltitude = 0
     var totalDistance = 0.0
-    
+    var speedAvg = 0.0 //평균 페이스
+    var impulseAvg = 0.0 //평균 충격량
+
 }
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
@@ -154,7 +156,10 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         summaryModel.maxAltitude = Int(coreLocationManager.altitudeLogs.max()!)
         summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
         summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
-        
+        summaryModel.speedAvg = coreLocationManager.getSpeedAvg()
+//        summaryModel.minImpulse = impulseManager.impulseLogs
+//        summaryModel.maxImpulse =
+
     }
     
     // 버튼별로 타이머 기능을 조절하도록 만들었다. by.벨
