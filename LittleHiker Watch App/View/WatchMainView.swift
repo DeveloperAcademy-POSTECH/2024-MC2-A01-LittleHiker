@@ -87,20 +87,20 @@ struct WatchMainView: View {
                     .frame(width: geometry.size.width)
                 HStack{
                     Text(viewModel.impulseManager.impulseLogs.count == 0 ? "--" : "\(Int(viewModel.impulseManager.impulseLogs.last!))")
-                        .font(.title3)
+                        .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
                         .padding(.horizontal, 10)
                 }
-                .frame(width: 40)
+                .frame(width: 50, height: 30)
                 .background(Capsule().fill(colorForValue(viewModel.impulseManager.impulseRatio)))
                 .offset(
                     x: min(
                         max(
-                            CGFloat(viewModel.impulseManager.impulseRatio / 100 * geometry.size.width) - 20,
+                            CGFloat(viewModel.impulseManager.impulseRatio / 100 * geometry.size.width) - 25,
                             0
                         ),
-                        CGFloat(geometry.size.width - 40)
+                        CGFloat(geometry.size.width - 50)
                     ),
                     y: 0
                 )
