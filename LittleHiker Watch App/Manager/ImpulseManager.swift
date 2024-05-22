@@ -97,7 +97,6 @@ class ImpulseManager: NSObject, ObservableObject {
         print("impulse : \(impulse)")
         impulseRatio = self.calculateImpulseRatio(impulse)
         print("impulseRatio : \(impulseRatio)")
-
     }
     
 }
