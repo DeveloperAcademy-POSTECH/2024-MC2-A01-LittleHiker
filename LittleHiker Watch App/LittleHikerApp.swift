@@ -24,7 +24,10 @@ struct LittleHiker_Watch_AppApp: App {
             else if viewModel.status == .complete{
                 WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
             }
-            
         }
+        
+//        #if os(watchOS)
+        WKNotificationScene(controller: NotificationController.self, category: "myNotification")
+//        #endif
     }
 }
