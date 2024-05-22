@@ -8,18 +8,40 @@
 import Foundation
 
 class TimeManager: NSObject, ObservableObject {
+    let dateFormatter = DateFormatter()
+
+    @Published var date: Date = Date()
+    @Published var today: String = ""
+    @Published var startTime: String = ""
+    @Published var endTime: String = ""
+
     @Published var timer: Timer?
     @Published var elapsedTime: TimeInterval = 0
     @Published var isRunning = false
-    @Published var displayTime: String = "00:00:00"
-    @Published var ascendingTime: String = "00:00:00"
-    @Published var descendingTime: String = "00:00:00"
+    @Published var displayDuration: String = "00:00:00"
+    @Published var ascendingDuration: String = "00:00:00"
+    @Published var descendingDuration: String = "00:00:00"
+    
+    func setToday() {
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        today = dateFormatter.string(from: date) // 현재 시간의 Date를 format에 맞춰 string으로 반환
+    }
+    
+    func setStartTime(_ date: Date) {
+        dateFormatter.dateFormat = "hh시 mm분"
+        startTime = dateFormatter.string(from: date)
+    }
+    
+    func setEndTime(_ date: Date) {
+        dateFormatter.dateFormat = "hh시 mm분"
+        endTime = dateFormatter.string(from: date)
+    }
     
     func runStopWatch() {
         isRunning = true
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.elapsedTime += 1
-            self.setDisplayTime()
+            self.setDisplayDuration()
         }
     }
     
@@ -47,25 +69,26 @@ class TimeManager: NSObject, ObservableObject {
         return result
     }
         
-    func setDisplayTime() {
-        self.displayTime = convertTimeIntToTimeString(Int(elapsedTime))
+    func setDisplayDuration() {
+        self.displayDuration = convertTimeIntToTimeString(Int(elapsedTime))
     }
     
-    func setAscendingTime() {
-        ascendingTime = displayTime
-        print("a"+ascendingTime)
+    func setAscendingDuration() {
+        ascendingDuration = displayDuration
+        print("a"+ascendingDuration)
     }
     
-    func setDescendingTime() {
+    func setDescendingDuration() {
         //종료를 누르면 호출되는 함수
+        //종료를 누르면 누른 시간도 여기서 받아준다
+        setEndTime(Date())
         //종료시 전체 시간에서 등산 시간을 뺀 시간을 구해줌
-        let ascendingTimeInt = convertTimeStringToTimeInt(ascendingTime)
+        let ascendingTimeInt = convertTimeStringToTimeInt(ascendingDuration)
         let elapsedTimeInt = Int(elapsedTime)
         
         //위에서 얻은 결과값을 descendingTime 에 넣어줌. 이제 이걸로 요약화면이나 아이폰 화면에 보내주면 됨
-        descendingTime = convertTimeIntToTimeString(elapsedTimeInt - ascendingTimeInt)
-        print("d"+descendingTime)
+        descendingDuration = convertTimeIntToTimeString(elapsedTimeInt - ascendingTimeInt)
+        print("d"+descendingDuration)
     }
-    
     
 }
