@@ -21,7 +21,7 @@ struct WatchDetailView: View {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
                     //총 시간
-                    Text("\(timeManager.displayTime)")
+                    Text("\(timeManager.displayDuration)")
                         .font(.system(size: 32))
                         .foregroundColor(Color.yellow)
                         .fontWeight(.medium)

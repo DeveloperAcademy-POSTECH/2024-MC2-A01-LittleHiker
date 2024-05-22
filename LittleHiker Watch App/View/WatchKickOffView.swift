@@ -149,7 +149,12 @@ struct CountdownView: View {
 
                 //3,2,1 끝나고 뷰가 바뀌기 직전에 스탑워치 시작!
                 timeManager.runStopWatch()
+                //기록 날짜 "yyyy년 mm월 dd일" 찍기
+                timeManager.setToday()
+                //시작 시간 찍기
+                timeManager.setStartTime(Date())
 
+                //뷰 바꾸기
                 viewModel.status = .hiking
             }
         }
