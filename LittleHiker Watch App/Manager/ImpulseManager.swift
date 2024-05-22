@@ -78,6 +78,10 @@ class ImpulseManager: NSObject, ObservableObject {
         return sqrt(pow(currentVerticalVelocity, 2)+pow(currentHorizontalVelocity, 2)) * weight / 0.1 / 100 // 단위 줄이기 100 나눔
     }
     
+    func findNonZeroMin() -> Double? {
+        let nonZeroValues = impulseLogs.filter { $0 != 0 }
+        return nonZeroValues.min()
+    }
     
     func calculateAndAppendRecentImpulse(altitudeLogs:[Double] ,currentSpeed: Double){
         guard altitudeLogs.count > 1 else {
@@ -93,7 +97,6 @@ class ImpulseManager: NSObject, ObservableObject {
         print("impulse : \(impulse)")
         impulseRatio = self.calculateImpulseRatio(impulse)
         print("impulseRatio : \(impulseRatio)")
-
     }
     
 }
