@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */; };
+		02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */; };
 		1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */; };
 		1A36FB0E2BFCAF1000880ED5 /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */; };
 		1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */; };
@@ -58,6 +60,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewModelIPhone.swift; path = LittleHiker/Manager/ViewModelIPhone.swift; sourceTree = SOURCE_ROOT; };
+		02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelWatch.swift; sourceTree = "<group>"; };
 		1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSummaryView.swift; sourceTree = "<group>"; };
 		1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRootView.swift; sourceTree = "<group>"; };
 		1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
@@ -104,6 +108,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02EE679D2BFCC54700F16E88 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		1A43DF772BFCAC9A00E62BA6 = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +136,7 @@
 		1A43DF822BFCAC9A00E62BA6 /* LittleHiker */ = {
 			isa = PBXGroup;
 			children = (
+				02EE679D2BFCC54700F16E88 /* Manager */,
 				1A43DFA92BFCACB200E62BA6 /* Model */,
 				1A43DFA82BFCACAF00E62BA6 /* ViewModel */,
 				1A43DFA72BFCACA700E62BA6 /* View */,
@@ -180,6 +192,7 @@
 		1A43DFA82BFCACAF00E62BA6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -228,6 +241,7 @@
 			isa = PBXGroup;
 			children = (
 				1A36FB192BFCAF5D00880ED5 /* HikingViewModel.swift */,
+				02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -338,6 +352,7 @@
 				1A43DF862BFCAC9A00E62BA6 /* ContentView.swift in Sources */,
 				1A43DFAB2BFCACDA00E62BA6 /* PhoneDetailView.swift in Sources */,
 				1A43DFAD2BFCACEC00E62BA6 /* PhoneRowView.swift in Sources */,
+				02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */,
 				1A43DF842BFCAC9A00E62BA6 /* LittleHikerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +363,7 @@
 			files = (
 				1A43DF982BFCAC9B00E62BA6 /* ContentView.swift in Sources */,
 				1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */,
+				02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */,
 				1A36FB162BFCAF3A00880ED5 /* WatchButtonView.swift in Sources */,
 				1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */,
 				1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */,

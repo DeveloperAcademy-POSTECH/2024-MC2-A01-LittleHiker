@@ -19,13 +19,15 @@ struct WatchDetailView: View {
     var body: some View {
         ScrollView{
             HStack {
-                VStack(alignment: .leading) {
-                    Text("\(timeManager.displayTime)")
+                VStack(alignment: .leading, spacing: 0) {
+                    //총 시간
+                    Text("\(timeManager.displayDuration)")
                         .font(.system(size: 32))
                         .foregroundColor(Color.yellow)
+                        .fontWeight(.medium)
                         .frame(height: 30)
                     
-                    
+                    //현재 심박수
                     HStack (spacing: 0) {
                         Text("\(healthViewModel.currentHeartRate)")
                             .font(.system(size: 32))
@@ -42,14 +44,15 @@ struct WatchDetailView: View {
                     }
                     .frame(height: 30)
                     
+                    //현재 페이스
                     HStack (spacing: 0) {
-                        Text("4")
+                        Text("\(String(format: "%.1f", viewModel.coreLocationManager.currentSpeed))")
                             .font(.system(size: 32))
                         
                         VStack{
                             Spacer(minLength: 1)
                             Text("km/h")
-                                .font(.system(size: 18))
+                                .font(.system(size: 22))
                         }
                         VStack(alignment: .leading){
                             Text("현재")
@@ -60,15 +63,15 @@ struct WatchDetailView: View {
                     }
                     .frame(height: 30)
                     
-                    
+                    //등반고도
                     HStack (spacing: 0) {
-                        Text("897")
+                        Text("\(Int(viewModel.coreLocationManager.climbingAltitude))")
                             .font(.system(size: 32))
                         
                         VStack{
                             Spacer(minLength: 1)
                             Text("M")
-                                .font(.system(size: 18))
+                                .font(.system(size: 22))
                         }
                         VStack(alignment: .leading){
                             Text("등반")
@@ -79,14 +82,14 @@ struct WatchDetailView: View {
                     }
                     .frame(height: 30)
                     
-                    
+                    //총 거리
                     HStack (spacing: 0) {
                         Text("\(String(format:"%.2f", healthViewModel.currentDistanceWalkingRunning))")
                             .font(.system(size: 32))
                         VStack{
                             Spacer(minLength: 1)
                             Text("km")
-                                .font(.system(size: 18))
+                                .font(.system(size: 22))
                         }
                         VStack(alignment: .leading){
                             Text("총")

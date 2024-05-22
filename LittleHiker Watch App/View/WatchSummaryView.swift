@@ -9,7 +9,8 @@ import SwiftUI
 
 struct WatchSummaryView: View {
     @ObservedObject var viewModel: HikingViewModel
-    
+    @ObservedObject var timeManager: TimeManager
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
@@ -24,7 +25,7 @@ struct WatchSummaryView: View {
                 //시간
                 Text("총 시간")
                     .font(.system(size: 16))
-                Text("5:20:36")
+                Text("\(timeManager.displayDuration)")
                     .font(.system(size: 32))
                     .foregroundColor(Color.yellow)
                     .fontWeight(.medium)
@@ -33,7 +34,7 @@ struct WatchSummaryView: View {
                     Text("등산시간: ")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
-                    Text("02:10")
+                    Text("\(timeManager.ascendingDuration)")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                 }
@@ -41,7 +42,7 @@ struct WatchSummaryView: View {
                     Text("하산시간: ")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
-                    Text("03:10")
+                    Text("\(timeManager.descendingDuration)")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
 
@@ -62,7 +63,7 @@ struct WatchSummaryView: View {
                         .fontWeight(.medium)
                         .padding(.trailing, 2)
                     Text("KM")
-                        .font(.system(size: 18))
+                        .font(.system(size: 22))
                         .foregroundColor(Color.cyan)
                         .fontWeight(.medium)
                         .padding(.top)
@@ -82,7 +83,7 @@ struct WatchSummaryView: View {
                         .fontWeight(.medium)
                         .padding(.trailing, 2)
                     Text("km/h")
-                        .font(.system(size: 18))
+                        .font(.system(size: 22))
                         .foregroundColor(Color.mint)
                         .fontWeight(.medium)
                         .padding(.top)
@@ -102,12 +103,11 @@ struct WatchSummaryView: View {
                         .fontWeight(.medium)
                         .padding(.trailing, 2)
                     Text("J")
-                        .font(.system(size: 18))
+                        .font(.system(size: 22))
                         .foregroundColor(Color(red: 0.00, green: 0.92, blue: 0.64, opacity: 1.00))
                         .fontWeight(.medium)
                         .padding(.top)
                 }
-                
                 HStack(spacing: 0) {
                     Text("범위:")
                         .font(.system(size: 14))
@@ -141,7 +141,7 @@ struct WatchSummaryView: View {
                         .padding(.trailing, 4)
                         .fontWeight(.medium)
                     Text("BPM")
-                        .font(.system(size: 18))
+                        .font(.system(size: 22))
                         .foregroundColor(Color.red)
                         .padding(.top)
                         .fontWeight(.medium)
@@ -179,7 +179,7 @@ struct WatchSummaryView: View {
                         .padding(.trailing, 4)
                         .fontWeight(.medium)
                     Text("M")
-                        .font(.system(size: 18))
+                        .font(.system(size: 22))
                         .foregroundColor(Color.green)
                         .padding(.top)
                         .fontWeight(.medium)
@@ -213,18 +213,18 @@ struct WatchSummaryView: View {
                 Divider()
                 
                 //기록 타임
-                Text("2024년 05월 21일")
+                Text("\(timeManager.today)")
                     .font(.system(size: 12))
-                    .foregroundColor(.gray)
+                    .foregroundColor(.white)
                     .padding(.top, 8)
                 HStack {
-                    Text("09시 25분")
+                    Text("\(timeManager.startTime)")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                     Text("~")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
-                    Text("15시 57분")
+                    Text("\(timeManager.endTime)")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                 }
@@ -234,5 +234,5 @@ struct WatchSummaryView: View {
 }
 
 #Preview {
-    WatchSummaryView(viewModel: HikingViewModel())
+    WatchSummaryView(viewModel: HikingViewModel(), timeManager: TimeManager())
 }
