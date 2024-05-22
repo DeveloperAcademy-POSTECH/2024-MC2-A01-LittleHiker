@@ -154,6 +154,7 @@ struct PauseButton: View {
     
     var body: some View {
         Button(action: {
+            toggle.toggle()
             print("PauseButton Tapped")
             //1. 타이머가 멈춘다.
             timeManager.pauseStopWatch()
