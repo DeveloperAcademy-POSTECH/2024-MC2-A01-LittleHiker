@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02EE679C2BFCC51A00F16E88 /* ConnectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE679B2BFCC51A00F16E88 /* ConnectManager.swift */; };
 		02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */; };
 		02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */; };
 		1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */; };
@@ -61,7 +60,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		02EE679B2BFCC51A00F16E88 /* ConnectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectManager.swift; sourceTree = "<group>"; };
 		02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewModelIPhone.swift; path = LittleHiker/Manager/ViewModelIPhone.swift; sourceTree = SOURCE_ROOT; };
 		02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelWatch.swift; sourceTree = "<group>"; };
 		1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSummaryView.swift; sourceTree = "<group>"; };
@@ -213,7 +211,6 @@
 				1A43DFB32BFCAD9500E62BA6 /* CoreLocationManager.swift */,
 				1A43DFB52BFCAD9F00E62BA6 /* ImpulseManager.swift */,
 				1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */,
-				02EE679B2BFCC51A00F16E88 /* ConnectManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -378,7 +375,6 @@
 				1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */,
 				1A43DF962BFCAC9B00E62BA6 /* LittleHikerApp.swift in Sources */,
 				1A36FB122BFCAF2300880ED5 /* WatchRestView.swift in Sources */,
-				02EE679C2BFCC51A00F16E88 /* ConnectManager.swift in Sources */,
 				1A43DFB22BFCAD8B00E62BA6 /* HealthKitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
