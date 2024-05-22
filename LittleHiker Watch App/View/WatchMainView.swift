@@ -75,6 +75,9 @@ struct WatchMainView: View {
             .onDisappear {
                 stopGifTimer()
             }
+            .onChange(of: viewModel.impulseManager.impulseRatio){
+                animationGifTimer()
+            }
     }
     
     //MARK: - 프로그래스바
