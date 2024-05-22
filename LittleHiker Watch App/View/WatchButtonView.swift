@@ -68,9 +68,9 @@ struct WatchButtonView: View {
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
-                            PauseButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
+                            PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
                         } else {
-                            RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
+                            RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
                         }
                         
                     }
@@ -115,7 +115,7 @@ struct StopButton: View {
 //                }
 
                 //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
-                timeManager.setDescendingTime()
+                timeManager.setDescendingDuration()
                 //2. 기록이 SummaryView로 넘어감
                 //3. iOS로 데이터 동기화(배열 보내기)=
                 //산행상태를 "완료"로 변경
@@ -216,7 +216,7 @@ struct PeakButton: View {
 
                 timeManager.pauseStopWatch()
                 //전체산행시간에서 등산시간이 정해짐
-                timeManager.setAscendingTime()
+                timeManager.setAscendingDuration()
                 //뷰모델에서 산행상태를 정상으로 변경
                 viewModel.status = .peak
             }) {

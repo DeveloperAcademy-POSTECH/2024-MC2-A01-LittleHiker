@@ -9,7 +9,8 @@ import SwiftUI
 
 struct WatchSummaryView: View {
     @ObservedObject var viewModel: HikingViewModel
-    
+    @ObservedObject var timeManager: TimeManager
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
@@ -24,7 +25,7 @@ struct WatchSummaryView: View {
                 //시간
                 Text("총 시간")
                     .font(.system(size: 16))
-                Text("5:20:36")
+                Text("\(timeManager.displayDuration)")
                     .font(.system(size: 32))
                     .foregroundColor(Color.yellow)
                     .fontWeight(.medium)
@@ -33,7 +34,7 @@ struct WatchSummaryView: View {
                     Text("등산시간: ")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
-                    Text("02:10")
+                    Text("\(timeManager.ascendingDuration)")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                 }
@@ -41,7 +42,7 @@ struct WatchSummaryView: View {
                     Text("하산시간: ")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
-                    Text("03:10")
+                    Text("\(timeManager.descendingDuration)")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
 
@@ -212,18 +213,18 @@ struct WatchSummaryView: View {
                 Divider()
                 
                 //기록 타임
-                Text("2024년 05월 21일")
+                Text("\(timeManager.today)")
                     .font(.system(size: 12))
                     .foregroundColor(.white)
                     .padding(.top, 8)
                 HStack {
-                    Text("오전 09시 25분")
+                    Text("\(timeManager.startTime)")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                     Text("~")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
-                    Text("오후 15시 57분")
+                    Text("\(timeManager.endTime)")
                         .font(.system(size: 12))
                         .foregroundColor(.gray)
                 }
@@ -233,5 +234,5 @@ struct WatchSummaryView: View {
 }
 
 #Preview {
-    WatchSummaryView(viewModel: HikingViewModel())
+    WatchSummaryView(viewModel: HikingViewModel(), timeManager: TimeManager())
 }

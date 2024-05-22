@@ -22,7 +22,7 @@ struct LittleHiker_Watch_AppApp: App {
                 WatchRootView(viewModel: viewModel, timeManager: timeManager)
             }
             else if viewModel.status == .complete{
-                WatchSummaryView(viewModel: viewModel)
+                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
             }
             
         }

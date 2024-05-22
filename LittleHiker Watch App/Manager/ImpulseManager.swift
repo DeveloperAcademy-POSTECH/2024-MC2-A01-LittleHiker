@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum LabelCoefficients{
     case green
@@ -25,14 +26,16 @@ enum LabelCoefficients{
 }
 
 class ImpulseManager: NSObject, ObservableObject {
+    //FIXME: - manager파일인데 swiftUI가 들어가는게 이상하긴 함
+    @ObservedObject var viewModelWatch = ViewModelWatch()
     //    @Published var currentSpeed: Double = 0
     //    @Published var altitudeLogs: [Double] = []
-    
     @Published var impulseLogs: [Double] = []
     @Published var impulseRatio = 50.0
     
     let weight = 50.0
-    let diagonalVelocityCriterion = 2.7 // km/h
+    @Published var diagonalVelocityCriterion: String = "2.7"
+//    var diagonalVelocityCriterion = Int(viewModelWatch.impulseRate)  // km/h  - TODO: - WatchViewModel에서 전달된 impulseRate 값을 받아서 int로 형변환 해서 쓰고 싶음
     var impulseCriterion: Double {
         print("\(Double(diagonalVelocityCriterion) ?? 1.0)")
         return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.7)
@@ -44,7 +47,7 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double{
-        return (diagonalVelocityCriterion * weight) / 0.1 / 100 //100나눔
+        return ((Double(diagonalVelocityCriterion) ?? 2.7) * weight) / 0.1 / 100 //100나눔
     }
     
     
