@@ -187,7 +187,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.summaryModel.minAltitude = 0
             }
             
-            self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning
+//            self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning //기존 총거리
+            self.summaryModel.totalDistance = self.coreLocationManager.totalDistanceTraveled // 코어 로케이션으로 총거리 받기
             self.summaryModel.speedAvg = self.coreLocationManager.getSpeedAvg()
             self.summaryModel.impulseAvg = self.impulseManager.getImpulseAvg()
             

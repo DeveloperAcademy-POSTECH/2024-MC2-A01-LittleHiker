@@ -13,7 +13,6 @@ import CoreLocation
 class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObject {
     private var locationManager = CLLocationManager()
     private var previousLocation: CLLocation?
-    private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
     @Published var totalDistanceTraveled: Double = 0.0 // 총 이동 거리 확인용 임시 변수
     
     @Published var currentAltitude: Double = 0
@@ -57,6 +56,14 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
             else {
                 self.currentSpeed = location.speed * 3.6
             }
+            
+            // 총 이동 거리 계산
+            if let previousLocation = self.previousLocation {
+                let distance = location.distance(from: previousLocation)
+                self.totalDistanceTraveled += distance
+            }
+            self.previousLocation = location
+            
             //임의 등반고도 구하기
             self.calculateAltitudeDifference()
         }
