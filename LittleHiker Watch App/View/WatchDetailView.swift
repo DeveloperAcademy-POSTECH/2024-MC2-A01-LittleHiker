@@ -12,97 +12,97 @@ struct WatchDetailView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var healthViewModel: HealthKitManager
     @ObservedObject var timeManager: TimeManager
-
+    
     var healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
     
     var body: some View {
-        ScrollView{
-            HStack {
-                VStack(alignment: .leading, spacing: 0) {
-                    //총 시간
-                    Text("\(timeManager.displayDuration)")
+        HStack {
+            VStack(alignment: .leading, spacing: 0) {
+                //총 시간
+                Text("\(timeManager.displayDuration)")
+                    .font(.system(size: 32))
+                    .foregroundColor(Color.yellow)
+                    .fontWeight(.medium)
+                    .frame(height: 32)
+                
+                //현재 심박수
+                HStack (spacing: 0) {
+                    Text("\(healthViewModel.currentHeartRate)")
                         .font(.system(size: 32))
-                        .foregroundColor(Color.yellow)
-                        .fontWeight(.medium)
-                        .frame(height: 32)
                     
-                    //현재 심박수
-                    HStack (spacing: 0) {
-                        Text("\(healthViewModel.currentHeartRate)")
-                            .font(.system(size: 32))
-                        
-                        VStack(alignment: .leading){
-                            Image(systemName: "heart.fill")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 20, height: 20)
-                                .foregroundColor(.red)
-                        }
-                        .font(.system(size:24))
-                        .padding(.leading, 4)
+                    VStack(alignment: .leading){
+                        Image(systemName: "heart.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 20, height: 20)
+                            .foregroundColor(.red)
                     }
-                    
-                    //현재 페이스
-                    HStack (spacing: 0) {
-                        Text("\(String(format: "%.1f", viewModel.coreLocationManager.currentSpeed))")
-                            .font(.system(size: 32))
-                        
-                        VStack{
-                            Spacer(minLength: 1)
-                            Text("km/h")
-                                .font(.system(size: 22))
-                        }
-                        VStack(alignment: .leading){
-                            Text("현재")
-                            Text("페이스")
-                        }
-                        .font(.system(size: 12))
-                        .padding(.horizontal)
-                    }
-                    .frame(height: 32)
-                    
-                    //등반고도
-                    HStack (spacing: 0) {
-                        Text("\(Int(viewModel.coreLocationManager.climbingAltitude))")
-                            .font(.system(size: 32))
-                        
-                        VStack{
-                            Spacer(minLength: 1)
-                            Text("M")
-                                .font(.system(size: 22))
-                        }
-                        VStack(alignment: .leading){
-                            Text("등반")
-                            Text("고도")
-                        }
-                        .font(.system(size: 12))
-                        .padding(.horizontal)
-                    }
-                    .frame(height: 32)
-                    
-                    //총 거리
-                    HStack (spacing: 0) {
-                        Text("\(String(format:"%.2f", healthViewModel.currentDistanceWalkingRunning))")
-                            .font(.system(size: 32))
-                        VStack{
-                            Spacer(minLength: 1)
-                            Text("km")
-                                .font(.system(size: 22))
-                        }
-                        VStack(alignment: .leading){
-                            Text("총")
-                            Text("거리")
-                        }
-                        .font(.system(size: 12))
-                        .padding(.horizontal)
-                    }
-                    .frame(height: 32)
-                    
+                    .font(.system(size:24))
+                    .padding(.leading, 4)
                 }
-                Spacer()
+                
+                //현재 페이스
+                HStack (spacing: 0) {
+                    Text("\(String(format: "%.1f", viewModel.coreLocationManager.currentSpeed))")
+                        .font(.system(size: 32))
+                    
+                    VStack{
+                        Spacer(minLength: 1)
+                        Text("km/h")
+                            .font(.system(size: 22))
+                    }
+                    VStack(alignment: .leading){
+                        Text("현재")
+                        Text("페이스")
+                    }
+                    .font(.system(size: 12))
+                    .padding(.horizontal)
+                }
+                .frame(height: 32)
+                
+                //등반고도
+                HStack (spacing: 0) {
+                    Text("\(Int(viewModel.coreLocationManager.climbingAltitude))")
+                        .font(.system(size: 32))
+                    
+                    VStack{
+                        Spacer(minLength: 1)
+                        Text("M")
+                            .font(.system(size: 22))
+                    }
+                    VStack(alignment: .leading){
+                        Text("등반")
+                        Text("고도")
+                    }
+                    .font(.system(size: 12))
+                    .padding(.horizontal)
+                }
+                .frame(height: 32)
+                
+                //총 거리
+                HStack (spacing: 0) {
+//                    Text("\(String(format:"%.2f", healthViewModel.currentDistanceWalkingRunning))") //기존 헬스스토어에서 거리 받기
+                    Text("\(String(format:"%.2f", viewModel.coreLocationManager.totalDistanceTraveled))") //코어 로케이션에서 거리 받기
+                        .font(.system(size: 32))
+                    VStack{
+                        Spacer(minLength: 1)
+                        Text("km")
+                            .font(.system(size: 22))
+                    }
+                    VStack(alignment: .leading){
+                        Text("총")
+                        Text("거리")
+                    }
+                    .font(.system(size: 12))
+                    .padding(.horizontal)
+                }
+                .frame(height: 32)
+                
             }
+            Spacer()
         }
+        .padding(.horizontal, 9)
     }
 }
 

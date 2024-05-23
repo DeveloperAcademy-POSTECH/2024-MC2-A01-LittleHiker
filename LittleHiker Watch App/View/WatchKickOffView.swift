@@ -72,7 +72,7 @@ struct KickOffView: View {
         Text("리틀하이커랑 등산하기")
             .font(.system(size: 14))
             .fontWeight(.medium)
-            .padding(.top, 16)
+            .padding(.top, 6)
     }
 }
 

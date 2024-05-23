@@ -82,9 +82,11 @@ struct WatchButtonView: View {
                 }
                 Spacer()
             }
-            .fullScreenCover(isPresented: $viewModel.isShowingModal) {
-                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
-            }
+            .padding(.horizontal, 9)
+            //모달로 관리하면 기본으로 x가 있어서 메인앱에서 viewModel.status 로 관리해야 될 듯
+//            .fullScreenCover(isPresented: $viewModel.isShowingModal) {
+//                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+//            }
         }
         .navigationTitle("\(viewModel.status.getData)")
     }
@@ -112,13 +114,14 @@ struct EndButton: View {
                 timeManager.setDescendingDuration()
                 //2. 기록이 SummaryView로 넘어감
                 //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
-                viewModel.isShowingModal = true
                 //3. iOS로 데이터 동기화(배열 보내기)=
                 //산행상태를 "완료"로 변경
+
                 viewModel.endHiking()
+                viewModel.stop()
                 viewModel.status = .complete
-                viewModel.pause()
-                print("StopButton Tapped")
+//                viewModel.isShowingModal = true
+
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
@@ -278,6 +281,5 @@ struct DescendButton: View {
 }
 
 #Preview {
-    
     WatchButtonView(viewModel: HikingViewModel(), timeManager: TimeManager(), selection: .constant("default"))
 }

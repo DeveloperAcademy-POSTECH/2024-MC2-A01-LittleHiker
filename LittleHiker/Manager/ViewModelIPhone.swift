@@ -9,7 +9,7 @@ import Foundation
 import WatchConnectivity
 
 final class ViewModelIPhone: NSObject, WCSessionDelegate, ObservableObject {
-    @Published var message: String = ""
+    @Published var message: String = "2.7"
     var session: WCSession
 
     init(session: WCSession = .default) {
