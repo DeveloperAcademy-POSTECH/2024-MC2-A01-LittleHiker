@@ -81,22 +81,23 @@ struct WatchMainView: View {
                                 }
                             }
                             Spacer()
-                            Button(action: {
-                                isShowing = true
-                            }) {
-                                Image(systemName: "info")
-                            }
-                            .alert(isPresented: $isShowing) {
-                                Alert(
-                                    title: Text("충격량(IU)"),
-                                    message: Text("= 힘(N)/100"),
-                                    dismissButton: .default(Text("확인"))
-                                )
-                            }
-                            .frame(width: 30, height: 30)
-                            .background(Color.white.opacity(0.2))
-                            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                            .buttonStyle(PlainButtonStyle())
+                            if viewModel.isDescent{
+                                Button(action: {
+                                    isShowing = true
+                                }) {
+                                    Image(systemName: "info")
+                                }
+                                .alert(isPresented: $isShowing) {
+                                    Alert(
+                                        title: Text("충격량(IU)"),
+                                        message: Text("= 힘(N)/100"),
+                                        dismissButton: .default(Text("확인"))
+                                    )
+                                }
+                                .frame(width: 30, height: 30)
+                                .background(Color.white.opacity(0.2))
+                                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                                .buttonStyle(PlainButtonStyle())}
                         }
                         .padding(.top, 4)
                         
