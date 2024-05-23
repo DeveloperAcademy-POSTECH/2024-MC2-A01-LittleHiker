@@ -29,7 +29,7 @@ final class ViewModelWatch: NSObject, WCSessionDelegate, ObservableObject {
         DispatchQueue.main.async {
             // 받은 메세지에서 원하는 Key값(여기서는 "message")으로 메세지 String을 가져온다.
             // messageText는 Published 프로퍼티이기 때문에 DispatchQueue.main.async로 실행해줘야함
-            self.impulseRate = message["message"] as? String ?? "2.7"
+            self.impulseRate = message["message"] as? String ?? "2.9"
         }
     }
     

@@ -23,19 +23,29 @@ struct WatchMainView: View {
                 Spacer()
                 if viewModel.impulseManager.impulseRatio <= 80{
                     HStack{
-                        Spacer()
                         squirrelGIF
-                            .padding(.bottom, viewModel.isDescent ? 8 : 0)
+                            .padding(.bottom, viewModel.isDescent ? 16 : 0)
                             .onDisappear{
                                 stopGifTimer()
                             }
-                        Spacer()
                     }
                 }
                 else{
-                    Text("다람이가\n못 따라오고 있어요🥲\n조금만 기다려주세요")
-                        .font(.system(size: 18))
-                        .fontWeight(.medium)
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+//                            .padding(.horizontal, 9)
+                            .frame(height: 80)
+                            .foregroundColor(.gray.opacity(0.3))
+                            .padding(.bottom, 4)
+                        HStack(alignment: .center){
+                            Text("다람이가\n못 따라오고 있어요🥲\n조금만 쉬면서 가세요")
+                                .font(.system(size: 16))
+                                .fontWeight(.medium)
+                                .padding(.bottom, 4)
+                                .padding(.leading, 9)
+                            Spacer()
+                        }
+                    }
                 }
             }
             
@@ -43,7 +53,7 @@ struct WatchMainView: View {
                 VStack(alignment: .leading, spacing: 0){
                     Text("현재 고도")
                         .font(.system(size:(viewModel.isDescent ? 16 : 18)))
-                    HStack(alignment: .bottom){
+                    HStack(alignment: .bottom, spacing: 0){
                         Text("\(Int(locationViewModel.currentAltitude))")
                             .font(.system(size: (viewModel.isDescent ? 22 : 32)))
                             .fontWeight(.medium)
@@ -52,23 +62,37 @@ struct WatchMainView: View {
                             .font(.system(size: (viewModel.isDescent ? 18 : 22)))
                             .fontWeight(.medium)
                             .foregroundStyle(.green)
-                        Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
-                            .font(.system(size: (viewModel.isDescent ? 22 : 32)))
-                            .fontWeight(.medium)
-                            .foregroundStyle(.green)
-                        Text("km/h")
-                            .font(.system(size: (viewModel.isDescent ? 18 : 22)))
-                            .fontWeight(.medium)
-                            .foregroundStyle(.green)
+                            .padding(.leading, 2)
+//                        Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
+//                            .font(.system(size: (viewModel.isDescent ? 22 : 22)))
+//                            .fontWeight(.medium)
+//                            .foregroundStyle(.green)
+//                        Text("km/h")
+//                            .font(.system(size: (viewModel.isDescent ? 18 : 18)))
+//                            .fontWeight(.medium)
+//                            .foregroundStyle(.green)
                     }
                     Spacer()
                     if viewModel.isDescent{
+                        HStack(alignment: .bottom, spacing: 0){
+                            Text("충격량")
+                                .font(.system(size:14))
+//                                .foregroundStyle(.gray)
+                            Text("(F)")
+                                .font(.system(size:14))
+                                .foregroundStyle(.gray)
+                            Spacer()
+                            Text("50")
+                                .font(.system(size:14))
+                                .foregroundStyle(.gray)
+                        }
+                        .padding(.bottom, 4)
                         progressBar
                     }
                 }
                 Spacer()
             }
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 9)
             .padding(.top, 28)
         }
         .edgesIgnoringSafeArea(.top)
