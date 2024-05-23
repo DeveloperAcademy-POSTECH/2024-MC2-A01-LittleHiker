@@ -109,6 +109,8 @@ struct PreparingView: View {
     }
     
     private func startTimer() {
+        print("준비 타이머 시작 할거야")
+
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.increaseProgress()
         }
@@ -116,6 +118,8 @@ struct PreparingView: View {
     
     // 타이머 중지
     private func stopTimer() {
+        print("준비 타이머 끌거야")
+
         timer?.invalidate()
         timer = nil
     }
@@ -195,6 +199,8 @@ struct CountdownView: View {
     }
     
     private func startTimer() {
+        print("카운드 다운 타이머 시작 할거야")
+
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.decreaseProgress()
         }
@@ -202,6 +208,7 @@ struct CountdownView: View {
     
     // 타이머 중지
     private func stopTimer() {
+        print("카운드 다운 타이머 중지 할거야")
         timer?.invalidate()
         timer = nil
     }

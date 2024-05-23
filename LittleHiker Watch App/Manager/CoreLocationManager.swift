@@ -28,7 +28,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     @Published var climbingAltitude: Double = 0.0
     
     private var timer: Timer?
-    private let minimumDistance: Double = 5 // 무시할 최소 거리 (단위: 미터)
+    private let minimumDistance: Double = 20 // 무시할 최소 거리 (단위: 미터)
 
     override init() {
         super.init()
