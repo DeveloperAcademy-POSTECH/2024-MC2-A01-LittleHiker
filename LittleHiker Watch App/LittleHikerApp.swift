@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @main
 struct LittleHiker_Watch_AppApp: App {
     @ObservedObject private var viewModel = HikingViewModel()
@@ -25,9 +26,12 @@ struct LittleHiker_Watch_AppApp: App {
                 WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
             }
         }
+
         
-//        #if os(watchOS)
-        WKNotificationScene(controller: NotificationController.self, category: "myNotification")
-//        #endif
+        #if os(watchOS)
+        WKNotificationScene(
+            controller: NotificationController.self,
+            category: "myNotification")
+        #endif
     }
 }

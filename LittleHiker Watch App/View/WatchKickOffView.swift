@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 enum MyHikingStatus {
     case kickoff
@@ -29,6 +30,16 @@ struct WatchKickOffView: View {
             case .countdown:
                 CountdownView(viewModel: viewModel, timeManager: timeManager)
             }
+        }
+        .onAppear {
+            UNUserNotificationCenter.current()
+                .requestAuthorization(options: [.alert, .sound]){ granted, error in
+                    if granted {
+                        print("로컬 알림 권한이 허용되었습니다")
+                    } else {
+                        print("로컬 알림 권한이 허용되지 않았습니다")
+                    }
+                }
         }
     }
 }

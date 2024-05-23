@@ -1,14 +1,14 @@
 {
     "aps": {
         "alert": {
-            "body": "Test message",
-            "title": "Optional title",
-            "subtitle": "Optional subtitle"
+            "title": "잠깐",
+            "message": "다람이가 힘들어하고 있어요. 잠시 쉬어가는건 어떨까요?",
+            "imageName": "eat2",
         },
         "category": "myNotification",
         "thread-id": "5280"
     },
-    "Simulator Target Bundle": ".watchkitapp으로 끝나는 번들 아이디 넣기",
+    "Simulator Target Bundle": "SanJimSeungDeul.LittleHiker.watchkitapp",
     
     "WatchKit Simulator Actions": [
         {
