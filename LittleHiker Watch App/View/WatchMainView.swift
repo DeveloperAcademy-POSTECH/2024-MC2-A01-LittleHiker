@@ -55,8 +55,31 @@ struct WatchMainView: View {
             
             HStack(spacing: 0) {
                 ZStack {
-                    VStack {
-                        HStack {
+                    VStack(alignment: .leading, spacing: 0){
+                        HStack(alignment: .top){
+                            VStack(alignment: .leading){
+                                Text("현재 고도")
+                                    .font(.system(size:(viewModel.isDescent ? 16 : 18)))
+                                HStack(alignment: .bottom, spacing: 0){
+                                    Text("\(Int(locationViewModel.currentAltitude))")
+                                        .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                                        .fontWeight(.medium)
+                                        .foregroundStyle(.green)
+                                    Text("M")
+                                        .font(.system(size: (viewModel.isDescent ? 18 : 22)))
+                                        .fontWeight(.medium)
+                                        .foregroundStyle(.green)
+                                        .padding(.leading, 2)
+                                    //                        Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
+                                    //                            .font(.system(size: (viewModel.isDescent ? 22 : 22)))
+                                    //                            .fontWeight(.medium)
+                                    //                            .foregroundStyle(.green)
+                                    //                        Text("km/h")
+                                    //                            .font(.system(size: (viewModel.isDescent ? 18 : 18)))
+                                    //                            .fontWeight(.medium)
+                                    //                            .foregroundStyle(.green)
+                                }
+                            }
                             Spacer()
                             Button(action: {
                                 isShowing = true
@@ -74,33 +97,9 @@ struct WatchMainView: View {
                             .background(Color.white.opacity(0.2))
                             .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                             .buttonStyle(PlainButtonStyle())
-                            
                         }
-                        Spacer()
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 0){
-                        Text("현재 고도")
-                            .font(.system(size:(viewModel.isDescent ? 16 : 18)))
-                        HStack(alignment: .bottom, spacing: 0){
-                            Text("\(Int(locationViewModel.currentAltitude))")
-                                .font(.system(size: (viewModel.isDescent ? 22 : 32)))
-                                .fontWeight(.medium)
-                                .foregroundStyle(.green)
-                            Text("M")
-                                .font(.system(size: (viewModel.isDescent ? 18 : 22)))
-                                .fontWeight(.medium)
-                                .foregroundStyle(.green)
-                                .padding(.leading, 2)
-                            //                        Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
-                            //                            .font(.system(size: (viewModel.isDescent ? 22 : 22)))
-                            //                            .fontWeight(.medium)
-                            //                            .foregroundStyle(.green)
-                            //                        Text("km/h")
-                            //                            .font(.system(size: (viewModel.isDescent ? 18 : 18)))
-                            //                            .fontWeight(.medium)
-                            //                            .foregroundStyle(.green)
-                        }
+                        .padding(.top, 4)
+                        
                         Spacer()
                         if viewModel.isDescent{
                             HStack(alignment: .bottom, spacing: 0){
@@ -119,10 +118,9 @@ struct WatchMainView: View {
                             progressBar
                         }
                     }
-                    Spacer()
+                    .padding(.horizontal, 9)
+                    .padding(.top, 28)
                 }
-                .padding(.horizontal, 9)
-                .padding(.top, 28)
             }
         }
         .edgesIgnoringSafeArea(.top)
