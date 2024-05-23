@@ -30,6 +30,7 @@ struct WatchRootView: View {
                 .tag("default")
                 .tabViewStyle(.verticalPage)
             }
+            
         }
 
     }
