@@ -82,6 +82,7 @@ struct WatchButtonView: View {
                 }
                 Spacer()
             }
+            .padding(.horizontal, 9)
             //모달로 관리하면 기본으로 x가 있어서 메인앱에서 viewModel.status 로 관리해야 될 듯
 //            .fullScreenCover(isPresented: $viewModel.isShowingModal) {
 //                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
@@ -280,6 +281,5 @@ struct DescendButton: View {
 }
 
 #Preview {
-    
     WatchButtonView(viewModel: HikingViewModel(), timeManager: TimeManager(), selection: .constant("default"))
 }
