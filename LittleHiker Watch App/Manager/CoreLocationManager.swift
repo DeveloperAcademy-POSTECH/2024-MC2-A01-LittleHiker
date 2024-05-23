@@ -28,7 +28,8 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     @Published var climbingAltitude: Double = 0.0
     
     private var timer: Timer?
-    
+    private let minimumDistance: Double = 5 // 무시할 최소 거리 (단위: 미터)
+
     override init() {
         super.init()
         locationManager.delegate = self
@@ -63,9 +64,15 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
             // 총 이동 거리 계산
             if let previousLocation = self.previousLocation {
                 let distance = location.distance(from: previousLocation)
-                self.totalDistanceTraveled += distance / 1000
+                
+                // 최소 거리 이하의 변화를 무시
+                if distance > minimumDistance {
+                    self.totalDistanceTraveled += distance / 1000 // 킬로미터 단위로 변환
+                    self.previousLocation = location
+                }
+            } else {
+                self.previousLocation = location
             }
-            self.previousLocation = location
             
             //임의 등반고도 구하기
             self.calculateAltitudeDifference()
