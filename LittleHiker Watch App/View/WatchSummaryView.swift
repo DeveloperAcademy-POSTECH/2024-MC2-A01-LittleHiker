@@ -29,7 +29,7 @@ struct WatchSummaryView: View {
                     .buttonStyle(PlainButtonStyle())
                     Spacer()
                     Text("요약")
-                        .foregroundStyle(Color.blue)
+                        .foregroundStyle(Color.main)
                 }
                 .padding(.bottom, 8)
                 

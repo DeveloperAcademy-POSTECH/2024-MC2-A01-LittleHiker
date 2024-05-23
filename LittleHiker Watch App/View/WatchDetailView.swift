@@ -25,7 +25,7 @@ struct WatchDetailView: View {
                         .font(.system(size: 32))
                         .foregroundColor(Color.yellow)
                         .fontWeight(.medium)
-                        .frame(height: 30)
+                        .frame(height: 32)
                     
                     //현재 심박수
                     HStack (spacing: 0) {
@@ -42,7 +42,6 @@ struct WatchDetailView: View {
                         .font(.system(size:24))
                         .padding(.leading, 4)
                     }
-                    .frame(height: 30)
                     
                     //현재 페이스
                     HStack (spacing: 0) {
@@ -61,7 +60,7 @@ struct WatchDetailView: View {
                         .font(.system(size: 12))
                         .padding(.horizontal)
                     }
-                    .frame(height: 30)
+                    .frame(height: 32)
                     
                     //등반고도
                     HStack (spacing: 0) {
@@ -80,7 +79,7 @@ struct WatchDetailView: View {
                         .font(.system(size: 12))
                         .padding(.horizontal)
                     }
-                    .frame(height: 30)
+                    .frame(height: 32)
                     
                     //총 거리
                     HStack (spacing: 0) {
@@ -98,7 +97,7 @@ struct WatchDetailView: View {
                         .font(.system(size: 12))
                         .padding(.horizontal)
                     }
-                    .frame(height: 30)
+                    .frame(height: 32)
                     
                 }
                 Spacer()
