@@ -105,21 +105,6 @@ struct EndButton: View {
             Button(action: {
                 //1. 버튼을 누르면 타이머를 멈춘다
                 timeManager.pauseStopWatch()
-                // TODO: - 2. 기록이 SummaryView로 넘어감
-                //                let joinedString = zip(viewModel.coreLocationManager.impulseLogs , viewModel.coreLocationManager.speedLogs)
-                //                    .map { "impulse : \($0), H_speed : \($1)" }
-                //                    .joined(separator: "\n")
-                
-                //3. iOS로 데이터 동기화(배열 보내기)=
-                //                self.viewModelWatch.session.sendMessage(["message" : joinedString], replyHandler: nil) { error in
-                /**
-                 다음의 상황에서 오류가 발생할 수 있음
-                 -> property-list 데이터 타입이 아닐 때
-                 -> watchOS가 reachable 상태가 아닌데 전송할 때
-                 */
-                //                    print(error.localizedDescription)
-                //
-                //                }
                 
                 //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
                 timeManager.setDescendingDuration()
@@ -130,6 +115,7 @@ struct EndButton: View {
                 //산행상태를 "완료"로 변경
                 viewModel.endHiking()
                 viewModel.status = .complete
+                viewModel.pause()
                 print("StopButton Tapped")
             }) {
                 RoundedRectangle(cornerRadius: 28)
