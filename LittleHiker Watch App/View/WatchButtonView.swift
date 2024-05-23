@@ -30,7 +30,7 @@ struct WatchButtonView: View {
                     VStack {
                         HStack {
                             //종료버튼
-                            StopButton(height: 44, timeManager: timeManager, viewModel: viewModel)
+                            EndButton(height: 44, timeManager: timeManager, viewModel: viewModel)
                                 .padding(.trailing, 8)
                             
                             //일시정지,재개버튼
@@ -55,7 +55,7 @@ struct WatchButtonView: View {
                     VStack {
                         HStack {
                             //종료버튼
-                            StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
+                            EndButton(height: 56, timeManager: timeManager, viewModel: viewModel)
                                 .padding(.trailing, 8)
                             //하산버튼
                             DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel)
@@ -66,7 +66,7 @@ struct WatchButtonView: View {
                     VStack {
                         HStack {
                             //종료버튼
-                            StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
+                            EndButton(height: 56, timeManager: timeManager, viewModel: viewModel)
                                 .padding(.trailing, 8)
                             
                             //일시정지,재개버튼
