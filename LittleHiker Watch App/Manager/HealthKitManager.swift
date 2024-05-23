@@ -38,26 +38,31 @@ class HealthKitManager: NSObject, ObservableObject {
     
     func autorizeHealthKit() {
         let healthKitTypes: Set = [
-            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!]
+            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!,
+            HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning)!]
         
         healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { _, _ in }
     }
     
     //append 기능 추가
-    func appendHealthKitLogs(_ heartRate: Int, distance: Double){
-        heartRateLogs.append(heartRate)
-        distanceLogs.append(distance)
+    func appendHealthKitLogs(isRecord: Bool){
+        if isRecord {
+            heartRateLogs.append(currentHeartRate)
+            distanceLogs.append(currentDistanceWalkingRunning)
+        } else {
+            heartRateLogs.append(0)
+            distanceLogs.append(0.0)
+        }
     }
     
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
-            self?.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
-            self?.startDistanceQuery(quantityTypeIdentifier: .distanceWalkingRunning)
+            self?.hkQuery(quantityTypeIdentifier: .heartRate)
+            self?.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
         }
     }
     
-    //MARK: - 심박수 쿼리 시작
-    public func startHeartRateQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
+    public func hkQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
         let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
         let updateHandler: (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = {
             query, samples, deletedObjects, queryAnchor, error in
@@ -65,8 +70,12 @@ class HealthKitManager: NSObject, ObservableObject {
             guard let samples = samples as? [HKQuantitySample] else {
                 return
             }
-            
-            self.process(samples, type: quantityTypeIdentifier)
+                        
+            if (quantityTypeIdentifier == .heartRate) {
+                self.processHeartRate(samples)
+            } else if quantityTypeIdentifier == .distanceWalkingRunning {
+                self.processDistance(samples)
+            }
         }
         
         let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: nil, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
@@ -76,36 +85,14 @@ class HealthKitManager: NSObject, ObservableObject {
         healthStore.execute(query)
     }
     
-    //MARK: - 거리 쿼리 시작
-    public func startDistanceQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
-        let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
-        let updateHandler: (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = {
-            query, samples, deletedObjects, queryAnchor, error in
-            
-            guard let samples = samples as? [HKQuantitySample] else {
-                return
-            }
-            
-            self.processDistance(samples)
-        }
-        
-        let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: nil, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
-        
-        query.updateHandler = updateHandler
-        
-        healthStore.execute(query)
-    }
-    
-    private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
+    private func processHeartRate(_ samples: [HKQuantitySample]) {
         var lastHeartRate = 0.0
         
         for sample in samples {
-            if type == .heartRate {
-                lastHeartRate = sample.quantity.doubleValue(for: heartRateQuantity)
-                
-                DispatchQueue.main.async {
-                    self.currentHeartRate = Int(lastHeartRate)
-                }
+            lastHeartRate = sample.quantity.doubleValue(for: heartRateQuantity)
+            
+            DispatchQueue.main.async {
+                self.currentHeartRate = Int(lastHeartRate)
             }
         }
     }

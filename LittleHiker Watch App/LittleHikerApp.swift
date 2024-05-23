@@ -18,7 +18,7 @@ struct LittleHiker_Watch_AppApp: App {
             if viewModel.status == .ready{
                 WatchKickOffView(viewModel: viewModel, timeManager: timeManager)
             }
-            else if viewModel.status == .hiking || viewModel.status == .peak || viewModel.status == .descending {
+            else if viewModel.status != .ready && viewModel.status != .complete {
                 WatchRootView(viewModel: viewModel, timeManager: timeManager)
             }
             else if viewModel.status == .complete{
