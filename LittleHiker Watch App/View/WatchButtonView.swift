@@ -198,7 +198,7 @@ struct WatchButtonView: View {
 
                 }) {
                     RoundedRectangle(cornerRadius: 28)
-                        .frame(width: 68, height: 44)
+                        .frame(width: 68, height: height)
                         .foregroundColor(.yellow)
                         .opacity(0.25)
                         .overlay {
