@@ -65,7 +65,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var totalDistanceTraveled: Double = 0.0 // 총 이동 거리 확인용 임시 변수
 
     @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
-    @Published var isDescent: Bool = true
+    @Published var isDescent: Bool = false
     private var anchor: HKQueryAnchor?
 
     //manager 가져오기

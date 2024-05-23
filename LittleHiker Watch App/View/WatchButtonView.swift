@@ -252,6 +252,7 @@ struct DescendButton: View {
                 
                 //뷰모델에서 산행상태를 정상으로 변경
                 viewModel.status = .descending
+                viewModel.isDescent = true
             }) {
                 RoundedRectangle(cornerRadius: 28)
                     .frame(width: 68, height: height)
