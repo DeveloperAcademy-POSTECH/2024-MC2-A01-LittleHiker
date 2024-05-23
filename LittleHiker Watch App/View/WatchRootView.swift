@@ -15,7 +15,8 @@ struct WatchRootView: View {
     var body: some View {
         NavigationStack {
             TabView(selection: $selection) {
-                WatchButtonView(viewModel: viewModel, timeManager: timeManager)
+                WatchButtonView(viewModel: viewModel, timeManager: timeManager, selection: $selection)
+                    .tag("buttonView")
                 TabView() {
                     if viewModel.status != .peak{
                         WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)

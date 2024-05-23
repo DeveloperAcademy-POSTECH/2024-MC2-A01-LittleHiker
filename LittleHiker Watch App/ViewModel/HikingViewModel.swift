@@ -168,7 +168,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
             }
         }
-        //nil값 가드
+        //nil값 보호
         summaryModel.totalAltitude = Int(coreLocationManager.climbingAltitude)
         if let altitudeLogs = coreLocationManager.altitudeLogs.max(){
             summaryModel.maxAltitude = Int(altitudeLogs)
