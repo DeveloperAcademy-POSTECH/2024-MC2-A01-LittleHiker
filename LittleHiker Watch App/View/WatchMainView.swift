@@ -92,6 +92,13 @@ struct WatchMainView: View {
             .onChange(of: viewModel.impulseManager.impulseRatio){
                 animationGifTimer()
             }
+            .onChange(of: viewModel.status){
+                if viewModel.status == .hikingStop || viewModel.status == .descendingStop{
+                    stopGifTimer()
+                } else {
+                    animationGifTimer()
+                }
+            }
     }
     
     //MARK: - 프로그래스바
