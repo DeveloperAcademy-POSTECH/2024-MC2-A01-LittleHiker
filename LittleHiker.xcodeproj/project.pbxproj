@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */; };
 		02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */; };
+		02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */; };
+		02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A52BFDC88A00F16E88 /* HikingLog.swift */; };
 		1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */; };
 		1A36FB0E2BFCAF1000880ED5 /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */; };
 		1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */; };
@@ -62,6 +64,8 @@
 /* Begin PBXFileReference section */
 		02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewModelIPhone.swift; path = LittleHiker/Manager/ViewModelIPhone.swift; sourceTree = SOURCE_ROOT; };
 		02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelWatch.swift; sourceTree = "<group>"; };
+		02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HikingRecord.swift; sourceTree = "<group>"; };
+		02EE67A52BFDC88A00F16E88 /* HikingLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HikingLog.swift; sourceTree = "<group>"; };
 		1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSummaryView.swift; sourceTree = "<group>"; };
 		1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRootView.swift; sourceTree = "<group>"; };
 		1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 		1A43DFA92BFCACB200E62BA6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				02EE67A52BFDC88A00F16E88 /* HikingLog.swift */,
+				02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -353,6 +359,8 @@
 				1A43DFAB2BFCACDA00E62BA6 /* PhoneDetailView.swift in Sources */,
 				1A43DFAD2BFCACEC00E62BA6 /* PhoneRowView.swift in Sources */,
 				02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */,
+				02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */,
+				02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */,
 				1A43DF842BFCAC9A00E62BA6 /* LittleHikerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
