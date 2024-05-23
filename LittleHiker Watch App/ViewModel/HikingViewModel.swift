@@ -94,15 +94,14 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
             guard let self = self else { return }
             
-            //HealthKit append 수정
-            self.healthKitManager
-                .appendHealthKitLogs(self.healthKitManager.currentHeartRate, distance: self.healthKitManager.currentDistanceWalkingRunning)
+            //하이킹 모드 아닐 때 로그 0으로 저장 추가
+            self.healthKitManager.appendHealthKitLogs(isRecord: self.isRecord())
+            self.coreLocationManager.appendCoreLocationLogs(isRecord: self.isRecord()) //순서변경
             self.impulseManager.calculateAndAppendRecentImpulse(
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
                 currentSpeed: self.coreLocationManager.currentSpeed
             )
-            //location append 수정 및 위치 변환
-            self.coreLocationManager.appendCoreLocationLogs()
+            self.impulseManager.appendToLogs(isRecord: isRecord())
             //testcode 기준속도 변경
             self.impulseManager.diagonalVelocityCriterion = viewModelWatch.impulseRate
             //timestamptest
@@ -114,8 +113,12 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             guard let self = self else { return }
             self.testCode()
         }
-
     }
+    // 기록상태 확인 코드 추가
+    func isRecord() -> Bool {
+        return status == .descending || status == .hiking ? true : false
+    }
+    
     //타임스탬프 만드는 함수
     func getCurrentTimestamp() -> String {
         let currentDate = Date()
@@ -155,27 +158,53 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     //하이킹 종료
-    func endHiking(){
-        healthKitManager.fetchHeartRateStatistics{ (averageHeartRate, minHeartRate, maxHeartRate, error) in
-            if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
-                self.summaryModel.heartRateAvg = Int(averageHeartRate)
-                self.summaryModel.maxheartRate = Int(maxHeartRate)
-                self.summaryModel.minheartRate = Int(minHeartRate)
-            }else {
-                print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
+    func endHiking() {
+        self.healthKitManager.fetchHeartRateStatistics { (averageHeartRate, minHeartRate, maxHeartRate, error) in
+            DispatchQueue.main.async {
+                if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
+                    self.summaryModel.heartRateAvg = Int(averageHeartRate)
+                    self.summaryModel.maxheartRate = Int(maxHeartRate)
+                    self.summaryModel.minheartRate = Int(minHeartRate)
+                } else {
+                    print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
+                }
             }
         }
-        
-        summaryModel.totalAltitude = Int(coreLocationManager.climbingAltitude)
-        summaryModel.maxAltitude = Int(coreLocationManager.altitudeLogs.max()!)
-        summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
-        summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
-        summaryModel.speedAvg = coreLocationManager.getSpeedAvg()
-        summaryModel.impulseAvg = impulseManager.getImpulseAvg()
-        summaryModel.minImpulse = Int(impulseManager.findNonZeroMin()!)
-        summaryModel.maxImpulse = Int(impulseManager.impulseLogs.max()!)
 
+        DispatchQueue.main.async {
+            // nil 값 보호
+            self.summaryModel.totalAltitude = Int(self.coreLocationManager.climbingAltitude)
+            
+            if let altitudeLogs = self.coreLocationManager.altitudeLogs.max() {
+                self.summaryModel.maxAltitude = Int(altitudeLogs)
+            } else {
+                self.summaryModel.maxAltitude = 0
+            }
+            
+            if let minAltitude = self.coreLocationManager.findNonZeroMin() {
+                self.summaryModel.minAltitude = Int(minAltitude)
+            } else {
+                self.summaryModel.minAltitude = 0
+            }
+            
+            self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning
+            self.summaryModel.speedAvg = self.coreLocationManager.getSpeedAvg()
+            self.summaryModel.impulseAvg = self.impulseManager.getImpulseAvg()
+            
+            if let minImpulse = self.impulseManager.findNonZeroMin() {
+                self.summaryModel.minImpulse = Int(minImpulse)
+            } else {
+                self.summaryModel.minImpulse = 0
+            }
+            
+            if let maxImpulse = self.impulseManager.impulseLogs.max() {
+                self.summaryModel.maxImpulse = Int(maxImpulse)
+            } else {
+                self.summaryModel.maxImpulse = 0
+            }
+        }
     }
+
     
     // 버튼별로 타이머 기능을 조절하도록 만들었다. by.벨
     
