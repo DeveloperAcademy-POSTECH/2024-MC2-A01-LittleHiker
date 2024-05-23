@@ -37,6 +37,7 @@
 		1A43DFB42BFCAD9500E62BA6 /* CoreLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB32BFCAD9500E62BA6 /* CoreLocationManager.swift */; };
 		1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB52BFCAD9F00E62BA6 /* ImpulseManager.swift */; };
 		1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */; };
+		1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,6 +98,7 @@
 		1A43DFB52BFCAD9F00E62BA6 /* ImpulseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImpulseManager.swift; sourceTree = "<group>"; };
 		1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		1A8DBE9D2BFE2CB600C3BA92 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotifications.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +180,7 @@
 				1A36FB262BFDE27900880ED5 /* NotificationView.swift */,
 				1A36FB282BFDE29400880ED5 /* NotificationController.swift */,
 				1A8DBE9D2BFE2CB600C3BA92 /* PushNotificationPayload.apns */,
+				1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */,
 				1A43DF952BFCAC9B00E62BA6 /* LittleHikerApp.swift */,
 				1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */,
 				1A43DFB02BFCAD7400E62BA6 /* Manager */,
@@ -397,6 +400,7 @@
 				1A36FB182BFCAF5100880ED5 /* WatchKickOffView.swift in Sources */,
 				1A36FB1A2BFCAF5D00880ED5 /* HikingViewModel.swift in Sources */,
 				1A43DFB42BFCAD9500E62BA6 /* CoreLocationManager.swift in Sources */,
+				1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */,
 				1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */,
 				1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */,
 				1A43DF962BFCAC9B00E62BA6 /* LittleHikerApp.swift in Sources */,
