@@ -75,7 +75,6 @@ struct WatchButtonView: View {
                             } else {
                                 RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
                             }
-                            
                         }
                     }
                     .padding()
@@ -91,8 +90,8 @@ struct WatchButtonView: View {
 }
 
 //종료버튼
-struct StopButton: View {
-    //    var viewModelWatch = ViewModelWatch()
+struct EndButton: View {
+//    var viewModelWatch = ViewModelWatch()
     
     var height: CGFloat
     var timeManager: TimeManager
@@ -159,6 +158,7 @@ struct PauseButton: View {
     
     var body: some View {
         Button(action: {
+            toggle.toggle()
             print("PauseButton Tapped")
             //1. 타이머가 멈춘다.
             timeManager.pauseStopWatch()
@@ -258,6 +258,9 @@ struct DescendButton: View {
     var body: some View {
         VStack {
             Button(action: {
+                if ((timeManager.timer?.isValid) != nil) {
+                    timeManager.timer?.invalidate()
+                }
                 timeManager.runStopWatch()
                 
                 //뷰모델에서 산행상태를 정상으로 변경
