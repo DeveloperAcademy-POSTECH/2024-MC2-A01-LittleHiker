@@ -9,12 +9,13 @@ import Foundation
 import Combine
 import HealthKit
 
-class HealthKitManager:NSObject, ObservableObject {
+class HealthKitManager: NSObject, ObservableObject {
     @Published var currentHeartRate: Int = 0
     @Published var currentDistanceWalkingRunning: Double = 0
     var heartRateLogs: [Int] = []
     var distanceLogs: [Double] = []
     private var anchor: HKQueryAnchor?
+    private var totalDistanceWalkingRunning: Double = 0.0
     
     private var timer: Timer?
     
@@ -37,69 +38,73 @@ class HealthKitManager:NSObject, ObservableObject {
     
     func autorizeHealthKit() {
         let healthKitTypes: Set = [
-            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!]
+            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!,
+            HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning)!]
         
         healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { _, _ in }
     }
     
     //append 기능 추가
-    func appendHealthKitLogs(_ heartRate: Int, distance: Double){
-        heartRateLogs.append(heartRate)
-        distanceLogs.append(distance)
+    func appendHealthKitLogs(isRecord: Bool){
+        if isRecord {
+            heartRateLogs.append(currentHeartRate)
+            distanceLogs.append(currentDistanceWalkingRunning)
+        } else {
+            heartRateLogs.append(0)
+            distanceLogs.append(0.0)
+        }
     }
-    
     
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
-            self?.startHeartRateQuery(quantityTypeIdentifier: .heartRate)
+            self?.hkQuery(quantityTypeIdentifier: .heartRate)
+            self?.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
         }
     }
     
-    
-    //MARK: - 여기부터는 심박수 쿼리
-    public func startHeartRateQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
-        
-        // 1
+    public func hkQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
         let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
-        // 2
         let updateHandler: (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = {
             query, samples, deletedObjects, queryAnchor, error in
             
-            // 3
             guard let samples = samples as? [HKQuantitySample] else {
                 return
             }
-            
-            self.process(samples, type: quantityTypeIdentifier)
-            
+                        
+            if (quantityTypeIdentifier == .heartRate) {
+                self.processHeartRate(samples)
+            } else if quantityTypeIdentifier == .distanceWalkingRunning {
+                self.processDistance(samples)
+            }
         }
         
-        // 4
         let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: nil, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
         
         query.updateHandler = updateHandler
         
-        // 5
         healthStore.execute(query)
     }
     
-    private func process(_ samples: [HKQuantitySample], type: HKQuantityTypeIdentifier) {
+    private func processHeartRate(_ samples: [HKQuantitySample]) {
         var lastHeartRate = 0.0
-        var lastDistance = 0.0
         
         for sample in samples {
-            if type == .heartRate {
-                lastHeartRate = sample.quantity.doubleValue(for: heartRateQuantity)
-                
-            }
-            else if type == .distanceWalkingRunning {
-                lastDistance = sample.quantity.doubleValue(for: distanceQuantity)
-            }
+            lastHeartRate = sample.quantity.doubleValue(for: heartRateQuantity)
+            
             DispatchQueue.main.async {
                 self.currentHeartRate = Int(lastHeartRate)
-                self.currentDistanceWalkingRunning = Double(lastDistance)
             }
-
+        }
+    }
+    
+    private func processDistance(_ samples: [HKQuantitySample]) {
+        for sample in samples {
+            let distance = sample.quantity.doubleValue(for: distanceQuantity)
+            totalDistanceWalkingRunning += distance
+            
+            DispatchQueue.main.async {
+                self.currentDistanceWalkingRunning = self.totalDistanceWalkingRunning
+            }
         }
     }
     
@@ -149,19 +154,4 @@ class HealthKitManager:NSObject, ObservableObject {
     deinit {
         timer?.invalidate()
     }
-    
-    //    func calculateImpulseRate(){
-    //        guard altitudeRecords.count > 1 else {
-    //                    return
-    //                }
-    //
-    //        let recentAltitudeChange = altitudeRecords.last! - altitudeRecords[altitudeRecords.count - 2]
-    //        let altitudeChangeSquared = recentAltitudeChange * recentAltitudeChange
-    //        let speedSquared = currentSpeed * currentSpeed
-    //
-    //        let impulse = sqrt(altitudeChangeSquared + speedSquared)
-    //
-    //        print(impulse)
-    //        self.impulse = Int(impulse)
-    //    }
 }

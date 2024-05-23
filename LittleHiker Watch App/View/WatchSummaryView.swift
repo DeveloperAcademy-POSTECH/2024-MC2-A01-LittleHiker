@@ -10,17 +10,28 @@ import SwiftUI
 struct WatchSummaryView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 
                 // todo 이거 navigationTitle 로 지정하면 뜨는건지 확인 필요.
                 HStack {
+                    Button(action: {
+                        viewModel.status = .ready
+                    }, label: {
+                        Image(systemName: "xmark")
+                            .frame(width: 16, height: 16)
+                    })
+                    .frame(width: 30, height: 30)
+                    .background(Color.white.opacity(0.2))
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .buttonStyle(PlainButtonStyle())
                     Spacer()
                     Text("요약")
-                        .foregroundStyle(Color.blue)
+                        .foregroundStyle(Color.main)
                 }
+                .padding(.bottom, 8)
                 
                 //시간
                 Text("총 시간")
@@ -45,7 +56,7 @@ struct WatchSummaryView: View {
                     Text("\(timeManager.descendingDuration)")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
-
+                    
                 }
                 .padding(.top, 2)
                 .padding(.bottom, 8)
@@ -77,7 +88,7 @@ struct WatchSummaryView: View {
                     .font(.system(size: 16))
                     .padding(.top, 8)
                 HStack (spacing: 0) {
-                    Text("3")
+                    Text("\(String(format: "%.2f", viewModel.summaryModel.speedAvg))")
                         .font(.system(size: 32))
                         .foregroundColor(Color.mint)
                         .fontWeight(.medium)
@@ -97,7 +108,7 @@ struct WatchSummaryView: View {
                     .font(.system(size: 16))
                     .padding(.top, 8)
                 HStack (spacing: 0) {
-                    Text("33")
+                    Text("\(String(format: "%.2f", viewModel.summaryModel.impulseAvg))")
                         .font(.system(size: 32))
                         .foregroundColor(Color(red: 0.00, green: 0.92, blue: 0.64, opacity: 1.00))
                         .fontWeight(.medium)
@@ -112,13 +123,13 @@ struct WatchSummaryView: View {
                     Text("범위:")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
-                    Text("10")
+                    Text("\(viewModel.summaryModel.minImpulse)")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                     Text("~")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
-                    Text("40")
+                    Text("\(viewModel.summaryModel.maxImpulse)")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
                     Text("J")

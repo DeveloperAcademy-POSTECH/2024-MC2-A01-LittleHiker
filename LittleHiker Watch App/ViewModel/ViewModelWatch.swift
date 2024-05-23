@@ -23,6 +23,7 @@ final class ViewModelWatch: NSObject, WCSessionDelegate, ObservableObject {
         
     }
     
+    
     // 다른 기기의 세션에서 sendMessage() 메서드로 메세지를 받았을 때 호출되는 메서드
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         DispatchQueue.main.async {
@@ -32,12 +33,11 @@ final class ViewModelWatch: NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
-    func handleImpulseRate(impulseRate: String) {
-        let impulseManager = ImpulseManager()
-        impulseManager.diagonalVelocityCriterion = impulseRate
-        // Now use viewModelWatch.impulseRate in your view or other logic
-    }
-    
-    
+//    func handleImpulseRate(impulseRate: String) -> String{
+//        let impulseManager = ImpulseManager()
+//        impulseManager.diagonalVelocityCriterion = impulseRate
+//        // Now use viewModelWatch.impulseRate in your view or other logic
+//        
+//    }
     
 }

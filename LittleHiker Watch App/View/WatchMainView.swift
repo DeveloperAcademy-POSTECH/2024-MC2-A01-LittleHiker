@@ -19,22 +19,24 @@ struct WatchMainView: View {
 
     var body: some View {
         VStack(alignment: .leading){
+            Text("현재 고도")
+                .font(.system(size: 18))
             HStack(alignment: .bottom){
                 Text("\(Int(locationViewModel.currentAltitude))")
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 32))
+                    .fontWeight(.medium)
                     .foregroundStyle(.green)
                 Text("M")
-                    .font(.title3)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 22))
+                    .fontWeight(.medium)
                     .foregroundStyle(.green)
                 Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 32))
+                    .fontWeight(.medium)
                     .foregroundStyle(.green)
                 Text("km/h")
-                    .font(.title3)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 22))
+                    .fontWeight(.medium)
                     .foregroundStyle(.green)
             }
             Spacer()
@@ -42,6 +44,9 @@ struct WatchMainView: View {
                 HStack{
                     Spacer()
                     squirrelGIF
+                        .onDisappear{
+                            stopGifTimer()
+                        }
                     Spacer()
                 }
             }
@@ -72,6 +77,9 @@ struct WatchMainView: View {
             .onDisappear {
                 stopGifTimer()
             }
+            .onChange(of: viewModel.impulseManager.impulseRatio){
+                animationGifTimer()
+            }
     }
     
     //MARK: - 프로그래스바
@@ -84,20 +92,20 @@ struct WatchMainView: View {
                     .frame(width: geometry.size.width)
                 HStack{
                     Text(viewModel.impulseManager.impulseLogs.count == 0 ? "--" : "\(Int(viewModel.impulseManager.impulseLogs.last!))")
-                        .font(.title3)
+                        .font(.caption)
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
                         .padding(.horizontal, 10)
                 }
-                .frame(width: 40)
+                .frame(width: 50, height: 30)
                 .background(Capsule().fill(colorForValue(viewModel.impulseManager.impulseRatio)))
                 .offset(
                     x: min(
                         max(
-                            CGFloat(viewModel.impulseManager.impulseRatio / 100 * geometry.size.width) - 20,
+                            CGFloat(viewModel.impulseManager.impulseRatio / 100 * geometry.size.width) - 25,
                             0
                         ),
-                        CGFloat(geometry.size.width - 40)
+                        CGFloat(geometry.size.width - 50)
                     ),
                     y: 0
                 )
@@ -122,11 +130,32 @@ struct WatchMainView: View {
         }
     }
     
+    func speedForValue(_ value: CGFloat) -> Double {
+        switch value {
+        case 0..<15:
+            return 1/4
+        case 15..<30:
+            return 1/8
+        case 30..<45:
+            return 1/12
+        case 45..<60:
+            return 1/16
+        case 60...75:
+            return 1/20
+        case 75...90:
+            return 1/24
+        case 90...100:
+            return 1/28
+        default:
+            return 1/8
+        }
+    }
+    
     //MARK: - GIF 스케쥴러
     private func animationGifTimer() {
         stopGifTimer()
         // 1.0 / 4.0이면 1초당 이미지 4번 바뀜
-        Timer.scheduledTimer(withTimeInterval: 1.0 / 8.0 / (viewModel.impulseManager.impulseRatio / 50)  , repeats: true){ timer in
+        timer = Timer.scheduledTimer(withTimeInterval: speedForValue(viewModel.impulseManager.impulseRatio), repeats: true) { _ in
             frameIndex = (frameIndex + 1) % gifAnimation.frameCount
         }
     }
