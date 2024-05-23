@@ -14,7 +14,8 @@ class HealthKitManager: NSObject, ObservableObject {
     @Published var currentDistanceWalkingRunning: Double = 0
     var heartRateLogs: [Int] = []
     var distanceLogs: [Double] = []
-    private var anchor: HKQueryAnchor?
+    private var anchor: HKQueryAnchor? //앵커 저장 변수
+    private var startDate: Date? // 시작 시점 저장 변수
     private var totalDistanceWalkingRunning: Double = 0.0
     
     private var timer: Timer?
@@ -22,7 +23,7 @@ class HealthKitManager: NSObject, ObservableObject {
     //MARK: - HKHealthStore 불러오기
     let healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
-    let distanceQuantity = HKUnit(from: "m")
+    let distanceQuantity = HKUnit.meter()
     //심박수 평균을 위한 시작 시간
     let startDate = Date()
 
@@ -111,7 +112,13 @@ class HealthKitManager: NSObject, ObservableObject {
     }
     
     private func processDistance(_ samples: [HKQuantitySample]) {
+        self.startDate = Date() // 현재 시점을 시작 시점으로 설정
+        
         for sample in samples {
+            guard let startDate = self.startDate, sample.startDate >= startDate else {
+                continue // 시작 시점 이후의 데이터만 처리
+            }
+            
             let distance = sample.quantity.doubleValue(for: distanceQuantity)
             totalDistanceWalkingRunning += distance
             
