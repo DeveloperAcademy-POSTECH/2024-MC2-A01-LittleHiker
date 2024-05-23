@@ -168,16 +168,32 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
             }
         }
-        
+        //nil값 가드
         summaryModel.totalAltitude = Int(coreLocationManager.climbingAltitude)
-        summaryModel.maxAltitude = Int(coreLocationManager.altitudeLogs.max()!)
-        summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
+        if let altitudeLogs = coreLocationManager.altitudeLogs.max(){
+            summaryModel.maxAltitude = Int(altitudeLogs)
+        } else {
+            summaryModel.maxAltitude = 0
+        }
+        if let minAltitude = coreLocationManager.findNonZeroMin(){
+            summaryModel.minAltitude = Int(minAltitude)
+        } else {
+            summaryModel.minAltitude = 0
+        }
         summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
         summaryModel.speedAvg = coreLocationManager.getSpeedAvg()
         summaryModel.impulseAvg = impulseManager.getImpulseAvg()
-        summaryModel.minImpulse = Int(impulseManager.findNonZeroMin()!)
-        summaryModel.maxImpulse = Int(impulseManager.impulseLogs.max()!)
-
+        
+        if let minImpulse = impulseManager.findNonZeroMin(){
+            summaryModel.minImpulse = Int(minImpulse)
+        } else {
+            summaryModel.minImpulse = 0
+        }
+        if let maxImpulse = impulseManager.impulseLogs.max(){
+            summaryModel.maxImpulse = Int(maxImpulse)
+        } else {
+            summaryModel.maxImpulse = 0
+        }
     }
     
     // 버튼별로 타이머 기능을 조절하도록 만들었다. by.벨
