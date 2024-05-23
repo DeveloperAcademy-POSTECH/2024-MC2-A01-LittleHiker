@@ -11,11 +11,15 @@ import SwiftUI
 
 struct WatchMainView: View {
     let gifAnimation: GifAnimation = .run
+    
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var locationViewModel: CoreLocationManager
     @State private var frameIndex = 0
     @State private var timer: Timer?
 //    @State private var progress: CGFloat = 50
+    
+    @State private var isShowing = false
+    let alertTitle: String = "충격량 정보"
 
     var body: some View {
         ZStack {
@@ -50,50 +54,76 @@ struct WatchMainView: View {
             }
             
             HStack(spacing: 0) {
-                VStack(alignment: .leading, spacing: 0){
-                    Text("현재 고도")
-                        .font(.system(size:(viewModel.isDescent ? 16 : 18)))
-                    HStack(alignment: .bottom, spacing: 0){
-                        Text("\(Int(locationViewModel.currentAltitude))")
-                            .font(.system(size: (viewModel.isDescent ? 22 : 32)))
-                            .fontWeight(.medium)
-                            .foregroundStyle(.green)
-                        Text("M")
-                            .font(.system(size: (viewModel.isDescent ? 18 : 22)))
-                            .fontWeight(.medium)
-                            .foregroundStyle(.green)
-                            .padding(.leading, 2)
-//                        Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
-//                            .font(.system(size: (viewModel.isDescent ? 22 : 22)))
-//                            .fontWeight(.medium)
-//                            .foregroundStyle(.green)
-//                        Text("km/h")
-//                            .font(.system(size: (viewModel.isDescent ? 18 : 18)))
-//                            .fontWeight(.medium)
-//                            .foregroundStyle(.green)
+                ZStack {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                isShowing = true
+                            }) {
+                                Image(systemName: "info")
+                            }
+                            .alert(isPresented: $isShowing) {
+                                Alert(
+                                    title: Text("충격량(IU)"),
+                                    message: Text("= 힘(N)/100"),
+                                    dismissButton: .default(Text("확인"))
+                                )
+                            }
+                            .frame(width: 30, height: 30)
+                            .background(Color.white.opacity(0.2))
+                            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                            .buttonStyle(PlainButtonStyle())
+                            
+                        }
+                        Spacer()
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 0){
+                        Text("현재 고도")
+                            .font(.system(size:(viewModel.isDescent ? 16 : 18)))
+                        HStack(alignment: .bottom, spacing: 0){
+                            Text("\(Int(locationViewModel.currentAltitude))")
+                                .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                                .fontWeight(.medium)
+                                .foregroundStyle(.green)
+                            Text("M")
+                                .font(.system(size: (viewModel.isDescent ? 18 : 22)))
+                                .fontWeight(.medium)
+                                .foregroundStyle(.green)
+                                .padding(.leading, 2)
+                            //                        Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
+                            //                            .font(.system(size: (viewModel.isDescent ? 22 : 22)))
+                            //                            .fontWeight(.medium)
+                            //                            .foregroundStyle(.green)
+                            //                        Text("km/h")
+                            //                            .font(.system(size: (viewModel.isDescent ? 18 : 18)))
+                            //                            .fontWeight(.medium)
+                            //                            .foregroundStyle(.green)
+                        }
+                        Spacer()
+                        if viewModel.isDescent{
+                            HStack(alignment: .bottom, spacing: 0){
+                                Text("충격량")
+                                    .font(.system(size:14))
+                                //                                .foregroundStyle(.gray)
+                                Text("(IU)")
+                                    .font(.system(size:14))
+                                    .foregroundStyle(.gray)
+                                Spacer()
+                                Text("50")
+                                    .font(.system(size:14))
+                                    .foregroundStyle(.gray)
+                            }
+                            .padding(.bottom, 4)
+                            progressBar
+                        }
                     }
                     Spacer()
-                    if viewModel.isDescent{
-                        HStack(alignment: .bottom, spacing: 0){
-                            Text("충격량")
-                                .font(.system(size:14))
-//                                .foregroundStyle(.gray)
-                            Text("(F)")
-                                .font(.system(size:14))
-                                .foregroundStyle(.gray)
-                            Spacer()
-                            Text("50")
-                                .font(.system(size:14))
-                                .foregroundStyle(.gray)
-                        }
-                        .padding(.bottom, 4)
-                        progressBar
-                    }
                 }
-                Spacer()
+                .padding(.horizontal, 9)
+                .padding(.top, 28)
             }
-            .padding(.horizontal, 9)
-            .padding(.top, 28)
         }
         .edgesIgnoringSafeArea(.top)
     }
@@ -202,6 +232,14 @@ struct WatchMainView: View {
     }
 }
 
+//MARK: - InpulseInfoView
+struct InpulseInfoView: View {
+    var body: some View {
+        VStack {
+            Text("충격량(IU) = 힘(N)/100")
+        }
+    }
+}
 #Preview {
     WatchMainView(viewModel: HikingViewModel(), locationViewModel: HikingViewModel().coreLocationManager)
 //    WatchMainView(isDescent: false)
