@@ -106,6 +106,10 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             self.impulseManager.diagonalVelocityCriterion = viewModelWatch.impulseRate
             //timestamptest
             self.timestampLog.append(getCurrentTimestamp())
+            //다람상식 푸쉬 로직
+            self.impulseManager.sendTipsIfConditionMet()
+            
+            
             
         }
         //테스트용 스케쥴러

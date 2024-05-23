@@ -118,4 +118,34 @@ class ImpulseManager: NSObject, ObservableObject {
         
         return average
     }
+    
+    func isTipsConditionMet() -> Bool {
+        if self.impulseLogs.count < 2 {
+            return false
+        }
+        
+        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
+        let currentImpulseRatio = self.calculateImpulseRatio(currentImpulse)
+        let prevImpulse = self.impulseLogs[self.impulseLogs.count-2]
+        let prevImpulseRatio = self.calculateImpulseRatio(prevImpulse)
+        
+        if prevImpulse >= 0 && prevImpulse < 30 && currentImpulse >= 30 {
+            return true
+        }
+        return false
+    }
+    
+    func sendTipsNotification() -> Void {
+        var instance = LocalNotifications()
+    }
+    
+    func sendTipsIfConditionMet() -> Void{
+        if !self.isTipsConditionMet(){
+            return
+        }
+        self.sendTipsNotification()
+    }
+    
 }
+
+
