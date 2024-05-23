@@ -15,79 +15,83 @@ struct WatchButtonView: View {
     @State var pauseResumeToggle: Bool = true
     //    @State private var isShowingModal = false
     
+    //    init() {
+    //        UINavigationBar.appearance().largeTitleTextAtributes = [.foregroundColor: UIColor.blue]
+    //    }
+    
     var body: some View {
-        NavigationStack {
-            VStack {
-                //기존의 가짜 네비게이션 타이틀입니다 혹시 몰라서 남겨둠
-//                HStack {
-//                    Spacer()
-//                    Text("\(viewModel.status.getData)")
-//                        .foregroundStyle(Color.blue)
-//                }
+        VStack {
+            HStack {
                 Spacer()
-                
-                if viewModel.status == .hiking {
-                    VStack {
-                        HStack {
-                            //종료버튼
-                            StopButton(height: 44, timeManager: timeManager, viewModel: viewModel)
-                                .padding(.trailing, 8)
-                            
-                            //일시정지,재개버튼
-                            if pauseResumeToggle == true {
-                                PauseButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
-                            } else {
-                                RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
-                            }
+                Text("\(viewModel.status.getData)")
+                    .foregroundStyle(Color.main)
+                    .font(.system(size: 16))
+                    .fontWeight(.medium)
+            }
+            .padding(.top, 30)
+            Spacer()
+            
+            if viewModel.status == .hiking {
+                VStack {
+                    HStack {
+                        //종료버튼
+                        StopButton(height: 44, timeManager: timeManager, viewModel: viewModel)
+                            .padding(.trailing, 8)
+                        
+                        //일시정지,재개버튼
+                        if pauseResumeToggle == true {
+                            PauseButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
+                        } else {
+                            RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
                         }
-                        HStack {
-                            //정상버튼
-                            PeakButton(height: 44, timeManager: timeManager, viewModel: viewModel)
-                                .padding(.trailing, 8)
-                            //하산버튼
-                            DescendButton(height: 44, timeManager: timeManager, viewModel: viewModel)
+                    }
+                    HStack {
+                        //정상버튼
+                        PeakButton(height: 44, timeManager: timeManager, viewModel: viewModel)
+                            .padding(.trailing, 8)
+                        //하산버튼
+                        DescendButton(height: 44, timeManager: timeManager, viewModel: viewModel)
+                    }
+                    .padding(.top, 8)
+                    
+                }
+                .padding()
+            } else if viewModel.status == .peak {
+                VStack {
+                    HStack {
+                        //종료버튼
+                        StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
+                            .padding(.trailing, 8)
+                        //하산버튼
+                        DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel)
+                    }
+                }
+                .padding()
+            } else if viewModel.status == .descending {
+                VStack {
+                    HStack {
+                        //종료버튼
+                        StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
+                            .padding(.trailing, 8)
+                        
+                        //일시정지,재개버튼
+                        if pauseResumeToggle == true {
+                            PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
+                        } else {
+                            RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
                         }
-                        .padding(.top, 8)
                         
                     }
-                    .padding()
-                } else if viewModel.status == .peak {
-                    VStack {
-                        HStack {
-                            //종료버튼
-                            StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
-                                .padding(.trailing, 8)
-                            //하산버튼
-                            DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel)
-                        }
-                    }
-                    .padding()
-                } else if viewModel.status == .descending {
-                    VStack {
-                        HStack {
-                            //종료버튼
-                            StopButton(height: 56, timeManager: timeManager, viewModel: viewModel)
-                                .padding(.trailing, 8)
-                            
-                            //일시정지,재개버튼
-                            if pauseResumeToggle == true {
-                                PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
-                            } else {
-                                RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
-                            }
-                            
-                        }
-                    }
-                    .padding()
                 }
-                Spacer()
+                .padding()
             }
-            .padding(.horizontal, 9)
-            .fullScreenCover(isPresented: $viewModel.isShowingModal) {
-                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
-            }
+            Spacer()
         }
-        .navigationTitle("\(viewModel.status.getData)")
+        .padding(.horizontal, 9)
+        .fullScreenCover(isPresented: $viewModel.isShowingModal) {
+            WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+        }
+        .edgesIgnoringSafeArea(.top)
     }
 }
 

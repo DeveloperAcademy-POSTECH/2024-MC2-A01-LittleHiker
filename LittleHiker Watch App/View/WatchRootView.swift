@@ -11,26 +11,24 @@ struct WatchRootView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
     @State private var selection = "default"
-
+    
     var body: some View {
-        NavigationStack {
-            TabView(selection: $selection) {
-                WatchButtonView(viewModel: viewModel, timeManager: timeManager)
-                TabView() {
-                    if viewModel.status != .peak{
-                        WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)
-                    }
-                    else {
-                        WatchRestView()
-                    }
-                    WatchDetailView(viewModel: viewModel, healthViewModel: viewModel.healthKitManager, timeManager: timeManager)
-                    WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+        TabView(selection: $selection) {
+            WatchButtonView(viewModel: viewModel, timeManager: timeManager)
+            TabView() {
+                if viewModel.status != .peak{
+                    WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)
                 }
-                .tag("default")
-                .tabViewStyle(.verticalPage)
+                else {
+                    WatchRestView()
+                }
+                WatchDetailView(viewModel: viewModel, healthViewModel: viewModel.healthKitManager, timeManager: timeManager)
+                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
             }
+            .tag("default")
+            .tabViewStyle(.verticalPage)
         }
-
+        
     }
 }
 

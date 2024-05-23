@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct WatchSummaryView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
@@ -243,18 +244,13 @@ struct WatchSummaryView: View {
                     .padding(.leading, 9)
                     Spacer()
                     Text("요약")
+                        .font(.system(size: 16))
+                        .fontWeight(.medium)
                         .foregroundStyle(Color.main)
                         .padding(.trailing, 9.5)
                 }
                 .padding(.bottom, 8)
                 .padding(.top, 24)
-                .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: [Color.black.opacity(1), Color.black.opacity(0)]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
                 .background(.ultraThinMaterial)
                 .zIndex(1)
                 Spacer()
