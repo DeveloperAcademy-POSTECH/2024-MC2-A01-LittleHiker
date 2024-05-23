@@ -158,43 +158,53 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     //하이킹 종료
-    func endHiking(){
-        healthKitManager.fetchHeartRateStatistics{ (averageHeartRate, minHeartRate, maxHeartRate, error) in
-            if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
-                self.summaryModel.heartRateAvg = Int(averageHeartRate)
-                self.summaryModel.maxheartRate = Int(maxHeartRate)
-                self.summaryModel.minheartRate = Int(minHeartRate)
-            }else {
-                print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
+    func endHiking() {
+        self.healthKitManager.fetchHeartRateStatistics { (averageHeartRate, minHeartRate, maxHeartRate, error) in
+            DispatchQueue.main.async {
+                if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
+                    self.summaryModel.heartRateAvg = Int(averageHeartRate)
+                    self.summaryModel.maxheartRate = Int(maxHeartRate)
+                    self.summaryModel.minheartRate = Int(minHeartRate)
+                } else {
+                    print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
+                }
             }
         }
-        //nil값 보호
-        summaryModel.totalAltitude = Int(coreLocationManager.climbingAltitude)
-        if let altitudeLogs = coreLocationManager.altitudeLogs.max(){
-            summaryModel.maxAltitude = Int(altitudeLogs)
-        } else {
-            summaryModel.maxAltitude = 0
-        }
-        if let minAltitude = coreLocationManager.findNonZeroMin(){
-            summaryModel.minAltitude = Int(minAltitude)
-        } else {
-            summaryModel.minAltitude = 0
-        }
-        summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
-        summaryModel.speedAvg = coreLocationManager.getSpeedAvg()
-        summaryModel.impulseAvg = impulseManager.getImpulseAvg()
-        
-        if let minImpulse = impulseManager.findNonZeroMin(){
-            summaryModel.minImpulse = Int(minImpulse)
-        } else {
-            summaryModel.minImpulse = 0
-        }
-        if let maxImpulse = impulseManager.impulseLogs.max(){
-            summaryModel.maxImpulse = Int(maxImpulse)
-        } else {
-            summaryModel.maxImpulse = 0
+
+        DispatchQueue.main.async {
+            // nil 값 보호
+            self.summaryModel.totalAltitude = Int(self.coreLocationManager.climbingAltitude)
+            
+            if let altitudeLogs = self.coreLocationManager.altitudeLogs.max() {
+                self.summaryModel.maxAltitude = Int(altitudeLogs)
+            } else {
+                self.summaryModel.maxAltitude = 0
+            }
+            
+            if let minAltitude = self.coreLocationManager.findNonZeroMin() {
+                self.summaryModel.minAltitude = Int(minAltitude)
+            } else {
+                self.summaryModel.minAltitude = 0
+            }
+            
+            self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning
+            self.summaryModel.speedAvg = self.coreLocationManager.getSpeedAvg()
+            self.summaryModel.impulseAvg = self.impulseManager.getImpulseAvg()
+            
+            if let minImpulse = self.impulseManager.findNonZeroMin() {
+                self.summaryModel.minImpulse = Int(minImpulse)
+            } else {
+                self.summaryModel.minImpulse = 0
+            }
+            
+            if let maxImpulse = self.impulseManager.impulseLogs.max() {
+                self.summaryModel.maxImpulse = Int(maxImpulse)
+            } else {
+                self.summaryModel.maxImpulse = 0
+            }
         }
     }
+
     
     // 버튼별로 타이머 기능을 조절하도록 만들었다. by.벨
     
