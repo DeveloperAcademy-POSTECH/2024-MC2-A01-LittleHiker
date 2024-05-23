@@ -53,11 +53,11 @@ struct WatchMainView: View {
                             .fontWeight(.medium)
                             .foregroundStyle(.green)
                         Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
-                            .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                            .font(.system(size: (viewModel.isDescent ? 22 : 22)))
                             .fontWeight(.medium)
                             .foregroundStyle(.green)
                         Text("km/h")
-                            .font(.system(size: (viewModel.isDescent ? 18 : 22)))
+                            .font(.system(size: (viewModel.isDescent ? 18 : 18)))
                             .fontWeight(.medium)
                             .foregroundStyle(.green)
                     }

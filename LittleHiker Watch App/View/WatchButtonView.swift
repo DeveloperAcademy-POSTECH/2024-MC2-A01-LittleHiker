@@ -16,266 +16,300 @@ struct WatchButtonView: View {
     @Binding var selection: String
     //    @State private var isShowingModal = false
     
-    var body: some View {
-        NavigationStack {
-            VStack {
-                //기존의 가짜 네비게이션 타이틀입니다 혹시 몰라서 남겨둠
-//                HStack {
-//                    Spacer()
-//                    Text("\(viewModel.status.getData)")
-//                        .foregroundStyle(Color.blue)
-//                }
-                Spacer()
-                
-                if viewModel.status == .hiking {
-                    VStack {
-                        HStack {
-                            //종료버튼
-                            EndButton(height: 44, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                                .padding(.trailing, 8)
-                            
-                            //일시정지,재개버튼
-                            if pauseResumeToggle == true {
-                                PauseButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
-                            } else {
-                                RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
-                            }
-                        }
-                        HStack {
-                            //정상버튼
-                            PeakButton(height: 44, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                                .padding(.trailing, 8)
-                            //하산버튼
-                            DescendButton(height: 44, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                        }
-                        .padding(.top, 8)
-                        
-                    }
-                    .padding()
-                } else if viewModel.status == .peak {
-                    VStack {
-                        HStack {
-                            //종료버튼
-                            EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                                .padding(.trailing, 8)
-                            //하산버튼
-                            DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                        }
-                    }
-                    .padding()
-                } else if viewModel.status == .descending {
-                    VStack {
-                        HStack {
-                            //종료버튼
-                            EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                                .padding(.trailing, 8)
-                            
-                            //일시정지,재개버튼
-                            if pauseResumeToggle == true {
-                                PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
-                            } else {
-                                RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
-                            }
-                        }
-                    }
-                    .padding()
-                }
-                Spacer()
-            }
-            .padding(.horizontal, 9)
-            //모달로 관리하면 기본으로 x가 있어서 메인앱에서 viewModel.status 로 관리해야 될 듯
-//            .fullScreenCover(isPresented: $viewModel.isShowingModal) {
-//                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
-//            }
-        }
-        .navigationTitle("\(viewModel.status.getData)")
-    }
-}
-
-//종료버튼
-struct EndButton: View {
-//    var viewModelWatch = ViewModelWatch()
-    
-    var height: CGFloat
-    var timeManager: TimeManager
-    @State var arrayText = ""
-    //FIXME: - 테스트용으로 Array를 만들어보았습니다. 수정합시다.
-    //    var heartRateArray = [100, 90, 80, 70]
-    @ObservedObject var viewModel: HikingViewModel
-    @Binding var selection: String
+    //    init() {
+    //        UINavigationBar.appearance().largeTitleTextAtributes = [.foregroundColor: UIColor.blue]
+    //    }
     
     var body: some View {
         VStack {
-            Button(action: {
-                //1. 버튼을 누르면 타이머를 멈춘다
-                timeManager.pauseStopWatch()
-                
-                //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
-                timeManager.setDescendingDuration()
-                //2. 기록이 SummaryView로 넘어감
-                //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
-                //3. iOS로 데이터 동기화(배열 보내기)=
-                //산행상태를 "완료"로 변경
-
-                viewModel.endHiking()
-                viewModel.stop()
-                viewModel.status = .complete
-//                viewModel.isShowingModal = true
-
-            }) {
-                RoundedRectangle(cornerRadius: 28)
-                    .frame(width: 68, height: height)
-                    .foregroundColor(.red)
-                    .opacity(0.25)
-                    .overlay {
-                        Image(systemName: "xmark")
-                            .foregroundStyle(Color.red)
-                            .fontWeight(.bold)
-                    }
+            HStack {
+                Spacer()
+                Text("\(viewModel.status.getData)")
+                    .foregroundStyle(Color.main)
+                    .font(.system(size: 16))
+                    .fontWeight(.medium)
             }
-            .buttonStyle(PlainButtonStyle())
+            .padding(.top, 30)
+            Spacer()
             
-            Text("종료")
-                .font(.system(size: 12))
-        }
-    }
-}
-
-//일시정지버튼
-struct PauseButton: View {
-    var height: CGFloat
-    var timeManager: TimeManager
-    @Binding var toggle: Bool
-    
-    var body: some View {
-        Button(action: {
-            toggle.toggle()
-            print("PauseButton Tapped")
-            //1. 타이머가 멈춘다.
-            timeManager.pauseStopWatch()
-            //2. 기록이 멈춘다.
-        }) {
-            VStack {
-                RoundedRectangle(cornerRadius: 28)
-                    .frame(width: 68, height: height)
-                    .foregroundColor(.yellow)
-                    .opacity(0.25)
-                    .overlay {
-                        Image(systemName: "pause.fill")
-                            .foregroundStyle(Color.yellow)
-                            .fontWeight(.bold)
+            if viewModel.status == .hiking {
+                VStack {
+                    HStack {
+                        //종료버튼
+                        EndButton(height: 44, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                            .padding(.trailing, 8)
+                        
+                        //일시정지,재개버튼
+                        if pauseResumeToggle == true {
+                            PauseButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
+                        } else {
+                            RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
+                        }
                     }
-                Text("일시정지")
+                    HStack {
+                        //정상버튼
+                        PeakButton(height: 44, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                            .padding(.trailing, 8)
+                        //하산버튼
+                        DescendButton(height: 44, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                    }
+                    .padding(.top, 8)
+                    
+                }
+                .padding()
+            } else if viewModel.status == .peak {
+                VStack {
+                    HStack {
+                        //종료버튼
+                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                            .padding(.trailing, 8)
+                        //하산버튼
+                        DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                    }
+                }
+                .padding()
+            } else if viewModel.status == .descending {
+                VStack {
+                    HStack {
+                        //종료버튼
+                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                            .padding(.trailing, 8)
+                        
+                        //일시정지,재개버튼
+                        if pauseResumeToggle == true {
+                            PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
+                        } else {
+                            RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
+                        }
+                    }
+                }.padding()
+                
+            } else if viewModel.status == .peak {
+                VStack {
+                    HStack {
+                        //종료버튼
+                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                            .padding(.trailing, 8)
+                        //하산버튼
+                        DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                    }
+                }
+                .padding()
+            } else if viewModel.status == .descending {
+                VStack {
+                    HStack {
+                        //종료버튼
+                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                            .padding(.trailing, 8)
+                        
+                        //일시정지,재개버튼
+                        if pauseResumeToggle == true {
+                            PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
+                        } else {
+                            RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
+                        }
+                    }
+                }
+                .padding()
+            }
+            Spacer()
+        }
+        .padding(.horizontal, 9)
+        //모달로 관리하면 기본으로 x가 있어서 메인앱에서 viewModel.status 로 관리해야 될 듯
+        //            .fullScreenCover(isPresented: $viewModel.isShowingModal) {
+        //                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+        //            }
+        .fullScreenCover(isPresented: $viewModel.isShowingModal) {
+            WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+        }
+        .edgesIgnoringSafeArea(.top)
+    }
+    
+    //종료버튼
+    struct EndButton: View {
+        //    var viewModelWatch = ViewModelWatch()
+        
+        var height: CGFloat
+        var timeManager: TimeManager
+        @State var arrayText = ""
+        //FIXME: - 테스트용으로 Array를 만들어보았습니다. 수정합시다.
+        //    var heartRateArray = [100, 90, 80, 70]
+        @ObservedObject var viewModel: HikingViewModel
+        @Binding var selection: String
+        
+        var body: some View {
+            VStack {
+                Button(action: {
+                    //1. 버튼을 누르면 타이머를 멈춘다
+                    timeManager.pauseStopWatch()
+                    
+                    //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
+                    timeManager.setDescendingDuration()
+                    //2. 기록이 SummaryView로 넘어감
+                    //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
+                    //3. iOS로 데이터 동기화(배열 보내기)=
+                    //산행상태를 "완료"로 변경
+                    
+                    viewModel.endHiking()
+                    viewModel.stop()
+                    viewModel.status = .complete
+                    //                viewModel.isShowingModal = true
+                    
+                }) {
+                    RoundedRectangle(cornerRadius: 28)
+                        .frame(width: 68, height: height)
+                        .foregroundColor(.red)
+                        .opacity(0.25)
+                        .overlay {
+                            Image(systemName: "xmark")
+                                .foregroundStyle(Color.red)
+                                .fontWeight(.bold)
+                        }
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Text("종료")
                     .font(.system(size: 12))
             }
         }
-        .buttonStyle(PlainButtonStyle())
     }
-}
-
-//재개버튼
-struct RestartButton: View {
-    var height: CGFloat
-    var timeManager: TimeManager
-    @Binding var toggle: Bool
     
-    var body: some View {
-        VStack {
+    //일시정지버튼
+    struct PauseButton: View {
+        var height: CGFloat
+        var timeManager: TimeManager
+        @Binding var toggle: Bool
+        
+        var body: some View {
             Button(action: {
-                print("RestartButton Tapped")
-                timeManager.runStopWatch()
                 toggle.toggle()
-            }) {
-                RoundedRectangle(cornerRadius: 28)
-                    .frame(width: 68, height: 44)
-                    .foregroundColor(.yellow)
-                    .opacity(0.25)
-                    .overlay {
-                        Image(systemName: "arrow.circlepath")
-                            .foregroundStyle(Color.yellow)
-                            .font(.system(size: 18))
-                            .fontWeight(.bold)
-                    }
-            }
-            .buttonStyle(PlainButtonStyle())
-            
-            Text("재개")
-                .font(.system(size: 12))
-        }
-    }
-}
-
-//정상버튼
-struct PeakButton: View {
-    var height: CGFloat
-    var timeManager: TimeManager
-    @ObservedObject var viewModel: HikingViewModel
-    @Binding var selection: String
-    
-    var body: some View {
-        VStack {
-            Button(action: {
-                print("PeakButton Tapped")
-                
+                print("PauseButton Tapped")
+                //1. 타이머가 멈춘다.
                 timeManager.pauseStopWatch()
-                //전체산행시간에서 등산시간이 정해짐
-                timeManager.setAscendingDuration()
-                //뷰모델에서 산행상태를 정상으로 변경
-                viewModel.status = .peak
-                selection = "default"
+                //2. 기록이 멈춘다.
             }) {
-                RoundedRectangle(cornerRadius: 28)
-                    .frame(width: 68, height: height)
-                    .foregroundColor(.green)
-                    .opacity(0.25)
-                    .overlay {
-                        Image(systemName: "mountain.2.fill")
-                            .foregroundStyle(Color.green)
-                            .fontWeight(.bold)
-                    }
+                VStack {
+                    RoundedRectangle(cornerRadius: 28)
+                        .frame(width: 68, height: height)
+                        .foregroundColor(.yellow)
+                        .opacity(0.25)
+                        .overlay {
+                            Image(systemName: "pause.fill")
+                                .foregroundStyle(Color.yellow)
+                                .fontWeight(.bold)
+                        }
+                    Text("일시정지")
+                        .font(.system(size: 12))
+                }
             }
             .buttonStyle(PlainButtonStyle())
-            
-            Text("정상")
-                .font(.system(size: 12))
         }
     }
-}
-
-//하산버튼
-struct DescendButton: View {
-    var height: CGFloat
-    var timeManager: TimeManager
-    @ObservedObject var viewModel: HikingViewModel
-    @Binding var selection: String
-
-    var body: some View {
-        VStack {
-            Button(action: {
-                if ((timeManager.timer?.isValid) != nil) {
-                    timeManager.timer?.invalidate()
+    
+    //재개버튼
+    struct RestartButton: View {
+        var height: CGFloat
+        var timeManager: TimeManager
+        @Binding var toggle: Bool
+        
+        var body: some View {
+            VStack {
+                Button(action: {
+                    print("RestartButton Tapped")
+                    timeManager.runStopWatch()
+                    toggle.toggle()
+                }) {
+                    RoundedRectangle(cornerRadius: 28)
+                        .frame(width: 68, height: 44)
+                        .foregroundColor(.yellow)
+                        .opacity(0.25)
+                        .overlay {
+                            Image(systemName: "arrow.circlepath")
+                                .foregroundStyle(Color.yellow)
+                                .font(.system(size: 18))
+                                .fontWeight(.bold)
+                        }
                 }
-                timeManager.runStopWatch()
+                .buttonStyle(PlainButtonStyle())
                 
-                //뷰모델에서 산행상태를 정상으로 변경
-                viewModel.status = .descending
-                viewModel.isDescent = true
-                selection = "default"
-            }) {
-                RoundedRectangle(cornerRadius: 28)
-                    .frame(width: 68, height: height)
-                    .foregroundColor(.green)
-                    .opacity(0.25)
-                    .overlay {
-                        Image(systemName: "arrow.down.right")
-                            .foregroundStyle(Color.green)
-                            .fontWeight(.bold)
-                    }
+                Text("재개")
+                    .font(.system(size: 12))
             }
-            .buttonStyle(PlainButtonStyle())
-            
-            Text("하산")
-                .font(.system(size: 12))
+        }
+    }
+    
+    //정상버튼
+    struct PeakButton: View {
+        var height: CGFloat
+        var timeManager: TimeManager
+        @ObservedObject var viewModel: HikingViewModel
+        @Binding var selection: String
+        
+        var body: some View {
+            VStack {
+                Button(action: {
+                    print("PeakButton Tapped")
+                    
+                    timeManager.pauseStopWatch()
+                    //전체산행시간에서 등산시간이 정해짐
+                    timeManager.setAscendingDuration()
+                    //뷰모델에서 산행상태를 정상으로 변경
+                    viewModel.status = .peak
+                    selection = "default"
+                }) {
+                    RoundedRectangle(cornerRadius: 28)
+                        .frame(width: 68, height: height)
+                        .foregroundColor(.green)
+                        .opacity(0.25)
+                        .overlay {
+                            Image(systemName: "mountain.2.fill")
+                                .foregroundStyle(Color.green)
+                                .fontWeight(.bold)
+                        }
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Text("정상")
+                    .font(.system(size: 12))
+            }
+        }
+    }
+    
+    //하산버튼
+    struct DescendButton: View {
+        var height: CGFloat
+        var timeManager: TimeManager
+        @ObservedObject var viewModel: HikingViewModel
+        @Binding var selection: String
+        
+        var body: some View {
+            VStack {
+                Button(action: {
+                    if ((timeManager.timer?.isValid) != nil) {
+                        timeManager.timer?.invalidate()
+                    }
+                    timeManager.runStopWatch()
+                    
+                    //뷰모델에서 산행상태를 정상으로 변경
+                    viewModel.status = .descending
+                    viewModel.isDescent = true
+                    selection = "default"
+                }) {
+                    RoundedRectangle(cornerRadius: 28)
+                        .frame(width: 68, height: height)
+                        .foregroundColor(.green)
+                        .opacity(0.25)
+                        .overlay {
+                            Image(systemName: "arrow.down.right")
+                                .foregroundStyle(Color.green)
+                                .fontWeight(.bold)
+                        }
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                Text("하산")
+                    .font(.system(size: 12))
+            }
         }
     }
 }
