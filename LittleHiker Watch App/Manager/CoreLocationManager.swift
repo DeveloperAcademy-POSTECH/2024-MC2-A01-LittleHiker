@@ -66,9 +66,16 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         print("Failed to find user's location: \(error.localizedDescription) : \(currentAltitude),\(currentAltitude)")
     }
     //append func 따로 만들고 충격량 로그도 만듦
-    func appendCoreLocationLogs(){
-        altitudeLogs.append(currentAltitude)
-        speedLogs.append(currentSpeed)
+    func appendCoreLocationLogs(isRecord: Bool){
+        if isRecord {
+            altitudeLogs.append(currentAltitude)
+            speedLogs.append(currentSpeed)
+        }
+        else{
+            //일시정지시 0값 넣기
+            altitudeLogs.append(0.0)
+            speedLogs.append(0.0)
+        }
         //필요 없어서 삭제
     }
     

@@ -44,9 +44,14 @@ class HealthKitManager: NSObject, ObservableObject {
     }
     
     //append 기능 추가
-    func appendHealthKitLogs(_ heartRate: Int, distance: Double){
-        heartRateLogs.append(heartRate)
-        distanceLogs.append(distance)
+    func appendHealthKitLogs(isRecord: Bool){
+        if isRecord {
+            heartRateLogs.append(currentHeartRate)
+            distanceLogs.append(currentDistanceWalkingRunning)
+        } else {
+            heartRateLogs.append(0)
+            distanceLogs.append(0.0)
+        }
     }
     
     func startTimer() {

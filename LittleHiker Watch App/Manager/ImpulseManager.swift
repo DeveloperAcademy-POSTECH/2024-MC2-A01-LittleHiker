@@ -32,6 +32,7 @@ class ImpulseManager: NSObject, ObservableObject {
     //    @Published var altitudeLogs: [Double] = []
     @Published var impulseLogs: [Double] = []
     @Published var impulseRatio = 50.0
+    var currentImpulse = 0.0
     
     let weight = 50.0
     @Published var diagonalVelocityCriterion: String = "2.7"
@@ -55,8 +56,13 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     
-    func appendToLogs(_ impulse: Double){
-        impulseLogs.append(impulse)
+    func appendToLogs(isRecord: Bool){
+        if isRecord {
+            impulseLogs.append(currentImpulse)
+        }
+        else {
+            impulseLogs.append(0.0)
+        }
         //테스트용
         diagonalVelocityCriterionLogs.append(Double(diagonalVelocityCriterion) ?? -1)
         impulseCriterionLogs.append(impulseCriterion)
@@ -92,10 +98,10 @@ class ImpulseManager: NSObject, ObservableObject {
         print("recentAltitudeChange : \(recentAltitudeChange)")
         print("수평_Vel : \(currentSpeed)")
         print("경사_Vel : \(sqrt((pow(recentAltitudeChange, 2) + pow(currentSpeed, 2))))")
-        let impulse = self.calculateImpulse(recentAltitudeChange, currentSpeed)
-        self.appendToLogs(impulse)
-        print("impulse : \(impulse)")
-        impulseRatio = self.calculateImpulseRatio(impulse)
+        currentImpulse = self.calculateImpulse(recentAltitudeChange, currentSpeed)
+//        self.appendToLogs(impulse) 밖으로 뺌
+        print("impulse : \(currentImpulse)")
+        impulseRatio = self.calculateImpulseRatio(currentImpulse)
         print("impulseRatio : \(impulseRatio)")
     }
     

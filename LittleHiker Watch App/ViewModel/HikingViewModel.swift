@@ -94,15 +94,14 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
             guard let self = self else { return }
             
-            //HealthKit append 수정
-            self.healthKitManager
-                .appendHealthKitLogs(self.healthKitManager.currentHeartRate, distance: self.healthKitManager.currentDistanceWalkingRunning)
+            //하이킹 모드 아닐 때 로그 0으로 저장 추가
+            self.healthKitManager.appendHealthKitLogs(isRecord: self.isRecord())
+            self.coreLocationManager.appendCoreLocationLogs(isRecord: self.isRecord()) //순서변경
             self.impulseManager.calculateAndAppendRecentImpulse(
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
                 currentSpeed: self.coreLocationManager.currentSpeed
             )
-            //location append 수정 및 위치 변환
-            self.coreLocationManager.appendCoreLocationLogs()
+            self.impulseManager.appendToLogs(isRecord: isRecord())
             //testcode 기준속도 변경
             self.impulseManager.diagonalVelocityCriterion = viewModelWatch.impulseRate
             //timestamptest
@@ -114,8 +113,12 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             guard let self = self else { return }
             self.testCode()
         }
-
     }
+    // 기록상태 확인 코드 추가
+    func isRecord() -> Bool {
+        return status == .descending || status == .hiking ? true : false
+    }
+    
     //타임스탬프 만드는 함수
     func getCurrentTimestamp() -> String {
         let currentDate = Date()
