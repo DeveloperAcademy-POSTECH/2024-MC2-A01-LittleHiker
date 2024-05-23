@@ -19,7 +19,7 @@ struct WatchRootView: View {
                 if viewModel.status != .peak{
                     WatchMainView(viewModel: viewModel, locationViewModel: viewModel.coreLocationManager)
                 }
-                else if viewModel.status == .peak{
+                else {
                     WatchRestView()
                 }
                 WatchDetailView(viewModel: viewModel, healthViewModel: viewModel.healthKitManager, timeManager: timeManager)

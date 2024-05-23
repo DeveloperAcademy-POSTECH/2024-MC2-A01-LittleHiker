@@ -10,17 +10,28 @@ import SwiftUI
 struct WatchSummaryView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
-
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
                 
                 // todo 이거 navigationTitle 로 지정하면 뜨는건지 확인 필요.
                 HStack {
+                    Button(action: {
+                        viewModel.status = .ready
+                    }, label: {
+                        Image(systemName: "xmark")
+                            .frame(width: 16, height: 16)
+                    })
+                    .frame(width: 30, height: 30)
+                    .background(Color.white.opacity(0.2))
+                    .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                    .buttonStyle(PlainButtonStyle())
                     Spacer()
                     Text("요약")
                         .foregroundStyle(Color.blue)
                 }
+                .padding(.bottom, 8)
                 
                 //시간
                 Text("총 시간")
@@ -45,7 +56,7 @@ struct WatchSummaryView: View {
                     Text("\(timeManager.descendingDuration)")
                         .font(.system(size: 14))
                         .foregroundColor(.gray)
-
+                    
                 }
                 .padding(.top, 2)
                 .padding(.bottom, 8)
