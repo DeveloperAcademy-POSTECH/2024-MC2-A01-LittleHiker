@@ -32,10 +32,24 @@ struct WatchRestView: View {
     @State var gifAnimation: GifAnimation = .peak
     @State private var frameIndex = 0
     @State private var timer: Timer?
-    private let changeTime = 120.0
+    private let changeTime = 10.0
 
     var body: some View {
-        squirrelGIF
+        ZStack {
+            squirrelGIF
+                .offset(y: gifAnimation == .eat ? -12 : 0)
+                .padding(.bottom,gifAnimation == .eat ? 12 : 0)
+            RoundedRectangle(cornerRadius: 16)
+                .frame(height: 32)
+                .foregroundColor(.gray.opacity(0.3))
+                .padding(.top, 140)
+                .padding(.horizontal, 9)
+                .overlay {
+                    Text(gifAnimation == .eat ? "냠냠~ 맛있다~" : "야~~~호~~~!")
+                        .font(.system(size: 16))
+                        .padding(.top, 140)
+                }
+        }
     }
     
     var squirrelGIF: some View{
