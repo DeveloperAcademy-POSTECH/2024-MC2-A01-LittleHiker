@@ -82,6 +82,7 @@ struct WatchButtonView: View {
                 }
                 Spacer()
             }
+            .padding(.horizontal, 9)
             .fullScreenCover(isPresented: $viewModel.isShowingModal) {
                 WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
             }

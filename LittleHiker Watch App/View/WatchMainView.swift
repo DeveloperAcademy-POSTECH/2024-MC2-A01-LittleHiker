@@ -18,48 +18,60 @@ struct WatchMainView: View {
 //    @State private var progress: CGFloat = 50
 
     var body: some View {
-        VStack(alignment: .leading){
-            Text("현재 고도")
-                .font(.system(size: 18))
-            HStack(alignment: .bottom){
-                Text("\(Int(locationViewModel.currentAltitude))")
-                    .font(.system(size: 32))
-                    .fontWeight(.medium)
-                    .foregroundStyle(.green)
-                Text("M")
-                    .font(.system(size: 22))
-                    .fontWeight(.medium)
-                    .foregroundStyle(.green)
-                Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
-                    .font(.system(size: 32))
-                    .fontWeight(.medium)
-                    .foregroundStyle(.green)
-                Text("km/h")
-                    .font(.system(size: 22))
-                    .fontWeight(.medium)
-                    .foregroundStyle(.green)
-            }
-            Spacer()
-            if viewModel.impulseManager.impulseRatio <= 80{
-                HStack{
-                    Spacer()
-                    squirrelGIF
-                        .onDisappear{
-                            stopGifTimer()
-                        }
-                    Spacer()
+        ZStack {
+            VStack(spacing: 0) {
+                Spacer()
+                if viewModel.impulseManager.impulseRatio <= 80{
+                    HStack{
+                        Spacer()
+                        squirrelGIF
+                            .padding(.bottom, viewModel.isDescent ? 8 : 0)
+                            .onDisappear{
+                                stopGifTimer()
+                            }
+                        Spacer()
+                    }
+                }
+                else{
+                    Text("다람이가\n못 따라오고 있어요🥲\n조금만 기다려주세요")
+                        .font(.system(size: 18))
+                        .fontWeight(.medium)
                 }
             }
-            else{
-                Text("다람이가\n못 따라오고 있어요🥲\n조금만 기다려주세요")
-                    .font(.title3)
-                    .fontWeight(.semibold)
+            
+            HStack(spacing: 0) {
+                VStack(alignment: .leading, spacing: 0){
+                    Text("현재 고도")
+                        .font(.system(size:(viewModel.isDescent ? 16 : 18)))
+                    HStack(alignment: .bottom){
+                        Text("\(Int(locationViewModel.currentAltitude))")
+                            .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.green)
+                        Text("M")
+                            .font(.system(size: (viewModel.isDescent ? 18 : 22)))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.green)
+                        Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
+                            .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.green)
+                        Text("km/h")
+                            .font(.system(size: (viewModel.isDescent ? 18 : 22)))
+                            .fontWeight(.medium)
+                            .foregroundStyle(.green)
+                    }
+                    Spacer()
+                    if viewModel.isDescent{
+                        progressBar
+                    }
+                }
+                Spacer()
             }
-            Spacer()
-            if viewModel.isDescent{
-                progressBar
-            }
+            .padding(.horizontal, 8)
+            .padding(.top, 28)
         }
+        .edgesIgnoringSafeArea(.top)
     }
     
     //MARK: - 다람이GIF
@@ -89,15 +101,16 @@ struct WatchMainView: View {
                 Image("progressbar")
                     .resizable()
                     .scaledToFit()
-                    .frame(width: geometry.size.width)
+                    .frame(width: geometry.size.width, height: 12)
                 HStack{
                     Text(viewModel.impulseManager.impulseLogs.count == 0 ? "--" : "\(Int(viewModel.impulseManager.impulseLogs.last!))")
-                        .font(.caption)
+                        .font(.system(size: 18))
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
-                        .padding(.horizontal, 10)
+                        .padding(.horizontal, 8)
                 }
-                .frame(width: 50, height: 30)
+                .frame(minWidth: 44)
+                .frame(height: 24)
                 .background(Capsule().fill(colorForValue(viewModel.impulseManager.impulseRatio)))
                 .offset(
                     x: min(
@@ -112,21 +125,20 @@ struct WatchMainView: View {
                 .animation(.linear, value: viewModel.impulseManager.impulseRatio)
             }
         }
-        .frame(height: 20)
-        .padding(.bottom, 10)
+        .frame(height: 12)
     }
     
     //MARK: - 컬러 반환 함수
     func colorForValue(_ value: CGFloat) -> Color {
         switch value {
         case 0..<30:
-            return .green
+            return Color(red: 0.40, green: 1.00, blue: 0.40, opacity: 1.00)
         case 30..<60:
-            return .yellow
+            return Color(red: 1.00, green: 1.00, blue: 0.40, opacity: 1.00)
         case 60...100:
-            return .red
+            return Color(red: 1.00, green: 0.40, blue: 0.40, opacity: 1.00)
         default:
-            return .yellow
+            return Color(red: 1.00, green: 1.00, blue: 0.40, opacity: 1.00)
         }
     }
     
