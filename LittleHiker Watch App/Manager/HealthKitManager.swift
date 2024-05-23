@@ -25,7 +25,6 @@ class HealthKitManager: NSObject, ObservableObject {
     let heartRateQuantity = HKUnit(from: "count/min")
     let distanceQuantity = HKUnit.meter()
     //심박수 평균을 위한 시작 시간
-    let startDate = Date()
 
     let read = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
     let share = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])

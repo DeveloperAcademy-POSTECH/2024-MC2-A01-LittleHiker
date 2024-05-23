@@ -147,6 +147,15 @@ struct CountdownView: View {
         } else {
             progress -= 0.1
             
+            //TODO: - 여기서 기존에 쓰던 데이터 값이 있다면 초기화해줌
+            if !viewModel.impulseManager.impulseLogs.isEmpty {
+                timeManager.elapsedTime = 0
+                viewModel.healthKitManager = HealthKitManager()
+                viewModel.coreLocationManager = CoreLocationManager()
+                viewModel.impulseManager = ImpulseManager()
+                viewModel.summaryModel = SummaryModel()
+            }
+            
             //3,2,1 끝나고 뷰가 바뀌기 직전에 스탑워치 시작!
             timeManager.runStopWatch()
             //기록 날짜 "yyyy년 mm월 dd일" 찍기
