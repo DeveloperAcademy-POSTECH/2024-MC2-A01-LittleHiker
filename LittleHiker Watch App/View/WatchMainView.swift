@@ -108,13 +108,25 @@ struct WatchMainView: View {
             .rotationEffect(.degrees(viewModel.isDescent ? 30 : -30))
             .background(Color.clear)
             .onAppear {
-                animationGifTimer()
+                if viewModel.status != .hikingStop && viewModel.status != .descendingStop{
+                    animationGifTimer()
+                }
             }
             .onDisappear {
                 stopGifTimer()
             }
             .onChange(of: viewModel.impulseManager.impulseRatio){
-                animationGifTimer()
+                if viewModel.status != .hikingStop && viewModel.status != .descendingStop{
+                    animationGifTimer()
+                }
+            }
+            .onChange(of: viewModel.status){
+                if viewModel.status == .hikingStop || viewModel.status == .descendingStop{
+                    print("------------일시정지 멈춤")
+                    stopGifTimer()
+                } else {
+                    animationGifTimer()
+                }
             }
     }
     
@@ -189,6 +201,8 @@ struct WatchMainView: View {
     
     //MARK: - GIF 스케쥴러
     private func animationGifTimer() {
+        print("------------애니메이션 시작")
+
         stopGifTimer()
         // 1.0 / 4.0이면 1초당 이미지 4번 바뀜
         timer = Timer.scheduledTimer(withTimeInterval: speedForValue(viewModel.impulseManager.impulseRatio), repeats: true) { _ in

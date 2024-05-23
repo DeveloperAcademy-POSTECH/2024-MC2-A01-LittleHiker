@@ -32,7 +32,7 @@ struct WatchButtonView: View {
             .padding(.top, 30)
             Spacer()
             
-            if viewModel.status == .hiking {
+            if viewModel.status == .hiking || viewModel.status == .hikingStop{
                 VStack {
                     HStack {
                         //종료버튼
@@ -41,9 +41,9 @@ struct WatchButtonView: View {
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
-                            PauseButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
+                            PauseButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle, viewModel: viewModel)
                         } else {
-                            RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle)
+                            RestartButton(height: 44, timeManager: timeManager, toggle: $pauseResumeToggle, viewModel: viewModel)
                         }
                     }
                     HStack {
@@ -68,7 +68,7 @@ struct WatchButtonView: View {
                     }
                 }
                 .padding()
-            } else if viewModel.status == .descending {
+            } else if viewModel.status == .descending || viewModel.status == .descendingStop{
                 VStack {
                     HStack {
                         //종료버튼
@@ -77,40 +77,12 @@ struct WatchButtonView: View {
                         
                         //일시정지,재개버튼
                         if pauseResumeToggle == true {
-                            PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
+                            PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle, viewModel: viewModel)
                         } else {
-                            RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
+                            RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle, viewModel: viewModel)
                         }
                     }
                 }.padding()
-                
-            } else if viewModel.status == .peak {
-                VStack {
-                    HStack {
-                        //종료버튼
-                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                            .padding(.trailing, 8)
-                        //하산버튼
-                        DescendButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                    }
-                }
-                .padding()
-            } else if viewModel.status == .descending {
-                VStack {
-                    HStack {
-                        //종료버튼
-                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                            .padding(.trailing, 8)
-                        
-                        //일시정지,재개버튼
-                        if pauseResumeToggle == true {
-                            PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
-                        } else {
-                            RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle)
-                        }
-                    }
-                }
-                .padding()
             }
             Spacer()
         }
@@ -179,6 +151,7 @@ struct WatchButtonView: View {
         var height: CGFloat
         var timeManager: TimeManager
         @Binding var toggle: Bool
+        @ObservedObject var viewModel: HikingViewModel
         
         var body: some View {
             Button(action: {
@@ -187,6 +160,8 @@ struct WatchButtonView: View {
                 //1. 타이머가 멈춘다.
                 timeManager.pauseStopWatch()
                 //2. 기록이 멈춘다.
+                viewModel.pause()
+                
             }) {
                 VStack {
                     RoundedRectangle(cornerRadius: 28)
@@ -211,6 +186,7 @@ struct WatchButtonView: View {
         var height: CGFloat
         var timeManager: TimeManager
         @Binding var toggle: Bool
+        @ObservedObject var viewModel: HikingViewModel
         
         var body: some View {
             VStack {
@@ -218,6 +194,8 @@ struct WatchButtonView: View {
                     print("RestartButton Tapped")
                     timeManager.runStopWatch()
                     toggle.toggle()
+                    viewModel.restart()
+
                 }) {
                     RoundedRectangle(cornerRadius: 28)
                         .frame(width: 68, height: 44)
