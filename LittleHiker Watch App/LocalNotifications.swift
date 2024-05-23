@@ -57,7 +57,7 @@ final class LocalNotifications: NSObject {
         content.body = "다람이가 못따라오고 있어요"
         content.categoryIdentifier = categoryIdentifier
         
-        let components = DateComponents(second: 3)
+        let components = DateComponents(second: 1)
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString,
                                             content: content,
