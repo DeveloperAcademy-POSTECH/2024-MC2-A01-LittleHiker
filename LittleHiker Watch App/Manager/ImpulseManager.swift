@@ -99,4 +99,17 @@ class ImpulseManager: NSObject, ObservableObject {
         print("impulseRatio : \(impulseRatio)")
     }
     
+    func getImpulseAvg() -> Double {
+        let nonZeroImpulseLogs = impulseLogs.filter { $0 != 0 }
+
+        guard !nonZeroImpulseLogs.isEmpty else {
+            return 0.0
+        }
+        
+        let sum = nonZeroImpulseLogs.reduce(0, +)
+        
+        let average = sum / Double(nonZeroImpulseLogs.count)
+        
+        return average
+    }
 }

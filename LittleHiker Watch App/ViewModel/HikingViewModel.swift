@@ -171,6 +171,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         summaryModel.minAltitude = Int(coreLocationManager.findNonZeroMin()!)
         summaryModel.totalDistance = healthKitManager.currentDistanceWalkingRunning
         summaryModel.speedAvg = coreLocationManager.getSpeedAvg()
+        summaryModel.impulseAvg = impulseManager.getImpulseAvg()
         summaryModel.minImpulse = Int(impulseManager.findNonZeroMin()!)
         summaryModel.maxImpulse = Int(impulseManager.impulseLogs.max()!)
 
