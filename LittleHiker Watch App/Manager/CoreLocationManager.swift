@@ -23,8 +23,8 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     //나중에 ios로 넘길 데이터들
     @Published var altitudeLogs: [Double] = []
     @Published var speedLogs: [Double] = []
-    @Published var impulseLogs: [Int] = []
-    @Published var impulse = 0
+    //필요없어서 삭제
+
     //등반 고도 값
     @Published var climbingAltitude: Double = 0.0
     
@@ -66,10 +66,17 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         print("Failed to find user's location: \(error.localizedDescription) : \(currentAltitude),\(currentAltitude)")
     }
     //append func 따로 만들고 충격량 로그도 만듦
-    func appendCoreLocationLogs(){
-        altitudeLogs.append(currentAltitude)
-        speedLogs.append(currentSpeed)
-        impulseLogs.append(impulse)
+    func appendCoreLocationLogs(isRecord: Bool){
+        if isRecord {
+            altitudeLogs.append(currentAltitude)
+            speedLogs.append(currentSpeed)
+        }
+        else{
+            //일시정지시 0값 넣기
+            altitudeLogs.append(0.0)
+            speedLogs.append(0.0)
+        }
+        //필요 없어서 삭제
     }
     
     //이거 등반 고도 나중에 함수 따로 빼야됨 -> log탐색 하는 것을 매번 불러오기 부담일 수 있어서 시작고도 저장해 놓고 최고고도 변경해가면서 등반고도값도 변경되게 만들어야 될 듯
@@ -90,6 +97,21 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     func findNonZeroMin() -> Double? {
         let nonZeroValues = altitudeLogs.filter { $0 != 0 }
         return nonZeroValues.min()
+    }
+    
+    func getSpeedAvg() -> Double {
+        //0.5km/h이상의 값만 유효한 값으로 인식
+        let nonZeroImpulseLogs = speedLogs.filter { $0 >= 0.5 }
+
+        guard !nonZeroImpulseLogs.isEmpty else {
+            return 0.0
+        }
+        
+        let sum = nonZeroImpulseLogs.reduce(0, +)
+        
+        let average = sum / Double(nonZeroImpulseLogs.count)
+        
+        return average
     }
     
     deinit {
