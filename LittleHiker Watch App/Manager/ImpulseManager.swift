@@ -162,9 +162,6 @@ class ImpulseManager: NSObject, ObservableObject {
     func isWarningConditionMet() -> Bool{
         let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
         let currentImpulseRatio = self.calculateImpulseRatio(currentImpulse)
-        if currentImpulseRatio == 0 {
-            return true
-        }
         if 60 <= currentImpulseRatio {
             return true
         }
@@ -172,7 +169,7 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func stayedInRedZoneForTooLong() -> Bool {
-        if 60 <= redZoneCount {
+        if 15 <= redZoneCount {
             return true
         }
         return false
@@ -195,9 +192,9 @@ class ImpulseManager: NSObject, ObservableObject {
         if stayedInRedZoneForTooLong() {
             self.sendWarningNotification()
         }
-        if impulseCriterion * LabelCoefficients.red.coefficients < self.impulseLogs[self.impulseLogs.count-1] {
-            self.sendWarningNotification()
-        }
+//        if impulseCriterion * LabelCoefficients.red.coefficients < self.impulseLogs[self.impulseLogs.count-1] {
+//            self.sendWarningNotification()
+//        }
     }
 }
 
