@@ -30,10 +30,10 @@ struct LittleHiker_Watch_AppApp: App {
         }
 
         
-        #if os(watchOS)
-        WKNotificationScene(
-            controller: NotificationController.self,
-            category: "myNotification")
-        #endif
+//        #if os(watchOS)
+//        WKNotificationScene(
+//            controller: NotificationController.self,
+//            category: "myNotification")
+//        #endif
     }
 }

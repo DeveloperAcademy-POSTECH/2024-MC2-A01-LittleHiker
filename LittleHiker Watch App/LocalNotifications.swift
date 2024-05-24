@@ -13,19 +13,6 @@ final class LocalNotifications: NSObject, ObservableObject {
     private let categoryIdentifier = "custom"
     private let actionIdentifier = "notiAction"
     
-    // override init(){
-    //     super.init()
-    
-    //     Task{
-    //         do {
-    //             try await register()
-    //             try await schedule()
-    
-    //         } catch {
-    //             print("\(error.localizedDescription)")
-    //         }
-    //     }
-    // }
     
     func register() async throws {
         let current = UNUserNotificationCenter.current()
@@ -46,10 +33,6 @@ final class LocalNotifications: NSObject, ObservableObject {
     
     func schedule() {
         let current = UNUserNotificationCenter.current()
-        //        let settings = await current.notificationSettings()
-        //        
-        //        //notification setting이 enabled 되어 있을 때만 schedule을 할 수 있음. 아니면 schedule 자체가 의미 없음
-        //        guard settings.alertSetting == .enabled else { return }
         current.requestAuthorization(options: [.alert, .sound]) {[weak self] granted, error in
             guard let self = self else { return }
             
@@ -61,7 +44,7 @@ final class LocalNotifications: NSObject, ObservableObject {
                 content.body = "다람이가 못따라오고 있어요"
                 content.categoryIdentifier = self.categoryIdentifier
                 
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0, repeats: false)
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
                 let request = UNNotificationRequest(identifier: UUID().uuidString,
                                                     content: content,
                                                     trigger: trigger)
@@ -71,9 +54,6 @@ final class LocalNotifications: NSObject, ObservableObject {
             }
             
         }
-        
-        //        try await current.add(request)
-     
     }
 }
 

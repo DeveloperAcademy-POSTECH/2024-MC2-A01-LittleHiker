@@ -149,13 +149,6 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func sendTipsNotification()  -> Void {
-  
-//        do{
-//            try await localNotification.register()
-//            try await localNotification.schedule()
-//        } catch {
-//            print("error")
-//        }
         localNotification.schedule()
 
     }
