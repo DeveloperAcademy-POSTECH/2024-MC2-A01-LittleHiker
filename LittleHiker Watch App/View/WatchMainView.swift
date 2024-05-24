@@ -24,10 +24,15 @@ struct WatchMainView: View {
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
-                Spacer()
+                headLabel
+                    .onAppear(perform: {
+                        viewModel.isDescent = true
+                    })
+//                Spacer()
                 if viewModel.impulseManager.impulseRatio <= 80{
                     HStack{
                         squirrelGIF
+                            .offset(y : -10)
                             .padding(.bottom, viewModel.isDescent ? 16 : 0)
                             .onDisappear{
                                 stopGifTimer()
@@ -35,103 +40,99 @@ struct WatchMainView: View {
                     }
                 }
                 else{
-                    VStack{
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            //                            .padding(.horizontal, 9)
-                                .frame(height: 80)
-                                .foregroundColor(.gray.opacity(0.3))
-                                .padding(.bottom, 4)
-                            HStack(alignment: .center){
-                                Text("다람이가\n못 따라오고 있어요🥲\n조금만 쉬면서 가세요")
-                                    .font(.system(size: 16))
-                                    .fontWeight(.medium)
+                    if viewModel.isDescent {
+                        VStack{
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                //                            .padding(.horizontal, 9)
+                                    .frame(height: 60)
+                                    .foregroundColor(.gray.opacity(0.3))
                                     .padding(.bottom, 4)
-                                    .padding(.leading, 9)
-                                Spacer()
-                            }
-                        }
-                        .padding(.top, 100)
-                        Spacer()
-                    }
-                }
-            }
-            
-            HStack(spacing: 0) {
-                ZStack {
-                    VStack(alignment: .leading, spacing: 0){
-                        HStack(alignment: .top){
-                            VStack(alignment: .leading){
-                                Text("현재 고도")
-                                    .font(.system(size:(viewModel.isDescent ? 16 : 18)))
-                                HStack(alignment: .bottom, spacing: 0){
-                                    Text("\(Int(locationViewModel.currentAltitude))")
-                                        .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                                HStack(alignment: .center){
+                                    Text("다람이가\n못 따라오고 있어요🥲\n조금만 쉬면서 가세요")
+                                        .font(.system(size: 14))
                                         .fontWeight(.medium)
-                                        .foregroundStyle(.green)
-                                    Text("M")
-                                        .font(.system(size: (viewModel.isDescent ? 18 : 22)))
-                                        .fontWeight(.medium)
-                                        .foregroundStyle(.green)
-                                        .padding(.leading, 2)
-                                    //                        Text("\(String(format: "%.1f", locationViewModel.currentSpeed))")
-                                    //                            .font(.system(size: (viewModel.isDescent ? 22 : 22)))
-                                    //                            .fontWeight(.medium)
-                                    //                            .foregroundStyle(.green)
-                                    //                        Text("km/h")
-                                    //                            .font(.system(size: (viewModel.isDescent ? 18 : 18)))
-                                    //                            .fontWeight(.medium)
-                                    //                            .foregroundStyle(.green)
+                                        .padding(.bottom, 4)
+                                        .padding(.leading, 9)
+                                    Spacer()
                                 }
                             }
+                            .padding(.top, 3)
                             Spacer()
-                            if viewModel.isDescent{
-                                Button(action: {
-                                    isShowing = true
-                                }) {
-                                    Image(systemName: "info")
-                                }
-                                .alert(isPresented: $isShowing) {
-                                    Alert(
-                                        title: Text("충격량(IU)"),
-                                        message: Text("= 힘(N)/100"),
-                                        dismissButton: .default(Text("확인"), action: {
-                                            print("Dismiss button clicked")
-                                        })
-                                    )
-                                }
-                                .frame(width: 30, height: 30)
-                                .background(Color.white.opacity(0.2))
-                                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                                .buttonStyle(PlainButtonStyle())}
-                        }
-                        .padding(.top, 4)
-                        
-                        Spacer()
-                        if viewModel.isDescent{
-                            HStack(alignment: .bottom, spacing: 0){
-                                Text("충격량")
-                                    .font(.system(size:14))
-                                //                                .foregroundStyle(.gray)
-                                Text("(IU)")
-                                    .font(.system(size:14))
-                                    .foregroundStyle(.gray)
-                                Spacer()
-                                Text("\(Int(viewModel.impulseManager.impulseCriterion * LabelCoefficients.red.coefficients))")
-                                    .font(.system(size:14))
-                                    .foregroundStyle(.gray)
-                            }
-                            .padding(.bottom, 4)
-                            progressBar
                         }
                     }
-                    .padding(.horizontal, 9)
-                    .padding(.top, 28)
                 }
+                Spacer()
+            }
+            if viewModel.isDescent{
+                progressBarLabel
+                    .padding(.top, 108)
+                progressBar
+                    .padding(.top, 138)
             }
         }
         .edgesIgnoringSafeArea(.top)
     }
+    //MARK: - progressbar Label
+    var progressBarLabel : some View{
+            HStack(alignment: .bottom, spacing: 0){
+                Text("충격량")
+                    .font(.system(size:14))
+                //                                .foregroundStyle(.gray)
+                Text("(IU)")
+                    .font(.system(size:14))
+                    .foregroundStyle(.gray)
+                Spacer()
+                Text("\(Int(viewModel.impulseManager.impulseCriterion * LabelCoefficients.red.coefficients))")
+                    .font(.system(size:14))
+                    .foregroundStyle(.gray)
+            }
+            .padding(.bottom, 4)
+    }
+    
+    //MARK: - HEAD LABEL
+    var headLabel: some View{
+        HStack(alignment: .top){
+            VStack(alignment: .leading){
+                Text("현재 고도")
+                    .font(.system(size:(viewModel.isDescent ? 16 : 18)))
+                HStack(alignment: .bottom, spacing: 0){
+                    Text("\(Int(locationViewModel.currentAltitude))")
+                        .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                        .fontWeight(.medium)
+                        .foregroundStyle(.green)
+                    Text("M")
+                        .font(.system(size: (viewModel.isDescent ? 18 : 22)))
+                        .fontWeight(.medium)
+                        .foregroundStyle(.green)
+                        .padding(.leading, 2)
+                }
+            }
+            Spacer()
+            if viewModel.isDescent{
+                Button(action: {
+                    isShowing = true
+                }) {
+                    Image(systemName: "info")
+                }
+                .alert(isPresented: $isShowing) {
+                    Alert(
+                        title: Text("충격량(IU)"),
+                        message: Text("= 힘(N)/100"),
+                        dismissButton: .default(Text("확인"), action: {
+                            print("Dismiss button clicked")
+                        })
+                    )
+                }
+                .frame(width: 30, height: 30)
+                .background(Color.white.opacity(0.2))
+                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                .buttonStyle(PlainButtonStyle())}
+        }
+//        .padding(.horizontal, 9)
+        .padding(.top, 32)
+    }
+    
     
     //MARK: - 다람이GIF
     var squirrelGIF: some View{
