@@ -126,13 +126,6 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		1A36FB232BFDE24400880ED5 /* Notification */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Notification;
-			sourceTree = "<group>";
-		};
 		1A43DF772BFCAC9A00E62BA6 = {
 			isa = PBXGroup;
 			children = (
@@ -188,7 +181,6 @@
 				1A43DF9B2BFCAC9C00E62BA6 /* Preview Content */,
 				1A43DFBB2BFCADD500E62BA6 /* View */,
 				1A43DFBC2BFCADEE00E62BA6 /* ViewModel */,
-				1A36FB232BFDE24400880ED5 /* Notification */,
 			);
 			path = "LittleHiker Watch App";
 			sourceTree = "<group>";

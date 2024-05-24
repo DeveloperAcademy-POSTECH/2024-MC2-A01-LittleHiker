@@ -25,9 +25,6 @@ struct WatchMainView: View {
         ZStack {
             VStack(spacing: 0) {
                 headLabel
-                    .onAppear(perform: {
-                        viewModel.isDescent = true
-                    })
 //                Spacer()
                 if viewModel.impulseManager.impulseRatio <= 80{
                     HStack{
