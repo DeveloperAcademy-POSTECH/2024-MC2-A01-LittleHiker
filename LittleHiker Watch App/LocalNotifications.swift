@@ -50,19 +50,30 @@ final class LocalNotifications: NSObject, ObservableObject {
         //        
         //        //notification setting이 enabled 되어 있을 때만 schedule을 할 수 있음. 아니면 schedule 자체가 의미 없음
         //        guard settings.alertSetting == .enabled else { return }
+        current.requestAuthorization(options: [.alert, .sound]) {[weak self] granted, error in
+            guard let self = self else { return }
+            
+            if granted {
+                print("허용되었습니다")
+                let content = UNMutableNotificationContent()
+                content.title = "잠깐"
+                content.subtitle = "다람이 missing"
+                content.body = "다람이가 못따라오고 있어요"
+                content.categoryIdentifier = self.categoryIdentifier
+                
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0, repeats: false)
+                let request = UNNotificationRequest(identifier: UUID().uuidString,
+                                                    content: content,
+                                                    trigger: trigger)
+                current.add(request)
+            } else {
+                print("로컬 알림 권한이 허용되지 않았습니다")
+            }
+            
+        }
         
-        let content = UNMutableNotificationContent()
-        content.title = "잠깐"
-        content.subtitle = "다람이 missing"
-        content.body = "다람이가 못따라오고 있어요"
-        content.categoryIdentifier = categoryIdentifier
-        
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString,
-                                            content: content,
-                                            trigger: trigger)
         //        try await current.add(request)
-        current.add(request)
+     
     }
 }
 

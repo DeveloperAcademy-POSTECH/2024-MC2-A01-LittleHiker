@@ -116,7 +116,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             self.timestampLog.append(getCurrentTimestamp())
             //다람상식 푸쉬 로직
             
-            self.impulseManager.sendTipsIfConditionMet()
+//            self.impulseManager.sendTipsIfConditionMet()
             
             
         }

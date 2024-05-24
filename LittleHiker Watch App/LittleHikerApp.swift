@@ -12,6 +12,8 @@ import SwiftUI
 struct LittleHiker_Watch_AppApp: App {
     @ObservedObject private var viewModel = HikingViewModel()
     @ObservedObject private var timeManager = TimeManager()
+    
+    @WKApplicationDelegateAdaptor(AppDelegate.self) var delegate
 
     var body: some Scene {
         WindowGroup {

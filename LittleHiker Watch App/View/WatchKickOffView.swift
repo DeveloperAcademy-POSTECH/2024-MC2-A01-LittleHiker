@@ -7,11 +7,41 @@
 
 import SwiftUI
 import UserNotifications
+import UIKit
 
 enum MyHikingStatus {
     case kickoff
     case preparing
     case countdown
+}
+
+
+class AppDelegate: NSObject, WKApplicationDelegate {
+//    func application(_ application: UIApplication,
+//                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+//        
+//        // 앱 실행 시 사용자에게 알림 허용 권한을 받음
+//        UNUserNotificationCenter.current().delegate = self
+//        
+//        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound] // 필요한 알림 권한을 설정
+//        UNUserNotificationCenter.current().requestAuthorization(
+//            options: authOptions,
+//            completionHandler: { _, _ in }
+//        )
+//        return true
+//    }
+    override init() {
+        super.init()
+        UNUserNotificationCenter.current().delegate = self
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    // Foreground(앱 켜진 상태)에서도 알림 오는 설정
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .banner])
+    }
 }
 
 struct WatchKickOffView: View {
@@ -32,14 +62,58 @@ struct WatchKickOffView: View {
             }
         }
         .onAppear {
-            UNUserNotificationCenter.current()
-                .requestAuthorization(options: [.alert, .sound]){ granted, error in
-                    if granted {
-                        print("로컬 알림 권한이 허용되었습니다")
-                    } else {
-                        print("로컬 알림 권한이 허용되지 않았습니다")
-                    }
+//            var instance = LocalNotifications()
+//            instance.schedule()
+//            UNUserNotificationCenter.current()
+//                .requestAuthorization(options: [.alert, .sound]){ granted, error in
+//                    if granted {
+//                        print("로컬 알림 권한x이 허용되었습니다")
+//                    } else {
+//                        print("로컬 알림 권한이 허용되지 않았습니다")
+//                    }
+//                }
+            
+            
+            let current = UNUserNotificationCenter.current()
+//            current.removeAllPendingNotificationRequests()
+            //        let settings = await current.notificationSettings()
+            //
+            //        //notification setting이 enabled 되어 있을 때만 schedule을 할 수 있음. 아니면 schedule 자체가 의미 없음
+            //        guard settings.alertSetting == .enabled else { return }
+            current.requestAuthorization(options: [.alert, .sound]) { granted, error in
+
+                if granted {
+                    print("허용되었습니다")
+                    let content = UNMutableNotificationContent()
+                    content.title = "되어랏~"
+                    content.subtitle = "다람이 missing"
+                    content.body = "다람이가 못따라오고 있어요"
+                    content.categoryIdentifier = "custom"
+//
+                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+                    let request = UNNotificationRequest(identifier: UUID().uuidString,
+                                                        content: content,
+                                                        trigger: trigger)
+//                    current.add(request)
+                    
+                    // Schedule the request with the system.
+//                    let notificationCenter = UNUserNotificationCenter.current()
+//                    do {
+//                        Task {
+////                            current.removeAllPendingNotificationRequests()
+//                            try await current.add(request)
+//                        }
+//                        
+//                    } catch {
+//                        // Handle errors that may occur during add.
+//                    }
+//                    current.removeAllPendingNotificationRequests()
+                    current.add(request)
+                } else {
+                    print("로컬 알림 권한이 허용되지 않았습니다")
                 }
+                
+            }
         }
     }
 }
