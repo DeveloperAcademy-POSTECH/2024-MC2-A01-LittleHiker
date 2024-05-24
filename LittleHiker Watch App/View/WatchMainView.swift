@@ -35,20 +35,24 @@ struct WatchMainView: View {
                     }
                 }
                 else{
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
-//                            .padding(.horizontal, 9)
-                            .frame(height: 80)
-                            .foregroundColor(.gray.opacity(0.3))
-                            .padding(.bottom, 4)
-                        HStack(alignment: .center){
-                            Text("다람이가\n못 따라오고 있어요🥲\n조금만 쉬면서 가세요")
-                                .font(.system(size: 16))
-                                .fontWeight(.medium)
+                    VStack{
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            //                            .padding(.horizontal, 9)
+                                .frame(height: 80)
+                                .foregroundColor(.gray.opacity(0.3))
                                 .padding(.bottom, 4)
-                                .padding(.leading, 9)
-                            Spacer()
+                            HStack(alignment: .center){
+                                Text("다람이가\n못 따라오고 있어요🥲\n조금만 쉬면서 가세요")
+                                    .font(.system(size: 16))
+                                    .fontWeight(.medium)
+                                    .padding(.bottom, 4)
+                                    .padding(.leading, 9)
+                                Spacer()
+                            }
                         }
+                        .padding(.top, 100)
+                        Spacer()
                     }
                 }
             }
