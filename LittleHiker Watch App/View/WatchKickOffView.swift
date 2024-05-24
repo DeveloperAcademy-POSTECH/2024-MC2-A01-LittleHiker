@@ -198,6 +198,8 @@ struct CountdownView: View {
             
             //active 임시
             viewModel.healthKitManager.startHikingWorkout()
+            // location data timer 시작
+            viewModel.coreLocationManager.startUpdateLocationData()
         }
     }
     

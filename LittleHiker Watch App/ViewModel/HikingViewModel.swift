@@ -258,6 +258,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
        //test용
        testCodeTimer?.invalidate()
        testCodeTimer = nil
+       coreLocationManager.StopUpdateTimer()
        // TODO: 기록을 SummaryView 로 넘긴다. by. 벨
    }
     
