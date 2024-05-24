@@ -6,7 +6,6 @@
 //
 
 import Foundation
-
 import Combine
 import CoreLocation 
 
@@ -43,6 +42,28 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         // 위 옵션 종류 kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters(10m), kCLLocationAccuracyHundredMeters(100m) 등 순으로 정확도, 배터리 상승
         locationManager.distanceFilter = 10 //10m마다
 //        locationManager.distanceFilter = kCLDistanceFilterNone  // 모든 움직임에 대해 업데이트를 받고 싶을 때
+    }
+    // 10초 동안 로케이션 변화 감지 못하면 속도 0으로 셋팅
+    private func startSpeedUpdateTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
+            self.updateSpeed()
+        }
+    }
+    
+    private func stopSpeedUpdateTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    private func updateSpeed() {
+        // GPS 업데이트가 없을 때 속도를 0으로 설정
+        if let lastLocation = previousLocation {
+            if Date().timeIntervalSince(lastLocation.timestamp) > 10 {
+                self.currentSpeed = 0
+            }
+        } else {
+            self.currentSpeed = 0
+        }
     }
     
 
@@ -132,6 +153,6 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     }
     
     deinit {
-        timer?.invalidate()
+        stopSpeedUpdateTimer()
     }
 }
