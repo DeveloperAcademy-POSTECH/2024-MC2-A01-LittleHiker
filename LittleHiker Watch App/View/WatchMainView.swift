@@ -95,7 +95,9 @@ struct WatchMainView: View {
                                     Alert(
                                         title: Text("충격량(IU)"),
                                         message: Text("= 힘(N)/100"),
-                                        dismissButton: .default(Text("확인"))
+                                        dismissButton: .default(Text("확인"), action: {
+                                            print("Dismiss button clicked")
+                                        })
                                     )
                                 }
                                 .frame(width: 30, height: 30)
@@ -115,7 +117,7 @@ struct WatchMainView: View {
                                     .font(.system(size:14))
                                     .foregroundStyle(.gray)
                                 Spacer()
-                                Text("50")
+                                Text("\(Int(viewModel.impulseManager.impulseCriterion * LabelCoefficients.red.coefficients))")
                                     .font(.system(size:14))
                                     .foregroundStyle(.gray)
                             }
@@ -155,7 +157,6 @@ struct WatchMainView: View {
             }
             .onChange(of: viewModel.status){
                 if viewModel.status == .hikingStop || viewModel.status == .descendingStop{
-                    print("------------일시정지 멈춤")
                     stopGifTimer()
                 } else {
                     animationGifTimer()
@@ -234,8 +235,6 @@ struct WatchMainView: View {
     
     //MARK: - GIF 스케쥴러
     private func animationGifTimer() {
-        print("------------애니메이션 시작")
-
         stopGifTimer()
         // 1.0 / 4.0이면 1초당 이미지 4번 바뀜
         timer = Timer.scheduledTimer(withTimeInterval: speedForValue(viewModel.impulseManager.impulseRatio), repeats: true) { _ in

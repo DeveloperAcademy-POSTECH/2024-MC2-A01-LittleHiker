@@ -11,21 +11,20 @@ import HealthKit
 
 class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
-        print("ds")
+        print("ds1")
     }
     
     func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
-        print("ds")
+        print("ds2")
 
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
-        print("ds")
+        print("ds3")
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: any Error) {
-        print("ds")
-
+        print("ds4")
     }
     
     @Published var currentHeartRate: Int = 0
@@ -54,11 +53,12 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         startTimer()
     }
 
+    // MARK: - HealthKit 사용 권한 인증
     func authorizeHealthKit() {
         let readTypes: Set<HKObjectType> = [
             HKObjectType.quantityType(forIdentifier: .heartRate)!,
             HKObjectType.quantityType(forIdentifier: .stepCount)!,
-            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!,
+//            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, //
             HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!
         ]
 
@@ -76,8 +76,8 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
     
     func startHikingWorkout() {
         let configuration = HKWorkoutConfiguration()
-        configuration.activityType = .hiking
-        configuration.locationType = .outdoor
+        configuration.activityType = .hiking //hikingMode
+        configuration.locationType = .outdoor //외부
 
         do {
             workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
@@ -127,7 +127,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true) { [weak self] _ in
             self?.hkQuery(quantityTypeIdentifier: .heartRate)
-            self?.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
+//            self?.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
         }
     }
     
@@ -142,9 +142,10 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
                         
             if (quantityTypeIdentifier == .heartRate) {
                 self.processHeartRate(samples)
-            } else if quantityTypeIdentifier == .distanceWalkingRunning {
-                self.processDistance(samples)
             }
+//            else if quantityTypeIdentifier == .distanceWalkingRunning {
+//                self.processDistance(samples)
+//            }
         }
         
         let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: nil, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)

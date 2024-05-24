@@ -8,6 +8,7 @@
 import Foundation
 import WatchConnectivity
 
+//TODO: - IPhone 작업시 재사용
 final class ViewModelIPhone: NSObject, WCSessionDelegate, ObservableObject {
     @Published var message: String = "2.9"
     var session: WCSession
