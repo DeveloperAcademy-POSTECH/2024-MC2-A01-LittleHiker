@@ -195,6 +195,9 @@ struct CountdownView: View {
             //뷰 바꾸기
             viewModel.status = .hiking
             viewModel.isDescent = false
+            
+            //active 임시
+            viewModel.healthKitManager.startHikingWorkout()
         }
     }
     

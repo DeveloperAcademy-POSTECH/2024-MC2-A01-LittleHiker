@@ -9,7 +9,25 @@ import Foundation
 import Combine
 import HealthKit
 
-class HealthKitManager: NSObject, ObservableObject {
+class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
+    func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
+        print("ds")
+    }
+    
+    func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
+        print("ds")
+
+    }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
+        print("ds")
+    }
+    
+    func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: any Error) {
+        print("ds")
+
+    }
+    
     @Published var currentHeartRate: Int = 0
     @Published var currentDistanceWalkingRunning: Double = 0
     var heartRateLogs: [Int] = []
@@ -26,22 +44,73 @@ class HealthKitManager: NSObject, ObservableObject {
     let distanceQuantity = HKUnit.meter()
     //심박수 평균을 위한 시작 시간
 
-    let read = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
-    let share = Set([HKObjectType.quantityType(forIdentifier: .heartRate)!, HKObjectType.quantityType(forIdentifier: .stepCount)!, HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!])
-    
+    //workout
+    var workoutSession: HKWorkoutSession?
+    var workoutBuilder: HKLiveWorkoutBuilder?
     
     override init() {
         super.init()
-        autorizeHealthKit()
+        authorizeHealthKit()
         startTimer()
     }
+
+    func authorizeHealthKit() {
+        let readTypes: Set<HKObjectType> = [
+            HKObjectType.quantityType(forIdentifier: .heartRate)!,
+            HKObjectType.quantityType(forIdentifier: .stepCount)!,
+            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!,
+            HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!
+        ]
+
+        let writeTypes: Set<HKSampleType> = [
+            HKObjectType.workoutType()
+        ]
+
+        healthStore.requestAuthorization(toShare: writeTypes, read: readTypes) { success, error in
+            if !success {
+                // Handle the error here.
+                print("HealthKit authorization failed: \(String(describing: error))")
+            }
+        }
+    }
     
-    func autorizeHealthKit() {
-        let healthKitTypes: Set = [
-            HKObjectType.quantityType(forIdentifier: HKQuantityTypeIdentifier.heartRate)!,
-            HKObjectType.quantityType(forIdentifier: .distanceWalkingRunning)!]
-        
-        healthStore.requestAuthorization(toShare: healthKitTypes, read: healthKitTypes) { _, _ in }
+    func startHikingWorkout() {
+        let configuration = HKWorkoutConfiguration()
+        configuration.activityType = .hiking
+        configuration.locationType = .outdoor
+
+        do {
+            workoutSession = try HKWorkoutSession(healthStore: healthStore, configuration: configuration)
+            workoutBuilder = workoutSession?.associatedWorkoutBuilder()
+
+            workoutBuilder?.dataSource = HKLiveWorkoutDataSource(healthStore: healthStore, workoutConfiguration: configuration)
+
+            workoutSession?.delegate = self
+            workoutBuilder?.delegate = self
+
+            workoutSession?.startActivity(with: Date())
+            workoutBuilder?.beginCollection(withStart: Date()) { (success, error) in
+                if let error = error {
+                    // Handle the error here.
+                    print("Failed to begin collection: \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            // Handle errors here
+            print("Failed to start workout session: \(error.localizedDescription)")
+        }
+    }
+
+    func endHikingWorkout() {
+        workoutSession?.end()
+        workoutBuilder?.endCollection(withEnd: Date()) { (success, error) in
+            self.workoutBuilder?.finishWorkout { (workout, error) in
+                // Handle post-workout processing if needed
+                if let error = error {
+                    print("Failed to finish workout: \(error.localizedDescription)")
+                }
+            }
+        }
     }
     
     //append 기능 추가
