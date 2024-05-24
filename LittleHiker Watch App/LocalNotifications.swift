@@ -8,26 +8,26 @@
 import Foundation
 import UserNotifications
 
-final class LocalNotifications: NSObject {
+final class LocalNotifications: NSObject, ObservableObject {
     
     private let categoryIdentifier = "custom"
     private let actionIdentifier = "notiAction"
     
-    override init(){
-        super.init()
-        
-        Task{
-            do {
-                try await register()
-                try await schedule()
-                
-            } catch {
-                print("\(error.localizedDescription)")
-            }
-        }
-    }
+    // override init(){
+    //     super.init()
     
-    private func register() async throws {
+    //     Task{
+    //         do {
+    //             try await register()
+    //             try await schedule()
+    
+    //         } catch {
+    //             print("\(error.localizedDescription)")
+    //         }
+    //     }
+    // }
+    
+    func register() async throws {
         let current = UNUserNotificationCenter.current()
         try await current.requestAuthorization(options: [.alert, .sound])
         //이전에 나가려고 했던 pending된 Notification 다 지우기
@@ -44,12 +44,12 @@ final class LocalNotifications: NSObject {
         current.delegate = self
     }
     
-    func schedule() async throws {
+    func schedule() {
         let current = UNUserNotificationCenter.current()
-        let settings = await current.notificationSettings()
-        
-        //notification setting이 enabled 되어 있을 때만 schedule을 할 수 있음. 아니면 schedule 자체가 의미 없음
-        guard settings.alertSetting == .enabled else { return }
+        //        let settings = await current.notificationSettings()
+        //        
+        //        //notification setting이 enabled 되어 있을 때만 schedule을 할 수 있음. 아니면 schedule 자체가 의미 없음
+        //        guard settings.alertSetting == .enabled else { return }
         
         let content = UNMutableNotificationContent()
         content.title = "잠깐"
@@ -57,14 +57,13 @@ final class LocalNotifications: NSObject {
         content.body = "다람이가 못따라오고 있어요"
         content.categoryIdentifier = categoryIdentifier
         
-        let components = DateComponents(second: 1)
-        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString,
                                             content: content,
                                             trigger: trigger)
-        try await current.add(request)
+        //        try await current.add(request)
+        current.add(request)
     }
-    
 }
 
 extension LocalNotifications: UNUserNotificationCenterDelegate {

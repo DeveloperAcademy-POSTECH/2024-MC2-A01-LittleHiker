@@ -12,11 +12,10 @@ import SwiftUI
 struct LittleHiker_Watch_AppApp: App {
     @ObservedObject private var viewModel = HikingViewModel()
     @ObservedObject private var timeManager = TimeManager()
-    private let localNotification = LocalNotifications()
-    
+
     var body: some Scene {
         WindowGroup {
-//            WatchDetailView(viewModel: viewModel)
+//            WatchDxetailView(viewModel: viewModel)
             if viewModel.status == .ready{
                 WatchKickOffView(viewModel: viewModel, timeManager: timeManager)
             }

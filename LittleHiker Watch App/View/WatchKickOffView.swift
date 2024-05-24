@@ -163,7 +163,7 @@ struct CountdownView: View {
                 timeManager.elapsedTime = 0
                 viewModel.healthKitManager = HealthKitManager()
                 viewModel.coreLocationManager = CoreLocationManager()
-                viewModel.impulseManager = ImpulseManager()
+                viewModel.impulseManager = ImpulseManager(localNotification: LocalNotifications())
                 viewModel.summaryModel = SummaryModel()
             }
             
