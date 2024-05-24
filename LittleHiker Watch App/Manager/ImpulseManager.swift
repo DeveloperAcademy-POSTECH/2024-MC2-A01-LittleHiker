@@ -36,7 +36,7 @@ class ImpulseManager: NSObject, ObservableObject {
     
     //임의
     var localNotification: LocalNotifications
-
+    var redZoneCount: Int = 0
     
     let weight = 50.0
     @Published var diagonalVelocityCriterion: String = "2.9"
@@ -134,7 +134,6 @@ class ImpulseManager: NSObject, ObservableObject {
         if self.impulseLogs.count < 2 {
             return false
         }
-        
         let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
         let currentImpulseRatio = self.calculateImpulseRatio(currentImpulse)
         let prevImpulse = self.impulseLogs[self.impulseLogs.count-2]
@@ -148,9 +147,9 @@ class ImpulseManager: NSObject, ObservableObject {
         return false
     }
     
+    
     func sendTipsNotification()  -> Void {
         localNotification.schedule()
-
     }
     
     func sendTipsIfConditionMet() -> Void{
@@ -158,7 +157,41 @@ class ImpulseManager: NSObject, ObservableObject {
             return
         }
         self.sendTipsNotification()
-
+    }
+    
+    func isWarningConditionMet() -> Bool{
+        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
+        let currentImpulseRatio = self.calculateImpulseRatio(currentImpulse)
+        if 60 <= currentImpulseRatio {
+            return true
+        }
+        return false
+    }
+    
+    func stayedInRedZoneForTooLong() -> Bool {
+        if 60 <= redZoneCount {
+            return true
+        }
+        return false
+    }
+    
+    func updateRedZoneCount() -> Void {
+        if self.isWarningConditionMet() {
+            self.redZoneCount += 1
+        }
+        else{
+            self.redZoneCount = 0
+        }
+    }
+    
+    func sendWarningNotification()  -> Void {
+        localNotification.schedule2()
+    }
+    
+    func sendWarningIfConditionMet() -> Void {
+        if stayedInRedZoneForTooLong() {
+            self.sendTipsNotification()
+        }
     }
     
 }
