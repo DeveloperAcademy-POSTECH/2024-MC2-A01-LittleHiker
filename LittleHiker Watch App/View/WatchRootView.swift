@@ -24,7 +24,7 @@ struct WatchRootView: View {
                     WatchRestView()
                 }
                 WatchDetailView(viewModel: viewModel, healthViewModel: viewModel.healthKitManager, timeManager: timeManager)
-                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+
             }
             .tag("default")
             .tabViewStyle(.verticalPage)

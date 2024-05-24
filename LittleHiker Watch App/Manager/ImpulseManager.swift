@@ -73,7 +73,7 @@ class ImpulseManager: NSObject, ObservableObject {
             return 0
         }
         
-        if impulseCriterion * 2 < impulse {
+        if impulseCriterion * LabelCoefficients.red.coefficients < impulse {
             return 100
         }
         
