@@ -95,6 +95,6 @@ final class LocalNotifications: NSObject, ObservableObject {
 
 extension LocalNotifications: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        return [.list, .sound]
+        return [.list, .sound, .banner]
     }
 }

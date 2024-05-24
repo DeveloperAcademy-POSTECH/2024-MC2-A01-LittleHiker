@@ -543,7 +543,7 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 정보 데이터를 수집할거임";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.san.ac;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sanjimseungdeul.littlehiker;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -577,7 +577,7 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 정보 데이터를 수집할거임";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.san.ac;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sanjimseungdeul.littlehiker;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

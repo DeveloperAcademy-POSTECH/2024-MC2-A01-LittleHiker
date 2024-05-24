@@ -31,9 +31,6 @@ struct WatchMainView: View {
                         squirrelGIF
                             .offset(y : -10)
                             .padding(.bottom, viewModel.isDescent ? 16 : 0)
-                            .onDisappear{
-                                stopGifTimer()
-                            }
                     }
                 }
                 else{
@@ -63,9 +60,6 @@ struct WatchMainView: View {
                             squirrelGIF
                                 .offset(y : -10)
                                 .padding(.bottom, viewModel.isDescent ? 16 : 0)
-                                .onDisappear{
-                                    stopGifTimer()
-                                }
                         }
                     }
                 }
@@ -78,6 +72,7 @@ struct WatchMainView: View {
                     .padding(.top, 138)
             }
         }
+        .padding(.horizontal, 9)
         .edgesIgnoringSafeArea(.top)
     }
     //MARK: - progressbar Label
