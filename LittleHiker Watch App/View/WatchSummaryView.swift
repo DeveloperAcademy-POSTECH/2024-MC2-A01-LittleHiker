@@ -97,7 +97,7 @@ struct WatchSummaryView: View {
                             .foregroundColor(Color(red: 0.00, green: 0.92, blue: 0.64, opacity: 1.00))
                             .fontWeight(.medium)
                             .padding(.trailing, 2)
-                        Text("f")
+                        Text("IU")
                             .font(.system(size: 22))
                             .foregroundColor(Color(red: 0.00, green: 0.92, blue: 0.64, opacity: 1.00))
                             .fontWeight(.medium)
@@ -116,7 +116,7 @@ struct WatchSummaryView: View {
                         Text("\(viewModel.summaryModel.maxImpulse)")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
-                        Text("J")
+                        Text("IU")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
                     }
