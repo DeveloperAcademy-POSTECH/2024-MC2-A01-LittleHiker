@@ -58,6 +58,16 @@ struct WatchMainView: View {
                             Spacer()
                         }
                     }
+                    else {
+                        HStack{
+                            squirrelGIF
+                                .offset(y : -10)
+                                .padding(.bottom, viewModel.isDescent ? 16 : 0)
+                                .onDisappear{
+                                    stopGifTimer()
+                                }
+                        }
+                    }
                 }
                 Spacer()
             }

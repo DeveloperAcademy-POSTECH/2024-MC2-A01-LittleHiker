@@ -139,7 +139,7 @@ class ImpulseManager: NSObject, ObservableObject {
         let prevImpulse = self.impulseLogs[self.impulseLogs.count-2]
         let prevImpulseRatio = self.calculateImpulseRatio(prevImpulse)
         
-        if prevImpulseRatio >= 0 && prevImpulseRatio < 30 && currentImpulseRatio >= 30 {
+        if prevImpulseRatio >= 0 && prevImpulseRatio < 30 && currentImpulseRatio >= 30 && currentImpulseRatio < 60{
             print("conditionMet!")
             print("current: \(currentImpulse), prev: \(prevImpulse)")
             return true
