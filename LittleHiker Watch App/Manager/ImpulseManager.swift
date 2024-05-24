@@ -190,7 +190,7 @@ class ImpulseManager: NSObject, ObservableObject {
     
     func sendWarningIfConditionMet() -> Void {
         if stayedInRedZoneForTooLong() {
-            self.sendTipsNotification()
+            self.sendWarningNotification()
         }
     }
     
