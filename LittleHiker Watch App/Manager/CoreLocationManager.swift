@@ -28,21 +28,33 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     
     private var timer: Timer?
     private let minimumDistance: Double = 20 // 무시할 최소 거리 (단위: 미터)
+    //알람용
+    private var notificationPeak: Bool = false
+    private var notificationDecent: Bool = false
+    private let standardOfPeak = 600.0
+    var isPeak = false
 
     override init() {
         super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         
-        //밑에 부분은 시작 버튼누르고 321 지나고 나서 실행하게 바꿔야됨
-        locationManager.startUpdatingLocation()
+    }
+    // startUpdateTimer로 분리
+    func startUpdateLocationData(){
+        startSpeedUpdateTimer()
         locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-
 //        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation // 최고의 정확도 대신 배터리 소모 상승
         // 위 옵션 종류 kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters(10m), kCLLocationAccuracyHundredMeters(100m) 등 순으로 정확도, 배터리 상승
         locationManager.distanceFilter = 10 //10m마다
 //        locationManager.distanceFilter = kCLDistanceFilterNone  // 모든 움직임에 대해 업데이트를 받고 싶을 때
+        locationManager.startUpdatingLocation()
     }
+    
+    func StopUpdateTimer(){
+        stopSpeedUpdateTimer()
+    }
+    
     // 10초 동안 로케이션 변화 감지 못하면 속도 0으로 셋팅
     private func startSpeedUpdateTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
@@ -58,11 +70,38 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     private func updateSpeed() {
         // GPS 업데이트가 없을 때 속도를 0으로 설정
         if let lastLocation = previousLocation {
-            if Date().timeIntervalSince(lastLocation.timestamp) > 10 {
+            let stopTime = Date().timeIntervalSince(lastLocation.timestamp)
+            if  stopTime > 10 && stopTime <= standardOfPeak{
                 self.currentSpeed = 0
+                print("~~~~~~~~~~~~~~~~~위치변환이 10초간 없음")
+            }
+            else if stopTime > standardOfPeak {
+                self.currentSpeed = 0
+                self.notificationPeak = true
+                print("~~~~~~~~~~~~~~~~`위치변환이 600초간 없음")
             }
         } else {
             self.currentSpeed = 0
+        }
+    }
+    
+    func isNotificationPeak() -> Bool{
+        if notificationPeak{
+            notificationPeak = false
+            return true
+        }
+        else{
+            return false
+        }
+    }
+    
+    func isNotificationDecent() -> Bool{
+        if notificationDecent{
+            notificationDecent = false
+            return true
+        }
+        else{
+            return false
         }
     }
     
@@ -92,6 +131,10 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
                 if distance > minimumDistance {
                     self.totalDistanceTraveled += distance / 1000 // 킬로미터 단위로 변환
                     self.previousLocation = location
+                    //정상일때 최소거리 이상의 움직임이 감지 되었을때
+                    if isPeak{
+                        notificationDecent = true
+                    }
                 }
             } else {
                 self.previousLocation = location

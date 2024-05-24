@@ -109,6 +109,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             //timestamptest
             self.timestampLog.append(getCurrentTimestamp())
             
+            //정상, 하산여부 체크
+            self.checkNotification()
+            
         }
         //테스트용 스케쥴러
 //        testCodeTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
@@ -116,6 +119,22 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 //            self.testCode()
 //        }
     }
+    
+    func checkNotification(){
+        if status == .hiking{
+            if coreLocationManager.isNotificationPeak(){
+                print("정상입니까 알람 필요")
+            }
+        }
+        if status == .peak{
+            coreLocationManager.isPeak = true
+            if coreLocationManager.isNotificationDecent(){
+                print("하산입니까 알람 필요")
+            }
+            
+        }
+    }
+    
     // 기록상태 확인 코드 추가
     func isRecord() -> Bool {
         return status == .descending || status == .hiking ? true : false
@@ -235,8 +254,11 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
        timer?.invalidate()
        timer = nil
        //test용
+
 //       testCodeTimer?.invalidate()
 //       testCodeTimer = nil
+     coreLocationManager.StopUpdateTimer()
+
        // TODO: 기록을 SummaryView 로 넘긴다. by. 벨
    }
     
