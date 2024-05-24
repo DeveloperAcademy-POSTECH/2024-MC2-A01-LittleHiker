@@ -27,7 +27,7 @@ enum LabelCoefficients{
 
 class ImpulseManager: NSObject, ObservableObject {
     //FIXME: - manager파일인데 swiftUI가 들어가는게 이상하긴 함
-    @ObservedObject var viewModelWatch = ViewModelWatch()
+//    @ObservedObject var viewModelWatch = ViewModelWatch()
     //    @Published var currentSpeed: Double = 0
     //    @Published var altitudeLogs: [Double] = []
     @Published var impulseLogs: [Double] = []
@@ -37,8 +37,8 @@ class ImpulseManager: NSObject, ObservableObject {
     let weight = 50.0
     @Published var diagonalVelocityCriterion: String = "2.9"
 //    var diagonalVelocityCriterion = Int(viewModelWatch.impulseRate)  // km/h  - TODO: - WatchViewModel에서 전달된 impulseRate 값을 받아서 int로 형변환 해서 쓰고 싶음
-    //임의 테스트용 로그
-    var diagonalVelocityCriterionLogs: [Double] = []
+    //FIXME: - 임의 테스트용 로그
+//    var diagonalVelocityCriterionLogs: [Double] = []
     var impulseCriterionLogs: [Double] = []
     
     var impulseCriterion: Double {
@@ -64,7 +64,7 @@ class ImpulseManager: NSObject, ObservableObject {
             impulseLogs.append(0.0)
         }
         //테스트용
-        diagonalVelocityCriterionLogs.append(Double(diagonalVelocityCriterion) ?? -1)
+//        diagonalVelocityCriterionLogs.append(Double(diagonalVelocityCriterion) ?? -1)
         impulseCriterionLogs.append(impulseCriterion)
     }
     
