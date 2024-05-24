@@ -57,7 +57,7 @@ struct WatchMainView: View {
                                     Spacer()
                                 }
                             }
-                            .padding(.top, 5)
+                            .padding(.top, 3)
                             Spacer()
                         }
                     }
@@ -66,9 +66,9 @@ struct WatchMainView: View {
             }
             if viewModel.isDescent{
                 progressBarLabel
-                    .padding(.top, 130)
+                    .padding(.top, 108)
                 progressBar
-                    .padding(.top, 160)
+                    .padding(.top, 138)
             }
         }
         .edgesIgnoringSafeArea(.top)
