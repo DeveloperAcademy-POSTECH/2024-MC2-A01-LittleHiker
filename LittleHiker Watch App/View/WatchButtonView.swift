@@ -127,6 +127,9 @@ struct WatchButtonView: View {
                     viewModel.status = .complete
                     //                viewModel.isShowingModal = true
                     
+                    //임시 워크아웃 활동 멈춤
+                    viewModel.healthKitManager.endHikingWorkout()
+                    
                 }) {
                     RoundedRectangle(cornerRadius: 28)
                         .frame(width: 68, height: height)

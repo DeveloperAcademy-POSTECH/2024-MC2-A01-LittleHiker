@@ -80,7 +80,8 @@ struct PreparingView: View {
     @ObservedObject var viewModel: HikingViewModel
     @State var progress: Double = 0
     @Binding var status: MyHikingStatus
-    
+    @State private var timer: Timer? = nil
+
     var body: some View {
         VStack {
             Circle()
@@ -98,10 +99,15 @@ struct PreparingView: View {
                         .fontWeight(.semibold)
                 }
             //1초마다 타이머 이벤트를 수신하여 increase를 호출합니다.
-                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
-                    self.increaseProgress()
-                }
-            
+//                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
+//                    self.increaseProgress()
+//                }
+        }
+        .onAppear {
+            startTimer()
+        }
+        .onDisappear {
+            stopTimer()
         }
     }
     //준비화면 progress를 0부터 1까지 채워주는 func
@@ -112,6 +118,22 @@ struct PreparingView: View {
             status = .countdown
         }
     }
+    
+    private func startTimer() {
+        print("준비 타이머 시작 할거야")
+
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            self.increaseProgress()
+        }
+    }
+    
+    // 타이머 중지
+    private func stopTimer() {
+        print("준비 타이머 끌거야")
+
+        timer?.invalidate()
+        timer = nil
+    }
 }
 
 // 카운트다운 화면
@@ -121,6 +143,7 @@ struct CountdownView: View {
     
     @State var count: Int = 3
     @State var progress: Double = 1
+    @State private var timer: Timer? = nil
     
     var body: some View {
         ZStack {
@@ -138,14 +161,20 @@ struct CountdownView: View {
                 .frame(width: 100, height: 100)
                 .rotationEffect(.degrees(-90))
                 .animation(.easeOut, value: progress)
-                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
-                    self.decreaseProgress()
-                }
+//                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
+//                    self.decreaseProgress()
+//                }
                 .overlay {
                     Text("\(count)")
                         .font(.system(size: 36))
                         .fontWeight(.medium)
                 }
+        }
+        .onAppear {
+            startTimer()
+        }
+        .onDisappear {
+            stopTimer()
         }
     }
     //1초가 지날 때마다 -.33값이 되는 progress입니다.
@@ -177,7 +206,25 @@ struct CountdownView: View {
             //뷰 바꾸기
             viewModel.status = .hiking
             viewModel.isDescent = false
+            
+            //active 임시
+            viewModel.healthKitManager.startHikingWorkout()
         }
+    }
+    
+    private func startTimer() {
+        print("카운드 다운 타이머 시작 할거야")
+
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            self.decreaseProgress()
+        }
+    }
+    
+    // 타이머 중지
+    private func stopTimer() {
+        print("카운드 다운 타이머 중지 할거야")
+        timer?.invalidate()
+        timer = nil
     }
 }
 
