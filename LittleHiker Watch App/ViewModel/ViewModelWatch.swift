@@ -8,6 +8,7 @@
 import Foundation
 import WatchConnectivity
 
+//TODO: - IPhone 작업시 재사용
 final class ViewModelWatch: NSObject, WCSessionDelegate, ObservableObject {
     @Published var impulseRate: String = "2.9"
     var session: WCSession

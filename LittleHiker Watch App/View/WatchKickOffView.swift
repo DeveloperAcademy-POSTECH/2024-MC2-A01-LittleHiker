@@ -113,6 +113,7 @@ struct PreparingView: View {
 
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.increaseProgress()
+            // 3:30
         }
     }
     
@@ -176,9 +177,14 @@ struct CountdownView: View {
         } else {
             progress -= 0.1
             
-            //TODO: - 여기서 기존에 쓰던 데이터 값이 있다면 초기화해줌
             if !viewModel.impulseManager.impulseLogs.isEmpty {
+                print("재시작했을 때 timer")
+                print(timeManager.elapsedTime)
+                //timer 초기화
+                timeManager.timer = nil
                 timeManager.elapsedTime = 0
+                
+                //TODO: - 메모리누수우우우우우
                 viewModel.healthKitManager = HealthKitManager()
                 viewModel.coreLocationManager = CoreLocationManager()
                 viewModel.impulseManager = ImpulseManager()
