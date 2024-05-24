@@ -91,7 +91,9 @@ struct WatchMainView: View {
                                     Alert(
                                         title: Text("충격량(IU)"),
                                         message: Text("= 힘(N)/100"),
-                                        dismissButton: .default(Text("확인"))
+                                        dismissButton: .default(Text("확인"), action: {
+                                            print("Dismiss button clicked")
+                                        })
                                     )
                                 }
                                 .frame(width: 30, height: 30)
