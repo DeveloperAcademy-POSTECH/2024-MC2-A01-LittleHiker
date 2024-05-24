@@ -7,14 +7,17 @@
 
 import SwiftUI
 
+
 @main
 struct LittleHiker_Watch_AppApp: App {
     @ObservedObject private var viewModel = HikingViewModel()
     @ObservedObject private var timeManager = TimeManager()
     
+    @WKApplicationDelegateAdaptor(AppDelegate.self) var delegate
+
     var body: some Scene {
         WindowGroup {
-//            WatchDetailView(viewModel: viewModel)
+//            WatchDxetailView(viewModel: viewModel)
             if viewModel.status == .ready{
                 WatchKickOffView(viewModel: viewModel, timeManager: timeManager)
             }
@@ -25,5 +28,12 @@ struct LittleHiker_Watch_AppApp: App {
                 WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
             }
         }
+
+        
+//        #if os(watchOS)
+//        WKNotificationScene(
+//            controller: NotificationController.self,
+//            category: "myNotification")
+//        #endif
     }
 }

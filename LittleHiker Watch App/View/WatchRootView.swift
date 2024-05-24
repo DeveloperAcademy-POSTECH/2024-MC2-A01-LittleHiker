@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UserNotifications
 
 struct WatchRootView: View {
     @ObservedObject var viewModel: HikingViewModel

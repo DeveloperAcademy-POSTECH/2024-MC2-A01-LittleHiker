@@ -58,7 +58,7 @@ struct SummaryModel{
 }
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
-
+    
     private var locationManager = CLLocationManager()
     private var previousLocation: CLLocation?
     private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
@@ -69,12 +69,17 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var isDescent: Bool = false
 
     private var anchor: HKQueryAnchor?
+    
+    //노티 인스턴스
+//    var localNotification = LocalNotifications()
 
     //manager 가져오기
     @Published var healthKitManager = HealthKitManager()
     @Published var coreLocationManager = CoreLocationManager()
-    @Published var impulseManager = ImpulseManager()
+    @Published var impulseManager =  ImpulseManager(localNotification: LocalNotifications())
     @Published var summaryModel = SummaryModel()
+    
+    
     
     @Published var isPaused: Bool = false
     
@@ -87,6 +92,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     var timestampLog: [String] = []
 
     override init() {
+//        self.impulseManager(localNotification: localNotification)
         super.init()
         updateEveryMinute()
     }
@@ -108,6 +114,12 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 //            self.impulseManager.diagonalVelocityCriterion = viewModelWatch.impulseRate
             //timestamptest
             self.timestampLog.append(getCurrentTimestamp())
+            //다람상식 푸쉬 로직
+            
+            self.impulseManager.updateRedZoneCount()
+            self.impulseManager.sendWarningIfConditionMet()
+            self.impulseManager.sendTipsIfConditionMet()
+//            self.impulseManager.sendTipsNotification()
             
             //정상, 하산여부 체크
             self.checkNotification()

@@ -19,6 +19,8 @@
 		1A36FB162BFCAF3A00880ED5 /* WatchButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB152BFCAF3A00880ED5 /* WatchButtonView.swift */; };
 		1A36FB182BFCAF5100880ED5 /* WatchKickOffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB172BFCAF5100880ED5 /* WatchKickOffView.swift */; };
 		1A36FB1A2BFCAF5D00880ED5 /* HikingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB192BFCAF5D00880ED5 /* HikingViewModel.swift */; };
+		1A36FB272BFDE27900880ED5 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB262BFDE27900880ED5 /* NotificationView.swift */; };
+		1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB282BFDE29400880ED5 /* NotificationController.swift */; };
 		1A43DF842BFCAC9A00E62BA6 /* LittleHikerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF832BFCAC9A00E62BA6 /* LittleHikerApp.swift */; };
 		1A43DF862BFCAC9A00E62BA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF852BFCAC9A00E62BA6 /* ContentView.swift */; };
 		1A43DF882BFCAC9B00E62BA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF872BFCAC9B00E62BA6 /* Assets.xcassets */; };
@@ -35,6 +37,7 @@
 		1A43DFB42BFCAD9500E62BA6 /* CoreLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB32BFCAD9500E62BA6 /* CoreLocationManager.swift */; };
 		1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB52BFCAD9F00E62BA6 /* ImpulseManager.swift */; };
 		1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */; };
+		1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +78,8 @@
 		1A36FB172BFCAF5100880ED5 /* WatchKickOffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchKickOffView.swift; sourceTree = "<group>"; };
 		1A36FB192BFCAF5D00880ED5 /* HikingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingViewModel.swift; sourceTree = "<group>"; };
 		1A36FB1B2BFCB10300880ED5 /* LittleHiker Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LittleHiker Watch App.entitlements"; sourceTree = "<group>"; };
+		1A36FB262BFDE27900880ED5 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
+		1A36FB282BFDE29400880ED5 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		1A43DF802BFCAC9A00E62BA6 /* LittleHiker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LittleHiker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A43DF832BFCAC9A00E62BA6 /* LittleHikerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleHikerApp.swift; sourceTree = "<group>"; };
 		1A43DF852BFCAC9A00E62BA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -92,6 +97,8 @@
 		1A43DFB32BFCAD9500E62BA6 /* CoreLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreLocationManager.swift; sourceTree = "<group>"; };
 		1A43DFB52BFCAD9F00E62BA6 /* ImpulseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImpulseManager.swift; sourceTree = "<group>"; };
 		1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
+		1A8DBE9D2BFE2CB600C3BA92 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotifications.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +124,13 @@
 			children = (
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		1A36FB232BFDE24400880ED5 /* Notification */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Notification;
 			sourceTree = "<group>";
 		};
 		1A43DF772BFCAC9A00E62BA6 = {
@@ -163,6 +177,10 @@
 			isa = PBXGroup;
 			children = (
 				1A36FB1B2BFCB10300880ED5 /* LittleHiker Watch App.entitlements */,
+				1A36FB262BFDE27900880ED5 /* NotificationView.swift */,
+				1A36FB282BFDE29400880ED5 /* NotificationController.swift */,
+				1A8DBE9D2BFE2CB600C3BA92 /* PushNotificationPayload.apns */,
+				1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */,
 				1A43DF952BFCAC9B00E62BA6 /* LittleHikerApp.swift */,
 				1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */,
 				1A43DFB02BFCAD7400E62BA6 /* Manager */,
@@ -170,6 +188,7 @@
 				1A43DF9B2BFCAC9C00E62BA6 /* Preview Content */,
 				1A43DFBB2BFCADD500E62BA6 /* View */,
 				1A43DFBC2BFCADEE00E62BA6 /* ViewModel */,
+				1A36FB232BFDE24400880ED5 /* Notification */,
 			);
 			path = "LittleHiker Watch App";
 			sourceTree = "<group>";
@@ -372,6 +391,7 @@
 				1A43DF982BFCAC9B00E62BA6 /* ContentView.swift in Sources */,
 				1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */,
 				02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */,
+				1A36FB272BFDE27900880ED5 /* NotificationView.swift in Sources */,
 				1A36FB162BFCAF3A00880ED5 /* WatchButtonView.swift in Sources */,
 				1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */,
 				1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */,
@@ -380,6 +400,8 @@
 				1A36FB182BFCAF5100880ED5 /* WatchKickOffView.swift in Sources */,
 				1A36FB1A2BFCAF5D00880ED5 /* HikingViewModel.swift in Sources */,
 				1A43DFB42BFCAD9500E62BA6 /* CoreLocationManager.swift in Sources */,
+				1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */,
+				1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */,
 				1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */,
 				1A43DF962BFCAC9B00E62BA6 /* LittleHikerApp.swift in Sources */,
 				1A36FB122BFCAF2300880ED5 /* WatchRestView.swift in Sources */,

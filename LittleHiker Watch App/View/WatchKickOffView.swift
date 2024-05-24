@@ -6,11 +6,29 @@
 //
 
 import SwiftUI
+import UserNotifications
+import UIKit
 
 enum MyHikingStatus {
     case kickoff
     case preparing
     case countdown
+}
+
+
+class AppDelegate: NSObject, WKApplicationDelegate {
+    override init() {
+        super.init()
+        UNUserNotificationCenter.current().delegate = self
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    // Foreground(앱 켜진 상태)에서도 알림 오는 설정
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.list, .banner])
+    }
 }
 
 struct WatchKickOffView: View {
@@ -29,6 +47,37 @@ struct WatchKickOffView: View {
             case .countdown:
                 CountdownView(viewModel: viewModel, timeManager: timeManager)
             }
+        }
+        .onAppear {
+            UNUserNotificationCenter.current()
+                .requestAuthorization(options: [.alert, .sound]){ granted, error in
+                    if granted {
+                        print("로컬 알림 권한이 허용되었습니다")
+                    } else {
+                        print("로컬 알림 권한이 허용되지 않았습니다")
+                    }
+                }
+            //            let current = UNUserNotificationCenter.current()
+            //            current.requestAuthorization(options: [.alert, .sound]) { granted, error in
+            //                if granted {
+            //                    print("허용되었습니다")
+            //                    let content = UNMutableNotificationContent()
+            //                    content.title = "되어랏~"
+            //                    content.subtitle = "다람이 missing"
+            //                    content.body = "다람이가 못따라오고 있어요"
+            //                    content.categoryIdentifier = "custom"
+            //
+            //                    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            //                    let request = UNNotificationRequest(identifier: UUID().uuidString,
+            //                                                        content: content,
+            //                                                        trigger: trigger)
+            //
+            //                    current.add(request)
+            //                } else {
+            //                    print("로컬 알림 권한이 허용되지 않았습니다")
+            //                }
+            //
+            //            }
         }
     }
 }
@@ -70,7 +119,7 @@ struct PreparingView: View {
     @State var progress: Double = 0
     @Binding var status: MyHikingStatus
     @State private var timer: Timer? = nil
-
+    
     var body: some View {
         VStack {
             Circle()
@@ -88,9 +137,9 @@ struct PreparingView: View {
                         .fontWeight(.semibold)
                 }
             //1초마다 타이머 이벤트를 수신하여 increase를 호출합니다.
-//                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
-//                    self.increaseProgress()
-//                }
+            //                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
+            //                    self.increaseProgress()
+            //                }
         }
         .onAppear {
             startTimer()
@@ -110,7 +159,7 @@ struct PreparingView: View {
     
     private func startTimer() {
         print("준비 타이머 시작 할거야")
-
+        
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.increaseProgress()
             // 3:30
@@ -120,7 +169,7 @@ struct PreparingView: View {
     // 타이머 중지
     private func stopTimer() {
         print("준비 타이머 끌거야")
-
+        
         timer?.invalidate()
         timer = nil
     }
@@ -151,9 +200,9 @@ struct CountdownView: View {
                 .frame(width: 100, height: 100)
                 .rotationEffect(.degrees(-90))
                 .animation(.easeOut, value: progress)
-//                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
-//                    self.decreaseProgress()
-//                }
+            //                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
+            //                    self.decreaseProgress()
+            //                }
                 .overlay {
                     Text("\(count)")
                         .font(.system(size: 36))
@@ -187,7 +236,7 @@ struct CountdownView: View {
                 //TODO: - 메모리누수우우우우우
                 viewModel.healthKitManager = HealthKitManager()
                 viewModel.coreLocationManager = CoreLocationManager()
-                viewModel.impulseManager = ImpulseManager()
+                viewModel.impulseManager = ImpulseManager(localNotification: LocalNotifications())
                 viewModel.summaryModel = SummaryModel()
             }
             
@@ -211,7 +260,7 @@ struct CountdownView: View {
     
     private func startTimer() {
         print("카운드 다운 타이머 시작 할거야")
-
+        
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.decreaseProgress()
         }

@@ -34,6 +34,10 @@ class ImpulseManager: NSObject, ObservableObject {
     @Published var impulseRatio = 50.0
     var currentImpulse = 0.0
     
+    //임의
+    var localNotification: LocalNotifications
+    var redZoneCount: Int = 0
+    
     let weight = 50.0
     @Published var diagonalVelocityCriterion: String = "2.9"
 //    var diagonalVelocityCriterion = Int(viewModelWatch.impulseRate)  // km/h  - TODO: - WatchViewModel에서 전달된 impulseRate 값을 받아서 int로 형변환 해서 쓰고 싶음
@@ -46,9 +50,16 @@ class ImpulseManager: NSObject, ObservableObject {
         return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.9)
     }
         
-    override init() {
+//    override init() {
+//        super.init()
+//        print(self.impulseCriterion)
+//    }
+    
+    init(localNotification: LocalNotifications)
+    {
+        self.localNotification = localNotification
         super.init()
-        print(self.impulseCriterion)
+        print("local")
     }
     
     func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double{
@@ -118,4 +129,71 @@ class ImpulseManager: NSObject, ObservableObject {
         
         return average
     }
+    
+    func isTipsConditionMet() -> Bool {
+        if self.impulseLogs.count < 2 {
+            return false
+        }
+        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
+        let currentImpulseRatio = self.calculateImpulseRatio(currentImpulse)
+        let prevImpulse = self.impulseLogs[self.impulseLogs.count-2]
+        let prevImpulseRatio = self.calculateImpulseRatio(prevImpulse)
+        
+        if prevImpulseRatio >= 0 && prevImpulseRatio < 30 && currentImpulseRatio >= 30 {
+            print("conditionMet!")
+            print("current: \(currentImpulse), prev: \(prevImpulse)")
+            return true
+        }
+        return false
+    }
+    
+    
+    func sendTipsNotification()  -> Void {
+        localNotification.schedule()
+    }
+    
+    func sendTipsIfConditionMet() -> Void{
+        if !self.isTipsConditionMet(){
+            return
+        }
+        self.sendTipsNotification()
+    }
+    
+    func isWarningConditionMet() -> Bool{
+        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
+        let currentImpulseRatio = self.calculateImpulseRatio(currentImpulse)
+        if 60 <= currentImpulseRatio {
+            return true
+        }
+        return false
+    }
+    
+    func stayedInRedZoneForTooLong() -> Bool {
+        if 60 <= redZoneCount {
+            return true
+        }
+        return false
+    }
+    
+    func updateRedZoneCount() -> Void {
+        if self.isWarningConditionMet() {
+            self.redZoneCount += 1
+        }
+        else{
+            self.redZoneCount = 0
+        }
+    }
+    
+    func sendWarningNotification()  -> Void {
+        localNotification.schedule2()
+    }
+    
+    func sendWarningIfConditionMet() -> Void {
+        if stayedInRedZoneForTooLong() {
+            self.sendTipsNotification()
+        }
+    }
+    
 }
+
+
