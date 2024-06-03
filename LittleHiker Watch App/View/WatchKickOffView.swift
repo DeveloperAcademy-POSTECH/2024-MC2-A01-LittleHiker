@@ -27,9 +27,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // Foreground(앱 켜진 상태)에서도 알림 오는 설정
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.list, .banner])
+        completionHandler([.list, .banner, .sound])
+        WKInterfaceDevice.current().play(.notification)
     }
 }
+
+//extension LocalNotifications: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+//        WKInterfaceDevice.current().play(.notification)
+//        return [.list, .sound, .banner]
+//    }
+//}
 
 struct WatchKickOffView: View {
     @ObservedObject var viewModel: HikingViewModel
@@ -52,6 +60,7 @@ struct WatchKickOffView: View {
             UNUserNotificationCenter.current()
                 .requestAuthorization(options: [.alert, .sound]){ granted, error in
                     if granted {
+                        viewModel.impulseManager.sendTipsNotification()
                         print("로컬 알림 권한이 허용되었습니다")
                     } else {
                         print("로컬 알림 권한이 허용되지 않았습니다")
