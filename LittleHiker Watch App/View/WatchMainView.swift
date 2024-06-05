@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import WatchKit
 
 //MARK: - WatchMainView
 
@@ -16,16 +17,21 @@ struct WatchMainView: View {
     @ObservedObject var locationViewModel: CoreLocationManager
     @State private var frameIndex = 0
     @State private var timer: Timer?
-//    @State private var progress: CGFloat = 50
+    //    @State private var progress: CGFloat = 50
     
     @State private var isShowing = false
+    
+    //시연용 임시방편 모달로해보기
+    @State private var isShowingTestA = false
+    @State private var isShowingTestB = false
+    
     let alertTitle: String = "충격량 정보"
-
+    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
                 headLabel
-//                Spacer()
+                //                Spacer()
                 if viewModel.impulseManager.impulseRatio <= 80{
                     HStack{
                         squirrelGIF
@@ -77,19 +83,19 @@ struct WatchMainView: View {
     }
     //MARK: - progressbar Label
     var progressBarLabel : some View{
-            HStack(alignment: .bottom, spacing: 0){
-                Text("충격량")
-                    .font(.system(size:14))
-                //                                .foregroundStyle(.gray)
-                Text("(IU)")
-                    .font(.system(size:14))
-                    .foregroundStyle(.gray)
-                Spacer()
-                Text("\(Int(viewModel.impulseManager.impulseCriterion * LabelCoefficients.red.coefficients))")
-                    .font(.system(size:14))
-                    .foregroundStyle(.gray)
-            }
-            .padding(.bottom, 4)
+        HStack(alignment: .bottom, spacing: 0){
+            Text("충격량")
+                .font(.system(size:14))
+            //                                .foregroundStyle(.gray)
+            Text("(IU)")
+                .font(.system(size:14))
+                .foregroundStyle(.gray)
+            Spacer()
+            Text("\(Int(viewModel.impulseManager.impulseCriterion * LabelCoefficients.red.coefficients))")
+                .font(.system(size:14))
+                .foregroundStyle(.gray)
+        }
+        .padding(.bottom, 4)
     }
     
     //MARK: - HEAD LABEL
@@ -115,23 +121,67 @@ struct WatchMainView: View {
                 Button(action: {
                     isShowing = true
                 }) {
-                    Image(systemName: "info")
+                    Image(systemName: "bell.fill")
                 }
-                .alert(isPresented: $isShowing) {
-                    Alert(
-                        title: Text("충격량(IU)"),
-                        message: Text("= 힘(N)/100"),
-                        dismissButton: .default(Text("확인"), action: {
-                            print("Dismiss button clicked")
-                        })
-                    )
-                }
-                .frame(width: 30, height: 30)
+                .frame(width: 40, height: 40)
                 .background(Color.white.opacity(0.2))
                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                .buttonStyle(PlainButtonStyle())}
+                .buttonStyle(PlainButtonStyle())
+                .fullScreenCover(isPresented: $isShowing) {
+                    VStack{
+                        Button(action: {
+//                            isShowingTestA = true
+//                            WKInterfaceDevice.current().play(.notification)
+//                            다람상식 보내기
+                            viewModel.impulseManager.sendTipsNotification()
+                        }) {
+                            Text("다람상식")
+                        }
+                        //시연용 임시방편 모달로해보기
+                        .fullScreenCover(isPresented: $isShowingTestA) {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text("잠깐!")
+                                        .fontWeight(.bold)
+                                    Image("peak3")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                        .aspectRatio(contentMode: .fit)
+                                }
+                                Text("다람상식")
+                                    .font(.headline)
+                                Text("하산시에는 체중의 4.9배의 충격이 가해진다는 연구 결과가 있어요!")
+                            }
+                        }
+                        Button(action: {
+//                            isShowingTestB = true
+//                            WKInterfaceDevice.current().play(.notification)
+//                            경고 보내기
+                            viewModel.impulseManager.sendWarningNotification()
+                        }) {
+                            Text("경고")
+                        }
+                        //시연용 임시방편 모달로해보기
+                        .fullScreenCover(isPresented: $isShowingTestB) {
+                            VStack(alignment: .leading) {
+                                HStack {
+                                    Text("잠깐!")
+                                        .fontWeight(.bold)
+                                    Image("run2")
+                                        .resizable()
+                                        .frame(width: 40, height: 40)
+                                        .aspectRatio(contentMode: .fit)
+                                }
+                                Text("다람이 missing")
+                                    .font(.headline)
+                                Text("다람이가 못따라오고 있어요!")
+                            }
+                        }
+                    }
+                }
+            }
         }
-//        .padding(.horizontal, 9)
+        //        .padding(.horizontal, 9)
         .padding(.top, 32)
     }
     
@@ -176,7 +226,8 @@ struct WatchMainView: View {
                     .scaledToFit()
                     .frame(width: geometry.size.width, height: 12)
                 HStack{
-                    Text(viewModel.impulseManager.impulseLogs.count == 0 ? "--" : "\(Int(viewModel.impulseManager.impulseLogs.last!))")
+                    Text(viewModel.impulseManager.impulseLogs.count == 0 ? "--" :
+                            "\(Int(viewModel.impulseManager.meanOfLastTenImpulseLogs()))")
                         .font(.system(size: 18))
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
@@ -261,5 +312,5 @@ struct InpulseInfoView: View {
 }
 #Preview {
     WatchMainView(viewModel: HikingViewModel(), locationViewModel: HikingViewModel().coreLocationManager)
-//    WatchMainView(isDescent: false)
+    //    WatchMainView(isDescent: false)
 }
