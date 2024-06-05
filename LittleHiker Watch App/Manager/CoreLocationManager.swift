@@ -42,11 +42,11 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     }
     // startUpdateTimer로 분리
     func startUpdateLocationData(){
-        startSpeedUpdateTimer()
-        locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+//        startSpeedUpdateTimer()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
 //        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation // 최고의 정확도 대신 배터리 소모 상승
         // 위 옵션 종류 kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters(10m), kCLLocationAccuracyHundredMeters(100m) 등 순으로 정확도, 배터리 상승
-        locationManager.distanceFilter = 10 //10m마다
+        locationManager.distanceFilter = 5 //5m마다
 //        locationManager.distanceFilter = kCLDistanceFilterNone  // 모든 움직임에 대해 업데이트를 받고 싶을 때
         locationManager.startUpdatingLocation()
     }
@@ -56,34 +56,34 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     }
     
     // 10초 동안 로케이션 변화 감지 못하면 속도 0으로 셋팅
-    private func startSpeedUpdateTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
-            self.updateSpeed()
-        }
-    }
+//    private func startSpeedUpdateTimer() {
+//        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
+//            self.updateSpeed()
+//        }
+//    }
     
     private func stopSpeedUpdateTimer() {
         timer?.invalidate()
         timer = nil
     }
     
-    private func updateSpeed() {
-        // GPS 업데이트가 없을 때 속도를 0으로 설정
-        if let lastLocation = previousLocation {
-            let stopTime = Date().timeIntervalSince(lastLocation.timestamp)
-            if  stopTime > 10 && stopTime <= standardOfPeak{
-                self.currentSpeed = 0
-                print("~~~~~~~~~~~~~~~~~위치변환이 10초간 없음")
-            }
-            else if stopTime > standardOfPeak {
-                self.currentSpeed = 0
-                self.notificationPeak = true
-                print("~~~~~~~~~~~~~~~~`위치변환이 600초간 없음")
-            }
-        } else {
-            self.currentSpeed = 0
-        }
-    }
+//    private func updateSpeed() {
+//        // GPS 업데이트가 없을 때 속도를 0으로 설정
+//        if let lastLocation = previousLocation {
+//            let stopTime = Date().timeIntervalSince(lastLocation.timestamp)
+//            if  stopTime > 10 && stopTime <= standardOfPeak{
+//                self.currentSpeed = 0
+//                print("~~~~~~~~~~~~~~~~~위치변환이 10초간 없음")
+//            }
+//            else if stopTime > standardOfPeak {
+//                self.currentSpeed = 0
+//                self.notificationPeak = true
+//                print("~~~~~~~~~~~~~~~~`위치변환이 600초간 없음")
+//            }
+//        } else {
+//            self.currentSpeed = 0
+//        }
+//    }
     
     func isNotificationPeak() -> Bool{
         if notificationPeak{
