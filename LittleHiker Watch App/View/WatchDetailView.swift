@@ -44,7 +44,7 @@ struct WatchDetailView: View {
                 
                 //현재 페이스
                 HStack (spacing: 0) {
-                    Text("\(String(format: "%.1f", viewModel.coreLocationManager.currentSpeed))")
+                    Text("\(String(format: "%.1f", viewModel.healthKitManager.currentSpeed))")
                         .font(.system(size: 32))
                     
                     VStack{
@@ -82,8 +82,7 @@ struct WatchDetailView: View {
                 
                 //총 거리
                 HStack (spacing: 0) {
-//                    Text("\(String(format:"%.2f", healthViewModel.currentDistanceWalkingRunning))") //기존 헬스스토어에서 거리 받기
-                    Text("\(String(format:"%.2f", viewModel.coreLocationManager.totalDistanceTraveled))") //코어 로케이션에서 거리 받기
+                    Text("\(String(format:"%.2f", viewModel.healthKitManager.currentDistanceWalkingRunning))")// healthkit에서 거리받기
                         .font(.system(size: 32))
                     VStack{
                         Spacer(minLength: 1)

@@ -109,6 +109,17 @@ struct WatchMainView: View {
                         .foregroundStyle(.green)
                         .padding(.leading, 2)
                 }
+                //현재 속도 테스트용
+                HStack(alignment: .bottom, spacing: 0){
+                    Text("\(String(format: "%.2f", viewModel.healthKitManager.currentSpeed))Km/h")
+                        .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                        .fontWeight(.medium)
+                        .foregroundStyle(.green)
+                }
+                Text("\(String(format: "%.2f", viewModel.healthKitManager.currentDistanceWalkingRunning))Km")
+                    .font(.system(size: (viewModel.isDescent ? 22 : 32)))
+                    .fontWeight(.medium)
+                    .foregroundStyle(.green)
             }
             Spacer()
             if viewModel.isDescent{

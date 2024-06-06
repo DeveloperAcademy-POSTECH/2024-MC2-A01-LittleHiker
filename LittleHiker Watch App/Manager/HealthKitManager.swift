@@ -10,6 +10,61 @@ import Combine
 import HealthKit
 
 class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
+    
+    @Published var currentHeartRate: Int = 0
+    @Published var currentDistanceWalkingRunning = 0.0
+    @Published var currentSpeed = 0.0
+    
+
+    
+    
+    //MARK: - HKHealthStore 불러오기
+    let healthStore = HKHealthStore()
+    let heartRateQuantity = HKUnit(from: "count/min")
+    let distanceQuantity = HKUnit.meter()
+    var heartRateLogs: [Int] = []
+    var distanceLogs: [Double] = []
+    private var anchor: HKQueryAnchor? //앵커 저장 변수
+    private var startDate: Date?
+    private var totalDistanceWalkingRunning: Double = 0.0
+    private var lastSampleDate: Date?
+    private var speedCheckTimer: Timer?
+    private var timer: Timer?
+    let checkTime = 10.0
+
+    
+    override init() {
+        super.init()
+        authorizeHealthKit()
+        startSpeedCheckTimer()
+    }
+    
+    private func startSpeedCheckTimer() {
+        speedCheckTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            self.checkSpeed()
+        }
+    }
+    
+    private func checkSpeed() {
+        guard let lastSampleDate = lastSampleDate else {
+            return
+        }
+        
+        let currentTime = Date()
+        let timeIntervalSinceLastSample = currentTime.timeIntervalSince(lastSampleDate)
+        
+        if timeIntervalSinceLastSample > checkTime {
+            DispatchQueue.main.async {
+                self.currentSpeed = 0.0
+            }
+        }
+    }
+    
+    //MARK: - workout 기록하기
+    //workout
+    var workoutSession: HKWorkoutSession?
+    var workoutBuilder: HKLiveWorkoutBuilder?
+    
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
         print("ds1")
     }
@@ -27,41 +82,12 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         print("ds4")
     }
     
-    @Published var currentHeartRate: Int = 0
-    @Published var currentDistanceWalkingRunning: Double = 0
-    var heartRateLogs: [Int] = []
-    var distanceLogs: [Double] = []
-    private var anchor: HKQueryAnchor? //앵커 저장 변수
-    private var startDate: Date? // 시작 시점 저장 변수
-    private var totalDistanceWalkingRunning: Double = 0.0
-    
-    private var timer: Timer?
-    
-    //MARK: - HKHealthStore 불러오기
-//    let healthStore = HKHealthStore()
-    let heartRateQuantity = HKUnit(from: "count/min")
-    let distanceQuantity = HKUnit.meter()
-    //심박수 평균을 위한 시작 시간
-
-    //workout
-    var workoutSession: HKWorkoutSession?
-    var workoutBuilder: HKLiveWorkoutBuilder?
-    
-    override init() {
-        super.init()
-        authorizeHealthKit()
-//        startTimer()
-    }
-
-    
-    let healthStore = HKHealthStore()
-
     // MARK: - HealthKit 사용 권한 인증
     func authorizeHealthKit() {
         let readTypes: Set<HKObjectType> = [
             HKObjectType.quantityType(forIdentifier: .heartRate)!,
 //            HKObjectType.quantityType(forIdentifier: .stepCount)!,
-//            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!, //
+            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!,
 //            HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!
         ]
 
@@ -75,7 +101,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
 
             }
             self.hkQuery(quantityTypeIdentifier: .heartRate)
-            //            self?.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
+            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
 
         }
     }
@@ -101,6 +127,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
                     print("Failed to begin collection: \(error.localizedDescription)")
                 }
             }
+            self.startDate = Date()
         } catch {
             // Handle errors here
             print("Failed to start workout session: \(error.localizedDescription)")
@@ -143,6 +170,8 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
                         
             if (quantityTypeIdentifier == .heartRate) {
                 self.processHeartRate(samples)
+            } else if (quantityTypeIdentifier == .distanceWalkingRunning) {
+                self.processDistanceAndSpeed(samples)
             }
             
             if let newQueryAnchor = queryAnchor {
@@ -167,22 +196,31 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         }
     }
 
-//    private func processDistance(_ samples: [HKQuantitySample]) {
-//        self.startDate = Date() // 현재 시점을 시작 시점으로 설정
-//
-//        for sample in samples {
-//            guard let startDate = self.startDate, sample.startDate >= startDate else {
-//                continue // 시작 시점 이후의 데이터만 처리
-//            }
-//
-//            let distance = sample.quantity.doubleValue(for: distanceQuantity)
-//            totalDistanceWalkingRunning += distance
-//
-//            DispatchQueue.main.async {
-//                self.currentDistanceWalkingRunning = self.totalDistanceWalkingRunning
-//            }
-//        }
-//    }
+    private func processDistanceAndSpeed(_ samples: [HKQuantitySample]) {
+        guard !samples.isEmpty else { return }
+
+        var totalDistance = 0.0
+        var totalSpeed = 0.0
+        
+        for sample in samples {
+            let distance = sample.quantity.doubleValue(for: distanceQuantity)
+            let timeInterval = sample.endDate.timeIntervalSince(sample.startDate)
+            
+            guard timeInterval > 0 else { continue }
+            
+            let speed = distance / timeInterval
+            totalDistance += distance
+            totalSpeed += speed
+        }
+        
+        let averageSpeed = totalSpeed * 3.6 / Double(samples.count)
+        
+        DispatchQueue.main.async {
+            self.currentDistanceWalkingRunning += totalDistance / 1000
+            self.currentSpeed = averageSpeed
+            self.lastSampleDate = samples.last?.endDate
+        }
+    }
     
     func fetchHeartRateStatistics(completion: @escaping (Double?, Double?, Double?, Error?) -> Void) {
         let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate)!
@@ -249,6 +287,6 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         
     
     deinit {
-        timer?.invalidate()
+        speedCheckTimer?.invalidate()
     }
 }

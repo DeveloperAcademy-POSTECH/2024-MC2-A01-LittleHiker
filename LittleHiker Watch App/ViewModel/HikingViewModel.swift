@@ -114,7 +114,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             self.coreLocationManager.appendCoreLocationLogs(isRecord: self.isRecord()) //순서변경
             self.impulseManager.calculateAndAppendRecentImpulse(
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
-                currentSpeed: self.coreLocationManager.currentSpeed
+//                currentSpeed: self.coreLocationManager.currentSpeed
+                currentSpeed: self.healthKitManager.currentSpeed
             )
             self.impulseManager.appendToLogs(isRecord: isRecord())
             //testcode 기준속도 변경
