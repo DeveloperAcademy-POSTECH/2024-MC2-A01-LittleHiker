@@ -45,7 +45,7 @@
 - WatchButtonView 구현
 - WatchDetailView 구현
 
-### 이서현([@Yusol](https://github.com/yus0l))
+### 박서현([@Yusol](https://github.com/yus0l))
 - Figma 프로토타이핑
 - GIF 이미지 생성
 - 앱아이콘 생성
