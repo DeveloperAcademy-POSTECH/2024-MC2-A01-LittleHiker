@@ -227,7 +227,7 @@ struct WatchMainView: View {
                     .frame(width: geometry.size.width, height: 12)
                 HStack{
                     Text(viewModel.impulseManager.impulseLogs.count == 0 ? "--" :
-                            "\(Int(viewModel.impulseManager.meanOfLastTenImpulseLogs()))")
+                            "\(Int(viewModel.impulseManager.currentMeanOfLastTenImpulseLogs))")
                         .font(.system(size: 18))
                         .fontWeight(.semibold)
                         .foregroundColor(.black)
@@ -235,18 +235,18 @@ struct WatchMainView: View {
                 }
                 .frame(minWidth: 44)
                 .frame(height: 24)
-                .background(Capsule().fill(colorForValue(viewModel.impulseManager.calculateImpulseRatio(viewModel.impulseManager.meanOfLastTenImpulseLogs()))))
+                .background(Capsule().fill(colorForValue(viewModel.impulseManager.currentImpulseMeanRatio)))
                 .offset(
                     x: min(
                         max(
-                            CGFloat(viewModel.impulseManager.calculateImpulseRatio(viewModel.impulseManager.meanOfLastTenImpulseLogs()) / 100 * geometry.size.width) - 25,
+                            CGFloat(viewModel.impulseManager.currentImpulseMeanRatio / 100 * geometry.size.width) - 25,
                             0
                         ),
                         CGFloat(geometry.size.width - 50)
                     ),
                     y: 0
                 )
-                .animation(.linear, value: viewModel.impulseManager.calculateImpulseRatio(viewModel.impulseManager.meanOfLastTenImpulseLogs()))
+                .animation(.linear, value: viewModel.impulseManager.currentImpulseMeanRatio)
             }
         }
         .frame(height: 12)
@@ -291,7 +291,7 @@ struct WatchMainView: View {
     private func animationGifTimer() {
         stopGifTimer()
         // 1.0 / 4.0이면 1초당 이미지 4번 바뀜
-        timer = Timer.scheduledTimer(withTimeInterval: speedForValue(viewModel.impulseManager.calculateImpulseRatio(viewModel.impulseManager.meanOfLastTenImpulseLogs())), repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: speedForValue(viewModel.impulseManager.currentImpulseMeanRatio), repeats: true) { _ in
             frameIndex = (frameIndex + 1) % gifAnimation.frameCount
         }
     }
