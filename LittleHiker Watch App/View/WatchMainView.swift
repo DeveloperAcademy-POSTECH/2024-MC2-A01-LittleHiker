@@ -121,64 +121,38 @@ struct WatchMainView: View {
                 Button(action: {
                     isShowing = true
                 }) {
-                    Image(systemName: "bell.fill")
+                    Image(systemName: "info")
+//                    Image(systemName: "bell.fill")
                 }
+                .alert(isPresented: $isShowing) {
+                                    Alert(
+                                        title: Text("충격량(IU)"),
+                                        message: Text("= 힘(N)/100"),
+                                        dismissButton: .default(Text("확인"), action: {
+                                            print("Dismiss button clicked")
+                                        })
+                                    )
+                                }
                 .frame(width: 40, height: 40)
                 .background(Color.white.opacity(0.2))
                 .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                 .buttonStyle(PlainButtonStyle())
-                .fullScreenCover(isPresented: $isShowing) {
-                    VStack{
-                        Button(action: {
-//                            isShowingTestA = true
-//                            WKInterfaceDevice.current().play(.notification)
-//                            다람상식 보내기
-                            viewModel.impulseManager.sendTipsNotification()
-                        }) {
-                            Text("다람상식")
-                        }
-                        //시연용 임시방편 모달로해보기
-//                        .fullScreenCover(isPresented: $isShowingTestA) {
-//                            VStack(alignment: .leading) {
-//                                HStack {
-//                                    Text("잠깐!")
-//                                        .fontWeight(.bold)
-//                                    Image("peak3")
-//                                        .resizable()
-//                                        .frame(width: 40, height: 40)
-//                                        .aspectRatio(contentMode: .fit)
-//                                }
-//                                Text("다람상식")
-//                                    .font(.headline)
-//                                Text("하산시에는 체중의 4.9배의 충격이 가해진다는 연구 결과가 있어요!")
-//                            }
+//                .fullScreenCover(isPresented: $isShowing) {
+//                    VStack{
+//                        Button(action: {
+////                            다람상식 보내기
+//                            viewModel.impulseManager.sendTipsNotification()
+//                        }) {
+//                            Text("다람상식")
 //                        }
-                        Button(action: {
-//                            isShowingTestB = true
-//                            WKInterfaceDevice.current().play(.notification)
-//                            경고 보내기
-                            viewModel.impulseManager.sendWarningNotification()
-                        }) {
-                            Text("경고")
-                        }
-                        //시연용 임시방편 모달로해보기
-//                        .fullScreenCover(isPresented: $isShowingTestB) {
-//                            VStack(alignment: .leading) {
-//                                HStack {
-//                                    Text("잠깐!")
-//                                        .fontWeight(.bold)
-//                                    Image("run2")
-//                                        .resizable()
-//                                        .frame(width: 40, height: 40)
-//                                        .aspectRatio(contentMode: .fit)
-//                                }
-//                                Text("다람이 missing")
-//                                    .font(.headline)
-//                                Text("다람이가 못따라오고 있어요!")
-//                            }
+//                        Button(action: {
+////                            경고 보내기
+//                            viewModel.impulseManager.sendWarningNotification()
+//                        }) {
+//                            Text("경고")
 //                        }
-                    }
-                }
+//                    }
+//                }
             }
         }
         //        .padding(.horizontal, 9)
