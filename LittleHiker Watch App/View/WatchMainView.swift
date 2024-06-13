@@ -138,21 +138,21 @@ struct WatchMainView: View {
                             Text("다람상식")
                         }
                         //시연용 임시방편 모달로해보기
-                        .fullScreenCover(isPresented: $isShowingTestA) {
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text("잠깐!")
-                                        .fontWeight(.bold)
-                                    Image("peak3")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .aspectRatio(contentMode: .fit)
-                                }
-                                Text("다람상식")
-                                    .font(.headline)
-                                Text("하산시에는 체중의 4.9배의 충격이 가해진다는 연구 결과가 있어요!")
-                            }
-                        }
+//                        .fullScreenCover(isPresented: $isShowingTestA) {
+//                            VStack(alignment: .leading) {
+//                                HStack {
+//                                    Text("잠깐!")
+//                                        .fontWeight(.bold)
+//                                    Image("peak3")
+//                                        .resizable()
+//                                        .frame(width: 40, height: 40)
+//                                        .aspectRatio(contentMode: .fit)
+//                                }
+//                                Text("다람상식")
+//                                    .font(.headline)
+//                                Text("하산시에는 체중의 4.9배의 충격이 가해진다는 연구 결과가 있어요!")
+//                            }
+//                        }
                         Button(action: {
 //                            isShowingTestB = true
 //                            WKInterfaceDevice.current().play(.notification)
@@ -162,21 +162,21 @@ struct WatchMainView: View {
                             Text("경고")
                         }
                         //시연용 임시방편 모달로해보기
-                        .fullScreenCover(isPresented: $isShowingTestB) {
-                            VStack(alignment: .leading) {
-                                HStack {
-                                    Text("잠깐!")
-                                        .fontWeight(.bold)
-                                    Image("run2")
-                                        .resizable()
-                                        .frame(width: 40, height: 40)
-                                        .aspectRatio(contentMode: .fit)
-                                }
-                                Text("다람이 missing")
-                                    .font(.headline)
-                                Text("다람이가 못따라오고 있어요!")
-                            }
-                        }
+//                        .fullScreenCover(isPresented: $isShowingTestB) {
+//                            VStack(alignment: .leading) {
+//                                HStack {
+//                                    Text("잠깐!")
+//                                        .fontWeight(.bold)
+//                                    Image("run2")
+//                                        .resizable()
+//                                        .frame(width: 40, height: 40)
+//                                        .aspectRatio(contentMode: .fit)
+//                                }
+//                                Text("다람이 missing")
+//                                    .font(.headline)
+//                                Text("다람이가 못따라오고 있어요!")
+//                            }
+//                        }
                     }
                 }
             }
