@@ -33,13 +33,17 @@ class ImpulseManager: NSObject, ObservableObject {
     @Published var impulseLogs: [Double] = []
     @Published var impulseRatio = 50.0
     var currentImpulse = 0.0
-    
+    var currentMeanOfLastTenImpulseLogs = 0.0
+    var prevMeanOfLastTenImpulseLogs = 0.0
+    var currentImpulseMeanRatio = 50.0
+
     //임의
     var localNotification: LocalNotifications
     var redZoneCount: Int = 0
     
     let weight = 50.0
-    @Published var diagonalVelocityCriterion: String = "2.9"
+    @Published var diagonalVelocityCriterion: String = "2.95"
+    
 //    var diagonalVelocityCriterion = Int(viewModelWatch.impulseRate)  // km/h  - TODO: - WatchViewModel에서 전달된 impulseRate 값을 받아서 int로 형변환 해서 쓰고 싶음
     //FIXME: - 임의 테스트용 로그
 //    var diagonalVelocityCriterionLogs: [Double] = []
@@ -47,7 +51,7 @@ class ImpulseManager: NSObject, ObservableObject {
     
     var impulseCriterion: Double {
 //        print("기준 충격량 \(Double(diagonalVelocityCriterion) ?? 1.0)")
-        return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.9)
+        return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.95)
     }
         
 //    override init() {
@@ -63,7 +67,7 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double{
-        return ((Double(diagonalVelocityCriterion) ?? 2.9) * weight) / 0.1 / 100 //100나눔
+        return ((Double(diagonalVelocityCriterion) ?? 2.95) * weight) / 0.1 / 100 //100나눔
     }
     
     
@@ -116,6 +120,22 @@ class ImpulseManager: NSObject, ObservableObject {
 //        print("impulseRatio : \(impulseRatio)")
     }
     
+    func updateMeanOfLastTenImpulseLogs()->Void {
+        currentMeanOfLastTenImpulseLogs = self.getMeanOfLastTenImpulseLogs()
+        currentImpulseMeanRatio = self.calculateImpulseRatio(currentMeanOfLastTenImpulseLogs)
+    }
+    
+    func getMeanOfLastTenImpulseLogs() -> Double {
+        // Check if the array has less than 10 elements
+        if (impulseLogs.count <= 9){
+            return impulseLogs.reduce(0, +) / Double(impulseLogs.count)
+        }
+//        print("meanOfLastTenImpulseLogs called")
+        let lastTenElements = impulseLogs.suffix(10)
+        return lastTenElements.reduce(0, +) / Double(10)
+    }
+    
+    
     func getImpulseAvg() -> Double {
         let nonZeroImpulseLogs = impulseLogs.filter { $0 != 0 }
 
@@ -134,16 +154,19 @@ class ImpulseManager: NSObject, ObservableObject {
         if self.impulseLogs.count < 2 {
             return false
         }
-        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
-        let currentImpulseRatio = self.calculateImpulseRatio(currentImpulse)
-        let prevImpulse = self.impulseLogs[self.impulseLogs.count-2]
-        let prevImpulseRatio = self.calculateImpulseRatio(prevImpulse)
-        
-        if prevImpulseRatio >= 0 && prevImpulseRatio < 30 && currentImpulseRatio >= 30 && currentImpulseRatio < 60{
+//        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
+        let currentImpulse = self.currentMeanOfLastTenImpulseLogs
+        let currentImpulseRatio = self.currentImpulseMeanRatio
+//        let prevImpulse = self.impulseLogs[self.impulseLogs.count-2]
+        let prevImpulseRatio = self.calculateImpulseRatio(prevMeanOfLastTenImpulseLogs)
+ 
+        if prevImpulseRatio >= 0 && prevImpulseRatio < 33 && currentImpulseRatio >= 33 && currentImpulseRatio < 66{
             print("conditionMet!")
-            print("current: \(currentImpulse), prev: \(prevImpulse)")
+//            print("current: \(currentImpulse), prev: \(prevImpulse)")
+            prevMeanOfLastTenImpulseLogs = currentImpulse
             return true
         }
+        prevMeanOfLastTenImpulseLogs = currentImpulse
         return false
     }
     
@@ -160,9 +183,10 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func isWarningConditionMet() -> Bool{
-        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
-        let currentImpulseRatio = self.calculateImpulseRatio(currentImpulse)
-        if 60 <= currentImpulseRatio {
+//        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
+        let currentImpulse = self.currentMeanOfLastTenImpulseLogs
+        let currentImpulseRatio = self.currentImpulseMeanRatio
+        if 66 <= currentImpulseRatio {
             return true
         }
         return false
