@@ -261,5 +261,5 @@ struct WatchSummaryView: View {
 }
 
 #Preview {
-    WatchSummaryView(viewModel: HikingViewModel(), timeManager: TimeManager())
+    WatchSummaryView(viewModel: HikingViewModel.shared, timeManager: TimeManager())
 }
