@@ -46,13 +46,15 @@ final class LocalNotifications: NSObject, ObservableObject {
                 content.body = "하산시에는 체중의 4.9배의 충격이 가해진다는 연구 결과가 있어요!"
                 content.categoryIdentifier = self.categoryIdentifier
                 
-                let trigger: UNTimeIntervalNotificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+//                let trigger: UNTimeIntervalNotificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 let request = UNNotificationRequest(identifier: UUID().uuidString,
                                                     content: content,
                                                     trigger: nil)
-                current.add(request)
-//                DispatchQueue.global().asyncAfter(deadline: .now() + 10.0) {
-//                    WKInterfaceDevice.current().play(.notification)
+                
+                DispatchQueue.global().async{
+                    current.add(request)
+                }
+
 //                }
             } else {
                 print("로컬 알림 권한이 허용되지 않았습니다")
@@ -75,14 +77,14 @@ final class LocalNotifications: NSObject, ObservableObject {
                 content.body = "다람이가 못따라오고 있어요."
                 content.categoryIdentifier = self.categoryIdentifier
                 
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+//                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 let request = UNNotificationRequest(identifier: UUID().uuidString,
                                                     content: content,
                                                     trigger: nil)
-                current.add(request)
-//                DispatchQueue.global().asyncAfter(deadline: .now() + 10.0) {
-//                    WKInterfaceDevice.current().play(.notification)
-//                }
+                DispatchQueue.global().async{
+                    current.add(request)
+                }
+
             } else {
                 print("로컬 알림 권한이 허용되지 않았습니다")
             }
