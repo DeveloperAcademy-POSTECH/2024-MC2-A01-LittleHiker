@@ -14,6 +14,7 @@ final class LocalNotifications: NSObject, ObservableObject {
     private let categoryIdentifier = "custom"
     private let actionIdentifier = "notiAction"
     @Published var tipsBlockCount: Int = 0
+    @Published var tipsBlocked: Bool = false
     
 //    func register() async throws {
 //        let current = UNUserNotificationCenter.current()
@@ -39,6 +40,8 @@ final class LocalNotifications: NSObject, ObservableObject {
             
             if granted {
                 print("허용되었습니다")
+                if tipsBlockCount != 0 { return }
+                if tipsBlocked == true { return }
                 current.removeAllPendingNotificationRequests()
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
@@ -108,10 +111,12 @@ final class LocalNotifications: NSObject, ObservableObject {
     }
     
     func turnOffTipsFor15Minutes(){
+        tipsBlockCount = 60*15
         print("turnOffFor15Minutes")
     }
 
     func turnOffTips(){
+        tipsBlocked = true
         print("turnOffForEver")
     }
 }
