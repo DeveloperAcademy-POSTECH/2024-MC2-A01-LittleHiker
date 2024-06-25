@@ -88,10 +88,10 @@ final class LocalNotifications: NSObject, ObservableObject {
             }
             
         }
-        
-        func triggerHapticFeedback() {
-            WKInterfaceDevice.current().play(.notification)
-        }
+    }
+    
+    func triggerHapticFeedback() {
+        WKInterfaceDevice.current().play(.notification)
     }
 }
 
