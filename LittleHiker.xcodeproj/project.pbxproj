@@ -541,7 +541,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 정보 데이터를 수집할거임";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "충격량 계산을 위해 필요합니다.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sanjimseungdeul.littlehiker;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -575,7 +575,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 정보 데이터를 수집할거임";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "충격량 계산을 위해 필요합니다.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.sanjimseungdeul.littlehiker;
 				LD_RUNPATH_SEARCH_PATHS = (
