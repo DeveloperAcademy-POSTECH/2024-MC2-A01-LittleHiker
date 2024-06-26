@@ -119,43 +119,44 @@ struct WatchMainView: View {
             Spacer()
             if viewModel.isDescent{
                 Button(action: {
-                    isShowing = true
+                    viewModel.impulseManager.localNotification.toggleTipsManually()
+//                    isShowing = true
                 }) {
-//                    Image(systemName: "info")
-                    Image(systemName: "bell.fill")
+                    //                    Image(systemName: "info")
+                    Image(systemName: viewModel.impulseManager.localNotification.isTipsBlocked ? "bell.slash.fill" : "bell.fill")
                 }
-//                .alert(isPresented: $isShowing) {
-//                                    Alert(
-//                                        title: Text("충격량(IU)"),
-//                                        message: Text("= 힘(N)/100"),
-//                                        dismissButton: .default(Text("확인"), action: {
-//                                            print("Dismiss button clicked")
-//                                        })
-//                                    )
-//                                }
-//                .frame(width: 40, height: 40)
-//                .background(Color.white.opacity(0.2))
-//                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-//                .buttonStyle(PlainButtonStyle())
-                .fullScreenCover(isPresented: $isShowing) {
-                    VStack{
-                        Button(action: {
-//                            다람상식 보내기
-                            viewModel.impulseManager.sendTipsNotification()
-                        }) {
-                            Text("다람상식")
-                        }
-                        Button(action: {
-//                            경고 보내기
-                            viewModel.impulseManager.sendWarningNotification()
-                        }) {
-                            Text("경고")
-                        }
-                    }
-                }
+                //                .alert(isPresented: $isShowing) {
+                //                                    Alert
+                //                                        title: Text("충격량(IU)"),
+                //                                        message: Text("= 힘(N)/100"),
+                //                                        dismissButton: .default(Text("확인"), action: {
+                //                                            print("Dismiss button clicked")
+                //                                        })
+                //                                    )
+                //                                }
+                .frame(width: 40, height: 40)
+                .background(Color.white.opacity(0.2))
+                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                .buttonStyle(PlainButtonStyle())
+//                .fullScreenCover(isPresented: $isShowing) {
+//                    VStack{
+//                        Button(action: {
+//                            //                            다람상식 보내기
+//                            viewModel.impulseManager.sendTipsNotification()
+//                        }) {
+//                            Text("다람상식")
+//                        }
+//                        Button(action: {
+//                            //                            경고 보내기
+//                            viewModel.impulseManager.sendWarningNotification()
+//                        }) {
+//                            Text("경고")
+//                        }
+//                    }
+//                }
             }
         }
-                .padding(.horizontal, 9)
+        .padding(.horizontal, 9)
         .padding(.top, 32)
     }
     
@@ -202,10 +203,10 @@ struct WatchMainView: View {
                 HStack{
                     Text(viewModel.impulseManager.impulseLogs.count == 0 ? "--" :
                             "\(Int(viewModel.impulseManager.currentMeanOfLastTenImpulseLogs))")
-                        .font(.system(size: 18))
-                        .fontWeight(.semibold)
-                        .foregroundColor(.black)
-                        .padding(.horizontal, 8)
+                    .font(.system(size: 18))
+                    .fontWeight(.semibold)
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 8)
                 }
                 .frame(minWidth: 44)
                 .frame(height: 24)

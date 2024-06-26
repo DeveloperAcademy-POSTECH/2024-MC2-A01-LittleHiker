@@ -126,10 +126,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             //정상, 하산여부 체크
             self.checkNotification()
             
-            if self.impulseManager.localNotification.tipsBlockCount != 0 {
-                self.impulseManager.localNotification.tipsBlockCount -= 0
-            }
-            
+            self.impulseManager.localNotification.decreaseTipsBlockCount()
+            self.impulseManager.localNotification.decreaseWarningBlockCount()
         }
         //테스트용 스케쥴러
 //        testCodeTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in

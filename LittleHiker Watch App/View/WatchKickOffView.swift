@@ -21,16 +21,16 @@ class AppDelegate: NSObject, WKApplicationDelegate {
     override init() {
         super.init()
         UNUserNotificationCenter.current().delegate = self
-
+        
     }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
-
+    
     // Foreground(앱 켜진 상태)에서도 알림 오는 설정
-    func userNotificationCenter(_ center: UNUserNotificationCenter, 
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
-                                withCompletionHandler completionHandler: 
+                                withCompletionHandler completionHandler:
                                 @escaping (UNNotificationPresentationOptions) -> Void) {
         print("Notification will present method called")
         completionHandler([.list, .banner])
@@ -49,17 +49,17 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler:
                                 @escaping () -> Void) {
         switch response.actionIdentifier {
-            case "30분_끄기":
-             // 15분동안 다람상식 끄기
-            HikingViewModel.shared.impulseManager.localNotification.turnOffTipsFor15Minutes()
+        case "30분_끄기":
+            // 15분동안 다람상식 끄기
+            HikingViewModel.shared.impulseManager.localNotification.turnOffTipsFor30Minutes()
             break
-           
-            case "계속_끄기":// 계속 다람상식 끄기
+            
+        case "계속_끄기":// 계속 다람상식 끄기
             HikingViewModel.shared.impulseManager.localNotification.turnOffTips()
             break
-            default:
-                break
-
+        default:
+            break
+            
         }
         
     }

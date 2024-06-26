@@ -10,11 +10,12 @@ import UserNotifications
 import WatchKit
 
 final class LocalNotifications: NSObject, ObservableObject {
-    
     private let categoryIdentifier = "custom"
     private let actionIdentifier = "notiAction"
     @Published var tipsBlockCount: Int = 0
-    @Published var tipsBlocked: Bool = false
+    @Published var isTipsBlocked: Bool = false
+    @Published var warningBlockCount: Int = 0
+    @Published var isTipsBlockLocked: Bool = false
     
 //    func register() async throws {
 //        let current = UNUserNotificationCenter.current()
@@ -41,7 +42,8 @@ final class LocalNotifications: NSObject, ObservableObject {
             if granted {
                 print("허용되었습니다")
                 if tipsBlockCount != 0 { return }
-                if tipsBlocked == true { return }
+                if isTipsBlocked == true { return }
+                tipsBlockCount += 10
                 current.removeAllPendingNotificationRequests()
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
@@ -50,6 +52,7 @@ final class LocalNotifications: NSObject, ObservableObject {
                 content.categoryIdentifier = "다람상식"
                 
 //                let trigger: UNTimeIntervalNotificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+                //UserNoitificationAppDelegate에 나머지 설정 있음
                 let action1 = UNNotificationAction(identifier:"30분_끄기",
                                                   title: "30분동안 다람상식 끄기",
                                                   options: [])
@@ -83,6 +86,8 @@ final class LocalNotifications: NSObject, ObservableObject {
             guard let self = self else { return }
             
             if granted {
+                if warningBlockCount != 0 { return }
+                warningBlockCount += 15
                 current.removeAllPendingNotificationRequests()
                 print("허용되었습니다")
                 let content = UNMutableNotificationContent()
@@ -110,13 +115,55 @@ final class LocalNotifications: NSObject, ObservableObject {
         WKInterfaceDevice.current().play(.notification)
     }
     
-    func turnOffTipsFor15Minutes(){
-        tipsBlockCount = 60*15
-        print("turnOffFor15Minutes")
+    func turnOffTipsFor30Minutes(){
+        isTipsBlocked = true
+        tipsBlockCount = 60*30
+        print("turnOffFor30Minutes")
+    }
+    
+    func turnOffTips(){
+        isTipsBlocked = true
+        isTipsBlockLocked = true
+    }
+    
+    
+    func decreaseTipsBlockCount(){
+        if tipsBlockCount > 0 {
+            tipsBlockCount -= 0
+        }
+        if tipsBlockCount == 0 && !isTipsBlockLocked {
+            self.turnOnTips()
+        }
     }
 
-    func turnOffTips(){
-        tipsBlocked = true
-        print("turnOffForEver")
+    
+    func turnOnTips(){
+        tipsBlockCount = 0
+        isTipsBlocked = false
+        isTipsBlockLocked = false
+    }
+    
+    
+    func decreaseWarningBlockCount(){
+        if warningBlockCount > 0 {
+            tipsBlockCount -= 0
+       }
+    }
+    
+    func toggleTipsManually(){
+        if isTipsBlockLocked {
+            isTipsBlockLocked = false
+            isTipsBlocked = false
+            tipsBlockCount = 0
+        }
+        
+        else {
+            isTipsBlockLocked = true
+            isTipsBlocked = true
+        }
+    }
+    
+    func toggleTipsLock(){
+        isTipsBlockLocked = !isTipsBlockLocked
     }
 }
