@@ -120,14 +120,15 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.impulseManager.updateRedZoneCount()
                 self.impulseManager.sendWarningIfConditionMet()
                 self.impulseManager.sendTipsIfConditionMet()
+                self.impulseManager.localNotification.decreaseTipsBlockCount()
+                self.impulseManager.localNotification.decreaseWarningBlockCount()
             }
           
 //            self.impulseManager.sendTipsNotification()
             //정상, 하산여부 체크
             self.checkNotification()
             
-            self.impulseManager.localNotification.decreaseTipsBlockCount()
-            self.impulseManager.localNotification.decreaseWarningBlockCount()
+            
         }
         //테스트용 스케쥴러
 //        testCodeTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in

@@ -129,7 +129,7 @@ final class LocalNotifications: NSObject, ObservableObject {
     
     func decreaseTipsBlockCount(){
         if tipsBlockCount > 0 {
-            tipsBlockCount -= 0
+            tipsBlockCount -= 1
         }
         if tipsBlockCount == 0 && !isTipsBlockLocked {
             self.turnOnTips()
@@ -146,7 +146,7 @@ final class LocalNotifications: NSObject, ObservableObject {
     
     func decreaseWarningBlockCount(){
         if warningBlockCount > 0 {
-            tipsBlockCount -= 0
+            warningBlockCount -= 1
        }
     }
     
