@@ -21,13 +21,17 @@ class AppDelegate: NSObject, WKApplicationDelegate {
     override init() {
         super.init()
         UNUserNotificationCenter.current().delegate = self
+        
     }
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // Foreground(앱 켜진 상태)에서도 알림 오는 설정
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                willPresent notification: UNNotification,
+                                withCompletionHandler completionHandler:
+                                @escaping (UNNotificationPresentationOptions) -> Void) {
         print("Notification will present method called")
         completionHandler([.list, .banner])
         if !notificationIdentifiers.contains(notification.request.identifier) {
@@ -39,19 +43,41 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             print("Haptic feedback triggered at \(Date()).")
         }
     }
+    
+    
+    //extension LocalNotifications: UNUserNotificationCenterDelegate {
+    //    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+    //        WKInterfaceDevice.current().play(.notification)
+    //        return [.list, .sound, .banner]
+    //    }
+    //}
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter,
+                                didReceive response: UNNotificationResponse,
+                                withCompletionHandler completionHandler:
+                                @escaping () -> Void) {
+        switch response.actionIdentifier {
+        case "30분_끄기":
+            // 15분동안 다람상식 끄기
+            HikingViewModel.shared.impulseManager.localNotification.turnOffTipsFor30Minutes()
+            break
+            
+        case "계속_끄기":// 계속 다람상식 끄기
+            HikingViewModel.shared.impulseManager.localNotification.turnOffTips()
+            break
+        default:
+            break
+            
+        }
+        
+    }
 }
 
-//extension LocalNotifications: UNUserNotificationCenterDelegate {
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-//        WKInterfaceDevice.current().play(.notification)
-//        return [.list, .sound, .banner]
-//    }
-//}
+
 
 struct WatchKickOffView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
-    
     @State var status: MyHikingStatus = .kickoff
     
     var body: some View {
@@ -272,9 +298,8 @@ struct CountdownView: View {
 }
 
 //Preview
-struct WatchKickOffView_Previews: PreviewProvider {
-    static var previews: some View {
-        WatchKickOffView(viewModel: HikingViewModel(), timeManager: TimeManager())
-    }
-}
-
+//struct WatchKickOffView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WatchKickOffView(viewModel: HikingViewModel(), timeManager: TimeManager())
+//    }
+//}

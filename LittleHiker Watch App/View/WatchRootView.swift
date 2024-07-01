@@ -35,5 +35,5 @@ struct WatchRootView: View {
 }
 
 #Preview {
-    WatchRootView(viewModel: HikingViewModel(), timeManager: TimeManager())
+    WatchRootView(viewModel: HikingViewModel.shared, timeManager: TimeManager())
 }

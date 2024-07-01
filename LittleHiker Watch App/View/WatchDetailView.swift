@@ -106,5 +106,5 @@ struct WatchDetailView: View {
 }
 
 #Preview {
-    WatchDetailView(viewModel: HikingViewModel(), healthViewModel: HealthKitManager(), timeManager: TimeManager())
+    WatchDetailView(viewModel: HikingViewModel.shared, healthViewModel: HealthKitManager(), timeManager: TimeManager())
 }

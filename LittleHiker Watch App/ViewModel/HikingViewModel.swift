@@ -46,7 +46,7 @@ struct SummaryModel{
     var minImpulse = 0
     var maxImpulse = 0
     var heartRateAvg = 0
-    var minheartRate = 0
+    var minheartRate = 0 
     var maxheartRate = 0
     var totalAltitude = 0
     var minAltitude = 0
@@ -57,15 +57,13 @@ struct SummaryModel{
 
 }
 
-struct HikingModel{
-    var status = HikingStatus.ready
-    var isDescent = false
-    var isPaused = false
-    var isShowingModal = false
-}
-
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
-    @Published var hikingModel = HikingModel()
+    static let shared = HikingViewModel()
+    private var locationManager = CLLocationManager()
+    private var previousLocation: CLLocation?
+    private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
+    @Published var totalDistanceTraveled: Double = 0.0 // 총 이동 거리 확인용 임시 변수
+
     @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
 //    @Published var isDescent: Bool = true
     @Published var isDescent: Bool = false
@@ -78,30 +76,19 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var impulseManager =  ImpulseManager(localNotification: LocalNotifications())
     @Published var summaryModel = SummaryModel()
     
-
-    
     private var timer: Timer?
     var timestampLog: [String] = []
     
-    func startHiking(){
-        if !self.impulseManager.impulseLogs.isEmpty {
-            //TODO: - 메모리누수우우우우우
-            self.healthKitManager = HealthKitManager()
-            self.coreLocationManager = CoreLocationManager()
-            self.impulseManager = ImpulseManager(localNotification: LocalNotifications())
-            self.summaryModel = SummaryModel()
-        }
-        
-        self.status = .hiking
-        self.isDescent = false
-        self.healthKitManager.startHikingWorkout()
-        self.coreLocationManager.startUpdateLocationData()
-        self.updateEveryMinute()
+    private override init() {
+//        self.impulseManager(localNotification: localNotification)
+        super.init()
+        updateEveryMinute()
     }
     
     // 기록상태 확인 코드 추가
     func isRecord() -> Bool {
         return status == .descending || status == .hiking ? true : false
+        
     }
     
     func updateEveryMinute() {
@@ -128,11 +115,14 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.impulseManager.updateRedZoneCount()
                 self.impulseManager.sendWarningIfConditionMet()
                 self.impulseManager.sendTipsIfConditionMet()
+                self.impulseManager.localNotification.decreaseTipsBlockCount()
+                self.impulseManager.localNotification.decreaseWarningBlockCount()
             }
           
 //            self.impulseManager.sendTipsNotification()
             //정상, 하산여부 체크
             self.checkNotification()
+            
             
         }
     }
@@ -265,3 +255,5 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
 }
+
+let sharedHikingViewModel = HikingViewModel.shared

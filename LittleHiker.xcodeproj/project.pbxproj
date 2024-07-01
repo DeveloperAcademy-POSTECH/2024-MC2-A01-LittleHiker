@@ -546,7 +546,7 @@
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "앱이 사용자의 심박수, 걸음 수 등 건강 데이터를 읽기 위해 접근이 필요합니다.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 정보 데이터를 수집할거임";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "충격량 계산을 위해 필요합니다.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ac.appleDevelop.LittleHiker;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -583,7 +583,7 @@
 				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "앱이 사용자의 심박수, 걸음 수 등 건강 데이터를 읽기 위해 접근이 필요합니다.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "위치 정보 데이터를 수집할거임";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "충격량 계산을 위해 필요합니다.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = ac.appleDevelop.LittleHiker;
 				LD_RUNPATH_SEARCH_PATHS = (
