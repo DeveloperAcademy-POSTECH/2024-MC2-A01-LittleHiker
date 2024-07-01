@@ -44,6 +44,14 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         }
     }
     
+    
+    //extension LocalNotifications: UNUserNotificationCenterDelegate {
+    //    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+    //        WKInterfaceDevice.current().play(.notification)
+    //        return [.list, .sound, .banner]
+    //    }
+    //}
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler:
@@ -70,7 +78,6 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 struct WatchKickOffView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
-    
     @State var status: MyHikingStatus = .kickoff
     
     var body: some View {
@@ -290,10 +297,9 @@ struct CountdownView: View {
     }
 }
 
-////Preview
+//Preview
 //struct WatchKickOffView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        WatchKickOffView(viewModel: HikingViewModel(), timeManager: TimeManager())
 //    }
 //}
-

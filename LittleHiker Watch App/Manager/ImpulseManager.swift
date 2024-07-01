@@ -26,10 +26,6 @@ enum LabelCoefficients{
 }
 
 class ImpulseManager: NSObject, ObservableObject {
-    //FIXME: - manager파일인데 swiftUI가 들어가는게 이상하긴 함
-//    @ObservedObject var viewModelWatch = ViewModelWatch()
-    //    @Published var currentSpeed: Double = 0
-    //    @Published var altitudeLogs: [Double] = []
     @Published var impulseLogs: [Double] = []
     @Published var impulseRatio = 50.0
     var currentImpulse = 0.0

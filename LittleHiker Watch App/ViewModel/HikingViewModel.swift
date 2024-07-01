@@ -67,34 +67,28 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
 //    @Published var isDescent: Bool = true
     @Published var isDescent: Bool = false
-
-    private var anchor: HKQueryAnchor?
+    @Published var isPaused: Bool = false
+    @Published var isShowingModal = false
     
-    //노티 인스턴스
-//    var localNotification = LocalNotifications()
-
     //manager 가져오기
     @Published var healthKitManager = HealthKitManager()
     @Published var coreLocationManager = CoreLocationManager()
     @Published var impulseManager =  ImpulseManager(localNotification: LocalNotifications())
     @Published var summaryModel = SummaryModel()
     
-    
-    
-    @Published var isPaused: Bool = false
-    
-    @Published var isShowingModal = false
-    
     private var timer: Timer?
-    //테스트용
-//    var viewModelWatch = ViewModelWatch()
-//    var testCodeTimer: Timer?
     var timestampLog: [String] = []
-
+    
     private override init() {
 //        self.impulseManager(localNotification: localNotification)
         super.init()
         updateEveryMinute()
+    }
+    
+    // 기록상태 확인 코드 추가
+    func isRecord() -> Bool {
+        return status == .descending || status == .hiking ? true : false
+        
     }
     
     func updateEveryMinute() {
@@ -107,7 +101,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             self.coreLocationManager.appendCoreLocationLogs(isRecord: self.isRecord()) //순서변경
             self.impulseManager.calculateAndAppendRecentImpulse(
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
-                currentSpeed: self.coreLocationManager.currentSpeed
+//                currentSpeed: self.coreLocationManager.currentSpeed
+                currentSpeed: self.healthKitManager.currentSpeed
             )
             self.impulseManager.updateMeanOfLastTenImpulseLogs()
             self.impulseManager.appendToLogs(isRecord: isRecord())
@@ -130,11 +125,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             
             
         }
-        //테스트용 스케쥴러
-//        testCodeTimer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-//            guard let self = self else { return }
-//            self.testCode()
-//        }
     }
     
     func checkNotification(){
@@ -148,13 +138,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             if coreLocationManager.isNotificationDecent(){
                 print("하산입니까 알람 필요")
             }
-            
         }
-    }
-    
-    // 기록상태 확인 코드 추가
-    func isRecord() -> Bool {
-        return status == .descending || status == .hiking ? true : false
     }
     
     //타임스탬프 만드는 함수
@@ -166,19 +150,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         return timestampString
     }
     
-    //FIXME: - 지우기
-//    func testCode(){
-//        //3분마다 log 업데이트 보내기 -> 임의 기준속도 로그 생성
-//        let combinedString = (0..<min(self.timestampLog.count ,self.coreLocationManager.altitudeLogs.count, self.coreLocationManager.speedLogs.count, self.impulseManager.impulseLogs.count, self.impulseManager.diagonalVelocityCriterionLogs.count)).map { index in
-//            "\(self.timestampLog[index]) : 고도 : \(Int(self.coreLocationManager.altitudeLogs[index])),속도 : \(String(format: "%.2f",self.coreLocationManager.speedLogs[index])), 기준 속도 : \(String(format: "%.2f",self.impulseManager.diagonalVelocityCriterionLogs[index])), 기준 충격량 : \(String(format: "%.2f",self.impulseManager.impulseCriterionLogs[index])), 충격량 : \(String(format: "%.2f",self.impulseManager.impulseLogs[index]))"
-//        }.joined(separator: "\n")
-//        self.viewModelWatch.session.sendMessage(["message" : combinedString], replyHandler: nil) { error in
-//        }
-//    }
-    
-    deinit {
-        timer?.invalidate()
-    }
+
     
     //하이킹 종료
     func endHiking() {
@@ -193,7 +165,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 }
             }
         }
-
+        
         DispatchQueue.main.async {
             // nil 값 보호
             self.summaryModel.totalAltitude = Int(self.coreLocationManager.climbingAltitude)
@@ -210,7 +182,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.summaryModel.minAltitude = 0
             }
             
-//            self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning //기존 총거리
+            //            self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning //기존 총거리
             self.summaryModel.totalDistance = self.coreLocationManager.totalDistanceTraveled // 코어 로케이션으로 총거리 받기
             self.summaryModel.speedAvg = self.coreLocationManager.getSpeedAvg()
             self.summaryModel.impulseAvg = self.impulseManager.getImpulseAvg()
@@ -228,7 +200,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             }
         }
     }
-
     
     // 버튼별로 타이머 기능을 조절하도록 만들었다. by.벨
     
@@ -278,6 +249,10 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
        // TODO: 기록을 SummaryView 로 넘긴다. by. 벨
    }
+    
+    deinit {
+        timer?.invalidate()
+    }
     
 }
 

@@ -99,6 +99,7 @@
 		1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeManager.swift; sourceTree = "<group>"; };
 		1A8DBE9D2BFE2CB600C3BA92 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotifications.swift; sourceTree = "<group>"; };
+		1EF68A6A2C0DDC2200DC2823 /* LittleHiker-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LittleHiker-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +170,7 @@
 		1A43DF942BFCAC9B00E62BA6 /* LittleHiker Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				1EF68A6A2C0DDC2200DC2823 /* LittleHiker-Watch-App-Info.plist */,
 				1A36FB1B2BFCB10300880ED5 /* LittleHiker Watch App.entitlements */,
 				1A36FB262BFDE27900880ED5 /* NotificationView.swift */,
 				1A36FB282BFDE29400880ED5 /* NotificationController.swift */,
@@ -538,8 +540,11 @@
 				DEVELOPMENT_TEAM = 2J2UA8CPHM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LittleHiker-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "앱이 사용자의 심박수, 걸음 수 등 건강 데이터를 읽기 위해 접근이 필요합니다.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "충격량 계산을 위해 필요합니다.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -572,8 +577,11 @@
 				DEVELOPMENT_TEAM = 2J2UA8CPHM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LittleHiker-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = LittleHiker;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "사용자의 건강 데이터를 읽기 위해 필요합니다";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "앱이 사용자의 심박수, 걸음 수 등 건강 데이터를 읽기 위해 접근이 필요합니다.";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "건강 데이터를 Health 앱에 기록하기 위해 필요합니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "충격량 계산을 위해 필요합니다.";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -613,7 +621,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -646,7 +654,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
