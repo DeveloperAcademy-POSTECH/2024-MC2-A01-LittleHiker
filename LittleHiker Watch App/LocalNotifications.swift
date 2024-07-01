@@ -15,22 +15,22 @@ final class LocalNotifications: NSObject, ObservableObject {
     private let actionIdentifier = "notiAction"
     
     
-    func register() async throws {
-        let current = UNUserNotificationCenter.current()
-        try await current.requestAuthorization(options: [.alert, .sound])
-        //이전에 나가려고 했던 pending된 Notification 다 지우기
-        current.removeAllPendingNotificationRequests()
-        
-        let action = UNNotificationAction(identifier: actionIdentifier,
-                                          title: "닫기",
-                                          options : .foreground)
-        let category = UNNotificationCategory(identifier: categoryIdentifier,
-                                              actions: [action],
-                                              intentIdentifiers: [])
-        
-        current.setNotificationCategories([category])
-        current.delegate = self
-    }
+//    func register() async throws {
+//        let current = UNUserNotificationCenter.current()
+//        try await current.requestAuthorization(options: [.alert, .sound])
+//        //이전에 나가려고 했던 pending된 Notification 다 지우기
+//        current.removeAllPendingNotificationRequests()
+//        
+//        let action = UNNotificationAction(identifier: actionIdentifier,
+//                                          title: "닫기",
+//                                          options : .foreground)
+//        let category = UNNotificationCategory(identifier: categoryIdentifier,
+//                                              actions: [action],
+//                                              intentIdentifiers: [])
+//        
+//        current.setNotificationCategories([category])
+//        current.delegate = self
+//    }
     
     func schedule() {
         let current = UNUserNotificationCenter.current()
@@ -39,20 +39,21 @@ final class LocalNotifications: NSObject, ObservableObject {
             
             if granted {
                 print("허용되었습니다")
+                current.removeAllPendingNotificationRequests()
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
                 content.subtitle = "다람상식"
                 content.body = "하산시에는 체중의 4.9배의 충격이 가해진다는 연구 결과가 있어요!"
                 content.categoryIdentifier = self.categoryIdentifier
                 
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+                let trigger: UNTimeIntervalNotificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 let request = UNNotificationRequest(identifier: UUID().uuidString,
                                                     content: content,
-                                                    trigger: trigger)
+                                                    trigger: nil)
                 current.add(request)
-                DispatchQueue.global().asyncAfter(deadline: .now() + 10.0) {
-                    WKInterfaceDevice.current().play(.notification)
-                }
+//                DispatchQueue.global().asyncAfter(deadline: .now() + 10.0) {
+//                    WKInterfaceDevice.current().play(.notification)
+//                }
             } else {
                 print("로컬 알림 권한이 허용되지 않았습니다")
             }
@@ -66,6 +67,7 @@ final class LocalNotifications: NSObject, ObservableObject {
             guard let self = self else { return }
             
             if granted {
+                current.removeAllPendingNotificationRequests()
                 print("허용되었습니다")
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
@@ -76,11 +78,11 @@ final class LocalNotifications: NSObject, ObservableObject {
                 let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 let request = UNNotificationRequest(identifier: UUID().uuidString,
                                                     content: content,
-                                                    trigger: trigger)
+                                                    trigger: nil)
                 current.add(request)
-                DispatchQueue.global().asyncAfter(deadline: .now() + 10.0) {
-                    WKInterfaceDevice.current().play(.notification)
-                }
+//                DispatchQueue.global().asyncAfter(deadline: .now() + 10.0) {
+//                    WKInterfaceDevice.current().play(.notification)
+//                }
             } else {
                 print("로컬 알림 권한이 허용되지 않았습니다")
             }
@@ -93,8 +95,9 @@ final class LocalNotifications: NSObject, ObservableObject {
     }
 }
 
-extension LocalNotifications: UNUserNotificationCenterDelegate {
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-        return [.list, .sound, .banner]
-    }
-}
+//extension LocalNotifications: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+//        WKInterfaceDevice.current().play(.notification)
+//        return [.list, .sound, .banner]
+//    }
+//}

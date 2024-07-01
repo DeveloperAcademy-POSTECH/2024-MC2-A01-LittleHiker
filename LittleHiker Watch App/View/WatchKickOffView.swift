@@ -17,6 +17,7 @@ enum MyHikingStatus {
 
 
 class AppDelegate: NSObject, WKApplicationDelegate {
+    private var notificationIdentifiers = Set<String>()
     override init() {
         super.init()
         UNUserNotificationCenter.current().delegate = self
@@ -27,9 +28,25 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     
     // Foreground(앱 켜진 상태)에서도 알림 오는 설정
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("Notification will present method called")
         completionHandler([.list, .banner])
+        if !notificationIdentifiers.contains(notification.request.identifier) {
+            notificationIdentifiers.insert(notification.request.identifier)
+        }
+        
+        else {
+            WKInterfaceDevice.current().play(.notification)
+            print("Haptic feedback triggered at \(Date()).")
+        }
     }
 }
+
+//extension LocalNotifications: UNUserNotificationCenterDelegate {
+//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
+//        WKInterfaceDevice.current().play(.notification)
+//        return [.list, .sound, .banner]
+//    }
+//}
 
 struct WatchKickOffView: View {
     @ObservedObject var viewModel: HikingViewModel
@@ -49,14 +66,15 @@ struct WatchKickOffView: View {
             }
         }
         .onAppear {
-            UNUserNotificationCenter.current()
-                .requestAuthorization(options: [.alert, .sound]){ granted, error in
-                    if granted {
-                        print("로컬 알림 권한이 허용되었습니다")
-                    } else {
-                        print("로컬 알림 권한이 허용되지 않았습니다")
-                    }
-                }
+            // UNUserNotificationCenter.current()
+            //     .requestAuthorization(options: [.alert, .sound]){ granted, error in
+            //         if granted {
+            //             // viewModel.impulseManager.sendTipsNotification()
+            //             print("로컬 알림 권한이 허용되었습니다")
+            //         } else {
+            //             print("로컬 알림 권한이 허용되지 않았습니다")
+            //         }
+            //     }
         }
     }
 }
@@ -108,13 +126,17 @@ struct PreparingView: View {
                             lineWidth: 8,
                             lineCap: .round))
                 .rotationEffect(.degrees(90))
-                .animation(.easeOut(duration: 0.5), value: progress)
+                .animation(.easeOut(duration: 1), value: progress)
                 .frame(width: 100, height: 100)
                 .overlay {
                     Text("준비")
                         .font(.system(size: 32))
                         .fontWeight(.semibold)
                 }
+            //1초마다 타이머 이벤트를 수신하여 increase를 호출합니다.
+            //                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
+            //                    self.increaseProgress()
+            //                }
         }
         .onAppear {
             startTimer()
@@ -133,19 +155,24 @@ struct PreparingView: View {
     }
     
     private func startTimer() {
+        print("준비 타이머 시작 할거야")
+        
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
             self.increaseProgress()
+            // 3:30
         }
     }
     
     // 타이머 중지
     private func stopTimer() {
+        print("준비 타이머 끌거야")
+        
         timer?.invalidate()
         timer = nil
     }
 }
 
-//MARK: - 카운트다운 화면
+// 카운트다운 화면
 struct CountdownView: View {
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
@@ -156,9 +183,11 @@ struct CountdownView: View {
     
     var body: some View {
         ZStack {
+            //뒤에 깔린 빈 프로그레스
             Circle()
                 .stroke(Color.main.opacity(0.5), lineWidth: 8)
                 .frame(width: 100, height: 100)
+            //채워지는 프로그레스
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(Color.main,
@@ -168,6 +197,9 @@ struct CountdownView: View {
                 .frame(width: 100, height: 100)
                 .rotationEffect(.degrees(-90))
                 .animation(.easeOut, value: progress)
+            //                .onReceive(Timer.publish(every:1, on: .main, in: .default).autoconnect()) { _ in
+            //                    self.decreaseProgress()
+            //                }
                 .overlay {
                     Text("\(count)")
                         .font(.system(size: 36))
@@ -181,7 +213,7 @@ struct CountdownView: View {
             stopTimer()
         }
     }
-
+    //1초가 지날 때마다 -.33값이 되는 progress입니다.
     private func decreaseProgress() {
         if progress > 0.1 {
             if progress != 1 {
@@ -190,18 +222,36 @@ struct CountdownView: View {
             progress -= 0.33
         } else {
             progress -= 0.1
+            
             if !viewModel.impulseManager.impulseLogs.isEmpty {
+                print("재시작했을 때 timer")
+                print(timeManager.elapsedTime)
                 //timer 초기화
                 timeManager.timer = nil
                 timeManager.elapsedTime = 0
+                
+                //TODO: - 메모리누수우우우우우
+                viewModel.healthKitManager = HealthKitManager()
+                viewModel.coreLocationManager = CoreLocationManager()
+                viewModel.impulseManager = ImpulseManager(localNotification: LocalNotifications())
+                viewModel.summaryModel = SummaryModel()
             }
+            
             //3,2,1 끝나고 뷰가 바뀌기 직전에 스탑워치 시작!
             timeManager.runStopWatch()
             //기록 날짜 "yyyy년 mm월 dd일" 찍기
             timeManager.setToday()
             //시작 시간 찍기
             timeManager.setStartTime(Date())
-            viewModel.startHiking()
+            
+            //뷰 바꾸기
+            viewModel.status = .hiking
+            viewModel.isDescent = false
+            
+            //active 임시
+            viewModel.healthKitManager.startHikingWorkout()
+            // location data timer 시작
+            viewModel.coreLocationManager.startUpdateLocationData()
         }
     }
     
@@ -227,3 +277,4 @@ struct WatchKickOffView_Previews: PreviewProvider {
         WatchKickOffView(viewModel: HikingViewModel(), timeManager: TimeManager())
     }
 }
+

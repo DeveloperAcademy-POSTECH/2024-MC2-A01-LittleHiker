@@ -117,6 +117,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 //                currentSpeed: self.coreLocationManager.currentSpeed
                 currentSpeed: self.healthKitManager.currentSpeed
             )
+            self.impulseManager.updateMeanOfLastTenImpulseLogs()
             self.impulseManager.appendToLogs(isRecord: isRecord())
             //testcode 기준속도 변경
 //            self.impulseManager.diagonalVelocityCriterion = viewModelWatch.impulseRate
