@@ -40,8 +40,9 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
     }
     
     private func startSpeedCheckTimer() {
-        speedCheckTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+        speedCheckTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
             self.checkSpeed()
+            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
         }
     }
     
@@ -101,7 +102,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
 
             }
             self.hkQuery(quantityTypeIdentifier: .heartRate)
-            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
+//            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
 
         }
     }
@@ -181,7 +182,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         
         let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: queryAnchor, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
         
-        query.updateHandler = updateHandler
+//        query.updateHandler = updateHandler
         
         healthStore.execute(query)
     }
