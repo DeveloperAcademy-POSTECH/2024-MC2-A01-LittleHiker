@@ -34,7 +34,7 @@ class ImpulseManager: NSObject, ObservableObject {
     var currentImpulseMeanRatio = 50.0
 
     //임의
-    var localNotification: LocalNotifications
+    var localNotification = LocalNotifications.shared
     var redZoneCount: Int = 0
     
     let weight = 50.0
@@ -55,12 +55,6 @@ class ImpulseManager: NSObject, ObservableObject {
 //        print(self.impulseCriterion)
 //    }
     
-    init(localNotification: LocalNotifications)
-    {
-        self.localNotification = localNotification
-        super.init()
-        print("local")
-    }
     
     func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double{
         return ((Double(diagonalVelocityCriterion) ?? 2.95) * weight) / 0.1 / 100 //100나눔
@@ -124,6 +118,9 @@ class ImpulseManager: NSObject, ObservableObject {
     func getMeanOfLastTenImpulseLogs() -> Double {
         // Check if the array has less than 10 elements
         if (impulseLogs.count <= 9){
+            if impulseLogs.count == 0 {
+                return 0
+            }
             return impulseLogs.reduce(0, +) / Double(impulseLogs.count)
         }
 //        print("meanOfLastTenImpulseLogs called")

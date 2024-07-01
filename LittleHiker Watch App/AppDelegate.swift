@@ -43,12 +43,12 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         switch response.actionIdentifier {
         case "30분_끄기":
             // 30분동안 다람상식 끄기
-            HikingViewModel.shared.impulseManager.localNotification.turnOffTipsFor30Minutes()
+            LocalNotifications.shared.turnOffTipsFor30Minutes()
             break
             
         case "계속_끄기":
             // 계속 다람상식 끄기
-            HikingViewModel.shared.impulseManager.localNotification.turnOffTips()
+            LocalNotifications.shared.turnOffTips()
             break
         default:
             break

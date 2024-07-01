@@ -10,6 +10,7 @@ import UserNotifications
 import WatchKit
 
 final class LocalNotifications: NSObject, ObservableObject {
+    static let shared = LocalNotifications()
     private let categoryIdentifier = "custom"
     private let actionIdentifier = "notiAction"
     var tipsBlockCount: Int = 0
@@ -155,9 +156,7 @@ final class LocalNotifications: NSObject, ObservableObject {
             isTipsBlockLocked = false
             isTipsBlocked = false
             tipsBlockCount = 0
-        }
-        
-        else {
+        } else {
             isTipsBlockLocked = true
             isTipsBlocked = true
         }
@@ -167,3 +166,5 @@ final class LocalNotifications: NSObject, ObservableObject {
         isTipsBlockLocked = !isTipsBlockLocked
     }
 }
+
+let sharedLocalNotifications = LocalNotifications.shared

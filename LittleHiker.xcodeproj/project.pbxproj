@@ -28,7 +28,6 @@
 		1A43DF8B2BFCAC9B00E62BA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF8A2BFCAC9B00E62BA6 /* Preview Assets.xcassets */; };
 		1A43DF912BFCAC9B00E62BA6 /* LittleHiker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1A43DF902BFCAC9B00E62BA6 /* LittleHiker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1A43DF962BFCAC9B00E62BA6 /* LittleHikerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF952BFCAC9B00E62BA6 /* LittleHikerApp.swift */; };
-		1A43DF982BFCAC9B00E62BA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF972BFCAC9B00E62BA6 /* ContentView.swift */; };
 		1A43DF9A2BFCAC9C00E62BA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */; };
 		1A43DF9D2BFCAC9C00E62BA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF9C2BFCAC9C00E62BA6 /* Preview Assets.xcassets */; };
 		1A43DFAB2BFCACDA00E62BA6 /* PhoneDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFAA2BFCACDA00E62BA6 /* PhoneDetailView.swift */; };
@@ -89,7 +88,6 @@
 		1A43DF8A2BFCAC9B00E62BA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1A43DF902BFCAC9B00E62BA6 /* LittleHiker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LittleHiker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A43DF952BFCAC9B00E62BA6 /* LittleHikerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleHikerApp.swift; sourceTree = "<group>"; };
-		1A43DF972BFCAC9B00E62BA6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A43DF9C2BFCAC9C00E62BA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1A43DFAA2BFCACDA00E62BA6 /* PhoneDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneDetailView.swift; sourceTree = "<group>"; };
@@ -248,7 +246,6 @@
 			isa = PBXGroup;
 			children = (
 				1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */,
-				1A43DF972BFCAC9B00E62BA6 /* ContentView.swift */,
 				1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */,
 				1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */,
 				1A36FB112BFCAF2300880ED5 /* WatchRestView.swift */,
@@ -385,7 +382,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A43DF982BFCAC9B00E62BA6 /* ContentView.swift in Sources */,
 				1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */,
 				1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */,
 				02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */,

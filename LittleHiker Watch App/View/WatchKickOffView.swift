@@ -200,7 +200,7 @@ struct CountdownView: View {
                 //TODO: - 메모리누수우우우우우
                 viewModel.healthKitManager = HealthKitManager()
                 viewModel.coreLocationManager = CoreLocationManager()
-                viewModel.impulseManager = ImpulseManager(localNotification: LocalNotifications())
+                viewModel.impulseManager = ImpulseManager()
                 viewModel.summaryModel = SummaryModel()
             }
             

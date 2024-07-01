@@ -15,6 +15,7 @@ struct WatchMainView: View {
     
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var locationViewModel: CoreLocationManager
+    @ObservedObject var localNotification = LocalNotifications.shared
     @State private var frameIndex = 0
     @State private var timer: Timer?
     //    @State private var progress: CGFloat = 50
@@ -130,11 +131,11 @@ struct WatchMainView: View {
             Spacer()
             if viewModel.isDescent{
                 Button(action: {
-                    viewModel.impulseManager.localNotification.toggleTipsManually()
+                    localNotification.toggleTipsManually()
 //                    isShowing = true
                 }) {
 //                                        Image(systemName: "info")
-                    Image(systemName: viewModel.impulseManager.localNotification.isTipsBlocked ? "bell.slash.fill" : "bell.fill")
+                    Image(systemName: localNotification.isTipsBlocked ? "bell.slash.fill" : "bell.fill")
                 }
                 //                .alert(isPresented: $isShowing) {
                 //                                    Alert

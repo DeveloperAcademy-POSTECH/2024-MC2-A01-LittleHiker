@@ -73,16 +73,15 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     //manager 가져오기
     @Published var healthKitManager = HealthKitManager()
     @Published var coreLocationManager = CoreLocationManager()
-    @Published var impulseManager =  ImpulseManager(localNotification: LocalNotifications())
+    @Published var impulseManager =  ImpulseManager()
     @Published var summaryModel = SummaryModel()
      
     private var timer: Timer?
     var timestampLog: [String] = []
     
     private override init() {
-//        self.impulseManager(localNotification: localNotification)
         super.init()
-        updateEveryMinute()
+        updateEverySecond()
     }
     
     // 기록상태 확인 코드 추가
@@ -91,7 +90,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         
     }
     
-    func updateEveryMinute() {
+    func updateEverySecond() {
         timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
 
             guard let self = self else { return }
@@ -221,7 +220,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
            status = .descending
        }
        isPaused = false
-       updateEveryMinute()
+       updateEverySecond()
    }
    
    func reachPeak() {
@@ -232,7 +231,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
    func startDescending() {
        status = .descending
        isPaused = false
-       updateEveryMinute()
+       updateEverySecond()
    }
    
    func stop() {
