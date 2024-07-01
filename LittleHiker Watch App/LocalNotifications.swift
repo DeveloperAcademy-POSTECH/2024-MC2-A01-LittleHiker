@@ -10,10 +10,12 @@ import UserNotifications
 import WatchKit
 
 final class LocalNotifications: NSObject, ObservableObject {
-    
     private let categoryIdentifier = "custom"
     private let actionIdentifier = "notiAction"
-    
+    var tipsBlockCount: Int = 0
+    @Published var isTipsBlocked: Bool = false
+    var warningBlockCount: Int = 0
+    @Published var isTipsBlockLocked: Bool = false
     
 //    func register() async throws {
 //        let current = UNUserNotificationCenter.current()
@@ -39,20 +41,37 @@ final class LocalNotifications: NSObject, ObservableObject {
             
             if granted {
                 print("허용되었습니다")
+                if tipsBlockCount != 0 { return }
+                if isTipsBlocked == true { return }
+                tipsBlockCount += 10
                 current.removeAllPendingNotificationRequests()
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
                 content.subtitle = "다람상식"
                 content.body = "하산시에는 체중의 4.9배의 충격이 가해진다는 연구 결과가 있어요!"
-                content.categoryIdentifier = self.categoryIdentifier
+                content.categoryIdentifier = "다람상식"
                 
-                let trigger: UNTimeIntervalNotificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+//                let trigger: UNTimeIntervalNotificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+                //UserNoitificationAppDelegate에 나머지 설정 있음
+                let action1 = UNNotificationAction(identifier:"30분_끄기",
+                                                  title: "30분동안 다람상식 끄기",
+                                                  options: [])
+                let action2 = UNNotificationAction(identifier: "계속_끄기",
+                                                  title: "계속 다람상식 끄기",
+                                                  options: [])
+                let category = UNNotificationCategory(identifier: "다람상식",
+                                                      actions: [action1, action2],
+                                                      intentIdentifiers: [],
+                                                      options: [])
+                UNUserNotificationCenter.current().setNotificationCategories([category])
                 let request = UNNotificationRequest(identifier: UUID().uuidString,
                                                     content: content,
                                                     trigger: nil)
-                current.add(request)
-//                DispatchQueue.global().asyncAfter(deadline: .now() + 10.0) {
-//                    WKInterfaceDevice.current().play(.notification)
+                
+                DispatchQueue.global().async{
+                    current.add(request)
+                }
+
 //                }
             } else {
                 print("로컬 알림 권한이 허용되지 않았습니다")
@@ -67,6 +86,8 @@ final class LocalNotifications: NSObject, ObservableObject {
             guard let self = self else { return }
             
             if granted {
+                if warningBlockCount != 0 { return }
+                warningBlockCount += 15
                 current.removeAllPendingNotificationRequests()
                 print("허용되었습니다")
                 let content = UNMutableNotificationContent()
@@ -75,29 +96,74 @@ final class LocalNotifications: NSObject, ObservableObject {
                 content.body = "다람이가 못따라오고 있어요."
                 content.categoryIdentifier = self.categoryIdentifier
                 
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+//                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 let request = UNNotificationRequest(identifier: UUID().uuidString,
                                                     content: content,
                                                     trigger: nil)
-                current.add(request)
-//                DispatchQueue.global().asyncAfter(deadline: .now() + 10.0) {
-//                    WKInterfaceDevice.current().play(.notification)
-//                }
+                DispatchQueue.global().async{
+                    current.add(request)
+                }
+
             } else {
                 print("로컬 알림 권한이 허용되지 않았습니다")
             }
             
         }
-        
-        func triggerHapticFeedback() {
-            WKInterfaceDevice.current().play(.notification)
+    }
+    
+    func triggerHapticFeedback() {
+        WKInterfaceDevice.current().play(.notification)
+    }
+    
+    func turnOffTipsFor30Minutes(){
+        isTipsBlocked = true
+        tipsBlockCount = 60*30
+        print("turnOffFor30Minutes")
+    }
+    
+    func turnOffTips(){
+        isTipsBlocked = true
+        isTipsBlockLocked = true
+    }
+    
+    
+    func decreaseTipsBlockCount(){
+        if tipsBlockCount > 0 {
+            tipsBlockCount -= 1
+        }
+        if tipsBlockCount == 0 && !isTipsBlockLocked {
+            self.turnOnTips()
         }
     }
-}
 
-//extension LocalNotifications: UNUserNotificationCenterDelegate {
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
-//        WKInterfaceDevice.current().play(.notification)
-//        return [.list, .sound, .banner]
-//    }
-//}
+    
+    func turnOnTips(){
+        tipsBlockCount = 0
+        isTipsBlocked = false
+        isTipsBlockLocked = false
+    }
+    
+    
+    func decreaseWarningBlockCount(){
+        if warningBlockCount > 0 {
+            warningBlockCount -= 1
+       }
+    }
+    
+    func toggleTipsManually(){
+        if isTipsBlockLocked {
+            isTipsBlockLocked = false
+            isTipsBlocked = false
+            tipsBlockCount = 0
+        }
+        
+        else {
+            isTipsBlockLocked = true
+            isTipsBlocked = true
+        }
+    }
+    
+    func toggleTipsLock(){
+        isTipsBlockLocked = !isTipsBlockLocked
+    }
+}

@@ -10,8 +10,8 @@ import SwiftUI
 
 @main
 struct LittleHiker_Watch_AppApp: App {
-    @ObservedObject private var viewModel = HikingViewModel()
-    @ObservedObject private var timeManager = TimeManager()
+    @ObservedObject private var viewModel = HikingViewModel.shared
+    @StateObject private var timeManager = TimeManager()
     
     @WKApplicationDelegateAdaptor(AppDelegate.self) var delegate
 

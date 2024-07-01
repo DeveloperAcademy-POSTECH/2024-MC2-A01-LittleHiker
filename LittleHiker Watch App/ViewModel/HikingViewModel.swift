@@ -46,7 +46,7 @@ struct SummaryModel{
     var minImpulse = 0
     var maxImpulse = 0
     var heartRateAvg = 0
-    var minheartRate = 0
+    var minheartRate = 0 
     var maxheartRate = 0
     var totalAltitude = 0
     var minAltitude = 0
@@ -58,7 +58,7 @@ struct SummaryModel{
 }
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
-    
+    static let shared = HikingViewModel()
     private var locationManager = CLLocationManager()
     private var previousLocation: CLLocation?
     private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
@@ -91,7 +91,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 //    var testCodeTimer: Timer?
     var timestampLog: [String] = []
 
-    override init() {
+    private override init() {
 //        self.impulseManager(localNotification: localNotification)
         super.init()
         updateEveryMinute()
@@ -120,11 +120,14 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.impulseManager.updateRedZoneCount()
                 self.impulseManager.sendWarningIfConditionMet()
                 self.impulseManager.sendTipsIfConditionMet()
+                self.impulseManager.localNotification.decreaseTipsBlockCount()
+                self.impulseManager.localNotification.decreaseWarningBlockCount()
             }
           
 //            self.impulseManager.sendTipsNotification()
             //정상, 하산여부 체크
             self.checkNotification()
+            
             
         }
         //테스트용 스케쥴러
@@ -277,3 +280,5 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
    }
     
 }
+
+let sharedHikingViewModel = HikingViewModel.shared

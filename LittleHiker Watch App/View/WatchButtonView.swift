@@ -296,5 +296,5 @@ struct WatchButtonView: View {
 }
 
 #Preview {
-    WatchButtonView(viewModel: HikingViewModel(), timeManager: TimeManager(), selection: .constant("default"))
+    WatchButtonView(viewModel: HikingViewModel.shared, timeManager: TimeManager(), selection: .constant("default"))
 }
