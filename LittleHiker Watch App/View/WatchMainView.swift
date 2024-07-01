@@ -122,7 +122,7 @@ struct WatchMainView: View {
                     viewModel.impulseManager.localNotification.toggleTipsManually()
 //                    isShowing = true
                 }) {
-                    //                    Image(systemName: "info")
+//                                        Image(systemName: "info")
                     Image(systemName: viewModel.impulseManager.localNotification.isTipsBlocked ? "bell.slash.fill" : "bell.fill")
                 }
                 //                .alert(isPresented: $isShowing) {

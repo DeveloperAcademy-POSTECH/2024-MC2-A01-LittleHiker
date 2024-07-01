@@ -12,9 +12,9 @@ import WatchKit
 final class LocalNotifications: NSObject, ObservableObject {
     private let categoryIdentifier = "custom"
     private let actionIdentifier = "notiAction"
-    @Published var tipsBlockCount: Int = 0
+    var tipsBlockCount: Int = 0
     @Published var isTipsBlocked: Bool = false
-    @Published var warningBlockCount: Int = 0
+    var warningBlockCount: Int = 0
     @Published var isTipsBlockLocked: Bool = false
     
 //    func register() async throws {
