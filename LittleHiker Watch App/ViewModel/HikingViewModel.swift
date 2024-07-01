@@ -75,7 +75,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     @Published var coreLocationManager = CoreLocationManager()
     @Published var impulseManager =  ImpulseManager(localNotification: LocalNotifications())
     @Published var summaryModel = SummaryModel()
-    
+     
     private var timer: Timer?
     var timestampLog: [String] = []
     
