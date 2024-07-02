@@ -15,9 +15,6 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
     @Published var currentDistanceWalkingRunning = 0.0
     @Published var currentSpeed = 0.0
     
-
-    
-    
     //MARK: - HKHealthStore 불러오기
     let healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
@@ -31,8 +28,9 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
     private var speedCheckTimer: Timer?
     private var timer: Timer?
     let checkTime = 10.0
+    private var previousDistance: Double = 0.0
+    private var previousTimestamp: Date?
 
-    
     override init() {
         super.init()
         authorizeHealthKit()
@@ -41,11 +39,12 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
     
     private func startSpeedCheckTimer() {
         speedCheckTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
-            self.checkSpeed()
-            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
+//            self.checkSpeed()
+//            self.hkQuery(quantityTypeIdentifier: .heartRate)
+//            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
         }
     }
-    
+    // 정지 확인
     private func checkSpeed() {
         guard let lastSampleDate = lastSampleDate else {
             return
@@ -67,43 +66,87 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
     var workoutBuilder: HKLiveWorkoutBuilder?
     
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
-        print("ds1")
+        for type in collectedTypes {
+            guard let quantityType = type as? HKQuantityType else { continue }
+            
+            if let statistics = workoutBuilder.statistics(for: quantityType) {
+                let date = statistics.startDate
+                
+                if quantityType == HKQuantityType.quantityType(forIdentifier: .heartRate) {
+                    if let heartRateValue = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.count().unitDivided(by: HKUnit.minute())){
+                        print("Heart Rate: \(String(describing: heartRateValue)) BPM at \(date)")
+                        DispatchQueue.main.async {
+                            self.currentHeartRate = Int(heartRateValue)
+                        }
+                    }
+                } else if quantityType == HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) {
+                    if let distanceValue = statistics.sumQuantity()?.doubleValue(for: HKUnit.meterUnit(with: .kilo)) {
+                        let speed = calculateSpeedInKmh(currentDistance: distanceValue, currentTimestamp: Date())
+                        print("Distance: \(distanceValue) meters, Speed: \(speed) km/h at \(date)")
+                        DispatchQueue.main.async {
+                            self.currentSpeed = speed
+                            self.currentDistanceWalkingRunning = distanceValue
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func workoutBuilderDidCollectEvent(_ workoutBuilder: HKLiveWorkoutBuilder) {
-        print("ds2")
+        print("이벤트 수집 처리")
 
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didChangeTo toState: HKWorkoutSessionState, from fromState: HKWorkoutSessionState, date: Date) {
-        print("ds3")
+        print("상태 변경 처리")
     }
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: any Error) {
-        print("ds4")
+        print("에러 처리")
+    }
+    
+    // 속도 계산 함수
+    func calculateSpeedInKmh(currentDistance: Double, currentTimestamp: Date) -> Double {
+        guard let previousTimestamp = previousTimestamp else {
+            self.previousDistance = currentDistance
+            self.previousTimestamp = currentTimestamp
+            return 0.0
+        }
+
+        let timeInterval = currentTimestamp.timeIntervalSince(previousTimestamp) / 3600.0 // 시간 단위로 변환
+        let distanceDelta = (currentDistance - previousDistance)
+
+        self.previousDistance = currentDistance
+        self.previousTimestamp = currentTimestamp
+
+        if timeInterval > 0 {
+            return distanceDelta / timeInterval
+        } else {
+            return 0.0
+        }
     }
     
     // MARK: - HealthKit 사용 권한 인증
     func authorizeHealthKit() {
         let readTypes: Set<HKObjectType> = [
-            HKObjectType.quantityType(forIdentifier: .heartRate)!,
+//            HKObjectType.quantityType(forIdentifier: .heartRate)!,
 //            HKObjectType.quantityType(forIdentifier: .stepCount)!,
-            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!,
+//            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!,
 //            HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!
         ]
-
+        
         let writeTypes: Set<HKSampleType> = [
             HKObjectType.workoutType()
         ]
 
         healthStore.requestAuthorization(toShare: writeTypes, read: readTypes) { success, error in
+            
             if !success {
                 print("HealthKit authorization failed: \(String(describing: error))")
-
             }
-            self.hkQuery(quantityTypeIdentifier: .heartRate)
+//            self.hkQuery(quantityTypeIdentifier: .heartRate)
 //            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
-
         }
     }
     
@@ -124,13 +167,11 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
             workoutSession?.startActivity(with: Date())
             workoutBuilder?.beginCollection(withStart: Date()) { (success, error) in
                 if let error = error {
-                    // Handle the error here.
                     print("Failed to begin collection: \(error.localizedDescription)")
                 }
             }
             self.startDate = Date()
         } catch {
-            // Handle errors here
             print("Failed to start workout session: \(error.localizedDescription)")
         }
     }
