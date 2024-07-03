@@ -12,18 +12,15 @@ struct PhoneListView: View {
     var body: some View {
         NavigationStack{
             List{
-                //ToDo : ForEach hikingRecord
+                //TODO: ForEach hikingRecord
                 NavigationLink{
                     PhoneDetailView()
-                    
                 } label: {
                     PhoneRowView()
                 }
             }
             .navigationBarTitle("Little Hiker🐿️")
         }
-        
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
 }
 

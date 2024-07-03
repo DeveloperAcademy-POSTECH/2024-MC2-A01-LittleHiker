@@ -24,7 +24,7 @@ struct LittleHikerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            PhoneListView()
                 .modelContainer(modelContainer)
         }
     }
