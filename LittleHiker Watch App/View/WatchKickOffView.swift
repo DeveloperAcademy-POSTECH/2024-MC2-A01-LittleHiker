@@ -181,6 +181,7 @@ struct CountdownView: View {
         }
     }
     //1초가 지날 때마다 -.33값이 되는 progress입니다.
+    //TODO: 하는일이 너무 많아 ~ 정리하기
     private func decreaseProgress() {
         if progress > 0.1 {
             if progress != 1 {
@@ -197,7 +198,7 @@ struct CountdownView: View {
                 timeManager.timer = nil
                 timeManager.elapsedTime = 0
                 
-                //TODO: - 메모리누수우우우우우
+                //TODO: - 별도함수로 분리 / 메모리누수우우우우우 / 초기화하는 메소드를 만들기
                 viewModel.healthKitManager = HealthKitManager()
                 viewModel.coreLocationManager = CoreLocationManager()
                 viewModel.impulseManager = ImpulseManager()
@@ -215,7 +216,9 @@ struct CountdownView: View {
             viewModel.status = .hiking
             viewModel.isDescent = false
             
-            //active 임시
+            
+            //TODO: hikingViewModel에 start를 만들어서 한번만 호출하는게 좋을 것 같음
+            //active
             viewModel.healthKitManager.startHikingWorkout()
             // location data timer 시작
             viewModel.coreLocationManager.startUpdateLocationData()

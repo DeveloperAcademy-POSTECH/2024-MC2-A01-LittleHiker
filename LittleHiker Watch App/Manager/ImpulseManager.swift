@@ -94,20 +94,14 @@ class ImpulseManager: NSObject, ObservableObject {
         return nonZeroValues.min()
     }
     
-    func calculateAndAppendRecentImpulse(altitudeLogs:[Double] ,currentSpeed: Double){
+    func calculateImpulse(altitudeLogs:[Double] ,currentSpeed: Double){
         guard altitudeLogs.count > 1 else {
             return
         }
         
         let recentAltitudeChange = (altitudeLogs.last! - altitudeLogs[altitudeLogs.count - 2]) / 1000 * 60
-//        print("recentAltitudeChange : \(recentAltitudeChange)")
-//        print("수평_Vel : \(currentSpeed)")
-//        print("경사_Vel : \(sqrt((pow(recentAltitudeChange, 2) + pow(currentSpeed, 2))))")
         currentImpulse = self.calculateImpulse(recentAltitudeChange, currentSpeed)
-//        self.appendToLogs(impulse) 밖으로 뺌
-//        print("impulse : \(currentImpulse)")
         impulseRatio = self.calculateImpulseRatio(currentImpulse)
-//        print("impulseRatio : \(impulseRatio)")
     }
     
     func updateMeanOfLastTenImpulseLogs()->Void {

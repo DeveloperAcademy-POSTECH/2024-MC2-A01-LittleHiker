@@ -60,7 +60,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         }
     }
     
-    //MARK: - workout 기록하기
+    //MARK: - workout 기록하기 / 백그라운드에서 활성화 유지시키기 위함
     //workout
     var workoutSession: HKWorkoutSession?
     var workoutBuilder: HKLiveWorkoutBuilder?
@@ -223,6 +223,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         
         let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: queryAnchor, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
         
+        //값이 변화가 생길때마다 작동이 되도록 함(우리는 즉각적인 데이터수집이 필요하지 않아서 안 씀 / 필요하면 씁시다)
 //        query.updateHandler = updateHandler
         
         healthStore.execute(query)
@@ -238,6 +239,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         }
     }
 
+    //MARK: 실내측정용
     private func processDistanceAndSpeed(_ samples: [HKQuantitySample]) {
         guard !samples.isEmpty else { return }
 

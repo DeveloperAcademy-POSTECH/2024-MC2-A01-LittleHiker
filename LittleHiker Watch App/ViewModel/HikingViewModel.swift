@@ -98,7 +98,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             //하이킹 모드 아닐 때 로그 0으로 저장 추가
             self.healthKitManager.appendHealthKitLogs(isRecord: self.isRecord())
             self.coreLocationManager.appendCoreLocationLogs(isRecord: self.isRecord()) //순서변경
-            self.impulseManager.calculateAndAppendRecentImpulse(
+            
+            //TODO: 하산할때만 계산하도록 수정 필요(하산모드 아닐때 로그 0으로) / impulseManager안에 다 호출하는 함수 만들기
+            self.impulseManager.calculateImpulse(
                 altitudeLogs: self.coreLocationManager.altitudeLogs,
 //                currentSpeed: self.coreLocationManager.currentSpeed
                 currentSpeed: self.healthKitManager.currentSpeed
@@ -111,18 +113,18 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             self.timestampLog.append(getCurrentTimestamp())
             //다람상식 푸쉬 로직
             if status == .descending{
+                //TODO: impulseManager안에 다 호출하는 함수 만들기
                 self.impulseManager.updateRedZoneCount()
                 self.impulseManager.sendWarningIfConditionMet()
                 self.impulseManager.sendTipsIfConditionMet()
-                self.impulseManager.localNotification.decreaseTipsBlockCount()
-                self.impulseManager.localNotification.decreaseWarningBlockCount()
+                //TODO: LocalNotifications안에 다 호출하는 함수 만들기
+                LocalNotifications.shared.decreaseTipsBlockCount()
+                LocalNotifications.shared.decreaseWarningBlockCount()
             }
           
 //            self.impulseManager.sendTipsNotification()
             //정상, 하산여부 체크
             self.checkNotification()
-            
-            
         }
     }
     
@@ -148,8 +150,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         let timestampString = dateFormatter.string(from: currentDate)
         return timestampString
     }
-    
-
     
     //하이킹 종료
     func endHiking() {
@@ -209,6 +209,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             status = .descendingStop
         }
        isPaused = true
+        //TODO: HikingMode 멈춰야겠다
        timer?.invalidate()
    }
    
