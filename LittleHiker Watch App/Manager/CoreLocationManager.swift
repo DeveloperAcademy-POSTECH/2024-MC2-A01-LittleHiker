@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import Combine
 import CoreLocation 
 
 class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObject {
@@ -132,6 +131,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
                     self.totalDistanceTraveled += distance / 1000 // 킬로미터 단위로 변환
                     self.previousLocation = location
                     //정상일때 최소거리 이상의 움직임이 감지 되었을때
+                    //TODO: 정상에서 위치가 변했을 때 알림주기
                     if isPeak{
                         notificationDecent = true
                     }
@@ -162,7 +162,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         //필요 없어서 삭제
     }
     
-    //이거 등반 고도 나중에 함수 따로 빼야됨 -> log탐색 하는 것을 매번 불러오기 부담일 수 있어서 시작고도 저장해 놓고 최고고도 변경해가면서 등반고도값도 변경되게 만들어야 될 듯
+    //TODO: 이거 등반 고도 나중에 함수 따로 빼야됨 -> log탐색 하는 것을 매번 불러오기 부담일 수 있어서 시작고도 저장해 놓고 최고고도 변경해가면서 등반고도값도 변경되게 만들어야 될 듯
     func calculateAltitudeDifference() {
         guard let firstValidValue = altitudeLogs.first(where: { $0 != 0 }) else {
             print("유효한 첫 번째 값이 없습니다.")
