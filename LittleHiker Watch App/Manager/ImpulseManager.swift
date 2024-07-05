@@ -8,23 +8,6 @@
 import Foundation
 import SwiftUI
 
-enum LabelCoefficients{
-    case green
-    case yellow
-    case red
-    
-    var coefficients : Double{
-        switch self{
-        case .green:
-            return 1.3
-        case .yellow:
-            return 1.7
-        case .red:
-            return 2.1
-        }
-    }
-}
-
 class ImpulseManager: NSObject, ObservableObject {
     @Published var impulseLogs: [Double] = []
     @Published var impulseRatio = 50.0

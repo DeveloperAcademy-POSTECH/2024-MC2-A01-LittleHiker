@@ -9,12 +9,6 @@ import SwiftUI
 import UserNotifications
 import UIKit
 
-enum MyHikingStatus {
-    case kickoff
-    case preparing
-    case countdown
-}
-
 
 struct WatchKickOffView: View {
     @ObservedObject var viewModel: HikingViewModel
