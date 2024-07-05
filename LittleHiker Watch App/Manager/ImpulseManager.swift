@@ -40,21 +40,12 @@ class ImpulseManager: NSObject, ObservableObject {
     let weight = 50.0
     @Published var diagonalVelocityCriterion: String = "2.95"
     
-//    var diagonalVelocityCriterion = Int(viewModelWatch.impulseRate)  // km/h  - TODO: - WatchViewModel에서 전달된 impulseRate 값을 받아서 int로 형변환 해서 쓰고 싶음
-    //FIXME: - 임의 테스트용 로그
-//    var diagonalVelocityCriterionLogs: [Double] = []
     var impulseCriterionLogs: [Double] = []
     
     var impulseCriterion: Double {
-//        print("기준 충격량 \(Double(diagonalVelocityCriterion) ?? 1.0)")
         return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.95)
     }
         
-//    override init() {
-//        super.init()
-//        print(self.impulseCriterion)
-//    }
-    
     
     func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double{
         return ((Double(diagonalVelocityCriterion) ?? 2.95) * weight) / 0.1 / 100 //100나눔
@@ -69,7 +60,7 @@ class ImpulseManager: NSObject, ObservableObject {
             impulseLogs.append(0.0)
         }
         //테스트용
-//        diagonalVelocityCriterionLogs.append(Double(diagonalVelocityCriterion) ?? -1)
+//        diagonalVelocityCriterionLogs.append(Double (diagonalVelocityCriterion) ?? -1)
         impulseCriterionLogs.append(impulseCriterion)
     }
     
@@ -117,7 +108,7 @@ class ImpulseManager: NSObject, ObservableObject {
             }
             return impulseLogs.reduce(0, +) / Double(impulseLogs.count)
         }
-//        print("meanOfLastTenImpulseLogs called")
+
         let lastTenElements = impulseLogs.suffix(10)
         return lastTenElements.reduce(0, +) / Double(10)
     }
@@ -141,15 +132,11 @@ class ImpulseManager: NSObject, ObservableObject {
         if self.impulseLogs.count < 2 {
             return false
         }
-//        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
         let currentImpulse = self.currentMeanOfLastTenImpulseLogs
         let currentImpulseRatio = self.currentImpulseMeanRatio
-//        let prevImpulse = self.impulseLogs[self.impulseLogs.count-2]
         let prevImpulseRatio = self.calculateImpulseRatio(prevMeanOfLastTenImpulseLogs)
  
         if prevImpulseRatio >= 0 && prevImpulseRatio < 33 && currentImpulseRatio >= 33 && currentImpulseRatio < 66{
-            print("conditionMet!")
-//            print("current: \(currentImpulse), prev: \(prevImpulse)")
             prevMeanOfLastTenImpulseLogs = currentImpulse
             return true
         }
@@ -170,7 +157,6 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func isWarningConditionMet() -> Bool{
-//        let currentImpulse = self.impulseLogs[self.impulseLogs.count-1]
         let currentImpulse = self.currentMeanOfLastTenImpulseLogs
         let currentImpulseRatio = self.currentImpulseMeanRatio
         if 66 <= currentImpulseRatio {
@@ -203,9 +189,6 @@ class ImpulseManager: NSObject, ObservableObject {
         if stayedInRedZoneForTooLong() {
             self.sendWarningNotification()
         }
-//        if impulseCriterion * LabelCoefficients.red.coefficients < self.impulseLogs[self.impulseLogs.count-1] {
-//            self.sendWarningNotification()
-//        }
     }
 }
 
