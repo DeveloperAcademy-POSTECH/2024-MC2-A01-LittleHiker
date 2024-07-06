@@ -15,7 +15,7 @@ class ImpulseManager: NSObject, ObservableObject {
     var currentMeanOfLastTenImpulseLogs = 0.0
     var prevMeanOfLastTenImpulseLogs = 0.0
     var currentImpulseMeanRatio = 50.0
-
+    
     //임의
     var localNotification = LocalNotifications.shared
     var redZoneCount: Int = 0
@@ -28,7 +28,7 @@ class ImpulseManager: NSObject, ObservableObject {
     var impulseCriterion: Double {
         return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.95)
     }
-        
+    
     
     func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double{
         return ((Double(diagonalVelocityCriterion) ?? 2.95) * weight) / 0.1 / 100 //100나눔
@@ -43,7 +43,7 @@ class ImpulseManager: NSObject, ObservableObject {
             impulseLogs.append(0.0)
         }
         //테스트용
-//        diagonalVelocityCriterionLogs.append(Double (diagonalVelocityCriterion) ?? -1)
+        //        diagonalVelocityCriterionLogs.append(Double (diagonalVelocityCriterion) ?? -1)
         impulseCriterionLogs.append(impulseCriterion)
     }
     
@@ -77,6 +77,14 @@ class ImpulseManager: NSObject, ObservableObject {
         currentImpulse = self.calculateImpulse(recentAltitudeChange, currentSpeed)
         impulseRatio = self.calculateImpulseRatio(currentImpulse)
     }
+    //TODO: Impulsemanager 처리 과정에 중복되거나 불필요한 로직 뺄 필요가 있어보임
+    func processImpulseData(isRecord: Bool) {
+        updateMeanOfLastTenImpulseLogs()
+        appendToLogs(isRecord: isRecord)
+        updateRedZoneCount()
+        sendWarningIfConditionMet()
+        sendTipsIfConditionMet()
+    }
     
     func updateMeanOfLastTenImpulseLogs()->Void {
         currentMeanOfLastTenImpulseLogs = self.getMeanOfLastTenImpulseLogs()
@@ -91,7 +99,7 @@ class ImpulseManager: NSObject, ObservableObject {
             }
             return impulseLogs.reduce(0, +) / Double(impulseLogs.count)
         }
-
+        
         let lastTenElements = impulseLogs.suffix(10)
         return lastTenElements.reduce(0, +) / Double(10)
     }
@@ -99,7 +107,7 @@ class ImpulseManager: NSObject, ObservableObject {
     
     func getImpulseAvg() -> Double {
         let nonZeroImpulseLogs = impulseLogs.filter { $0 != 0 }
-
+        
         guard !nonZeroImpulseLogs.isEmpty else {
             return 0.0
         }
@@ -118,7 +126,7 @@ class ImpulseManager: NSObject, ObservableObject {
         let currentImpulse = self.currentMeanOfLastTenImpulseLogs
         let currentImpulseRatio = self.currentImpulseMeanRatio
         let prevImpulseRatio = self.calculateImpulseRatio(prevMeanOfLastTenImpulseLogs)
- 
+        
         if prevImpulseRatio >= 0 && prevImpulseRatio < 33 && currentImpulseRatio >= 33 && currentImpulseRatio < 66{
             prevMeanOfLastTenImpulseLogs = currentImpulse
             return true

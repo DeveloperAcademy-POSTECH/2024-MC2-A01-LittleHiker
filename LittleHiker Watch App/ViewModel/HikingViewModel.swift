@@ -48,13 +48,25 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     private override init() {
         super.init()
-        updateEverySecond()
     }
     
-    // 기록상태 확인 코드 추가
+    func initializeManager() {
+        healthKitManager = HealthKitManager()
+        coreLocationManager = CoreLocationManager()
+        impulseManager = ImpulseManager()
+        summaryModel = SummaryModel()
+    }
+    
+    func startHiking() {
+        status = .hiking
+        isDescent = false
+        updateEverySecond()
+        healthKitManager.startHikingWorkout()
+        coreLocationManager.startUpdateLocationData()
+    }
+    
     func isRecord() -> Bool {
         return status == .descending || status == .hiking ? true : false
-        
     }
     
     func updateEverySecond() {
@@ -73,11 +85,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                     altitudeLogs: self.coreLocationManager.altitudeLogs,
                     currentSpeed: self.healthKitManager.currentSpeed
                 )
-                self.impulseManager.updateMeanOfLastTenImpulseLogs()
-                self.impulseManager.appendToLogs(isRecord: isRecord())
-                self.impulseManager.updateRedZoneCount()
-                self.impulseManager.sendWarningIfConditionMet()
-                self.impulseManager.sendTipsIfConditionMet()
+                impulseManager.processImpulseData(isRecord: isRecord())
                 
                 //TODO: LocalNotifications안에 다 호출하는 함수 만들기
                 LocalNotifications.shared.decreaseTipsBlockCount()
