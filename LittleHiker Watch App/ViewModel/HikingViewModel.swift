@@ -54,7 +54,6 @@ struct SummaryModel{
     var totalDistance = 0.0
     var speedAvg = 0.0 //평균 페이스
     var impulseAvg = 0.0 //평균 충격량
-
 }
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {

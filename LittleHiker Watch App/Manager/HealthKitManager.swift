@@ -129,12 +129,7 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
     
     // MARK: - HealthKit 사용 권한 인증
     func authorizeHealthKit() {
-        let readTypes: Set<HKObjectType> = [
-//            HKObjectType.quantityType(forIdentifier: .heartRate)!,
-//            HKObjectType.quantityType(forIdentifier: .stepCount)!,
-//            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!,
-//            HKSampleType.quantityType(forIdentifier: .activeEnergyBurned)!
-        ]
+        let readTypes: Set<HKObjectType> = []
         
         let writeTypes: Set<HKSampleType> = [
             HKObjectType.workoutType()
@@ -145,8 +140,6 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
             if !success {
                 print("HealthKit authorization failed: \(String(describing: error))")
             }
-//            self.hkQuery(quantityTypeIdentifier: .heartRate)
-//            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
         }
     }
     
@@ -196,73 +189,6 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         } else {
             heartRateLogs.append(0)
             distanceLogs.append(0.0)
-        }
-    }
-    
-    public func hkQuery(quantityTypeIdentifier: HKQuantityTypeIdentifier) {
-        let devicePredicate = HKQuery.predicateForObjects(from: [HKDevice.local()])
-        let queryAnchor = loadQueryAnchor(quantityTypeIdentifier)
-        
-        let updateHandler: (HKAnchoredObjectQuery, [HKSample]?, [HKDeletedObject]?, HKQueryAnchor?, Error?) -> Void = {
-            query, samples, deletedObjects, queryAnchor, error in
-            
-            guard let samples = samples as? [HKQuantitySample] else {
-                return
-            }
-                        
-            if (quantityTypeIdentifier == .heartRate) {
-                self.processHeartRate(samples)
-            } else if (quantityTypeIdentifier == .distanceWalkingRunning) {
-                self.processDistanceAndSpeed(samples)
-            }
-            
-            if let newQueryAnchor = queryAnchor {
-                self.saveQueryAnchor(newQueryAnchor, quantityTypeIdentifier)
-            }
-        }
-        
-        let query = HKAnchoredObjectQuery(type: HKObjectType.quantityType(forIdentifier: quantityTypeIdentifier)!, predicate: devicePredicate, anchor: queryAnchor, limit: HKObjectQueryNoLimit, resultsHandler: updateHandler)
-        
-        //값이 변화가 생길때마다 작동이 되도록 함(우리는 즉각적인 데이터수집이 필요하지 않아서 안 씀 / 필요하면 씁시다)
-//        query.updateHandler = updateHandler
-        
-        healthStore.execute(query)
-    }
-    
-    private func processHeartRate(_ samples: [HKQuantitySample]) {
-        guard let lastSample = samples.last else { return }
-        
-        let lastHeartRate = lastSample.quantity.doubleValue(for: heartRateQuantity)
-        
-        DispatchQueue.main.async {
-            self.currentHeartRate = Int(lastHeartRate)
-        }
-    }
-
-    //MARK: 실내측정용
-    private func processDistanceAndSpeed(_ samples: [HKQuantitySample]) {
-        guard !samples.isEmpty else { return }
-
-        var totalDistance = 0.0
-        var totalSpeed = 0.0
-        
-        for sample in samples {
-            let distance = sample.quantity.doubleValue(for: distanceQuantity)
-            let timeInterval = sample.endDate.timeIntervalSince(sample.startDate)
-            
-            guard timeInterval > 0 else { continue }
-            
-            let speed = distance / timeInterval
-            totalDistance += distance
-            totalSpeed += speed
-        }
-        
-        let averageSpeed = totalSpeed * 3.6 / Double(samples.count)
-        
-        DispatchQueue.main.async {
-            self.currentDistanceWalkingRunning += totalDistance / 1000
-            self.currentSpeed = averageSpeed
-            self.lastSampleDate = samples.last?.endDate
         }
     }
     

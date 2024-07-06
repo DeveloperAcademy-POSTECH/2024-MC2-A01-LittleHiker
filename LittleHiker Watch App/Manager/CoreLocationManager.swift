@@ -37,15 +37,14 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         super.init()
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        
     }
     // startUpdateTimer로 분리
     func startUpdateLocationData(){
 //        startSpeedUpdateTimer()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
 //        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation // 최고의 정확도 대신 배터리 소모 상승
         // 위 옵션 종류 kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters(10m), kCLLocationAccuracyHundredMeters(100m) 등 순으로 정확도, 배터리 상승
-        locationManager.distanceFilter = 5 //5m마다
+        locationManager.distanceFilter = 100 //5m마다
 //        locationManager.distanceFilter = kCLDistanceFilterNone  // 모든 움직임에 대해 업데이트를 받고 싶을 때
         locationManager.startUpdatingLocation()
     }
@@ -54,35 +53,10 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         stopSpeedUpdateTimer()
     }
     
-    // 10초 동안 로케이션 변화 감지 못하면 속도 0으로 셋팅
-//    private func startSpeedUpdateTimer() {
-//        timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
-//            self.updateSpeed()
-//        }
-//    }
-    
     private func stopSpeedUpdateTimer() {
         timer?.invalidate()
         timer = nil
     }
-    
-//    private func updateSpeed() {
-//        // GPS 업데이트가 없을 때 속도를 0으로 설정
-//        if let lastLocation = previousLocation {
-//            let stopTime = Date().timeIntervalSince(lastLocation.timestamp)
-//            if  stopTime > 10 && stopTime <= standardOfPeak{
-//                self.currentSpeed = 0
-//                print("~~~~~~~~~~~~~~~~~위치변환이 10초간 없음")
-//            }
-//            else if stopTime > standardOfPeak {
-//                self.currentSpeed = 0
-//                self.notificationPeak = true
-//                print("~~~~~~~~~~~~~~~~`위치변환이 600초간 없음")
-//            }
-//        } else {
-//            self.currentSpeed = 0
-//        }
-//    }
     
     func isNotificationPeak() -> Bool{
         if notificationPeak{
@@ -103,7 +77,6 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
             return false
         }
     }
-    
 
     // 위치가 바뀔 때 호출 됨
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -111,36 +84,6 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
             if location.altitude > 0{
                 self.currentAltitude = location.altitude
             }
-            if location.speed == -1 {
-                if speedLogs.isEmpty{
-                    self.currentSpeed = 0
-                } else {
-                    self.currentSpeed = speedLogs.last!
-                }
-            }
-            else {
-                self.currentSpeed = location.speed * 3.6
-            }
-            
-            // 총 이동 거리 계산
-            if let previousLocation = self.previousLocation {
-                let distance = location.distance(from: previousLocation)
-                
-                // 최소 거리 이하의 변화를 무시
-                if distance > minimumDistance {
-                    self.totalDistanceTraveled += distance / 1000 // 킬로미터 단위로 변환
-                    self.previousLocation = location
-                    //정상일때 최소거리 이상의 움직임이 감지 되었을때
-                    //TODO: 정상에서 위치가 변했을 때 알림주기
-                    if isPeak{
-                        notificationDecent = true
-                    }
-                }
-            } else {
-                self.previousLocation = location
-            }
-            
-            //임의 등반고도 구하기
             self.calculateAltitudeDifference()
         }
     }
@@ -148,7 +91,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to find user's location: \(error.localizedDescription) : \(currentAltitude),\(currentAltitude)")
     }
-    //append func 따로 만들고 충격량 로그도 만듦
+    
     func appendCoreLocationLogs(isRecord: Bool){
         if isRecord {
             altitudeLogs.append(currentAltitude)
@@ -159,7 +102,6 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
             altitudeLogs.append(0.0)
             speedLogs.append(0.0)
         }
-        //필요 없어서 삭제
     }
     
     //TODO: 이거 등반 고도 나중에 함수 따로 빼야됨 -> log탐색 하는 것을 매번 불러오기 부담일 수 있어서 시작고도 저장해 놓고 최고고도 변경해가면서 등반고도값도 변경되게 만들어야 될 듯
