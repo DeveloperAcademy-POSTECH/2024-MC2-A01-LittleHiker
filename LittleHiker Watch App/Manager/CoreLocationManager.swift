@@ -9,24 +9,17 @@ import Foundation
 import CoreLocation 
 
 class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObject {
-    private var locationManager = CLLocationManager()
-    private var previousLocation: CLLocation?
-    @Published var totalDistanceTraveled: Double = 0.0 // 총 이동 거리 확인용 임시 변수
     
     @Published var currentAltitude: Double = 0
-    @Published var currentSpeed: Double = 0
     @Published var verticalSpeed: Double = 0.0
-
     //나중에 ios로 넘길 데이터들
     @Published var altitudeLogs: [Double] = []
-    @Published var speedLogs: [Double] = []
-    //필요없어서 삭제
-
     //등반 고도 값
     @Published var climbingAltitude: Double = 0.0
     
-    private var timer: Timer?
-    private let minimumDistance: Double = 20 // 무시할 최소 거리 (단위: 미터)
+    private var locationManager = CLLocationManager()
+    private let minimumDistance: Double = 100 // 무시할 최소 거리 (단위: 미터)
+    
     //알람용
     private var notificationPeak: Bool = false
     private var notificationDecent: Bool = false
@@ -40,22 +33,11 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     }
     // startUpdateTimer로 분리
     func startUpdateLocationData(){
-//        startSpeedUpdateTimer()
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
 //        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation // 최고의 정확도 대신 배터리 소모 상승
         // 위 옵션 종류 kCLLocationAccuracyBest, kCLLocationAccuracyNearestTenMeters(10m), kCLLocationAccuracyHundredMeters(100m) 등 순으로 정확도, 배터리 상승
-        locationManager.distanceFilter = 100 //5m마다
-//        locationManager.distanceFilter = kCLDistanceFilterNone  // 모든 움직임에 대해 업데이트를 받고 싶을 때
+        locationManager.distanceFilter = minimumDistance // 변화감지 거리
         locationManager.startUpdatingLocation()
-    }
-    
-    func StopUpdateTimer(){
-        stopSpeedUpdateTimer()
-    }
-    
-    private func stopSpeedUpdateTimer() {
-        timer?.invalidate()
-        timer = nil
     }
     
     func isNotificationPeak() -> Bool{
@@ -95,12 +77,10 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     func appendCoreLocationLogs(isRecord: Bool){
         if isRecord {
             altitudeLogs.append(currentAltitude)
-            speedLogs.append(currentSpeed)
         }
         else{
             //일시정지시 0값 넣기
             altitudeLogs.append(0.0)
-            speedLogs.append(0.0)
         }
     }
     
@@ -124,22 +104,4 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         return nonZeroValues.min()
     }
     
-    func getSpeedAvg() -> Double {
-        //0.5km/h이상의 값만 유효한 값으로 인식
-        let nonZeroImpulseLogs = speedLogs.filter { $0 >= 0.5 }
-
-        guard !nonZeroImpulseLogs.isEmpty else {
-            return 0.0
-        }
-        
-        let sum = nonZeroImpulseLogs.reduce(0, +)
-        
-        let average = sum / Double(nonZeroImpulseLogs.count)
-        
-        return average
-    }
-    
-    deinit {
-        stopSpeedUpdateTimer()
-    }
 }

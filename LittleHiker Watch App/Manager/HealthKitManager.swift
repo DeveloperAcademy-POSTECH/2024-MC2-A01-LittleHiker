@@ -9,39 +9,37 @@ import Foundation
 import Combine
 import HealthKit
 
-class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
+class HealthKitManager: NSObject, ObservableObject {
     
     @Published var currentHeartRate: Int = 0
     @Published var currentDistanceWalkingRunning = 0.0
     @Published var currentSpeed = 0.0
+    @Published var speedLogs: [Double] = []
     
-    //MARK: - HKHealthStore 불러오기
     let healthStore = HKHealthStore()
     let heartRateQuantity = HKUnit(from: "count/min")
     let distanceQuantity = HKUnit.meter()
     var heartRateLogs: [Int] = []
     var distanceLogs: [Double] = []
-    private var anchor: HKQueryAnchor? //앵커 저장 변수
     private var startDate: Date?
-    private var totalDistanceWalkingRunning: Double = 0.0
     private var lastSampleDate: Date?
     private var speedCheckTimer: Timer?
-    private var timer: Timer?
     let checkTime = 10.0
     private var previousDistance: Double = 0.0
     private var previousTimestamp: Date?
-
+    
+    private var workoutSession: HKWorkoutSession?
+    private var workoutBuilder: HKLiveWorkoutBuilder?
+    
     override init() {
         super.init()
         authorizeHealthKit()
-        startSpeedCheckTimer()
+//        startSpeedCheckTimer()
     }
     
     private func startSpeedCheckTimer() {
         speedCheckTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
 //            self.checkSpeed()
-//            self.hkQuery(quantityTypeIdentifier: .heartRate)
-//            self.hkQuery(quantityTypeIdentifier: .distanceWalkingRunning)
         }
     }
     // 정지 확인
@@ -60,10 +58,101 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         }
     }
     
-    //MARK: - workout 기록하기 / 백그라운드에서 활성화 유지시키기 위함
-    //workout
-    var workoutSession: HKWorkoutSession?
-    var workoutBuilder: HKLiveWorkoutBuilder?
+    // MARK: - HealthKit 사용 권한 인증
+    func authorizeHealthKit() {
+        let readTypes: Set<HKObjectType> = []
+        
+        let writeTypes: Set<HKSampleType> = [
+            HKObjectType.workoutType()
+        ]
+
+        healthStore.requestAuthorization(toShare: writeTypes, read: readTypes) { success, error in
+            
+            if !success {
+                print("HealthKit authorization failed: \(String(describing: error))")
+            }
+        }
+    }
+    
+    //append 기능 추가
+    func appendHealthKitLogs(isRecord: Bool){
+        if isRecord {
+            heartRateLogs.append(currentHeartRate)
+            distanceLogs.append(currentDistanceWalkingRunning)
+            speedLogs.append(currentSpeed)
+
+        } else {
+            heartRateLogs.append(0)
+            distanceLogs.append(0.0)
+            speedLogs.append(0.0)
+        }
+    }
+    // 종료 후 심박수 정보 요청
+    func fetchHeartRateStatistics(completion: @escaping (Double?, Double?, Double?, Error?) -> Void) {
+        let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate)!
+        
+        let endDate = Date()
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+        
+        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, results, error) in
+            guard let results = results as? [HKQuantitySample], error == nil else {
+                completion(nil, nil, nil, error)
+                return
+            }
+            
+            // 심박수 데이터의 합과 개수를 계산하여 평균값 도출, 최소값 및 최대값 초기화
+            var totalHeartRate = 0.0
+            var count = 0.0
+            var minHeartRate = Double.greatestFiniteMagnitude
+            var maxHeartRate = Double.leastNormalMagnitude
+            
+            for sample in results {
+                let heartRateUnit = HKUnit(from: "count/min")
+                let heartRate = sample.quantity.doubleValue(for: heartRateUnit)
+                totalHeartRate += heartRate
+                count += 1
+                
+                if heartRate < minHeartRate {
+                    minHeartRate = heartRate
+                }
+                
+                if heartRate > maxHeartRate {
+                    maxHeartRate = heartRate
+                }
+            }
+            
+            let averageHeartRate = count == 0 ? 0 : totalHeartRate / count
+            minHeartRate = count == 0 ? 0 : minHeartRate
+            maxHeartRate = count == 0 ? 0 : maxHeartRate
+            
+            completion(averageHeartRate, minHeartRate, maxHeartRate, nil)
+        }
+        
+        healthStore.execute(query)
+    }
+    
+    func getSpeedAvg() -> Double {
+        //0.5km/h이상의 값만 유효한 값으로 인식
+        let nonZeroSpeedLogs = speedLogs.filter { $0 >= 0.5 }
+
+        guard !nonZeroSpeedLogs.isEmpty else {
+            return 0.0
+        }
+        
+        let sum = nonZeroSpeedLogs.reduce(0, +)
+        
+        let average = sum / Double(nonZeroSpeedLogs.count)
+        
+        return average
+    }
+    
+    deinit {
+        speedCheckTimer?.invalidate()
+    }
+}
+
+//MARK: - Workout 관리 / 백그라운드에서 활성화 유지시키기 위함
+extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelegate {
     
     func workoutBuilder(_ workoutBuilder: HKLiveWorkoutBuilder, didCollectDataOf collectedTypes: Set<HKSampleType>) {
         for type in collectedTypes {
@@ -127,22 +216,6 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
         }
     }
     
-    // MARK: - HealthKit 사용 권한 인증
-    func authorizeHealthKit() {
-        let readTypes: Set<HKObjectType> = []
-        
-        let writeTypes: Set<HKSampleType> = [
-            HKObjectType.workoutType()
-        ]
-
-        healthStore.requestAuthorization(toShare: writeTypes, read: readTypes) { success, error in
-            
-            if !success {
-                print("HealthKit authorization failed: \(String(describing: error))")
-            }
-        }
-    }
-    
     func startHikingWorkout() {
         let configuration = HKWorkoutConfiguration()
         configuration.activityType = .hiking //hikingMode
@@ -179,84 +252,5 @@ class HealthKitManager: NSObject, ObservableObject, HKWorkoutSessionDelegate, HK
                 }
             }
         }
-    }
-    
-    //append 기능 추가
-    func appendHealthKitLogs(isRecord: Bool){
-        if isRecord {
-            heartRateLogs.append(currentHeartRate)
-            distanceLogs.append(currentDistanceWalkingRunning)
-        } else {
-            heartRateLogs.append(0)
-            distanceLogs.append(0.0)
-        }
-    }
-    
-    func fetchHeartRateStatistics(completion: @escaping (Double?, Double?, Double?, Error?) -> Void) {
-        let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate)!
-        
-        let endDate = Date()
-        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
-        
-        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, results, error) in
-            guard let results = results as? [HKQuantitySample], error == nil else {
-                completion(nil, nil, nil, error)
-                return
-            }
-            
-            // 심박수 데이터의 합과 개수를 계산하여 평균값 도출, 최소값 및 최대값 초기화
-            var totalHeartRate = 0.0
-            var count = 0.0
-            var minHeartRate = Double.greatestFiniteMagnitude
-            var maxHeartRate = Double.leastNormalMagnitude
-            
-            for sample in results {
-                let heartRateUnit = HKUnit(from: "count/min")
-                let heartRate = sample.quantity.doubleValue(for: heartRateUnit)
-                totalHeartRate += heartRate
-                count += 1
-                
-                if heartRate < minHeartRate {
-                    minHeartRate = heartRate
-                }
-                
-                if heartRate > maxHeartRate {
-                    maxHeartRate = heartRate
-                }
-            }
-            
-            let averageHeartRate = count == 0 ? 0 : totalHeartRate / count
-            minHeartRate = count == 0 ? 0 : minHeartRate
-            maxHeartRate = count == 0 ? 0 : maxHeartRate
-            
-            completion(averageHeartRate, minHeartRate, maxHeartRate, nil)
-        }
-        
-        healthStore.execute(query)
-    }
-    
-    private func saveQueryAnchor(_ queryAnchor: HKQueryAnchor , _ quantityTypeIdentifier: HKQuantityTypeIdentifier) {
-        if let anchorData = try? NSKeyedArchiver.archivedData(withRootObject: queryAnchor, requiringSecureCoding: true) {
-            UserDefaults.standard.set(anchorData, forKey: quantityTypeIdentifier.rawValue)
-        }
-    }
-    
-    private func loadQueryAnchor(_ quantityTypeIdentifier: HKQuantityTypeIdentifier) -> HKQueryAnchor? {
-        guard let data = UserDefaults.standard.data(forKey: quantityTypeIdentifier.rawValue) else {
-            return nil
-        }
-        
-        do {
-            let queryAnchor = try NSKeyedUnarchiver.unarchivedObject(ofClass: HKQueryAnchor.self, from: data)
-            return queryAnchor
-        } catch {
-            print("Failed to load query anchor: \(error.localizedDescription)")
-            return nil
-        }
-    }
-        
-    
-    deinit {
-        speedCheckTimer?.invalidate()
     }
 }

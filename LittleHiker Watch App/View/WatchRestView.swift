@@ -7,27 +7,6 @@
 
 import SwiftUI
 
-enum GifAnimation: String {
-    case run = "run"
-    case eat = "eat"
-    case peak = "peak"
-
-    var frameCount: Int {
-        switch self {
-        case .run:
-            return 4
-        case .eat:
-            return 5
-        case .peak:
-            return 4
-        }
-    }
-    
-    func frameImageName(index: Int) -> String {
-        "\(self.rawValue)\(index + 1)"
-    }
-}
-
 struct WatchRestView: View {
     @State var gifAnimation: GifAnimation = .peak
     @State private var frameIndex = 0
