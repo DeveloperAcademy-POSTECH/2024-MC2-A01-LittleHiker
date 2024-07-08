@@ -186,17 +186,10 @@ struct CountdownView: View {
             progress -= 0.1
             
             if !viewModel.impulseManager.impulseLogs.isEmpty {
-                print("재시작했을 때 timer")
-                print(timeManager.elapsedTime)
-                //timer 초기화
                 timeManager.timer = nil
                 timeManager.elapsedTime = 0
-                
-                //TODO: - 별도함수로 분리 / 메모리누수우우우우우 / 초기화하는 메소드를 만들기
-                viewModel.healthKitManager = HealthKitManager()
-                viewModel.coreLocationManager = CoreLocationManager()
-                viewModel.impulseManager = ImpulseManager()
-                viewModel.summaryModel = SummaryModel()
+                //manager 초기화 통합
+                viewModel.initializeManager()
             }
             
             //3,2,1 끝나고 뷰가 바뀌기 직전에 스탑워치 시작!
@@ -205,17 +198,8 @@ struct CountdownView: View {
             timeManager.setToday()
             //시작 시간 찍기
             timeManager.setStartTime(Date())
-            
-            //뷰 바꾸기
-            viewModel.status = .hiking
-            viewModel.isDescent = false
-            
-            
-            //TODO: hikingViewModel에 start를 만들어서 한번만 호출하는게 좋을 것 같음
-            //active
-            viewModel.healthKitManager.startHikingWorkout()
-            // location data timer 시작
-            viewModel.coreLocationManager.startUpdateLocationData()
+            //하나로 통합
+            viewModel.startHiking()
         }
     }
     
@@ -234,10 +218,3 @@ struct CountdownView: View {
         timer = nil
     }
 }
-
-//Preview
-//struct WatchKickOffView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WatchKickOffView(viewModel: HikingViewModel(), timeManager: TimeManager())
-//    }
-//}
