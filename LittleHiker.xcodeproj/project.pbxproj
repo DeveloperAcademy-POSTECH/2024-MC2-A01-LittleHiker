@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */; };
-		02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */; };
+		02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */; };
 		02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */; };
 		02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A52BFDC88A00F16E88 /* HikingLog.swift */; };
 		1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB392C32C7B000891AC6 /* AppDelegate.swift */; };
@@ -70,7 +70,7 @@
 
 /* Begin PBXFileReference section */
 		02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewModelIPhone.swift; path = LittleHiker/Manager/ViewModelIPhone.swift; sourceTree = SOURCE_ROOT; };
-		02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelWatch.swift; sourceTree = "<group>"; };
+		02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchToIOSConnector.swift; sourceTree = "<group>"; };
 		02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HikingRecord.swift; sourceTree = "<group>"; };
 		02EE67A52BFDC88A00F16E88 /* HikingLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HikingLog.swift; sourceTree = "<group>"; };
 		1A35BB392C32C7B000891AC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -272,7 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				1A36FB192BFCAF5D00880ED5 /* HikingViewModel.swift */,
-				02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */,
+				02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -396,7 +396,7 @@
 			files = (
 				1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */,
 				1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */,
-				02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */,
+				02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */,
 				1A36FB272BFDE27900880ED5 /* NotificationView.swift in Sources */,
 				1A36FB162BFCAF3A00880ED5 /* WatchButtonView.swift in Sources */,
 				1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */,

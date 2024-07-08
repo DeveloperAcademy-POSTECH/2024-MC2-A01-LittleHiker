@@ -26,6 +26,10 @@ struct SummaryModel{
 }
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
+    
+    //TODO: 0708 Watch데이터 ios로 보내기 위해 여기 씀 / ViewModel 무거워서 분리해야할수도
+    var watchToIOSConnector = WatchToIOSConnector()
+    
     static let shared = HikingViewModel()
     private var locationManager = CLLocationManager()
     private var previousLocation: CLLocation?
@@ -91,6 +95,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 LocalNotifications.shared.decreaseTipsBlockCount()
                 LocalNotifications.shared.decreaseWarningBlockCount()
                 
+                // TODO: appendToLogs에서 currentTimestamp값을 key로 넣은 Dictionary로 만들면 좋을 것 같음
                 self.timestampLog.append(getCurrentTimestamp())
             }
             
@@ -169,6 +174,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.summaryModel.maxImpulse = 0
             }
         }
+        
+        //end버튼 누르면 watch에서 ios로 데이터 넘기기
+        watchToIOSConnector.sendDataToIOS(impulseManager.impulseLogs, timestampLog)
     }
     
     

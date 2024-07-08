@@ -12,7 +12,6 @@ import WatchConnectivity
 final class ViewModelIPhone: NSObject, WCSessionDelegate, ObservableObject {
     @Published var message: String = "2.9"
     var session: WCSession
-
     init(session: WCSession = .default) {
         self.session = session
         super.init()

@@ -16,10 +16,6 @@ struct WatchButtonView: View {
     @Binding var selection: String
     //    @State private var isShowingModal = false
     
-    //    init() {
-    //        UINavigationBar.appearance().largeTitleTextAtributes = [.foregroundColor: UIColor.blue]
-    //    }
-    
     var body: some View {
         VStack {
             HStack {
@@ -99,13 +95,9 @@ struct WatchButtonView: View {
     
     //종료버튼
     struct EndButton: View {
-        //    var viewModelWatch = ViewModelWatch()
-        
         var height: CGFloat
         var timeManager: TimeManager
         @State var arrayText = ""
-        //FIXME: - 테스트용으로 Array를 만들어보았습니다. 수정합시다.
-        //    var heartRateArray = [100, 90, 80, 70]
         @ObservedObject var viewModel: HikingViewModel
         @Binding var selection: String
         
@@ -119,7 +111,7 @@ struct WatchButtonView: View {
                     timeManager.setDescendingDuration()
                     //2. 기록이 SummaryView로 넘어감
                     //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
-                    //3. iOS로 데이터 동기화(배열 보내기)=
+                    //3. iOS로 데이터 동기화(배열 보내기)
                     //산행상태를 "완료"로 변경
                     
                     viewModel.endHiking()
@@ -129,7 +121,6 @@ struct WatchButtonView: View {
                     
                     //임시 워크아웃 활동 멈춤
                     viewModel.healthKitManager.endHikingWorkout()
-                    
                 }) {
                     RoundedRectangle(cornerRadius: 28)
                         .frame(width: 68, height: height)
