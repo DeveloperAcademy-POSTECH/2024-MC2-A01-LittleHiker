@@ -60,7 +60,10 @@ class HealthKitManager: NSObject, ObservableObject {
     
     // MARK: - HealthKit 사용 권한 인증
     func authorizeHealthKit() {
-        let readTypes: Set<HKObjectType> = []
+        let readTypes: Set<HKObjectType> = [
+            HKObjectType.quantityType(forIdentifier: .heartRate)!,
+            HKSampleType.quantityType(forIdentifier: .distanceWalkingRunning)!
+        ]
         
         let writeTypes: Set<HKSampleType> = [
             HKObjectType.workoutType()
