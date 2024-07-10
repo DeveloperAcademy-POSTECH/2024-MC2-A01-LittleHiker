@@ -173,7 +173,7 @@ struct CountdownView: View {
         }
     }
     //1초가 지날 때마다 -.33값이 되는 progress입니다.
-    //TODO: 하는일이 너무 많아 ~ 정리하기
+    //TODO: 하는일이 너무 많아 ~ 정리하기 -> timeManager, viewModel 각각에 있던 함수들 정리됨
     private func decreaseProgress() {
         if progress > 0.1 {
             if progress != 1 {
@@ -184,12 +184,10 @@ struct CountdownView: View {
             progress -= 0.1
             
             if !viewModel.impulseManager.impulseLogs.isEmpty {
-                timeManager.timer = nil
-                timeManager.elapsedTime = 0
                 //manager 초기화 통합
+                timeManager.initializeManager()
                 viewModel.initializeManager()
             }
-            
             timeManager.startHiking()
             viewModel.startHiking()
         }
