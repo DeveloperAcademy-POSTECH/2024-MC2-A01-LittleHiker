@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */; };
+		026310B62C3B8D510092C32D /* HealthkitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026310B52C3B8D510092C32D /* HealthkitManager.swift */; };
+		026310B82C3B914A0092C32D /* ImpulseRateLogs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026310B72C3B914A0092C32D /* ImpulseRateLogs.swift */; };
+		02EE67A12BFCDA0D00F16E88 /* IOSToWatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* IOSToWatchConnector.swift */; };
 		02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */; };
 		02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */; };
 		02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A52BFDC88A00F16E88 /* HikingLog.swift */; };
@@ -69,7 +71,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewModelIPhone.swift; path = LittleHiker/Manager/ViewModelIPhone.swift; sourceTree = SOURCE_ROOT; };
+		026310B52C3B8D510092C32D /* HealthkitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthkitManager.swift; sourceTree = "<group>"; };
+		026310B72C3B914A0092C32D /* ImpulseRateLogs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImpulseRateLogs.swift; sourceTree = "<group>"; };
+		02EE67A02BFCDA0D00F16E88 /* IOSToWatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IOSToWatchConnector.swift; path = LittleHiker/Manager/IOSToWatchConnector.swift; sourceTree = SOURCE_ROOT; };
 		02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchToIOSConnector.swift; sourceTree = "<group>"; };
 		02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HikingRecord.swift; sourceTree = "<group>"; };
 		02EE67A52BFDC88A00F16E88 /* HikingLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HikingLog.swift; sourceTree = "<group>"; };
@@ -131,6 +135,7 @@
 		02EE679D2BFCC54700F16E88 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				026310B52C3B8D510092C32D /* HealthkitManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -218,7 +223,7 @@
 		1A43DFA82BFCACAF00E62BA6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */,
+				02EE67A02BFCDA0D00F16E88 /* IOSToWatchConnector.swift */,
 			);
 			name = ViewModel;
 			sourceTree = "<group>";
@@ -246,6 +251,7 @@
 		1A43DFBA2BFCADCB00E62BA6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				026310B72C3B914A0092C32D /* ImpulseRateLogs.swift */,
 				1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */,
 				1A35BB3D2C37977100891AC6 /* GifAnimation.swift */,
 				1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */,
@@ -379,11 +385,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				026310B62C3B8D510092C32D /* HealthkitManager.swift in Sources */,
 				1A43DFAF2BFCACF400E62BA6 /* PhoneListView.swift in Sources */,
 				1A43DF862BFCAC9A00E62BA6 /* ContentView.swift in Sources */,
 				1A43DFAB2BFCACDA00E62BA6 /* PhoneDetailView.swift in Sources */,
 				1A43DFAD2BFCACEC00E62BA6 /* PhoneRowView.swift in Sources */,
-				02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */,
+				02EE67A12BFCDA0D00F16E88 /* IOSToWatchConnector.swift in Sources */,
 				02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */,
 				02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */,
 				1A43DF842BFCAC9A00E62BA6 /* LittleHikerApp.swift in Sources */,
@@ -398,6 +405,7 @@
 				1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */,
 				02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */,
 				1A36FB272BFDE27900880ED5 /* NotificationView.swift in Sources */,
+				026310B82C3B914A0092C32D /* ImpulseRateLogs.swift in Sources */,
 				1A36FB162BFCAF3A00880ED5 /* WatchButtonView.swift in Sources */,
 				1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */,
 				1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */,

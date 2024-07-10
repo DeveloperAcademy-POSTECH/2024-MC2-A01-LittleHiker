@@ -114,13 +114,15 @@ struct WatchButtonView: View {
                     //3. iOS로 데이터 동기화(배열 보내기)
                     //산행상태를 "완료"로 변경
                     
+                    //TODO: SwiftData를 저장하자
+                    
+                    //워크아웃 활동 종료 후 impulseRate 데이터 전송
+                    viewModel.healthKitManager.endHikingWorkout()
                     viewModel.endHiking()
+                    
                     viewModel.stop()
                     viewModel.status = .complete
                     //                viewModel.isShowingModal = true
-                    
-                    //임시 워크아웃 활동 멈춤
-                    viewModel.healthKitManager.endHikingWorkout()
                 }) {
                     RoundedRectangle(cornerRadius: 28)
                         .frame(width: 68, height: height)
