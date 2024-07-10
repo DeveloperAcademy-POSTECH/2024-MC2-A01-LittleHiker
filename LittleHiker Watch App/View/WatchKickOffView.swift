@@ -11,9 +11,11 @@ import UIKit
 
 
 struct WatchKickOffView: View {
+    @Environment(\.modelContext) var modelContext
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
     @State var status: MyHikingStatus = .kickoff
+    
     
     var body: some View {
         VStack {

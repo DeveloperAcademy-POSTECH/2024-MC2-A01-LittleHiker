@@ -8,6 +8,7 @@
 import SwiftUI
 // [등산 중], [정상], [하산 중] 3 가지 상태에 따른 버튼 뷰 구현
 struct WatchButtonView: View {
+    @Environment(\.modelContext) var modelContext
     @ObservedObject var viewModel: HikingViewModel
     
     //MARK: - norang 일시정지, 재개 버튼 토글

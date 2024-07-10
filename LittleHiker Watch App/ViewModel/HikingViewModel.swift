@@ -13,6 +13,7 @@ import HealthKit
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     //TODO: 0708 Watch데이터 ios로 보내기 위해 여기 씀 / ViewModel 무거워서 분리해야할수도
+    private let dataSource: DataSource = DataSource.shared // SwiftData + MVVM을 위해 필요한 변수
     var watchToIOSConnector = WatchToIOSConnector()
     
     static let shared = HikingViewModel()
@@ -37,6 +38,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     private override init() {
         super.init()
+//        self.dataSource = DataSource.shared
     }
     
     func initializeManager() {
@@ -170,13 +172,15 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             let customComplementaryHikingData = self.createCustomComplementaryHikingData(
                 myWorkoutSession: self.healthKitManager.workoutSession,
                 summaryModel: self.summaryModel)
-            // modelContext.insert(customComplementaryHikingData)
+//             modelContext.insert(customComplementaryHikingData)
+            self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
             
             let logsWithTimeStamps = self.createLogWithTimeStamps(
                 myWorkoutSession: self.healthKitManager.workoutSession,
                 impulseRateLogs: self.impulseManager.impulseLogs,
                 timeStampLogs: self.timestampLog)
             // modelContext.insert(logsWithTimeStamps)
+            self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)
             
             
             //TODO: watch에서 iOS로 데이터 넘기기
