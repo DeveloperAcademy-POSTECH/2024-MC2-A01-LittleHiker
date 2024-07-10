@@ -18,6 +18,7 @@
 		1A35BB422C3797D900891AC6 /* MyHikingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */; };
 		1A35BB442C3797FB00891AC6 /* HikingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB432C3797FB00891AC6 /* HikingStatus.swift */; };
 		1A35BB462C3E251400891AC6 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB452C3E251400891AC6 /* CustomData.swift */; };
+		1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */; };
 		1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */; };
 		1A36FB0E2BFCAF1000880ED5 /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */; };
 		1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */; };
@@ -82,6 +83,7 @@
 		1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHikingStatus.swift; sourceTree = "<group>"; };
 		1A35BB432C3797FB00891AC6 /* HikingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingStatus.swift; sourceTree = "<group>"; };
 		1A35BB452C3E251400891AC6 /* CustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomData.swift; sourceTree = "<group>"; };
+		1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryModel.swift; sourceTree = "<group>"; };
 		1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSummaryView.swift; sourceTree = "<group>"; };
 		1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRootView.swift; sourceTree = "<group>"; };
 		1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */,
 				1A35BB432C3797FB00891AC6 /* HikingStatus.swift */,
 				1A35BB452C3E251400891AC6 /* CustomData.swift */,
+				1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 				1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */,
 				1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */,
 				1A43DF962BFCAC9B00E62BA6 /* LittleHikerApp.swift in Sources */,
+				1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */,
 				1A36FB122BFCAF2300880ED5 /* WatchRestView.swift in Sources */,
 				1A35BB3C2C37972700891AC6 /* LabelCoefficients.swift in Sources */,
 				1A43DFB22BFCAD8B00E62BA6 /* HealthKitManager.swift in Sources */,

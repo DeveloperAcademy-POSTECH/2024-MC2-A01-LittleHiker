@@ -28,7 +28,7 @@ class HealthKitManager: NSObject, ObservableObject {
     private var previousDistance: Double = 0.0
     private var previousTimestamp: Date?
     
-    private var workoutSession: HKWorkoutSession?
+    @Published var workoutSession: HKWorkoutSession?
     private var workoutBuilder: HKLiveWorkoutBuilder?
     
     override init() {

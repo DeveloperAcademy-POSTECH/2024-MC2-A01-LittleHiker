@@ -8,14 +8,24 @@
 import SwiftData
 
 @Model
-class CustomSummaryData {
+class CustomComplementaryHikingData {
     var id: String
-    var Data: SummaryModel
+    var data: SummaryModel
     
-    init(id: String, Data: SummaryModel) {
-        self.id = id
-        self.Data = Data
+    init() {
+        self.id = ""
+        self.data = SummaryModel()
     }
 }
 
 
+@Model
+class LogsWithTimeStamps {
+    var id: String
+    var logs: [String: String]
+    
+    init() {
+        self.id = ""
+        self.logs = [:]
+    }
+}
