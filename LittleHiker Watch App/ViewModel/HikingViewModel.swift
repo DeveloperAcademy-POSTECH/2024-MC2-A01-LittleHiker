@@ -179,7 +179,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             status = .descendingStop
         }
         isPaused = true
-        //TODO: HikingMode 멈춰야겠다. 하이킹 워크아웃 멈춰야 함.헬스킷 매니저 안에 하이킹 워크아웃 세션을 관리하는 게 있는데, 그것 또한 기록하는 걸 멈춰야 함
+        healthKitManager.pauseHikingWorkout()
         timer?.invalidate()
     }
     
@@ -191,6 +191,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             status = .descending
         }
         isPaused = false
+        healthKitManager.resumeHikingWorkout()
         updateEverySecond()
     }
     
@@ -208,8 +209,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func stop() {
         isPaused = true
         status = .descendingStop
-        // TODO: 전체종료 기능 넣기
-        // 하이킹 워크아웃 멈춰야 함. 헬스킷 매니저 안에 하이킹 워크아웃 세션을 관리하는 게 있는데, 그것 또한 기록하는 걸 멈춰야 함
         timer?.invalidate()
         timer = nil        
     }
