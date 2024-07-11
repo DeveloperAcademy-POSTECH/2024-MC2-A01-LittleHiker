@@ -13,7 +13,7 @@ import HealthKit
 
 class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     //TODO: 0708 Watch데이터 ios로 보내기 위해 여기 씀 / ViewModel 무거워서 분리해야할수도
-    private let dataSource: DataSource = DataSource.shared // SwiftData + MVVM을 위해 필요한 변수
+    let dataSource: DataSource = DataSource.shared // SwiftData + MVVM을 위해 필요한 변수
     var watchToIOSConnector = WatchToIOSConnector()
     
     static let shared = HikingViewModel()

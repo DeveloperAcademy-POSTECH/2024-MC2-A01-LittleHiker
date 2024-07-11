@@ -7,14 +7,13 @@
 
 import SwiftData
 
+@MainActor
 final class DataSource {
     private let modelContainer: ModelContainer
     private let modelContext: ModelContext
     
-    @MainActor
     static let shared = DataSource()
     
-    @MainActor
     private init() {
         self.modelContainer = try! ModelContainer(for: CustomComplementaryHikingData.self, LogsWithTimeStamps.self)
         self.modelContext = modelContainer.mainContext
@@ -38,14 +37,22 @@ final class DataSource {
         }
     }
     
-//    func fetchItems() -> [Item] {
-//        do {
-//            return try modelContext.fetch(FetchDescriptor<Item>())
-//        } catch {
-//            fatalError(error.localizedDescription)
-//        }
-//    }
-//    
+    func fetchCustomComplementaryHikingData() -> [CustomComplementaryHikingData] {
+        do {
+            return try modelContext.fetch(FetchDescriptor<CustomComplementaryHikingData>())
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    func fetchLogsWithTimeStamps() -> [LogsWithTimeStamps] {
+        do {
+            return try modelContext.fetch(FetchDescriptor<LogsWithTimeStamps>())
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+ 
 //    func removeItem(_ item: Item) {
 //        modelContext.delete(item)
 //    }

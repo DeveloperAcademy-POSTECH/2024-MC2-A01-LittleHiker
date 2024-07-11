@@ -6,8 +6,7 @@
 //
 
 import SwiftUI
-import UserNotifications
-import UIKit
+import SwiftData
 
 
 struct WatchKickOffView: View {
@@ -29,15 +28,12 @@ struct WatchKickOffView: View {
             }
         }
         .onAppear {
-            // UNUserNotificationCenter.current()
-            //     .requestAuthorization(options: [.alert, .sound]){ granted, error in
-            //         if granted {
-            //             // viewModel.impulseManager.sendTipsNotification()
-            //             print("로컬 알림 권한이 허용되었습니다")
-            //         } else {
-            //             print("로컬 알림 권한이 허용되지 않았습니다")
-            //         }
-            //     }
+            //MARK: SwiftData 열리는지 확인해봄
+            // let customData = self.viewModel.dataSource.fetchLogsWithTimeStamps()
+            // for (_, data) in customData.enumerated(){
+            //     print("data : \(data.id)")
+            //     print("data : \(data.logs)")
+            // }
         }
     }
 }
