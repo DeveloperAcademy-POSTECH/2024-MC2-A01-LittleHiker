@@ -42,7 +42,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
-    //MARK: 통신 2. watch에서 가지고 온 UUID를 IOS swiftData에 조회
+    //MARK: 통신 3. watch에서 가지고 온 UUID를 IOS swiftData에 조회
     func compareDataBetweenDevices(_ ids: String) -> [String: String]{
         var ids = [
             "getIDs" : "",  //데이터 get 대상 ID
@@ -85,7 +85,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
         switch method {
         case "get":
             let ids = compareDataBetweenDevices(response)
-            //MARK: 통신 3. 삭제 및 데이터 전송요청
+            //MARK: 통신 4. 삭제 및 데이터 전송요청
             sendDataToWatch("fetchAndClean", ids)
             break;
         case "fetchAndClean":

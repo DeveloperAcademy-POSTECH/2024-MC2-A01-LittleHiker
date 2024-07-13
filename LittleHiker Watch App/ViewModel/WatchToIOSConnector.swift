@@ -12,8 +12,9 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     
     @Published var method: String = ""
     @Published var contents: [String: Any] = [:]
-    var session: WCSession
+    let dataSource: DataSource = DataSource.shared
     
+    var session: WCSession
     init(session: WCSession = .default) {
         self.session = session
         super.init()
@@ -26,8 +27,7 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         
     }
     
-    
-    // 다른 기기의 세션에서 sendMessage() 메서드로 메세지를 받았을 때 호출되는 메서드
+    /// 다른 기기의 세션에서 sendMessage() 메서드로 메세지를 받았을 때 호출되는 메서드
     private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String: String]) -> Void) {
         var response = ["data": ""]
             
@@ -35,7 +35,7 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
             self.method = (message["method"] as? String ?? "")
             
             switch self.method {
-                //UUID 전송요청
+                //MARK: 통신 2. watch에서 메세지 받아서 UUID 조회요청처리
                 case "get":
                     response = self.getAllIds()
                     break;
@@ -67,11 +67,19 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     //Watch SwiftData에 저장되어있는 전체 ID 가져오기
+    @MainActor //FIXME: 이거 꼭 MainActor 로 실행되어야 하는지 다른 방법은 없는지 알아보고싶습니다(이거 안쓰면 에러남) / 메인액터의 할 일은 메인 스레드에서 실행되게 하는 것이라고 함
     func getAllIds() -> [String: String] {
         
-        var ids = ["data" : ""];
-        //TODO: UUID SwiftData 쿼리로 가져오기
-        return ids
+        var result = ["data" : ""];
+        var data = dataSource.fetchCustomComplementaryHikingData()
+        var ids = ""
+        for (_, data) in data.enumerated(){
+             ids.append(data.id+",")
+        }
+        result["data"] = ids
+        print("IDs:"+ids)
+        
+        return result
     }
     
     func sendDataToIOS(_ impulseRateLogs: [Double], _ timeStampLogs: [String]) {
@@ -80,8 +88,6 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
          1. CustomComplementaryHikingData
          2. LogsWithTimeStamps
          */
-        
-        
         if session.isReachable {
             let data: [String: String] = self.convertDataLogsToMessage(impulseRateLogs, timeStampLogs)
             
