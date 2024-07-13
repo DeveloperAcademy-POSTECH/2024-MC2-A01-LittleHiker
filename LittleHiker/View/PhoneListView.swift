@@ -21,6 +21,10 @@ struct PhoneListView: View {
             }
             .navigationBarTitle("Little Hiker🐿️")
         }
+        .onAppear{
+            //MARK: 통신 1. UUID 조회요청
+            IOSToWatchConnector().sendDataToWatch("get")
+        }
     }
 }
 

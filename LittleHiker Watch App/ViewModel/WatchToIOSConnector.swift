@@ -8,9 +8,10 @@
 import Foundation
 import WatchConnectivity
 
-//TODO: - IPhone 작업시 재사용
-
 final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
+    
+    @Published var method: String = ""
+    @Published var contents: [String: Any] = [:]
     var session: WCSession
     
     init(session: WCSession = .default) {
@@ -27,12 +28,29 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     
     
     // 다른 기기의 세션에서 sendMessage() 메서드로 메세지를 받았을 때 호출되는 메서드
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String: String]) -> Void) {
+        var response = ["data": ""]
+            
         DispatchQueue.main.async {
-            // 받은 메세지에서 원하는 Key값(여기서는 "message")으로 메세지 String을 가져온다.
-            // messageText는 Published 프로퍼티이기 때문에 DispatchQueue.main.async로 실행해줘야함
+            self.method = (message["method"] as? String ?? "")
             
+            switch self.method {
+                //UUID 전송요청
+                case "get":
+                    response = self.getAllIds()
+                    break;
+                //TODO: 있는 UUID 지우고, 없는 UUID 데이터 가져오고
+                case "fetchAndClean":
+                    break;
+                default:
+                    break;
+            }
             
+            //TODO: 다른 Response 값 추가되면 if문 변경 필요(현재는 get만 구현)
+            if let request = message["method"] as? String, request == "get" {
+                // 응답 데이터 생성
+                replyHandler(response)
+            }
         }
     }
     
@@ -48,7 +66,22 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         return result
     }
     
+    //Watch SwiftData에 저장되어있는 전체 ID 가져오기
+    func getAllIds() -> [String: String] {
+        
+        var ids = ["data" : ""];
+        //TODO: UUID SwiftData 쿼리로 가져오기
+        return ids
+    }
+    
     func sendDataToIOS(_ impulseRateLogs: [Double], _ timeStampLogs: [String]) {
+        
+        /* 전송데이터 형식
+         1. CustomComplementaryHikingData
+         2. LogsWithTimeStamps
+         */
+        
+        
         if session.isReachable {
             let data: [String: String] = self.convertDataLogsToMessage(impulseRateLogs, timeStampLogs)
             
