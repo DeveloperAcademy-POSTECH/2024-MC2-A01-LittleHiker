@@ -73,8 +73,8 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         var result = ["data" : ""];
         var data = dataSource.fetchCustomComplementaryHikingData()
         var ids = ""
-        for (_, data) in data.enumerated(){
-             ids.append(data.id+",")
+        for (_, datum) in data.enumerated(){
+             ids.append(datum.id+",")
         }
         result["data"] = ids
         print("IDs:"+ids)

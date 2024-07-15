@@ -15,7 +15,7 @@
 		1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB392C32C7B000891AC6 /* AppDelegate.swift */; };
 		1A35BB3C2C37972700891AC6 /* LabelCoefficients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */; };
 		1A35BB3E2C37977100891AC6 /* GifAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB3D2C37977100891AC6 /* GifAnimation.swift */; };
-		1A35BB422C3797D900891AC6 /* MyHikingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */; };
+		1A35BB422C3797D900891AC6 /* KickOffStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB412C3797D900891AC6 /* KickOffStatus.swift */; };
 		1A35BB442C3797FB00891AC6 /* HikingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB432C3797FB00891AC6 /* HikingStatus.swift */; };
 		1A35BB462C3E251400891AC6 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB452C3E251400891AC6 /* CustomData.swift */; };
 		1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */; };
@@ -81,7 +81,7 @@
 		1A35BB392C32C7B000891AC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCoefficients.swift; sourceTree = "<group>"; };
 		1A35BB3D2C37977100891AC6 /* GifAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifAnimation.swift; sourceTree = "<group>"; };
-		1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHikingStatus.swift; sourceTree = "<group>"; };
+		1A35BB412C3797D900891AC6 /* KickOffStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickOffStatus.swift; sourceTree = "<group>"; };
 		1A35BB432C3797FB00891AC6 /* HikingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingStatus.swift; sourceTree = "<group>"; };
 		1A35BB452C3E251400891AC6 /* CustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomData.swift; sourceTree = "<group>"; };
 		1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryModel.swift; sourceTree = "<group>"; };
@@ -149,7 +149,7 @@
 			children = (
 				1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */,
 				1A35BB3D2C37977100891AC6 /* GifAnimation.swift */,
-				1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */,
+				1A35BB412C3797D900891AC6 /* KickOffStatus.swift */,
 				1A35BB432C3797FB00891AC6 /* HikingStatus.swift */,
 				1A35BB452C3E251400891AC6 /* CustomData.swift */,
 				1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */,
@@ -417,7 +417,7 @@
 				1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */,
 				1A35BB3E2C37977100891AC6 /* GifAnimation.swift in Sources */,
 				1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */,
-				1A35BB422C3797D900891AC6 /* MyHikingStatus.swift in Sources */,
+				1A35BB422C3797D900891AC6 /* KickOffStatus.swift in Sources */,
 				1A36FB0E2BFCAF1000880ED5 /* WatchRootView.swift in Sources */,
 				1A36FB182BFCAF5100880ED5 /* WatchKickOffView.swift in Sources */,
 				1A36FB1A2BFCAF5D00880ED5 /* HikingViewModel.swift in Sources */,

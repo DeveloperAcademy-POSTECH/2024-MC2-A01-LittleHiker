@@ -13,7 +13,7 @@ struct WatchKickOffView: View {
     @Environment(\.modelContext) var modelContext
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
-    @State var status: MyHikingStatus = .kickoff
+    @State var status: KickOffStatus = .kickoff
     
     
     var body: some View {
@@ -41,7 +41,7 @@ struct WatchKickOffView: View {
 //시작 버튼 화면
 struct KickOffView: View {
     @ObservedObject var viewModel: HikingViewModel
-    @Binding var status: MyHikingStatus
+    @Binding var status: KickOffStatus
     
     var body: some View {
         VStack {
@@ -73,7 +73,7 @@ struct KickOffView: View {
 struct PreparingView: View {
     @ObservedObject var viewModel: HikingViewModel
     @State var progress: Double = 0
-    @Binding var status: MyHikingStatus
+    @Binding var status: KickOffStatus
     @State private var timer: Timer? = nil
     
     var body: some View {
