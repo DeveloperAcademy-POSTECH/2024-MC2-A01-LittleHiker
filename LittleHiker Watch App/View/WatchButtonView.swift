@@ -29,7 +29,7 @@ struct WatchButtonView: View {
             .padding(.top, 30)
             Spacer()
             
-            if viewModel.status == .hiking || viewModel.status == .hikingStop{
+            if viewModel.status == .hiking || viewModel.status == .hikingPause{
                 VStack {
                     HStack {
                         //종료버튼
@@ -65,7 +65,7 @@ struct WatchButtonView: View {
                     }
                 }
                 .padding()
-            } else if viewModel.status == .descending || viewModel.status == .descendingStop{
+            } else if viewModel.status == .descending || viewModel.status == .descendingPause{
                 VStack {
                     HStack {
                         //종료버튼

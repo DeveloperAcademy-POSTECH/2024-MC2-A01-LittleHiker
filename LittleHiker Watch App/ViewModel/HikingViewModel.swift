@@ -192,19 +192,19 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
     func pause() {
         if status == .hiking {
-            status = .hikingStop
+            status = .hikingPause
         } else if status == .descending {
-            status = .descendingStop
+            status = .descendingPause
         }
         healthKitManager.pauseHikingWorkout()
         timer?.invalidate()
     }
     
     func restart() {
-        if status == .hikingStop {
+        if status == .hikingPause {
             status = .hiking
         }
-        else if  status == .descendingStop {
+        else if  status == .descendingPause {
             status = .descending
         }
         healthKitManager.resumeHikingWorkout()
@@ -217,7 +217,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     func stop() {
-        status = .descendingStop
+        status = .descendingPause
         timer?.invalidate()
         timer = nil
     }
