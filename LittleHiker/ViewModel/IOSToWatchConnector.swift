@@ -35,22 +35,27 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     //watch 에서 message 받는거 (참고: 구현되어있는거 없음)
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String: String]) -> Void) {
+
         DispatchQueue.main.async {
             self.message = (message["message"] as? String ?? "")
-            
+            if let request = message["message"] as? String, request == "get" {
+                // 응답 데이터 생성
+                replyHandler(["result": "abc"])
+            }
         }
     }
     
     //MARK: 통신 3. watch에서 가지고 온 UUID를 IOS swiftData에 조회
+    ///watch와 iphone 데이터 비교. return : [String: String]
     func compareDataBetweenDevices(_ ids: String) -> [String: String]{
-        var ids = [
+        var requestIds = [
             "getIDs" : "",  //데이터 get 대상 ID
             "cleanIDs" : "" //삭제 대상 ID
         ]
         
         //TODO: swiftData 조회
-        return ids
+        return requestIds
     }
     
     
@@ -62,10 +67,10 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
      */
     func sendDataToWatch(_ method: String, _ contents: [String: String] = [:]) {
         if session.isReachable {
-            var data = [
+            let data: [String : Any] = [
                 "method" : method,
                 "contents" : contents
-            ] as [String : Any]
+            ]
             
             session.sendMessage(data, replyHandler: { [self] response in
                 if let data = response["response"] as? String {

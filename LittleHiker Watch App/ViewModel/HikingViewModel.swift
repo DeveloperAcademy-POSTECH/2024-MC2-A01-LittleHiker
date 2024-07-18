@@ -203,8 +203,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     func restart() {
         if status == .hikingPause {
             status = .hiking
-        }
-        else if  status == .descendingPause {
+        } else if  status == .descendingPause {
             status = .descending
         }
         healthKitManager.resumeHikingWorkout()
