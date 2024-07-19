@@ -32,7 +32,6 @@ struct WatchMainView: View {
         ZStack {
             VStack(spacing: 0) {
                 headLabel
-                //                Spacer()
                 if viewModel.impulseManager.impulseRatio <= 80{
                     HStack{
                         squirrelGIF

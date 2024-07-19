@@ -100,6 +100,9 @@ class ImpulseManager: NSObject, ObservableObject {
         let timeDifference = Double(altitudeLogs.count - 1 - changeIndex)
         if timeDifference > 0{
             let altitudeChange = (lastAltitude - altitudeLogs[changeIndex])
+            if altitudeChange < 0 {
+                return 0.0
+            }
             print("변화 시간 \(timeDifference), 변화고도 : \(altitudeChange)")
             let verticalSpeed = (altitudeChange / timeDifference) * 3.6
             return verticalSpeed
