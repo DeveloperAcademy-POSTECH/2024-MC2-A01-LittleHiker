@@ -69,11 +69,12 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func calculateImpulse(altitudeLogs:[Double] ,currentSpeed: Double){
-        guard altitudeLogs.count > 1 else {
+        guard altitudeLogs.count > 60 else {
             return
         }
         
-        let recentAltitudeChange = (altitudeLogs.last! - altitudeLogs[altitudeLogs.count - 2]) / 1000 * 60
+        let recentAltitudeChange = (altitudeLogs.last! - altitudeLogs[altitudeLogs.count - 60]) / 1000 * 60// 60은 m -> h위함
+        print("수직속도 : \(recentAltitudeChange)km/h")
         currentImpulse = self.calculateImpulse(recentAltitudeChange, currentSpeed)
         impulseRatio = self.calculateImpulseRatio(currentImpulse)
     }
