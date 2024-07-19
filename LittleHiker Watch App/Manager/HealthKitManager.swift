@@ -276,4 +276,12 @@ extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelega
             }
         }
     }
+    
+    func pauseHikingWorkout() {
+        workoutSession?.pause()
+    }
+    
+    func resumeHikingWorkout() {
+        workoutSession?.resume()
+    }
 }
