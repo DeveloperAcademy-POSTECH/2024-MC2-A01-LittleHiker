@@ -60,7 +60,9 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func calculateImpulse(_ currentVerticalVelocity: Double, _ currentHorizontalVelocity: Double) ->Double {
-        return sqrt(pow(currentVerticalVelocity, 2)+pow(currentHorizontalVelocity, 2)) * weight / 0.1 / 100 // 단위 줄이기 100 나눔
+        return sqrt((pow(currentVerticalVelocity, 2) * 3 / 4)
+                    + (pow(currentHorizontalVelocity, 2) * 1 / 4)) //수직 속도, 수평 속도가 3:1비율로 적용되게하기
+                        * weight / 0.1 / 100 // 단위 줄이기 100 나눔
     }
     
     func findNonZeroMin() -> Double? {
@@ -73,11 +75,38 @@ class ImpulseManager: NSObject, ObservableObject {
             return
         }
         
-        let recentAltitudeChange = (altitudeLogs.last! - altitudeLogs[altitudeLogs.count - 60]) / 1000 * 60// 60은 m -> h위함
-        print("수직속도 : \(recentAltitudeChange)km/h")
-        currentImpulse = self.calculateImpulse(recentAltitudeChange, currentSpeed)
+        let verticalSpeed = calculateVerticalSpeed(altitudeLogs: altitudeLogs)
+        print("수직속도 : \(verticalSpeed)km/h")
+        currentImpulse = self.calculateImpulse(verticalSpeed, currentSpeed)
         impulseRatio = self.calculateImpulseRatio(currentImpulse)
+        
     }
+    
+    func calculateVerticalSpeed(altitudeLogs: [Double]) -> Double {
+        let lastAltitude = altitudeLogs.last!
+        
+        var changeIndex = altitudeLogs.count - 1
+        for i in stride(from: altitudeLogs.count - 2, through: 0, by: -1) {
+            if i == 0 || altitudeLogs[i] <= 0.0{
+                return 0.0
+            }
+            if altitudeLogs[i] != lastAltitude {
+                
+                changeIndex = i
+                break
+            }
+        }
+        
+        let timeDifference = Double(altitudeLogs.count - 1 - changeIndex)
+        if timeDifference > 0{
+            let altitudeChange = (lastAltitude - altitudeLogs[changeIndex])
+            print("변화 시간 \(timeDifference), 변화고도 : \(altitudeChange)")
+            let verticalSpeed = (altitudeChange / timeDifference) * 3.6
+            return verticalSpeed
+        }
+        return 0.0
+    }
+    
     //TODO: Impulsemanager 처리 과정에 중복되거나 불필요한 로직 뺄 필요가 있어보임
     func processImpulseData(isRecord: Bool) {
         updateMeanOfLastTenImpulseLogs()
@@ -149,7 +178,7 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func isWarningConditionMet() -> Bool{
-        let currentImpulse = self.currentMeanOfLastTenImpulseLogs
+//        let currentImpulse = self.currentMeanOfLastTenImpulseLogs
         let currentImpulseRatio = self.currentImpulseMeanRatio
         if 66 <= currentImpulseRatio {
             return true
