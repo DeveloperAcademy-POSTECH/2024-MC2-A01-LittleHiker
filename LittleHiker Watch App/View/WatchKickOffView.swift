@@ -62,10 +62,6 @@ struct KickOffView: View {
             .buttonStyle(PlainButtonStyle())
             .padding()
         }
-        .onAppear{
-            //MARK: 통신 1. UUID 조회요청
-            WatchToIOSConnector().sendTestDataToIOS()
-        }
         
         Text("리틀하이커랑 등산하기")
             .font(.system(size: 14))

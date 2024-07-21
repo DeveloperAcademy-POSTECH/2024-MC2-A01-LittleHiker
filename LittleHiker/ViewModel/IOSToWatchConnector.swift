@@ -9,7 +9,8 @@ import Foundation
 import WatchConnectivity
 
 final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
-    @Published var message: String = ""
+    @Published var id: String = ""
+    @Published var body: String = ""
     var session: WCSession
     init(session: WCSession = .default) {
         self.session = session
@@ -35,15 +36,20 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     //watch 에서 message 받는거 (참고: 구현되어있는거 없음)
-    private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String: String]) -> Void) {
+    private func session(_ session: WCSession, didReceiveMessage message: [String : String], replyHandler: @escaping ([String: String]) -> Void) {
 
         DispatchQueue.main.async {
-            self.message = (message["message"] as? String ?? "")
-            if let request = message["message"] as? String, request == "get" {
-                // 응답 데이터 생성
-                replyHandler(["result": "abc"])
+            self.id = message["id"] ?? ""
+            if (message["data"] != nil) {
+                self.body = message["data"] ?? ""
+            } else if (message["logs"] != nil) {
+                self.body = message["logs"] ?? ""
             }
+            
+            //TODO: replyHandler
+            replyHandler(message)
         }
+        
     }
     
     //MARK: 통신 3. watch에서 가지고 온 UUID를 IOS swiftData에 조회

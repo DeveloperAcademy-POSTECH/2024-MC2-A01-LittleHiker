@@ -10,20 +10,26 @@ import SwiftUI
 //hikingRecord에 대한 List
 struct PhoneListView: View {
     var body: some View {
+        @ObservedObject var iosToWatch = IOSToWatchConnector()
         NavigationStack{
-            List{
-                //TODO: ForEach hikingRecord
-                NavigationLink{
-                    PhoneDetailView()
-                } label: {
-                    PhoneRowView()
-                }
-            }
-            .navigationBarTitle("Little Hiker🐿️")
+            //TODO: 테스트용 출력
+            Text("ID")
+            Text(iosToWatch.id)
+            Text("BODY")
+            Text(iosToWatch.body)
+//            List{
+//                //TODO: ForEach hikingRecord
+//                NavigationLink{
+//                    PhoneDetailView()
+//                } label: {
+//                    PhoneRowView()
+//                }
+//            }
+//            .navigationBarTitle("Little Hiker🐿️")
         }
         .onAppear{
-            //MARK: 통신 1. UUID 조회요청
-            IOSToWatchConnector().sendDataToWatch(Method.get)
+            //MARK: 통신 1. UUID 조회요청 잠시꺼둠
+//            IOSToWatchConnector().sendDataToWatch(Method.get)
         }
     }
 }
