@@ -23,7 +23,7 @@ struct PhoneListView: View {
         }
         .onAppear{
             //MARK: 통신 1. UUID 조회요청
-            IOSToWatchConnector().sendDataToWatch("get")
+            IOSToWatchConnector().sendDataToWatch(Method.get)
         }
     }
 }

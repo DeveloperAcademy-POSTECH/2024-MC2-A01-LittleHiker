@@ -65,7 +65,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
      - method: get(ID 요청), fetchAndClean(삭제 및 데이터 전송요청)
      - contents: 전송할 데이터 본문, Dictionary 형태
      */
-    func sendDataToWatch(_ method: String, _ contents: [String: String] = [:]) {
+    func sendDataToWatch(_ method: Method, _ contents: [String: String] = [:]) {
         if session.isReachable {
             let data: [String : Any] = [
                 "method" : method,
@@ -86,17 +86,15 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     //WC response 처리
-    func processResponse(_ method: String, _ response: String) {
+    func processResponse(_ method: Method, _ response: String) {
         switch method {
-        case "get":
-            let ids = compareDataBetweenDevices(response)
-            //MARK: 통신 4. 삭제 및 데이터 전송요청
-            sendDataToWatch("fetchAndClean", ids)
-            break;
-        case "fetchAndClean":
-            break;
-        default:
-            break;
+            case .get:
+                let ids = compareDataBetweenDevices(response)
+                //MARK: 통신 4. 삭제 및 데이터 전송요청
+                sendDataToWatch(Method.fetchAndClean, ids)
+                break;
+            case .fetchAndClean:
+                break;
         }
         
         
