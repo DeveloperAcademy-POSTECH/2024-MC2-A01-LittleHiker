@@ -70,7 +70,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             //TODO: 타임스케줄러를 시작버튼 누를 때 돌아가도록 바꾸기
             
             if status == .descending{
-                //TODO: impulseManager안에 다 호출하는 함수 만들기
                 self.impulseManager.calculateImpulse(
                     altitudeLogs: self.coreLocationManager.altitudeLogs,
                     currentSpeed: self.healthKitManager.currentSpeed
@@ -143,7 +142,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.summaryModel.minAltitude = 0
             }
             
-            //            self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning //기존 총거리
             self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning // 헬스킷에서 총 거리 가져오기
             self.summaryModel.speedAvg = self.healthKitManager.getSpeedAvg() //헬스킷에서 평균 속도 가져오기
             self.summaryModel.impulseAvg = self.impulseManager.getImpulseAvg()
@@ -160,36 +158,32 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.summaryModel.maxImpulse = 0
             }
             
-            let customData: [String: String] = self.convertDataLogsToJSON(
-                summaryModel : self.summaryModel,
-                myWorkoutSession : self.healthKitManager.workoutSession,
-                impulseRateLogs : self.impulseManager.impulseLogs,
-                timeStampLogs : self.timestampLog
-            )
-            
-            //TODO: swiftData로 저장하기
-            let customComplementaryHikingData = self.createCustomComplementaryHikingData(
-                myWorkoutSession: self.healthKitManager.workoutSession,
-                summaryModel: self.summaryModel)
-//             modelContext.insert(customComplementaryHikingData)
-            self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
-            
-            let logsWithTimeStamps = self.createLogWithTimeStamps(
-                myWorkoutSession: self.healthKitManager.workoutSession,
-                impulseRateLogs: self.impulseManager.impulseLogs,
-                timeStampLogs: self.timestampLog)
-            // modelContext.insert(logsWithTimeStamps)
-            self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)
-            
-            
-            //TODO: watch에서 iOS로 데이터 넘기기
+            //uuidString이 호출때마다 uuid를 생성해서 보내는 데이터 uuid 통일이 안되서 한번만 생성 후 사용
+            let uuid = self.healthKitManager.workoutSession?.currentActivity.uuid.uuidString ?? ""
+            if uuid != "" {
+                //산행으로 만들어진 SummaryData
+                let customComplementaryHikingData = self.createCustomComplementaryHikingData(
+                    uuid: uuid,
+                    summaryModel: self.summaryModel)
+                self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
+                
+                //산행으로 만들어진 시간과 충격량
+                let logsWithTimeStamps = self.createLogWithTimeStamps(
+                    uuid: uuid,
+                    impulseRateLogs: self.impulseManager.impulseLogs,
+                    timeStampLogs: self.timestampLog)
+                self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)
+                
+                //TODO: 전송순서보장
+                //SummaryModel 전송
+                self.watchToIOSConnector.sendDataToIOS(["id": customComplementaryHikingData.id, "data": self.encodeToJson(customComplementaryHikingData.data)])
+                //LogsWithTimeStamps
+                //TODO: chunk
+                self.watchToIOSConnector.sendDataToIOS(["id": logsWithTimeStamps.id, "logs" : self.encodeToJson(logsWithTimeStamps.logs)])
+            }
         }
-        
-        //end버튼 누르면 watch에서 ios로 데이터 넘기기
-        //        watchToIOSConnector.sendDataToIOS(impulseManager.impulseLogs, timestampLog)
     }
     
-
     func pause() {
         if status == .hiking {
             status = .hikingPause
@@ -224,35 +218,26 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     deinit {
         timer?.invalidate()
     }
-    
 }
 
-
 extension HikingViewModel {
-    func encodeToJson(_ summary: SummaryModel) -> String? {
+    //TODO: HikingViewModel 뿐 아니라 다른데서도 쓰이지 않을까? 함수 위치 변경 고려해보장
+    func encodeToJson<T: Encodable>(_ value: T) -> String {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted // for pretty-printed JSON
         do {
-            let jsonData = try encoder.encode(summary)
-            return String(data: jsonData, encoding: .utf8)
+            let jsonData = try encoder.encode(value)
+            return String(data: jsonData, encoding: .utf8) ?? ""
         } catch {
             print("Error encoding data: \(error)")
-            return nil
+            return ""
         }
     }
-  
     
-    func createCustomComplementaryHikingData(myWorkoutSession: HKWorkoutSession?, 
-                                             summaryModel: SummaryModel) -> CustomComplementaryHikingData {
+    func createCustomComplementaryHikingData(uuid: String, summaryModel: SummaryModel) -> CustomComplementaryHikingData {
         
-        
-        var customComplementaryHikingData = CustomComplementaryHikingData()
-    
-        guard let id: String = myWorkoutSession?.currentActivity.uuid.uuidString else {
-            return customComplementaryHikingData
-        }
-        
-        customComplementaryHikingData.id = id
+        let customComplementaryHikingData = CustomComplementaryHikingData()
+        customComplementaryHikingData.id = uuid
         customComplementaryHikingData.data = self.summaryModel
         return customComplementaryHikingData
     }
@@ -262,36 +247,20 @@ extension HikingViewModel {
         var result: [String: String] = [:]
         
         for (i, log) in logs.enumerated() {
-            result[timeStamps[i]] = String(logs[i])
+            result[timeStamps[i]] = String(log)
         }
         
         return result
     }
     
-    
-    func createLogWithTimeStamps(myWorkoutSession: HKWorkoutSession?,
-                                 impulseRateLogs: [Double],
+    func createLogWithTimeStamps(uuid: String, impulseRateLogs: [Double],
                                  timeStampLogs: [String]) -> LogsWithTimeStamps{
         
-        var logsWithTimeStamps = LogsWithTimeStamps()
+        let logsWithTimeStamps = LogsWithTimeStamps()
         
-        guard let id: String = myWorkoutSession?.currentActivity.uuid.uuidString else {
-            return logsWithTimeStamps
-        }
-        
-        logsWithTimeStamps.id = id
+        logsWithTimeStamps.id = uuid
         logsWithTimeStamps.logs = mapLogsWithTimeStamps(impulseRateLogs, timeStampLogs)
         
         return logsWithTimeStamps
     }
-    
-    
-    func convertDataLogsToJSON(summaryModel: SummaryModel, myWorkoutSession: HKWorkoutSession?, impulseRateLogs: [Double], timeStampLogs: [String]) -> [String: String]{
-        var result: [String: String] = ["ID":"-"]
-        guard let identifier: String = myWorkoutSession?.currentActivity.uuid.uuidString else {return result}
-        result["ID"] = identifier
-        result["Body"] = self.encodeToJson(summaryModel) ?? ""
-        return result
-    }
-    
 }
