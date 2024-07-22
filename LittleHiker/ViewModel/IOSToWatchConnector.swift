@@ -36,18 +36,19 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     //watch 에서 message 받는거 (참고: 구현되어있는거 없음)
-    private func session(_ session: WCSession, didReceiveMessage message: [String : String], replyHandler: @escaping ([String: String]) -> Void) {
-
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]){
+        print("message received!")
+        
         DispatchQueue.main.async {
-            self.id = message["id"] ?? ""
+            self.id = message["id"] as? String ?? ""
             if (message["data"] != nil) {
-                self.body = message["data"] ?? ""
+                self.body = message["data"] as? String ?? ""
             } else if (message["logs"] != nil) {
-                self.body = message["logs"] ?? ""
+                self.body = message["logs"] as? String ?? ""
             }
             
             //TODO: replyHandler
-            replyHandler(message)
+//            replyHandler(message)
         }
         
     }
@@ -106,4 +107,10 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
         
         
     }
+    
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        print("Reachability changed to: \(session.isReachable)")
+    }
+
+    
 }

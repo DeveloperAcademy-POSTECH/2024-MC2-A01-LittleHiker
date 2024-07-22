@@ -27,7 +27,7 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     /// 다른 기기의 세션에서 sendMessage() 메서드로 메세지를 받았을 때 호출되는 메서드
-    private func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String: String]) -> Void) {
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         var response = ["data": ""]
             
         DispatchQueue.main.async {
@@ -48,7 +48,7 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
             //TODO: 다른 Response 값 추가되면 if문 변경 필요(현재는 get만 구현)
             if let request = message["method"] as? String, request == "get" {
                 // 응답 데이터 생성
-                replyHandler(response)
+//                replyHandler(response)
             }
         }
     }
@@ -82,16 +82,13 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     ///iOS로 데이터 전송하는 공통함수
-    @MainActor 
+    @MainActor
     func sendDataToIOS(_ data: [String: String]) {
         print(data)
         if session.isReachable {
             if session.activationState == .activated {
                 print("세션연결되어있다고오오오오오오")
-                session.sendMessage(data, replyHandler: {response in
-                    print("response::")
-                    print(response)
-                }) { error in
+                session.sendMessage(data, replyHandler: nil) { error in
                     print("sendMessage error")
                     print(error.localizedDescription)
                 }

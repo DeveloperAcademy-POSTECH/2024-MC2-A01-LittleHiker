@@ -9,8 +9,9 @@ import SwiftUI
 
 //hikingRecord에 대한 List
 struct PhoneListView: View {
+    @StateObject var iosToWatch = IOSToWatchConnector()
+    
     var body: some View {
-        @ObservedObject var iosToWatch = IOSToWatchConnector()
         NavigationStack{
             //TODO: 테스트용 출력
             Text("ID")
