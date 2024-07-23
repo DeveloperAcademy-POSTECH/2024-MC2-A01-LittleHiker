@@ -8,6 +8,7 @@
 import SwiftUI
 // [등산 중], [정상], [하산 중] 3 가지 상태에 따른 버튼 뷰 구현
 struct WatchButtonView: View {
+    @Environment(\.modelContext) var modelContext
     @ObservedObject var viewModel: HikingViewModel
     
     //MARK: - norang 일시정지, 재개 버튼 토글
@@ -15,10 +16,6 @@ struct WatchButtonView: View {
     @State var pauseResumeToggle: Bool = true
     @Binding var selection: String
     //    @State private var isShowingModal = false
-    
-    //    init() {
-    //        UINavigationBar.appearance().largeTitleTextAtributes = [.foregroundColor: UIColor.blue]
-    //    }
     
     var body: some View {
         VStack {
@@ -32,7 +29,7 @@ struct WatchButtonView: View {
             .padding(.top, 30)
             Spacer()
             
-            if viewModel.status == .hiking || viewModel.status == .hikingStop{
+            if viewModel.status == .hiking || viewModel.status == .hikingPause{
                 VStack {
                     HStack {
                         //종료버튼
@@ -68,7 +65,7 @@ struct WatchButtonView: View {
                     }
                 }
                 .padding()
-            } else if viewModel.status == .descending || viewModel.status == .descendingStop{
+            } else if viewModel.status == .descending || viewModel.status == .descendingPause{
                 VStack {
                     HStack {
                         //종료버튼
@@ -99,13 +96,9 @@ struct WatchButtonView: View {
     
     //종료버튼
     struct EndButton: View {
-        //    var viewModelWatch = ViewModelWatch()
-        
         var height: CGFloat
         var timeManager: TimeManager
         @State var arrayText = ""
-        //FIXME: - 테스트용으로 Array를 만들어보았습니다. 수정합시다.
-        //    var heartRateArray = [100, 90, 80, 70]
         @ObservedObject var viewModel: HikingViewModel
         @Binding var selection: String
         
@@ -119,17 +112,18 @@ struct WatchButtonView: View {
                     timeManager.setDescendingDuration()
                     //2. 기록이 SummaryView로 넘어감
                     //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
-                    //3. iOS로 데이터 동기화(배열 보내기)=
+                    //3. iOS로 데이터 동기화(배열 보내기)
                     //산행상태를 "완료"로 변경
                     
+                    //TODO: SwiftData를 저장하자
+                    
+                    //워크아웃 활동 종료 후 impulseRate 데이터 전송
+                    viewModel.healthKitManager.endHikingWorkout()
                     viewModel.endHiking()
+                    
                     viewModel.stop()
                     viewModel.status = .complete
                     //                viewModel.isShowingModal = true
-                    
-                    //임시 워크아웃 활동 멈춤
-                    viewModel.healthKitManager.endHikingWorkout()
-                    
                 }) {
                     RoundedRectangle(cornerRadius: 28)
                         .frame(width: 68, height: height)
@@ -236,6 +230,8 @@ struct WatchButtonView: View {
                     timeManager.setAscendingDuration()
                     //뷰모델에서 산행상태를 정상으로 변경
                     viewModel.status = .peak
+                    //하이킹 워크아웃 일시정지
+                    viewModel.healthKitManager.pauseHikingWorkout()
                     selection = "default"
                 }) {
                     RoundedRectangle(cornerRadius: 28)
@@ -270,6 +266,8 @@ struct WatchButtonView: View {
                         timeManager.timer?.invalidate()
                     }
                     timeManager.runStopWatch()
+                    //하이킹 워크아웃 재시작
+                    viewModel.healthKitManager.resumeHikingWorkout()
                     
                     //뷰모델에서 산행상태를 정상으로 변경
                     viewModel.status = .descending

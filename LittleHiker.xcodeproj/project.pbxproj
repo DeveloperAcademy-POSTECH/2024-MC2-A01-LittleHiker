@@ -7,15 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */; };
-		02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */; };
+		02AEC24D2C4CD81400AF1F6D /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AEC24C2C4CD81400AF1F6D /* Method.swift */; };
+		02EE67A12BFCDA0D00F16E88 /* IOSToWatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* IOSToWatchConnector.swift */; };
+		02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */; };
 		02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */; };
 		02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A52BFDC88A00F16E88 /* HikingLog.swift */; };
 		1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB392C32C7B000891AC6 /* AppDelegate.swift */; };
 		1A35BB3C2C37972700891AC6 /* LabelCoefficients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */; };
 		1A35BB3E2C37977100891AC6 /* GifAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB3D2C37977100891AC6 /* GifAnimation.swift */; };
-		1A35BB422C3797D900891AC6 /* MyHikingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */; };
+		1A35BB422C3797D900891AC6 /* KickOffStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB412C3797D900891AC6 /* KickOffStatus.swift */; };
 		1A35BB442C3797FB00891AC6 /* HikingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB432C3797FB00891AC6 /* HikingStatus.swift */; };
+		1A35BB462C3E251400891AC6 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB452C3E251400891AC6 /* CustomData.swift */; };
+		1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */; };
+		1A35BB4A2C3EC6FA00891AC6 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB492C3EC6FA00891AC6 /* DataSource.swift */; };
 		1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */; };
 		1A36FB0E2BFCAF1000880ED5 /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */; };
 		1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */; };
@@ -31,7 +35,7 @@
 		1A43DF882BFCAC9B00E62BA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF872BFCAC9B00E62BA6 /* Assets.xcassets */; };
 		1A43DF8B2BFCAC9B00E62BA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF8A2BFCAC9B00E62BA6 /* Preview Assets.xcassets */; };
 		1A43DF912BFCAC9B00E62BA6 /* LittleHiker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1A43DF902BFCAC9B00E62BA6 /* LittleHiker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		1A43DF962BFCAC9B00E62BA6 /* LittleHikerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF952BFCAC9B00E62BA6 /* LittleHikerApp.swift */; };
+		1A43DF962BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF952BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift */; };
 		1A43DF9A2BFCAC9C00E62BA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */; };
 		1A43DF9D2BFCAC9C00E62BA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF9C2BFCAC9C00E62BA6 /* Preview Assets.xcassets */; };
 		1A43DFAB2BFCACDA00E62BA6 /* PhoneDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFAA2BFCACDA00E62BA6 /* PhoneDetailView.swift */; };
@@ -69,15 +73,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ViewModelIPhone.swift; path = LittleHiker/Manager/ViewModelIPhone.swift; sourceTree = SOURCE_ROOT; };
-		02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelWatch.swift; sourceTree = "<group>"; };
+		02AEC24C2C4CD81400AF1F6D /* Method.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Method.swift; sourceTree = "<group>"; };
+		02EE67A02BFCDA0D00F16E88 /* IOSToWatchConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IOSToWatchConnector.swift; path = LittleHiker/ViewModel/IOSToWatchConnector.swift; sourceTree = SOURCE_ROOT; };
+		02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchToIOSConnector.swift; sourceTree = "<group>"; };
 		02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HikingRecord.swift; sourceTree = "<group>"; };
 		02EE67A52BFDC88A00F16E88 /* HikingLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HikingLog.swift; sourceTree = "<group>"; };
 		1A35BB392C32C7B000891AC6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCoefficients.swift; sourceTree = "<group>"; };
 		1A35BB3D2C37977100891AC6 /* GifAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifAnimation.swift; sourceTree = "<group>"; };
-		1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyHikingStatus.swift; sourceTree = "<group>"; };
+		1A35BB412C3797D900891AC6 /* KickOffStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickOffStatus.swift; sourceTree = "<group>"; };
 		1A35BB432C3797FB00891AC6 /* HikingStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HikingStatus.swift; sourceTree = "<group>"; };
+		1A35BB452C3E251400891AC6 /* CustomData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomData.swift; sourceTree = "<group>"; };
+		1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SummaryModel.swift; sourceTree = "<group>"; };
+		1A35BB492C3EC6FA00891AC6 /* DataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSummaryView.swift; sourceTree = "<group>"; };
 		1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchRootView.swift; sourceTree = "<group>"; };
 		1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchDetailView.swift; sourceTree = "<group>"; };
@@ -95,7 +103,7 @@
 		1A43DF872BFCAC9B00E62BA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A43DF8A2BFCAC9B00E62BA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1A43DF902BFCAC9B00E62BA6 /* LittleHiker Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LittleHiker Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		1A43DF952BFCAC9B00E62BA6 /* LittleHikerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleHikerApp.swift; sourceTree = "<group>"; };
+		1A43DF952BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LittleHikerWatchApp.swift; sourceTree = "<group>"; };
 		1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A43DF9C2BFCAC9C00E62BA6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1A43DFAA2BFCACDA00E62BA6 /* PhoneDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneDetailView.swift; sourceTree = "<group>"; };
@@ -135,6 +143,38 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
+		1A35BB4B2C3F61E100891AC6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */,
+				1A35BB3D2C37977100891AC6 /* GifAnimation.swift */,
+				1A35BB412C3797D900891AC6 /* KickOffStatus.swift */,
+				1A35BB432C3797FB00891AC6 /* HikingStatus.swift */,
+				1A35BB452C3E251400891AC6 /* CustomData.swift */,
+				1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */,
+				1A35BB492C3EC6FA00891AC6 /* DataSource.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1A35BB4C2C3F63A400891AC6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				02EE67A52BFDC88A00F16E88 /* HikingLog.swift */,
+				02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */,
+				02AEC24C2C4CD81400AF1F6D /* Method.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1A35BB4D2C3F63B600891AC6 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				02EE67A02BFCDA0D00F16E88 /* IOSToWatchConnector.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		1A43DF772BFCAC9A00E62BA6 = {
 			isa = PBXGroup;
 			children = (
@@ -156,9 +196,9 @@
 		1A43DF822BFCAC9A00E62BA6 /* LittleHiker */ = {
 			isa = PBXGroup;
 			children = (
+				1A35BB4D2C3F63B600891AC6 /* ViewModel */,
+				1A35BB4C2C3F63A400891AC6 /* Model */,
 				02EE679D2BFCC54700F16E88 /* Manager */,
-				1A43DFA92BFCACB200E62BA6 /* Model */,
-				1A43DFA82BFCACAF00E62BA6 /* ViewModel */,
 				1A43DFA72BFCACA700E62BA6 /* View */,
 				1A43DF832BFCAC9A00E62BA6 /* LittleHikerApp.swift */,
 				1A43DF872BFCAC9B00E62BA6 /* Assets.xcassets */,
@@ -184,12 +224,12 @@
 				1A36FB282BFDE29400880ED5 /* NotificationController.swift */,
 				1A8DBE9D2BFE2CB600C3BA92 /* PushNotificationPayload.apns */,
 				1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */,
-				1A43DF952BFCAC9B00E62BA6 /* LittleHikerApp.swift */,
+				1A43DF952BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift */,
 				1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */,
 				1A43DFB02BFCAD7400E62BA6 /* Manager */,
-				1A43DFBA2BFCADCB00E62BA6 /* Model */,
 				1A43DF9B2BFCAC9C00E62BA6 /* Preview Content */,
 				1A43DFBB2BFCADD500E62BA6 /* View */,
+				1A35BB4B2C3F61E100891AC6 /* Model */,
 				1A43DFBC2BFCADEE00E62BA6 /* ViewModel */,
 				1A35BB392C32C7B000891AC6 /* AppDelegate.swift */,
 			);
@@ -215,23 +255,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		1A43DFA82BFCACAF00E62BA6 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				02EE67A02BFCDA0D00F16E88 /* ViewModelIPhone.swift */,
-			);
-			name = ViewModel;
-			sourceTree = "<group>";
-		};
-		1A43DFA92BFCACB200E62BA6 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				02EE67A52BFDC88A00F16E88 /* HikingLog.swift */,
-				02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
 		1A43DFB02BFCAD7400E62BA6 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -241,17 +264,6 @@
 				1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */,
 			);
 			path = Manager;
-			sourceTree = "<group>";
-		};
-		1A43DFBA2BFCADCB00E62BA6 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */,
-				1A35BB3D2C37977100891AC6 /* GifAnimation.swift */,
-				1A35BB412C3797D900891AC6 /* MyHikingStatus.swift */,
-				1A35BB432C3797FB00891AC6 /* HikingStatus.swift */,
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 		1A43DFBB2BFCADD500E62BA6 /* View */ = {
@@ -272,7 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				1A36FB192BFCAF5D00880ED5 /* HikingViewModel.swift */,
-				02EE67A22BFCDA3B00F16E88 /* ViewModelWatch.swift */,
+				02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -383,10 +395,11 @@
 				1A43DF862BFCAC9A00E62BA6 /* ContentView.swift in Sources */,
 				1A43DFAB2BFCACDA00E62BA6 /* PhoneDetailView.swift in Sources */,
 				1A43DFAD2BFCACEC00E62BA6 /* PhoneRowView.swift in Sources */,
-				02EE67A12BFCDA0D00F16E88 /* ViewModelIPhone.swift in Sources */,
+				02EE67A12BFCDA0D00F16E88 /* IOSToWatchConnector.swift in Sources */,
 				02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */,
 				02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */,
 				1A43DF842BFCAC9A00E62BA6 /* LittleHikerApp.swift in Sources */,
+				02AEC24D2C4CD81400AF1F6D /* Method.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,14 +409,15 @@
 			files = (
 				1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */,
 				1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */,
-				02EE67A32BFCDA3B00F16E88 /* ViewModelWatch.swift in Sources */,
+				1A35BB462C3E251400891AC6 /* CustomData.swift in Sources */,
+				02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */,
 				1A36FB272BFDE27900880ED5 /* NotificationView.swift in Sources */,
 				1A36FB162BFCAF3A00880ED5 /* WatchButtonView.swift in Sources */,
 				1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */,
 				1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */,
 				1A35BB3E2C37977100891AC6 /* GifAnimation.swift in Sources */,
 				1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */,
-				1A35BB422C3797D900891AC6 /* MyHikingStatus.swift in Sources */,
+				1A35BB422C3797D900891AC6 /* KickOffStatus.swift in Sources */,
 				1A36FB0E2BFCAF1000880ED5 /* WatchRootView.swift in Sources */,
 				1A36FB182BFCAF5100880ED5 /* WatchKickOffView.swift in Sources */,
 				1A36FB1A2BFCAF5D00880ED5 /* HikingViewModel.swift in Sources */,
@@ -412,9 +426,11 @@
 				1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */,
 				1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */,
 				1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */,
-				1A43DF962BFCAC9B00E62BA6 /* LittleHikerApp.swift in Sources */,
+				1A43DF962BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift in Sources */,
+				1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */,
 				1A36FB122BFCAF2300880ED5 /* WatchRestView.swift in Sources */,
 				1A35BB3C2C37972700891AC6 /* LabelCoefficients.swift in Sources */,
+				1A35BB4A2C3EC6FA00891AC6 /* DataSource.swift in Sources */,
 				1A43DFB22BFCAD8B00E62BA6 /* HealthKitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

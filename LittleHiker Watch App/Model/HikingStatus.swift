@@ -11,8 +11,8 @@ enum HikingStatus{
     case ready
     case hiking
     //    case stop
-    case hikingStop
-    case descendingStop
+    case hikingPause
+    case descendingPause
     case peak
     case descending
     case complete
@@ -24,9 +24,9 @@ enum HikingStatus{
             return "준비"
         case .hiking :
             return "등산중"
-        case .hikingStop :
+        case .hikingPause :
             return "일시정지"
-        case .descendingStop :
+        case .descendingPause :
             return "일시정지"
         case .peak :
             return "정상"

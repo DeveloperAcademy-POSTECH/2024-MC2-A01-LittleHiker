@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-//    @ObservedObject var model = ViewModelIPhone()
     @State var messsageText = "2.9"
     
     var body: some View {
