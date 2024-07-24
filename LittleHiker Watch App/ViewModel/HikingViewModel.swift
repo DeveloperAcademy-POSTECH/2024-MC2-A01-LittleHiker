@@ -165,22 +165,27 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 let customComplementaryHikingData = self.createCustomComplementaryHikingData(
                     uuid: uuid,
                     summaryModel: self.summaryModel)
-                self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
                 
                 //산행으로 만들어진 시간과 충격량
                 let logsWithTimeStamps = self.createLogWithTimeStamps(
                     uuid: uuid,
                     impulseRateLogs: self.impulseManager.impulseLogs,
                     timeStampLogs: self.timestampLog)
-                self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)
                 
-                //TODO: 전송순서보장
-                //SummaryModel 전송
-                self.watchToIOSConnector.sendDataToIOS(["id": customComplementaryHikingData.id, "data": self.encodeToJson(customComplementaryHikingData.data)])
-                //LogsWithTimeStamps
-                //TODO: chunk
-                self.watchToIOSConnector.sendDataToIOS(["id": logsWithTimeStamps.id, "logs" : self.encodeToJson(logsWithTimeStamps.logs)])
+
+                //MARK: 파일 생성
+                let customComplementaryHikingDataFileURL = self.makeFile(self.encodeToJson(customComplementaryHikingData))
+                
+                let logsWithTimeStampsFileURL = 
+                    self.makeFile(self.encodeToJson(logsWithTimeStamps))
+            
+                //TODO: 전송
+
+                //MARK: SwiftData로 저장
+                self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
+                self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)        
             }
+            
         }
     }
     
@@ -222,20 +227,20 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 
 extension HikingViewModel {
     //TODO: HikingViewModel 뿐 아니라 다른데서도 쓰이지 않을까? 함수 위치 변경 고려해보장
-    func encodeToJson<T: Encodable>(_ value: T) -> String {
+    func encodeToJson<T: Encodable>(_ value: T) -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted // for pretty-printed JSON
         do {
             let jsonData = try encoder.encode(value)
-            return String(data: jsonData, encoding: .utf8) ?? ""
+            return jsonData
+            //            return String(data: jsonData, encoding: .utf8) ?? ""
         } catch {
             print("Error encoding data: \(error)")
-            return ""
+            return Data()
         }
     }
     
     func createCustomComplementaryHikingData(uuid: String, summaryModel: SummaryModel) -> CustomComplementaryHikingData {
-        
         let customComplementaryHikingData = CustomComplementaryHikingData()
         customComplementaryHikingData.id = uuid
         customComplementaryHikingData.data = self.summaryModel
@@ -262,5 +267,16 @@ extension HikingViewModel {
         logsWithTimeStamps.logs = mapLogsWithTimeStamps(impulseRateLogs, timeStampLogs)
         
         return logsWithTimeStamps
+    }
+    
+    
+    func makeFile(_ jsonData : Data) -> URL {
+        let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("MyLittleHikingData.json")
+        do {
+            try jsonData.write(to: fileURL)
+        } catch {
+            print("Failed to save or send JSON file: \(error)")
+        }
+        return fileURL
     }
 }

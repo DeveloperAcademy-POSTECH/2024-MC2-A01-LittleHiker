@@ -7,8 +7,9 @@
 
 import Foundation
 import WatchConnectivity
+import WatchKit
 
-final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
+final class WatchToIOSConnector: WKInterfaceController, WCSessionDelegate, ObservableObject {
     
     @Published var method: String = ""
     @Published var contents: [String: Any] = [:]
@@ -20,6 +21,16 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         self.session.delegate = self
         session.activate()
     }
+    
+    override func awake(withContext context: Any?) {
+            super.awake(withContext: context)
+            
+            if WCSession.isSupported() {
+                WCSession.default.delegate = self
+                WCSession.default.activate()
+            }
+        }
+    
     
     //
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
