@@ -48,9 +48,55 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             }
             
             //TODO: replyHandler
-//            replyHandler(message)
+            //            replyHandler(message)
         }
         
+    }
+    
+    //MARK: transferFile을 통해 watch에서 phone으로 파일ㅐ
+    func session(_ session: WCSession, didReceive file: WCSessionFile){
+        print("message received!")
+        if let message = parseWCSessionFile(file: file) {
+            print("Parsed Data: \(message)")
+            DispatchQueue.main.async {
+                self.id = message["id"] ?? ""
+                if (message["data"] != nil) {
+                    self.body = message["data"] ?? ""
+                } else if (message["logs"] != nil) {
+                    self.body = message["logs"] ?? ""
+                }
+                //TODO: replyHandler
+                //            replyHandler(message)
+            }
+        } else {
+            print("Failed to parse data")
+        }
+    }
+    
+    //MARK: WCSessionFile에서 데이터를 읽어와 String 형식의 Dictionary로 변환하는 함수
+    func parseWCSessionFile(file: WCSessionFile) -> [String: String]? {
+        do {
+            // 파일 경로에서 데이터를 읽어옴
+            let fileData = try Data(contentsOf: file.fileURL)
+            
+            // 데이터를 문자열로 변환 (UTF-8 인코딩 사용)
+            guard let jsonString = String(data: fileData, encoding: .utf8) else {
+                print("Failed to convert data to String")
+                return nil
+            }
+            
+            // 문자열 데이터를 JSON 형식의 Dictionary로 변환
+            if let jsonData = jsonString.data(using: .utf8) {
+                let dictionary = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: String]
+                return dictionary
+            } else {
+                print("Failed to convert String to Data")
+                return nil
+            }
+        } catch {
+            print("Error reading file or parsing JSON: \(error.localizedDescription)")
+            return nil
+        }
     }
     
     //MARK: 통신 3. watch에서 가지고 온 UUID를 IOS swiftData에 조회
@@ -95,13 +141,13 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     //WC response 처리
     func processResponse(_ method: Method, _ response: String) {
         switch method {
-            case .get:
-                let ids = compareDataBetweenDevices(response)
-                //MARK: 통신 4. 삭제 및 데이터 전송요청
-                sendDataToWatch(Method.fetchAndClean, ids)
-                break;
-            case .fetchAndClean:
-                break;
+        case .get:
+            let ids = compareDataBetweenDevices(response)
+            //MARK: 통신 4. 삭제 및 데이터 전송요청
+            sendDataToWatch(Method.fetchAndClean, ids)
+            break;
+        case .fetchAndClean:
+            break;
         }
         
         
@@ -111,6 +157,6 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     func sessionReachabilityDidChange(_ session: WCSession) {
         print("Reachability changed to: \(session.isReachable)")
     }
-
+    
     
 }
