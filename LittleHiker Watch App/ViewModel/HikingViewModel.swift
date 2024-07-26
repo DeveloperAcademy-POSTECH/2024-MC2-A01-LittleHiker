@@ -179,7 +179,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
 //                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(logsWithTimeStamps))
             
                 //TODO: 전송
-                self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL, nil)
+                self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL!, nil)
 //                self.watchToIOSConnector.session.transferFile(customComplementaryHikingDataFileURL, metadata: nil)
 
                 //MARK: SwiftData로 저장
@@ -271,13 +271,27 @@ extension HikingViewModel {
     }
     
     
-    func makeFile(_ jsonData : Data) -> URL {
-        let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("MyLittleHikingData.json")
-        do {
-            try jsonData.write(to: fileURL)
-        } catch {
-            print("Failed to save or send JSON file: \(error)")
+    func makeFile(_ jsonData : Data) -> URL? {
+        let fileManager = FileManager.default
+        if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let fileURL = documentDirectory.appendingPathComponent("MyLittleHikingData.txt")
+            let fileContent = "This is a test file content"
+            do {
+                try fileContent.write(to: fileURL, atomically: true, encoding: .utf8)
+                watchToIOSConnector.transferFile(fileURL, nil)
+                return fileURL
+            } catch {
+                print("Failed to write file: \(error.localizedDescription)")
+            }
         }
-        return fileURL
+        
+//        let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("MyLittleHikingData.json")
+//        do {
+//            try jsonData.write(to: fileURL)
+//        } catch {
+//            print("Failed to save or send JSON file: \(error)")
+//        }
+//        return fileURL
+        return nil
     }
 }
