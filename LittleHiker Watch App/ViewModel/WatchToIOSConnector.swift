@@ -118,4 +118,9 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
+    func transferFile(_ fileUrl: URL, _ metadata:[String:Any]?) {
+        self.session.transferFile(fileUrl, metadata: metadata)
+        print(fileUrl)
+    }
+    
 }
