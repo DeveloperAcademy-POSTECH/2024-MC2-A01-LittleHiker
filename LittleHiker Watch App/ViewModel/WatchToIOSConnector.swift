@@ -9,32 +9,37 @@ import Foundation
 import WatchConnectivity
 import WatchKit
 
-final class WatchToIOSConnector: WKInterfaceController, WCSessionDelegate, ObservableObject {
+final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     
     @Published var method: String = ""
     @Published var contents: [String: Any] = [:]
     
     var session: WCSession
     init(session: WCSession = .default) {
-        self.session = session
+        self.session = WCSession.default
         super.init()
         self.session.delegate = self
         session.activate()
     }
+
     
-    override func awake(withContext context: Any?) {
-            super.awake(withContext: context)
-            
-            if WCSession.isSupported() {
-                WCSession.default.delegate = self
-                WCSession.default.activate()
-            }
-        }
+//    override func awake(withContext context: Any?) {
+//            super.awake(withContext: context)
+//            
+//            if WCSession.isSupported() {
+//                WCSession.default.delegate = self
+//                WCSession.default.activate()
+//            }
+//        }
     
     
     //
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        
+        if let error = error {
+                    print("WCSession activation failed with error: \(error.localizedDescription)")
+                } else {
+                    print("WCSession activated with state: \(activationState.rawValue)")
+                }
     }
     
     /// 다른 기기의 세션에서 sendMessage() 메서드로 메세지를 받았을 때 호출되는 메서드
