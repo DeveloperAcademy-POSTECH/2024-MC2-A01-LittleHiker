@@ -71,6 +71,15 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
+    
+    ///WatchConnectivity 파일 전송 종료시 실행 ?
+    // Did finish a file transfer.
+    //
+    func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
+        print("파일전송 종료")
+        fileTransferObservers.unobserve(fileTransfer)
+    }
+    
     //MARK: 수집한 배열데이터를 iOS에 보낼 String으로 변환
     func convertDataLogsToMessage(_ impulseRateLogs: [Double], _ timeStampLogs: [String]) -> [String: String] {
         
@@ -124,10 +133,11 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     func transferFile(_ fileUrl: URL, _ metadata: [String:Any]?) {
         let fileTransfer = self.session.transferFile(fileUrl, metadata: metadata)
         let transferCount = self.session.outstandingFileTransfers.count
-//        print("대기중인 파일수: \(transferCount)")
+        print("대기중인 파일수: \(transferCount)")
 //        let fileTransfers = self.session.outstandingFileTransfers
 
         fileTransferObservers.observe(fileTransfer) { _ in
+            print(1111)
             self.logProgress(for: fileTransfer)
         }
     }
