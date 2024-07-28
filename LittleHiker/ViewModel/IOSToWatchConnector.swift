@@ -53,25 +53,50 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
         
     }
     
-    //MARK: transferFile을 통해 watch에서 phone으로 파일ㅐ
-    func session(_ session: WCSession, didReceive file: WCSessionFile){
-        print("message received!")
-        if let message = parseWCSessionFile(file: file) {
-            print("Parsed Data: \(message)")
-            DispatchQueue.main.async {
-                self.id = message["id"] ?? ""
-                if (message["data"] != nil) {
-                    self.body = message["data"] ?? ""
-                } else if (message["logs"] != nil) {
-                    self.body = message["logs"] ?? ""
-                }
-                //TODO: replyHandler
-                //            replyHandler(message)
-            }
+//    //MARK: transferFile을 통해 watch에서 phone으로 파일ㅐ
+//    func session(_ session: WCSession, didReceive file: WCSessionFile){
+//        print("message received!")
+//        if let message = parseWCSessionFile(file: file) {
+//            print("Parsed Data: \(message)")
+//            DispatchQueue.main.async {
+//                self.id = message["id"] ?? ""
+//                if (message["data"] != nil) {
+//                    self.body = message["data"] ?? ""
+//                } else if (message["logs"] != nil) {
+//                    self.body = message["logs"] ?? ""
+//                }
+//                //TODO: replyHandler
+//                //            replyHandler(message)
+//            }
+//        } else {
+//            print("Failed to parse data")
+//        }
+//    }
+//    
+    
+    //TODO: 악
+    // 파일 전송 완료 후 호출되는 메서드
+    func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
+        if error == nil {
+            // 파일 전송이 완료된 경우
+            let message = ["fileTransferID": fileTransfer.file.fileURL.lastPathComponent]
+            session.sendMessage(message, replyHandler: nil, errorHandler: { error in
+                print("Failed to send message to watch: \(error.localizedDescription)")
+            })
         } else {
-            print("Failed to parse data")
+            // 에러 처리
+            print("File transfer failed: \(error!.localizedDescription)")
         }
+        
+        // 추가: outstandingFileTransfers 클린업 코드
+        session.outstandingFileTransfers
+            .filter({ $0.progress.isFinished })
+            .forEach { fileTransfer in
+                fileTransfer.cancel()
+            }
     }
+    
+    
     
     //MARK: WCSessionFile에서 데이터를 읽어와 String 형식의 Dictionary로 변환하는 함수
     func parseWCSessionFile(file: WCSessionFile) -> [String: String]? {

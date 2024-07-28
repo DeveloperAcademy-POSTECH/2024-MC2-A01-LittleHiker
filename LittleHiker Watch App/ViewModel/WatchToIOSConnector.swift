@@ -45,31 +45,40 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     /// 다른 기기의 세션에서 sendMessage() 메서드로 메세지를 받았을 때 호출되는 메서드
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        var response = ["data": ""]
-            
-        DispatchQueue.main.async {
-            self.method = (message["method"] as? String ?? "")
-            
-            switch self.method {
-                //MARK: 통신 2. watch에서 메세지 받아서 UUID 조회요청처리
-                case "get":
-                    response = self.getAllIds()
-                    break;
-                //TODO: 있는 UUID 지우고, 없는 UUID 데이터 가져오고
-                case "fetchAndClean":
-                    break;
-                default:
-                    break;
-            }
-            
-            //TODO: 다른 Response 값 추가되면 if문 변경 필요(현재는 get만 구현)
-            if let request = message["method"] as? String, request == "get" {
-                // 응답 데이터 생성
-//                replyHandler(response)
-            }
-        }
-    }
+//    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+//        var response = ["data": ""]
+//            
+//        DispatchQueue.main.async {
+//            self.method = (message["method"] as? String ?? "")
+//            
+//            switch self.method {
+//                //MARK: 통신 2. watch에서 메세지 받아서 UUID 조회요청처리
+//                case "get":
+//                    response = self.getAllIds()
+//                    break;
+//                //TODO: 있는 UUID 지우고, 없는 UUID 데이터 가져오고
+//                case "fetchAndClean":
+//                    break;
+//                default:
+//                    break;
+//            }
+//            
+//            //TODO: 다른 Response 값 추가되면 if문 변경 필요(현재는 get만 구현)
+//            if let request = message["method"] as? String, request == "get" {
+//                // 응답 데이터 생성
+////                replyHandler(response)
+//            }
+//        }
+//    }
+    
+    //TODO: FileTransfer용 iPhone으로부터 메시지를 수신하는 메서드
+       func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+           if let fileTransferID = message["fileTransferID"] as? String {
+               print("File transfer completed: \(fileTransferID)")
+               // 다음 파일 전송 트리거
+//               triggerNextFileTransfer()
+           }
+       }
     
     
     ///WatchConnectivity 파일 전송 종료시 실행 ?
@@ -132,14 +141,21 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     //파일전송
     func transferFile(_ fileUrl: URL, _ metadata: [String:Any]?) {
         let fileTransfer = self.session.transferFile(fileUrl, metadata: metadata)
-        let transferCount = self.session.outstandingFileTransfers.count
-        print("대기중인 파일수: \(transferCount)")
+//        let transferCount = self.session.outstandingFileTransfers.count
+//        print("대기중인 파일수: \(transferCount)")
 //        let fileTransfers = self.session.outstandingFileTransfers
 
         fileTransferObservers.observe(fileTransfer) { _ in
             print(1111)
             self.logProgress(for: fileTransfer)
         }
+        
+        self.session.outstandingFileTransfers
+            .filter({$0.progress.isFinished})
+            .forEach { fileTransfer in
+                fileTransfer.cancel()
+            }
+        
     }
     
     private func logProgress(for fileTransfer: WCSessionFileTransfer) {
