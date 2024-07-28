@@ -14,6 +14,8 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     @Published var method: String = ""
     @Published var contents: [String: Any] = [:]
     
+    private var fileTransferObservers = FileTransferObservers()
+    
     var session: WCSession
     init(session: WCSession = .default) {
         self.session = WCSession.default
@@ -118,9 +120,30 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         }
     }
     
-    func transferFile(_ fileUrl: URL, _ metadata:[String:Any]?) {
-        self.session.transferFile(fileUrl, metadata: metadata)
-        print(fileUrl)
+    //파일전송
+    func transferFile(_ fileUrl: URL, _ metadata: [String:Any]?) {
+        let fileTransfer = self.session.transferFile(fileUrl, metadata: metadata)
+        let transferCount = self.session.outstandingFileTransfers.count
+//        print("대기중인 파일수: \(transferCount)")
+//        let fileTransfers = self.session.outstandingFileTransfers
+
+        fileTransferObservers.observe(fileTransfer) { _ in
+            self.logProgress(for: fileTransfer)
+        }
     }
+    
+    private func logProgress(for fileTransfer: WCSessionFileTransfer) {
+        DispatchQueue.main.async {
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeStyle = .medium
+            let timeString = dateFormatter.string(from: Date())
+            let fileName = fileTransfer.file.fileURL.lastPathComponent
+            
+            let progress = fileTransfer.progress.localizedDescription ?? "No progress"
+            print("- \(fileName): \(progress) at \(timeString)")
+        }
+    }
+    
+    
     
 }

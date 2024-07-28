@@ -278,7 +278,6 @@ extension HikingViewModel {
             let fileContent = "This is a test file content"
             do {
                 try fileContent.write(to: fileURL, atomically: true, encoding: .utf8)
-                watchToIOSConnector.transferFile(fileURL, nil)
                 return fileURL
             } catch {
                 print("Failed to write file: \(error.localizedDescription)")
