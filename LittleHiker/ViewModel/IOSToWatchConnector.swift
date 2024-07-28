@@ -53,6 +53,41 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
         
     }
     
+    // 파일 수신 메서드
+    func session(_ session: WCSession, didReceive file: WCSessionFile) {
+        let fileURL = file.fileURL
+
+        // 파일을 원하는 위치로 이동 또는 처리
+        let destinationURL = getDestinationURL(for: fileURL)
+        do {
+            try FileManager.default.moveItem(at: fileURL, to: destinationURL)
+            print("File received and moved to destination: \(destinationURL)")
+            
+            // 파일 전송 완료 메시지를 watchOS로 보냄
+            self.body = destinationURL.lastPathComponent
+            let message = ["fileTransferID": destinationURL.lastPathComponent]
+            session.sendMessage(message, replyHandler: nil, errorHandler: { error in
+                print("Failed to send message to watch: \(error.localizedDescription)")
+            })
+        } catch {
+            print("Failed to move file: \(error.localizedDescription)")
+        }
+
+        // 추가: outstandingFileTransfers 클린업 코드
+        session.outstandingFileTransfers
+            .filter({ $0.progress.isFinished })
+            .forEach { fileTransfer in
+                fileTransfer.cancel()
+            }
+    }
+
+        func getDestinationURL(for fileURL: URL) -> URL {
+            // 파일을 저장할 경로 반환
+            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            return documentsPath.appendingPathComponent(fileURL.lastPathComponent)
+        }
+    
+    
 //    //MARK: transferFile을 통해 watch에서 phone으로 파일ㅐ
 //    func session(_ session: WCSession, didReceive file: WCSessionFile){
 //        print("message received!")

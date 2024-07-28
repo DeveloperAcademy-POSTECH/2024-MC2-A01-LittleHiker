@@ -16,7 +16,7 @@ struct PhoneListView: View {
             //TODO: 테스트용 출력
             Text("ID")
             Text(iosToWatch.id)
-            Text("BODY")
+            Text("BODY2222")
             Text(iosToWatch.body)
 //            List{
 //                //TODO: ForEach hikingRecord

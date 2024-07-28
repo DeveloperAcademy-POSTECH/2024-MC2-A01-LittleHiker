@@ -153,6 +153,7 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         self.session.outstandingFileTransfers
             .filter({$0.progress.isFinished})
             .forEach { fileTransfer in
+                print(222)
                 fileTransfer.cancel()
             }
         
@@ -169,7 +170,4 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
             print("- \(fileName): \(progress) at \(timeString)")
         }
     }
-    
-    
-    
 }
