@@ -274,7 +274,7 @@ extension HikingViewModel {
     func makeFile(_ jsonData : Data) -> URL? {
         let fileManager = FileManager.default
         if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = documentDirectory.appendingPathComponent("MyLittleHikingData.txt")
+            let fileURL = documentDirectory.appendingPathComponent("MyLittleHikingData_\(Date()).txt")
             let fileContent = "This is a test file content"
             do {
                 try fileContent.write(to: fileURL, atomically: true, encoding: .utf8)
