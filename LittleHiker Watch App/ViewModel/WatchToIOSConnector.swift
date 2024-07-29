@@ -13,6 +13,8 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     
     @Published var method: String = ""
     @Published var contents: [String: Any] = [:]
+    private var timeManager = TimeManager()
+    
     
     private var fileTransferObservers = FileTransferObservers()
     
@@ -141,9 +143,6 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     //파일전송
     func transferFile(_ fileUrl: URL, _ metadata: [String:Any]?) {
         let fileTransfer = self.session.transferFile(fileUrl, metadata: metadata)
-//        let transferCount = self.session.outstandingFileTransfers.count
-//        print("대기중인 파일수: \(transferCount)")
-//        let fileTransfers = self.session.outstandingFileTransfers
 
         fileTransferObservers.observe(fileTransfer) { _ in
             print(1111)

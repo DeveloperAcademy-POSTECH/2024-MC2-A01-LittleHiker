@@ -11,6 +11,7 @@ import WatchConnectivity
 final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     @Published var id: String = ""
     @Published var body: String = ""
+    @Published var resultArray: [String:Any] = [:]
     var session: WCSession
     init(session: WCSession = .default) {
         self.session = session
@@ -63,8 +64,13 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             try FileManager.default.moveItem(at: fileURL, to: destinationURL)
             print("File received and moved to destination: \(destinationURL)")
             
+            // 파일 내용을 정리
+            let data = try Data(contentsOf: destinationURL)
+            resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
+            
             // 파일 전송 완료 메시지를 watchOS로 보냄
             self.body = destinationURL.lastPathComponent
+            //파일전송 실패 이슈가 있어서 확인용 message를 보내기 위함
             let message = ["fileTransferID": destinationURL.lastPathComponent]
             session.sendMessage(message, replyHandler: nil, errorHandler: { error in
                 print("Failed to send message to watch: \(error.localizedDescription)")
@@ -81,11 +87,11 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             }
     }
 
-        func getDestinationURL(for fileURL: URL) -> URL {
-            // 파일을 저장할 경로 반환
-            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-            return documentsPath.appendingPathComponent(fileURL.lastPathComponent)
-        }
+    func getDestinationURL(for fileURL: URL) -> URL {
+        // 파일을 저장할 경로 반환
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        return documentsPath.appendingPathComponent(fileURL.lastPathComponent)
+    }
     
     
 //    //MARK: transferFile을 통해 watch에서 phone으로 파일ㅐ

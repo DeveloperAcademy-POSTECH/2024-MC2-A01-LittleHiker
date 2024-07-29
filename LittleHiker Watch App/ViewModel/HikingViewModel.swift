@@ -174,17 +174,17 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 
 
                 //MARK: 파일 생성
-                let customComplementaryHikingDataFileURL = self.makeFile(self.encodeToJson(customComplementaryHikingData))
+                let customComplementaryHikingDataFileURL = self.makeFile( self.encodeToJson(customComplementaryHikingData), "SummaryModel")
                 
-//                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(logsWithTimeStamps))
+                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(logsWithTimeStamps), "ImpulseLogs")
             
-                //TODO: 전송
+                //TODO: 순차전송
                 self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL!, nil)
-//                self.watchToIOSConnector.session.transferFile(customComplementaryHikingDataFileURL, metadata: nil)
+                self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
 
                 //MARK: SwiftData로 저장
                 self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
-//                self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)        
+                self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)
             }
             
         }
@@ -271,10 +271,11 @@ extension HikingViewModel {
     }
     
     
-    func makeFile(_ jsonData : Data) -> URL? {
+    func makeFile(_ jsonData : Data, _ fileName: String) -> URL? {
         let fileManager = FileManager.default
+        let timeManager = TimeManager()
         if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = documentDirectory.appendingPathComponent("MyLittleHikingData_\(Date()).txt")
+            let fileURL = documentDirectory.appendingPathComponent("\(fileName)_\(timeManager.formatToYmdHis()).txt")
             let fileContent = "This is a test file content"
             do {
                 try fileContent.write(to: fileURL, atomically: true, encoding: .utf8)

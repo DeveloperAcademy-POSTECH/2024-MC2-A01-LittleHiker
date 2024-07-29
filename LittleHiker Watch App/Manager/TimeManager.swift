@@ -100,4 +100,10 @@ class TimeManager: NSObject, ObservableObject {
         print("d"+descendingDuration)
     }
     
+    ///YmdHis로 변경
+    func formatToYmdHis() -> String {
+        dateFormatter.dateFormat = "YmdHis"
+        return dateFormatter.string(from: date)
+    }
+    
 }
