@@ -63,20 +63,24 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
         do {
             try FileManager.default.moveItem(at: fileURL, to: destinationURL)
             print("File received and moved to destination: \(destinationURL)")
+            self.body = "\(destinationURL)"
             
             // 파일 내용을 정리
             let data = try Data(contentsOf: destinationURL)
+
+            self.body.append("\(data)\n")
             resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
             
             // 파일 전송 완료 메시지를 watchOS로 보냄
-            self.body = destinationURL.lastPathComponent
+            self.body.append(destinationURL.lastPathComponent)
             //파일전송 실패 이슈가 있어서 확인용 message를 보내기 위함
             let message = ["fileTransferID": destinationURL.lastPathComponent]
             session.sendMessage(message, replyHandler: nil, errorHandler: { error in
                 print("Failed to send message to watch: \(error.localizedDescription)")
             })
         } catch {
-            print("Failed to move file: \(error.localizedDescription)")
+            //iphone은 메세지 출력이 안되기 때문에 화면에 출력
+            self.body.append(error.localizedDescription)
         }
 
         // 추가: outstandingFileTransfers 클린업 코드

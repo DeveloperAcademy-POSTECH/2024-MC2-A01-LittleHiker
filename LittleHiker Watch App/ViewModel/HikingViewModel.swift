@@ -180,7 +180,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             
                 //TODO: 순차전송
                 self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL!, nil)
-                self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
+//                self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
 
                 //MARK: SwiftData로 저장
                 self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
