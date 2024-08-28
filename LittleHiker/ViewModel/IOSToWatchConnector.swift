@@ -37,7 +37,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     //watch 에서 message 받는거 (참고: 구현되어있는거 없음)
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any]){        
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]){
         DispatchQueue.main.async {
             self.id = message["id"] as? String ?? ""
             if (message["data"] != nil) {
@@ -61,17 +61,41 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
         do {
             try FileManager.default.moveItem(at: fileURL, to: destinationURL)
             print("File received and moved to destination: \(destinationURL)")
-            self.body.append("destinationURL : \(destinationURL)\n")
+//            self.body.append("destinationURL : \(destinationURL)\n")
             
             // 파일 내용을 정리
             let data = try Data(contentsOf: destinationURL)
 
-            self.body.append("data: \(data)\n")
+            // TODO: - 데이터 가공 여기서 하면 될 것 같음.
             resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
-            self.body.append("resultArray: \(resultArray)\n")
-            
+            if resultArray["data"] != nil {
+//                self.body.append("\(resultArray["data"])\n")
+                // Optional로 반환된 데이터를 안전하게 언래핑
+                if let data = resultArray["data"] as? [String: Int] {
+                    // heartRateAvg 값을 가져오기
+                    let heartRateAvg = data["heartRateAvg"]
+                    self.body.append("Average Heart Rate: \(heartRateAvg ?? -1) \n")
+                } else {
+                    self.body.append("Data is not available or in unexpected format")
+                }
+            } else if resultArray["logs"] != nil{
+                self.body.append("\(resultArray["logs"])\n")
+                if let logs = resultArray["logs"] as? [String: Any] {
+                    let keys = logs.keys
+                        
+                    // 각 키를 출력
+                    for key in keys {
+                        self.body.append("Key: \(key)")
+                    }
+                    
+                } else {
+                    self.body.append("Logs is not available or in unexpected format")
+                }
+                
+            }
             // 파일 전송 완료 메시지를 watchOS로 보냄
             self.body.append(destinationURL.lastPathComponent)
+            
             //파일전송 실패 이슈가 있어서 확인용 message를 보내기 위함
             let message = ["fileTransferID": destinationURL.lastPathComponent]
             session.sendMessage(message, replyHandler: nil, errorHandler: { error in
@@ -82,7 +106,8 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             self.body.append(error.localizedDescription)
         }
 
-        // 추가: outstandingFileTransfers 클린업 코드
+        
+        // outstandingFileTransfers 클린업 코드
         session.outstandingFileTransfers
             .filter({ $0.progress.isFinished })
             .forEach { fileTransfer in
@@ -97,28 +122,6 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     
-//    //MARK: transferFile을 통해 watch에서 phone으로 파일ㅐ
-//    func session(_ session: WCSession, didReceive file: WCSessionFile){
-//        print("message received!")
-//        if let message = parseWCSessionFile(file: file) {
-//            print("Parsed Data: \(message)")
-//            DispatchQueue.main.async {
-//                self.id = message["id"] ?? ""
-//                if (message["data"] != nil) {
-//                    self.body = message["data"] ?? ""
-//                } else if (message["logs"] != nil) {
-//                    self.body = message["logs"] ?? ""
-//                }
-//                //TODO: replyHandler
-//                //            replyHandler(message)
-//            }
-//        } else {
-//            print("Failed to parse data")
-//        }
-//    }
-//    
-    
-    //TODO: 악
     // 파일 전송 완료 후 호출되는 메서드
     func session(_ session: WCSession, didFinish fileTransfer: WCSessionFileTransfer, error: Error?) {
         if error == nil {
