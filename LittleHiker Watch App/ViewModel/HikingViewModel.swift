@@ -118,8 +118,13 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             DispatchQueue.main.async {
                 if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
                     self.summaryModel.heartRateAvg = Int(averageHeartRate)
-                    self.summaryModel.maxheartRate = Int(maxHeartRate)
-                    self.summaryModel.minheartRate = Int(minHeartRate)
+                    self.summaryModel.maxHeartRate = Int(maxHeartRate)
+                    self.summaryModel.minHeartRate = Int(minHeartRate)
+                    
+                    print("heartRate \n")
+                    print("avg \(self.summaryModel.heartRateAvg) \n")
+                    print("max \(self.summaryModel.maxHeartRate) \n")
+                    print("min \(self.summaryModel.minHeartRate) \n ")
                 } else {
                     print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
                 }
@@ -173,6 +178,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                     timeStampLogs: self.timestampLog)
                 
 
+                print("customComplementaryHikingData \n")
+                print("\(self.summaryModel)")
+                
                 //MARK: 파일 생성
                 let customComplementaryHikingDataFileURL = self.makeFile( self.encodeToJson(customComplementaryHikingData), "SummaryModel")
                 
@@ -180,13 +188,12 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             
                 //TODO: 순차전송
                 self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL!, nil)
-//                self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
+                self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
 
                 //MARK: SwiftData로 저장
                 self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
                 self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)
             }
-            
         }
     }
     
@@ -270,28 +277,19 @@ extension HikingViewModel {
         return logsWithTimeStamps
     }
     
-    
     func makeFile(_ jsonData : Data, _ fileName: String) -> URL? {
         let fileManager = FileManager.default
         let timeManager = TimeManager()
         if let documentDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = documentDirectory.appendingPathComponent("\(fileName)_\(timeManager.formatToYmdHis()).txt")
-            let fileContent = "This is a test file content"
+            let fileURL = documentDirectory.appendingPathComponent("\(fileName)_\(timeManager.formatToYmdHis()).json")
             do {
-                try fileContent.write(to: fileURL, atomically: true, encoding: .utf8)
+                try jsonData.write(to: fileURL)
+//                try fileContent.write(to: fileURL, atomically: true, encoding: .utf8)
                 return fileURL
             } catch {
                 print("Failed to write file: \(error.localizedDescription)")
             }
         }
-        
-//        let fileURL = FileManager.default.temporaryDirectory.appendingPathComponent("MyLittleHikingData.json")
-//        do {
-//            try jsonData.write(to: fileURL)
-//        } catch {
-//            print("Failed to save or send JSON file: \(error)")
-//        }
-//        return fileURL
         return nil
     }
 }

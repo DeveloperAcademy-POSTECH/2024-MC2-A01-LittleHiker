@@ -25,62 +25,62 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         self.session.delegate = self
         session.activate()
     }
-
     
-//    override func awake(withContext context: Any?) {
-//            super.awake(withContext: context)
-//            
-//            if WCSession.isSupported() {
-//                WCSession.default.delegate = self
-//                WCSession.default.activate()
-//            }
-//        }
+    
+    //    override func awake(withContext context: Any?) {
+    //            super.awake(withContext: context)
+    //
+    //            if WCSession.isSupported() {
+    //                WCSession.default.delegate = self
+    //                WCSession.default.activate()
+    //            }
+    //        }
     
     
     //
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if let error = error {
-                    print("WCSession activation failed with error: \(error.localizedDescription)")
-                } else {
-                    print("WCSession activated with state: \(activationState.rawValue)")
-                }
+            print("WCSession activation failed with error: \(error.localizedDescription)")
+        } else {
+            print("WCSession activated with state: \(activationState.rawValue)")
+        }
     }
     
     /// 다른 기기의 세션에서 sendMessage() 메서드로 메세지를 받았을 때 호출되는 메서드
-//    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-//        var response = ["data": ""]
-//            
-//        DispatchQueue.main.async {
-//            self.method = (message["method"] as? String ?? "")
-//            
-//            switch self.method {
-//                //MARK: 통신 2. watch에서 메세지 받아서 UUID 조회요청처리
-//                case "get":
-//                    response = self.getAllIds()
-//                    break;
-//                //TODO: 있는 UUID 지우고, 없는 UUID 데이터 가져오고
-//                case "fetchAndClean":
-//                    break;
-//                default:
-//                    break;
-//            }
-//            
-//            //TODO: 다른 Response 값 추가되면 if문 변경 필요(현재는 get만 구현)
-//            if let request = message["method"] as? String, request == "get" {
-//                // 응답 데이터 생성
-////                replyHandler(response)
-//            }
-//        }
-//    }
+    //    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+    //        var response = ["data": ""]
+    //
+    //        DispatchQueue.main.async {
+    //            self.method = (message["method"] as? String ?? "")
+    //
+    //            switch self.method {
+    //                //MARK: 통신 2. watch에서 메세지 받아서 UUID 조회요청처리
+    //                case "get":
+    //                    response = self.getAllIds()
+    //                    break;
+    //                //TODO: 있는 UUID 지우고, 없는 UUID 데이터 가져오고
+    //                case "fetchAndClean":
+    //                    break;
+    //                default:
+    //                    break;
+    //            }
+    //
+    //            //TODO: 다른 Response 값 추가되면 if문 변경 필요(현재는 get만 구현)
+    //            if let request = message["method"] as? String, request == "get" {
+    //                // 응답 데이터 생성
+    ////                replyHandler(response)
+    //            }
+    //        }
+    //    }
     
     //TODO: FileTransfer용 iPhone으로부터 메시지를 수신하는 메서드
-       func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-           if let fileTransferID = message["fileTransferID"] as? String {
-               print("File transfer completed: \(fileTransferID)")
-               // 다음 파일 전송 트리거
-//               triggerNextFileTransfer()
-           }
-       }
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
+        if let fileTransferID = message["fileTransferID"] as? String {
+            print("File transfer completed: \(fileTransferID)")
+            // 다음 파일 전송 트리거
+            //               triggerNextFileTransfer()
+        }
+    }
     
     
     ///WatchConnectivity 파일 전송 종료시 실행 ?
@@ -141,9 +141,9 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     //파일전송
-    func transferFile(_ fileUrl: URL, _ metadata: [String:Any]?) {
+    func transferFile(_ fileUrl: URL, _ metadata: [String: Any]?) {
         let fileTransfer = self.session.transferFile(fileUrl, metadata: metadata)
-
+        
         fileTransferObservers.observe(fileTransfer) { _ in
             print(1111)
             self.logProgress(for: fileTransfer)
@@ -153,9 +153,8 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
             .filter({$0.progress.isFinished})
             .forEach { fileTransfer in
                 print(222)
-                fileTransfer.cancel()
+                //                fileTransfer.cancel()
             }
-        
     }
     
     private func logProgress(for fileTransfer: WCSessionFileTransfer) {
@@ -166,7 +165,21 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
             let fileName = fileTransfer.file.fileURL.lastPathComponent
             
             let progress = fileTransfer.progress.localizedDescription ?? "No progress"
-            print("- \(fileName): \(progress) at \(timeString)")
+            
+            // 파일 크기 체크
+            let fileSize: String
+            do {
+                let fileAttributes = try FileManager.default.attributesOfItem(atPath: fileTransfer.file.fileURL.path)
+                if let fileSizeInBytes = fileAttributes[.size] as? Int64 {
+                    fileSize = ByteCountFormatter.string(fromByteCount: fileSizeInBytes, countStyle: .file)
+                } else {
+                    fileSize = "Unknown size"
+                }
+            } catch {
+                fileSize = "Error retrieving size"
+            }
+            
+            print("- \(fileName): \(progress) at \(timeString) [Size: \(fileSize)]")
         }
     }
 }
