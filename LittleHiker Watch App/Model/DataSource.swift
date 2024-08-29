@@ -19,16 +19,8 @@ final class DataSource {
         self.modelContext = modelContainer.mainContext
     }
     
-    func appendCustomComplementaryHikingData(item: CustomComplementaryHikingData) {
-        modelContext.insert(item)
-        do {
-            try modelContext.save()
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
-    
-    func appendLogsWithTimeStamps(item: LogsWithTimeStamps) {
+    /// 데이터 저장 함수
+    func appendItem<T: PersistentModel>(_ item: T) {
         modelContext.insert(item)
         do {
             try modelContext.save()

@@ -193,8 +193,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
 
                 //MARK: SwiftData로 저장
-                self.dataSource.appendCustomComplementaryHikingData(item: customComplementaryHikingData)
-                self.dataSource.appendLogsWithTimeStamps(item: logsWithTimeStamps)
+                self.dataSource.appendItem(customComplementaryHikingData)
+                self.dataSource.appendItem(logsWithTimeStamps)
             }
         }
     }

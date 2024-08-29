@@ -12,6 +12,8 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     @Published var id: String = ""
     @Published var body: String = ""
     @Published var resultArray: [String:Any] = [:]
+    
+    let viewModel = HikingViewModel()
     var session: WCSession
     init(session: WCSession = .default) {
         self.session = session
@@ -55,47 +57,19 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     // 파일 수신 메서드
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         let fileURL = file.fileURL
-
+        
         // 파일을 원하는 위치로 이동 또는 처리
         let destinationURL = getDestinationURL(for: fileURL)
         do {
             try FileManager.default.moveItem(at: fileURL, to: destinationURL)
-            print("File received and moved to destination: \(destinationURL)")
-//            self.body.append("destinationURL : \(destinationURL)\n")
             
             // 파일 내용을 정리
             let data = try Data(contentsOf: destinationURL)
-
-            // TODO: - 데이터 가공 여기서 하면 될 것 같음.
-            resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
-            if resultArray["data"] != nil {
-//                self.body.append("\(resultArray["data"])\n")
-                // Optional로 반환된 데이터를 안전하게 언래핑
-                if let data = resultArray["data"] as? [String: Int] {
-                    // heartRateAvg 값을 가져오기
-                    let heartRateAvg = data["heartRateAvg"]
-                    self.body.append("Average Heart Rate: \(heartRateAvg ?? -1) \n")
-                } else {
-                    self.body.append("Data is not available or in unexpected format")
-                }
-            } else if resultArray["logs"] != nil{
-                self.body.append("\(resultArray["logs"])\n")
-                if let logs = resultArray["logs"] as? [String: Any] {
-                    let keys = logs.keys
-                        
-                    // 각 키를 출력
-                    for key in keys {
-                        self.body.append("Key: \(key)")
-                    }
-                    
-                } else {
-                    self.body.append("Logs is not available or in unexpected format")
-                }
-                
-            }
-            // 파일 전송 완료 메시지를 watchOS로 보냄
-            self.body.append(destinationURL.lastPathComponent)
             
+            // 데이터가공 후 저장
+            viewModel.saveDataFromWatch(data)
+            
+            // 파일 전송 완료 메시지를 watchOS로 보냄
             //파일전송 실패 이슈가 있어서 확인용 message를 보내기 위함
             let message = ["fileTransferID": destinationURL.lastPathComponent]
             session.sendMessage(message, replyHandler: nil, errorHandler: { error in
@@ -105,7 +79,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             //iphone은 메세지 출력이 안되기 때문에 화면에 출력
             self.body.append(error.localizedDescription)
         }
-
+        
         
         // outstandingFileTransfers 클린업 코드
         session.outstandingFileTransfers
@@ -114,7 +88,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
                 fileTransfer.cancel()
             }
     }
-
+    
     func getDestinationURL(for fileURL: URL) -> URL {
         // 파일을 저장할 경로 반환
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!

@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct SummaryModel: Codable {
     var minImpulse: Int = 0
     var maxImpulse: Int = 0
