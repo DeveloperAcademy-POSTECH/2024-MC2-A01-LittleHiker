@@ -8,9 +8,13 @@ import Foundation
 import HealthKit
 
 class HikingViewModel {
+    let healthKitManager = HealthKitManager()
+    
     public func saveDataFromWatch(_ data: Data) {
         do {
             let resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
+            
+            // TODO: - refactoring
             if resultArray["data"] != nil {
                 // Optional로 반환된 데이터를 안전하게 언래핑
                 if let data = resultArray["data"] as? [String: Any] {
@@ -18,7 +22,7 @@ class HikingViewModel {
                     
                     // TODO: - 조회와 저장 분리
                     // 데이터 조회 및 저장
-                    HealthKitManager().fetchWorkoutWithUUID(uuid as! String)
+                    self.healthKitManager.saveWorkoutData(uuidString: uuid as! String)
                 } else {
                     //                self.body.append("Data is not available or in unexpected format")
                 }

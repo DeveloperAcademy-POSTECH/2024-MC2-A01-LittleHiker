@@ -20,7 +20,7 @@ final class DataSource {
     }
     
     /// 데이터 저장 함수
-    func appendItem<T: PersistentModel>(_ item: T) {
+    func saveItem<T: PersistentModel>(_ item: T) {
         modelContext.insert(item)
         do {
             try modelContext.save()

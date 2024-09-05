@@ -184,17 +184,16 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 //MARK: 파일 생성
                 let customComplementaryHikingDataFileURL = self.makeFile( self.encodeToJson(customComplementaryHikingData), "SummaryModel")
                 
-                
-//                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(["id" : logsWithTimeStamps.id, "logs": self.encodeToJson(logsWithTimeStamps.logs)]), "ImpulseLogs")
+                //                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(["id" : logsWithTimeStamps.id, "logs": self.encodeToJson(logsWithTimeStamps.logs)]), "ImpulseLogs")
                 let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(logsWithTimeStamps), "ImpulseLogs")
             
                 //TODO: 순차전송
                 self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL!, nil)
                 self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
 
-                //MARK: SwiftData로 저장
-                self.dataSource.appendItem(customComplementaryHikingData)
-                self.dataSource.appendItem(logsWithTimeStamps)
+                // MARK: SwiftData로 저장
+                self.dataSource.saveItem(customComplementaryHikingData)
+                self.dataSource.saveItem(logsWithTimeStamps)
             }
         }
     }

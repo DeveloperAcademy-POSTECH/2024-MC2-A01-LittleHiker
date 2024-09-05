@@ -12,33 +12,21 @@ class HealthKitManager {
     let dataSource: DataSource = DataSource.shared // SwiftData + MVVM을 위해 필요한 변수
     let healthStore = HKHealthStore()
     
-    // uuid로 데이터 검색하기
-    func fetchWorkoutWithUUID(_ id: String) {
-        let healthStore = self.healthStore
-        
-        let workoutType = HKObjectType.workoutType()
-        
-        let workoutQuery = HKSampleQuery(sampleType: workoutType, predicate: nil, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, samples, error) in
-            
-            guard let workouts = samples as? [HKWorkout], error == nil else {
-                print("Error fetching workouts: \(error?.localizedDescription ?? "Unknown error")")
+    func saveWorkoutData(uuidString: String) {
+        fetchWorkoutByUUID(uuidString: uuidString) { workout in
+            guard let workout = workout else {
+                print("No workout found with UUID: \(uuidString)")
                 return
             }
             
-            // UUID로 특정 Workout 검색
-            if let workout = workouts.first(where: { $0.uuid.uuidString == id }) {
-                print("Found workout: \(workout)")
-                // TODO: - 여기서 workout에 대한 추가 작업
-                let hikingRecord = self.createHikingRecord(id, workout)
-                self.dataSource.appendItem(hikingRecord)
-            } else {
-                print("No workout found with UUID: \(id)")
+            DispatchQueue.main.async {
+                let hikingRecord = self.createHikingRecord(uuidString, workout)
+                self.dataSource.saveItem(hikingRecord)
             }
         }
-        
-        healthStore.execute(workoutQuery)
     }
     
+    // UUID로 workout 정보 가져옴
     func fetchWorkoutByUUID(uuidString: String, completion: @escaping (HKWorkout?) -> Void) {
         // UUID 객체 생성
         guard let uuid = UUID(uuidString: uuidString) else {
@@ -95,7 +83,7 @@ class HealthKitManager {
                 }
             }
             
-            HKHealthStore().execute(query)
+            self.healthStore.execute(query)
         }
     }
     
