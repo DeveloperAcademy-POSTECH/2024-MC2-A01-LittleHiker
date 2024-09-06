@@ -37,7 +37,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     private override init() {
         super.init()
-//        self.dataSource = DataSource.shared
+        //        self.dataSource = DataSource.shared
     }
     
     func initializeManager() {
@@ -114,24 +114,17 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     //하이킹 종료
     func endHiking() {
-        self.healthKitManager.fetchHeartRateStatistics { (averageHeartRate, minHeartRate, maxHeartRate, error) in
-            DispatchQueue.main.async {
+        DispatchQueue.main.async {
+            self.healthKitManager.fetchHeartRateStatistics { (averageHeartRate, minHeartRate, maxHeartRate, error) in
                 if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
                     self.summaryModel.heartRateAvg = Int(averageHeartRate)
                     self.summaryModel.maxHeartRate = Int(maxHeartRate)
                     self.summaryModel.minHeartRate = Int(minHeartRate)
-                    
-                    print("heartRate \n")
-                    print("avg \(self.summaryModel.heartRateAvg) \n")
-                    print("max \(self.summaryModel.maxHeartRate) \n")
-                    print("min \(self.summaryModel.minHeartRate) \n ")
                 } else {
                     print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
                 }
             }
-        }
-        
-        DispatchQueue.main.async {
+            
             // nil 값 보호
             self.summaryModel.totalAltitude = Int(self.coreLocationManager.climbingAltitude)
             
@@ -177,7 +170,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                     impulseRateLogs: self.impulseManager.impulseLogs,
                     timeStampLogs: self.timestampLog)
                 
-
+                
                 print("customComplementaryHikingData \n")
                 print("\(self.summaryModel)")
                 
@@ -186,11 +179,11 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 
                 //                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(["id" : logsWithTimeStamps.id, "logs": self.encodeToJson(logsWithTimeStamps.logs)]), "ImpulseLogs")
                 let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(logsWithTimeStamps), "ImpulseLogs")
-            
+                
                 //TODO: 순차전송
                 self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL!, nil)
                 self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
-
+                
                 // MARK: SwiftData로 저장
                 self.dataSource.saveItem(customComplementaryHikingData)
                 self.dataSource.saveItem(logsWithTimeStamps)
@@ -285,7 +278,7 @@ extension HikingViewModel {
             let fileURL = documentDirectory.appendingPathComponent("\(fileName)_\(timeManager.formatToYmdHis()).json")
             do {
                 try jsonData.write(to: fileURL)
-//                try fileContent.write(to: fileURL, atomically: true, encoding: .utf8)
+                //                try fileContent.write(to: fileURL, atomically: true, encoding: .utf8)
                 return fileURL
             } catch {
                 print("Failed to write file: \(error.localizedDescription)")
