@@ -6,14 +6,15 @@
 //
 
 import SwiftUI
-import UserNotifications
-import UIKit
+import SwiftData
 
 
 struct WatchKickOffView: View {
+    @Environment(\.modelContext) var modelContext
     @ObservedObject var viewModel: HikingViewModel
     @ObservedObject var timeManager: TimeManager
-    @State var status: MyHikingStatus = .kickoff
+    @State var status: KickOffStatus = .kickoff
+    
     
     var body: some View {
         VStack {
@@ -27,15 +28,12 @@ struct WatchKickOffView: View {
             }
         }
         .onAppear {
-            // UNUserNotificationCenter.current()
-            //     .requestAuthorization(options: [.alert, .sound]){ granted, error in
-            //         if granted {
-            //             // viewModel.impulseManager.sendTipsNotification()
-            //             print("로컬 알림 권한이 허용되었습니다")
-            //         } else {
-            //             print("로컬 알림 권한이 허용되지 않았습니다")
-            //         }
-            //     }
+            //MARK: SwiftData 열리는지 확인해봄
+            // let customData = self.viewModel.dataSource.fetchLogsWithTimeStamps()
+            // for (_, data) in customData.enumerated(){
+            //     print("data : \(data.id)")
+            //     print("data : \(data.logs)")
+            // }
         }
     }
 }
@@ -43,7 +41,7 @@ struct WatchKickOffView: View {
 //시작 버튼 화면
 struct KickOffView: View {
     @ObservedObject var viewModel: HikingViewModel
-    @Binding var status: MyHikingStatus
+    @Binding var status: KickOffStatus
     
     var body: some View {
         VStack {
@@ -75,7 +73,7 @@ struct KickOffView: View {
 struct PreparingView: View {
     @ObservedObject var viewModel: HikingViewModel
     @State var progress: Double = 0
-    @Binding var status: MyHikingStatus
+    @Binding var status: KickOffStatus
     @State private var timer: Timer? = nil
     
     var body: some View {

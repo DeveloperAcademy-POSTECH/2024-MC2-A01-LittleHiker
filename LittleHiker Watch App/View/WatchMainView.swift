@@ -182,7 +182,7 @@ struct WatchMainView: View {
             .rotationEffect(.degrees(viewModel.isDescent ? 30 : -30))
             .background(Color.clear)
             .onAppear {
-                if viewModel.status != .hikingStop && viewModel.status != .descendingStop{
+                if viewModel.status != .hikingPause && viewModel.status != .descendingPause{
                     animationGifTimer()
                 }
             }
@@ -190,12 +190,12 @@ struct WatchMainView: View {
                 stopGifTimer()
             }
             .onChange(of: viewModel.impulseManager.impulseRatio){
-                if viewModel.status != .hikingStop && viewModel.status != .descendingStop{
+                if viewModel.status != .hikingPause && viewModel.status != .descendingPause{
                     animationGifTimer()
                 }
             }
             .onChange(of: viewModel.status){
-                if viewModel.status == .hikingStop || viewModel.status == .descendingStop{
+                if viewModel.status == .hikingPause || viewModel.status == .descendingPause{
                     stopGifTimer()
                 } else {
                     animationGifTimer()
