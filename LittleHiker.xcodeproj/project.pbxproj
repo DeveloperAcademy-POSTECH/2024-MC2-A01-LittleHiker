@@ -13,6 +13,7 @@
 		022338C22C801AFC00FC1427 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB492C3EC6FA00891AC6 /* DataSource.swift */; };
 		024F330F2C5631B90091A086 /* FileTransferObservers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024F330E2C5631B90091A086 /* FileTransferObservers.swift */; };
 		024F33102C5631B90091A086 /* FileTransferObservers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024F330E2C5631B90091A086 /* FileTransferObservers.swift */; };
+		027E6D872C8D686B00BF2AE1 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB452C3E251400891AC6 /* CustomData.swift */; };
 		02AEC24D2C4CD81400AF1F6D /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AEC24C2C4CD81400AF1F6D /* Method.swift */; };
 		02EE67A12BFCDA0D00F16E88 /* IOSToWatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* IOSToWatchConnector.swift */; };
 		02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */; };
@@ -414,6 +415,7 @@
 				022338C22C801AFC00FC1427 /* DataSource.swift in Sources */,
 				024F330F2C5631B90091A086 /* FileTransferObservers.swift in Sources */,
 				1A43DFAF2BFCACF400E62BA6 /* PhoneListView.swift in Sources */,
+				027E6D872C8D686B00BF2AE1 /* CustomData.swift in Sources */,
 				1A43DF862BFCAC9A00E62BA6 /* ContentView.swift in Sources */,
 				1A43DFAB2BFCACDA00E62BA6 /* PhoneDetailView.swift in Sources */,
 				022338BF2C800DB500FC1427 /* HikingViewModel+IOS.swift in Sources */,
