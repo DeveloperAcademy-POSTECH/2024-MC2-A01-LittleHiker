@@ -27,7 +27,7 @@ class HealthKitManager: NSObject, ObservableObject {
     let checkTime = 4.0
     private var previousDistance: Double = 0.0
     private var previousTimestamp: Date?
-    private var workoutSession: HKWorkoutSession?
+    var workoutSession: HKWorkoutSession?
     private var workoutBuilder: HKLiveWorkoutBuilder?
     private var SpeedLogForCorrection: [Double] = []
     
@@ -79,7 +79,7 @@ class HealthKitManager: NSObject, ObservableObject {
     }
     
     //append 기능 추가
-    func appendHealthKitLogs(isRecord: Bool){
+    func appendHealthKitLogs(isRecord: Bool) {
         if isRecord {
             heartRateLogs.append(currentHeartRate)
             distanceLogs.append(currentDistanceWalkingRunning)
@@ -203,7 +203,7 @@ extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelega
     }
     
     func correctionSpeed() {
-        if self.SpeedLogForCorrection.count > 2{
+        if self.SpeedLogForCorrection.count > 2 {
 
             let sum = SpeedLogForCorrection.reduce(0, +)
             let average = sum / Double(SpeedLogForCorrection.count)

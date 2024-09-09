@@ -30,12 +30,12 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     
-    func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double{
+    func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double {
         return ((Double(diagonalVelocityCriterion) ?? 2.95) * weight) / 0.1 / 100 //100나눔
     }
     
     
-    func appendToLogs(isRecord: Bool){
+    func appendToLogs(isRecord: Bool) {
         if isRecord {
             impulseLogs.append(currentImpulse)
         }
@@ -48,7 +48,7 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func calculateImpulseRatio(_ impulse: Double) -> Double{
-        if impulse < impulseCriterion{
+        if impulse < impulseCriterion {
             return 0
         }
         
@@ -87,7 +87,7 @@ class ImpulseManager: NSObject, ObservableObject {
         
         var changeIndex = altitudeLogs.count - 1
         for i in stride(from: altitudeLogs.count - 2, through: 0, by: -1) {
-            if i == 0 || altitudeLogs[i] <= 0.0{
+            if i == 0 || altitudeLogs[i] <= 0.0 {
                 return 0.0
             }
             if altitudeLogs[i] != lastAltitude {
@@ -98,7 +98,7 @@ class ImpulseManager: NSObject, ObservableObject {
         }
         
         let timeDifference = Double(altitudeLogs.count - 1 - changeIndex)
-        if timeDifference > 0{
+        if timeDifference > 0 {
             let altitudeChange = (lastAltitude - altitudeLogs[changeIndex])
             if altitudeChange < 0 {
                 return 0.0
@@ -173,14 +173,14 @@ class ImpulseManager: NSObject, ObservableObject {
         localNotification.schedule()
     }
     
-    func sendTipsIfConditionMet() -> Void{
+    func sendTipsIfConditionMet() -> Void {
         if !self.isTipsConditionMet(){
             return
         }
         self.sendTipsNotification()
     }
     
-    func isWarningConditionMet() -> Bool{
+    func isWarningConditionMet() -> Bool {
 //        let currentImpulse = self.currentMeanOfLastTenImpulseLogs
         let currentImpulseRatio = self.currentImpulseMeanRatio
         if 66 <= currentImpulseRatio {
