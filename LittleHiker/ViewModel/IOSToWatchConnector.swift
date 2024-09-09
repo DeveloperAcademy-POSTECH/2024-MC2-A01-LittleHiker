@@ -117,8 +117,6 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             }
     }
     
-    
-    
     //MARK: WCSessionFile에서 데이터를 읽어와 String 형식의 Dictionary로 변환하는 함수
     func parseWCSessionFile(file: WCSessionFile) -> [String: String]? {
         do {

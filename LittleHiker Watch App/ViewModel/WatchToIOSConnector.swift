@@ -14,8 +14,6 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
     @Published var method: String = ""
     @Published var contents: [String: Any] = [:]
     private var timeManager = TimeManager()
-    
-    
     private var fileTransferObservers = FileTransferObservers()
     
     var session: WCSession
@@ -26,18 +24,6 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         session.activate()
     }
     
-    
-    //    override func awake(withContext context: Any?) {
-    //            super.awake(withContext: context)
-    //
-    //            if WCSession.isSupported() {
-    //                WCSession.default.delegate = self
-    //                WCSession.default.activate()
-    //            }
-    //        }
-    
-    
-    //
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if let error = error {
             print("WCSession activation failed with error: \(error.localizedDescription)")
@@ -145,15 +131,13 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         let fileTransfer = self.session.transferFile(fileUrl, metadata: metadata)
         
         fileTransferObservers.observe(fileTransfer) { _ in
-            print(1111)
             self.logProgress(for: fileTransfer)
         }
         
         self.session.outstandingFileTransfers
             .filter({$0.progress.isFinished})
             .forEach { fileTransfer in
-                print(222)
-                //                fileTransfer.cancel()
+//                fileTransfer.cancel()
             }
     }
     
