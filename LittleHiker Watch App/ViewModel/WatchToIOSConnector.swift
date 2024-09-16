@@ -105,27 +105,6 @@ final class WatchToIOSConnector: NSObject, WCSessionDelegate, ObservableObject {
         return result
     }
     
-    ///iOS로 데이터 전송하는 공통함수
-    @MainActor
-    func sendDataToIOS(_ data: [String: String]) {
-        print(data)
-        if session.isReachable {
-            if session.activationState == .activated {
-                print("세션연결되어있다고오오오오오오")
-                session.sendMessage(data, replyHandler: nil) { error in
-                    print("sendMessage error")
-                    print(error.localizedDescription)
-                }
-            } else {
-                print("session is not activated")
-            }
-            
-            
-        } else {
-            print("session is not reachable")
-        }
-    }
-    
     //파일전송
     func transferFile(_ fileUrl: URL, _ metadata: [String: Any]?) {
         let fileTransfer = self.session.transferFile(fileUrl, metadata: metadata)

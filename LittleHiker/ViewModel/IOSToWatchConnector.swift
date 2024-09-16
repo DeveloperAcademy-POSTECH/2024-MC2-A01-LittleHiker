@@ -47,11 +47,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             } else if (message["logs"] != nil) {
                 self.body = message["logs"] as? String ?? ""
             }
-            
-            //TODO: replyHandler
-            //            replyHandler(message)
         }
-        
     }
     
     // 파일 수신 메서드
@@ -68,6 +64,21 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             
             // 데이터가공 후 저장
             viewModel.saveDataFromWatch(data)
+
+            //debug용
+            let resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
+            
+            // TODO: - refactoring
+            if resultArray["data"] != nil {
+                if let data = resultArray["data"] as? [String: Any] {
+                    // heartRateAvg 값을 가져오기
+                    let heartRateAvg = data["heartRateAvg"]
+                    self.body.append("\(data)")
+//                    self.body.append("Average Heart Rate: \(heartRateAvg ?? -1) \n")
+                } else {
+                    self.body.append("Data is not available or in unexpected format")
+                }
+            }
             
             // 파일 전송 완료 메시지를 watchOS로 보냄
             //파일전송 실패 이슈가 있어서 확인용 message를 보내기 위함

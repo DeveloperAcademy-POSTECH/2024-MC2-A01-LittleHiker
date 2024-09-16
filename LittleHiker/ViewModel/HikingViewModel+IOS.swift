@@ -32,11 +32,11 @@ class HikingViewModel {
                     
                     // 각 키를 출력
                     for key in keys {
-                        //                    self.body.append("Key: \(key)")
+//                    self.body.append("Key: \(key)")
                     }
                     
                 } else {
-                    //                self.body.append("Logs is not available or in unexpected format")
+//                self.body.append("Logs is not available or in unexpected format")
                 }
             }
         } catch {

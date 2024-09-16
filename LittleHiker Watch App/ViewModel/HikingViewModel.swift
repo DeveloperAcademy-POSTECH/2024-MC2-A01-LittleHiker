@@ -114,8 +114,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     //하이킹 종료
     func endHiking() {
-        DispatchQueue.main.async {
-            self.healthKitManager.fetchHeartRateStatistics { (averageHeartRate, minHeartRate, maxHeartRate, error) in
+        self.healthKitManager.fetchHeartRateStatistics { (averageHeartRate, minHeartRate, maxHeartRate, error) in
+            DispatchQueue.main.async {
                 if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
                     self.summaryModel.heartRateAvg = Int(averageHeartRate)
                     self.summaryModel.maxHeartRate = Int(maxHeartRate)
@@ -123,70 +123,67 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 } else {
                     print("심박수 데이터를 가져오는데 실패했습니다: \(String(describing: error))")
                 }
-            }
-            
-            // nil 값 보호
-            self.summaryModel.totalAltitude = Int(self.coreLocationManager.climbingAltitude)
-            
-            if let altitudeLogs = self.coreLocationManager.altitudeLogs.max() {
-                self.summaryModel.maxAltitude = Int(altitudeLogs)
-            } else {
-                self.summaryModel.maxAltitude = 0
-            }
-            
-            if let minAltitude = self.coreLocationManager.findNonZeroMin() {
-                self.summaryModel.minAltitude = Int(minAltitude)
-            } else {
-                self.summaryModel.minAltitude = 0
-            }
-            
-            self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning // 헬스킷에서 총 거리 가져오기
-            self.summaryModel.speedAvg = self.healthKitManager.getSpeedAvg() //헬스킷에서 평균 속도 가져오기
-            self.summaryModel.impulseAvg = self.impulseManager.getImpulseAvg()
-            
-            if let minImpulse = self.impulseManager.findNonZeroMin() {
-                self.summaryModel.minImpulse = Int(minImpulse)
-            } else {
-                self.summaryModel.minImpulse = 0
-            }
-            
-            if let maxImpulse = self.impulseManager.impulseLogs.max() {
-                self.summaryModel.maxImpulse = Int(maxImpulse)
-            } else {
-                self.summaryModel.maxImpulse = 0
-            }
-            
-            //uuidString이 호출때마다 uuid를 생성해서 보내는 데이터 uuid 통일이 안되서 한번만 생성 후 사용
-            let uuid = self.healthKitManager.workoutSession?.currentActivity.uuid.uuidString ?? ""
-            if uuid != "" {
-                //산행으로 만들어진 SummaryData
-                let customComplementaryHikingData = self.createCustomComplementaryHikingData(
-                    uuid: uuid,
-                    summaryModel: self.summaryModel)
                 
-                //산행으로 만들어진 시간과 충격량
-                let logsWithTimeStamps = self.createLogWithTimeStamps(
-                    uuid: uuid,
-                    impulseRateLogs: self.impulseManager.impulseLogs,
-                    timeStampLogs: self.timestampLog)
+                // nil 값 보호
+                self.summaryModel.totalAltitude = Int(self.coreLocationManager.climbingAltitude)
                 
+                if let altitudeLogs = self.coreLocationManager.altitudeLogs.max() {
+                    self.summaryModel.maxAltitude = Int(altitudeLogs)
+                } else {
+                    self.summaryModel.maxAltitude = 0
+                }
                 
-                print("customComplementaryHikingData \n")
-                print("\(self.summaryModel)")
+                if let minAltitude = self.coreLocationManager.findNonZeroMin() {
+                    self.summaryModel.minAltitude = Int(minAltitude)
+                } else {
+                    self.summaryModel.minAltitude = 0
+                }
                 
-                //MARK: 파일 생성
-                let customComplementaryHikingDataFileURL = self.makeFile( self.encodeToJson(customComplementaryHikingData), "SummaryModel")
+                self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning // 헬스킷에서 총 거리 가져오기
+                self.summaryModel.speedAvg = self.healthKitManager.getSpeedAvg() //헬스킷에서 평균 속도 가져오기
+                self.summaryModel.impulseAvg = self.impulseManager.getImpulseAvg()
                 
-                //                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(["id" : logsWithTimeStamps.id, "logs": self.encodeToJson(logsWithTimeStamps.logs)]), "ImpulseLogs")
-                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(logsWithTimeStamps), "ImpulseLogs")
+                if let minImpulse = self.impulseManager.findNonZeroMin() {
+                    self.summaryModel.minImpulse = Int(minImpulse)
+                } else {
+                    self.summaryModel.minImpulse = 0
+                }
                 
-                //TODO: 순차전송
-                self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL!, nil)
-                self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
+                if let maxImpulse = self.impulseManager.impulseLogs.max() {
+                    self.summaryModel.maxImpulse = Int(maxImpulse)
+                } else {
+                    self.summaryModel.maxImpulse = 0
+                }
                 
-                // MARK: SwiftData로 저장
-                self.dataSource.saveItem(customComplementaryHikingData)
-                self.dataSource.saveItem(logsWithTimeStamps)
+                //uuidString이 호출때마다 uuid를 생성해서 보내는 데이터 uuid 통일이 안되서 한번만 생성 후 사용
+                let uuid = self.healthKitManager.workoutSession?.currentActivity.uuid.uuidString ?? ""
+                if uuid != "" {
+                    //산행으로 만들어진 SummaryData
+                    let customComplementaryHikingData = self.createCustomComplementaryHikingData(
+                        uuid: uuid,
+                        summaryModel: self.summaryModel)
+                    
+                    //산행으로 만들어진 시간과 충격량
+                    let logsWithTimeStamps = self.createLogWithTimeStamps(
+                        uuid: uuid,
+                        impulseRateLogs: self.impulseManager.impulseLogs,
+                        timeStampLogs: self.timestampLog)
+                    
+                    
+                    //MARK: 파일 생성
+                    let customComplementaryHikingDataFileURL = self.makeFile( self.encodeToJson(customComplementaryHikingData), "SummaryModel")
+                    
+                    //                let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(["id" : logsWithTimeStamps.id, "logs": self.encodeToJson(logsWithTimeStamps.logs)]), "ImpulseLogs")
+                    let logsWithTimeStampsFileURL =  self.makeFile(self.encodeToJson(logsWithTimeStamps), "ImpulseLogs")
+                    
+                    //TODO: 순차전송
+                    self.watchToIOSConnector.transferFile(customComplementaryHikingDataFileURL!, nil)
+                    self.watchToIOSConnector.transferFile(logsWithTimeStampsFileURL!, nil)
+                    
+                    // MARK: SwiftData로 저장
+                    self.dataSource.saveItem(customComplementaryHikingData)
+                    self.dataSource.saveItem(logsWithTimeStamps)
+                }
             }
         }
     }
