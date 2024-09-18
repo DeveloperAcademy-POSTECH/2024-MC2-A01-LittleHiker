@@ -38,9 +38,8 @@ struct PhoneListView: View {
             }
             List {
                 ForEach(records.indices, id: \.self) { index in
-//                    NavigationLink(destination: PhoneDetailView(record: $records[index])) {
-                    //temp
-                        NavigationLink(destination: PhoneDetailView()) {
+
+                    NavigationLink(destination: PhoneDetailView(record: $records[index])) {
 
                         PhoneRowView(record: $records[index])
                             .swipeActions(edge: .trailing) {
