@@ -53,39 +53,70 @@ class HealthKitManager {
         healthStore.execute(workoutQuery)
     }
 
-    // 심박수 가져오기(심박수 정보는 workout에 없어서 그 시간대 심박수로 조회해 와야 함)
-    func fetchHeartRateForWorkout(uuidString: String) {
+    // TODO: - HikingLog에 저장해야함. HikingRecord 저장용으로 가공해야 함
+    /// HKQuery로 정보 가지고 오는 함수(현재는 심박수, 고도)
+    func fetchHKQueryInfo(uuidString: String, completion: @escaping (_ heartRates: [(Double, Date)], _ altitudes: [(Double, Date)]) -> Void) {
         fetchWorkoutByUUID(uuidString: uuidString) { workout in
             guard let workout = workout else {
                 print("No workout found with UUID: \(uuidString)")
+                completion([], []) // No workout, return empty arrays
                 return
             }
             
             let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate)!
-            let predicate = HKQuery.predicateForSamples(withStart: workout.startDate, end: workout.endDate, options: .strictStartDate)
+            let altitudeType = HKObjectType.quantityType(forIdentifier: .height)!
             
-            let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, samples, error) in
-                
-                if let error = error {
-                    print("Error fetching heart rate samples: \(error.localizedDescription)")
-                    return
-                }
-                
-                guard let heartRateSamples = samples as? [HKQuantitySample] else {
-                    print("No heart rate samples found.")
-                    return
-                }
-                
-                for sample in heartRateSamples {
-                    let heartRate = sample.quantity.doubleValue(for: HKUnit(from: "count/min"))
-                    let timestamp = sample.startDate
-                    print("Heart Rate: \(heartRate) BPM at \(timestamp)")
-                }
+            var heartRates: [(Double, Date)] = []
+            var altitudes: [(Double, Date)] = []
+            
+            let dispatchGroup = DispatchGroup()
+            
+            // 심박수 데이터 가져오기
+            dispatchGroup.enter()
+            self.fetchSamples(for: heartRateType, workout: workout, unit: HKUnit(from: "count/min")) { sample in
+                let heartRate = sample.quantity.doubleValue(for: HKUnit(from: "count/min"))
+                let timestamp = sample.startDate
+                heartRates.append((heartRate, timestamp))
             }
             
-            self.healthStore.execute(query)
+            // 고도 데이터 가져오기
+            dispatchGroup.enter()
+            self.fetchSamples(for: altitudeType, workout: workout, unit: HKUnit.meter()) { sample in
+                let altitude = sample.quantity.doubleValue(for: HKUnit.meter())
+                let timestamp = sample.startDate
+                altitudes.append((altitude, timestamp))
+            }
+            
+            // 쿼리가 완료되면 결과를 completion handler에 전달
+            dispatchGroup.notify(queue: .main) {
+                completion(heartRates, altitudes)
+            }
         }
     }
+
+    /// HKSample 정보 가지고 오는 함수
+    func fetchSamples(for type: HKQuantityType, workout: HKWorkout, unit: HKUnit, sampleHandler: @escaping (HKQuantitySample) -> Void) {
+        let predicate = HKQuery.predicateForSamples(withStart: workout.startDate, end: workout.endDate, options: .strictStartDate)
+        
+        let query = HKSampleQuery(sampleType: type, predicate: predicate, limit: HKObjectQueryNoLimit, sortDescriptors: nil) { (query, samples, error) in
+            if let error = error {
+                print("Error fetching samples: \(error.localizedDescription)")
+                return
+            }
+            
+            guard let quantitySamples = samples as? [HKQuantitySample] else {
+                print("No samples found for \(type.identifier).")
+                return
+            }
+            
+            for sample in quantitySamples {
+                sampleHandler(sample)
+            }
+        }
+        
+        self.healthStore.execute(query)
+    }
+
     
     func createHikingRecord(_ id: String, _ hkWorkOut: HKWorkout) -> HikingRecord {
         let dateFormatter = DateFormatter()
