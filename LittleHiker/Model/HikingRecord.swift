@@ -12,7 +12,7 @@ import SwiftData
 @Model
 final class HikingRecord {
     
-    @Attribute(.unique) var id: UUID = UUID()   //구분값
+    @Attribute(.unique) var id: String   //구분값
     var title: String       //iOS title
     var duration: Int       //등산소요시간
     var startDateTime: Date //시작시간
@@ -28,7 +28,8 @@ final class HikingRecord {
     var maxHeartRate: Int   //최고심박수
     var avgHeartRate: Int   //평균심박수
     
-    init(title: String, duration: Int, startDateTime: Date, endDateTime: Date, startAltitude: Int, peakAltitude: Int, endAltitude: Int, ascendAvgSpeed: Int, descendAvgSpeed: Int, avgForce: Int, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int) {
+    init(id: String, title: String, duration: Int, startDateTime: Date, endDateTime: Date, startAltitude: Int, peakAltitude: Int, endAltitude: Int, ascendAvgSpeed: Int, descendAvgSpeed: Int, avgForce: Int, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int) {
+        self.id = id
         self.title = title
         self.duration = duration
         self.startDateTime = startDateTime
