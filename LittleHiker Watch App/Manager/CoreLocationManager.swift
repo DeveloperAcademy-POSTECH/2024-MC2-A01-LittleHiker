@@ -16,9 +16,8 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     @Published var altitudeLogs: [Double] = []
     //등반 고도 값
     @Published var climbingAltitude: Double = 0.0
-    
     private var locationManager = CLLocationManager()
-    private let minimumDistance: Double = 100 // 무시할 최소 거리 (단위: 미터)
+    private let minimumDistance: Double = 20 // 무시할 최소 거리 (단위: 미터)
     
     //알람용
     private var notificationPeak: Bool = false

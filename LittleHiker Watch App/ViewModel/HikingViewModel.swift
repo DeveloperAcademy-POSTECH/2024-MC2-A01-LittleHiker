@@ -17,10 +17,6 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     var watchToIOSConnector = WatchToIOSConnector()
     
     static let shared = HikingViewModel()
-    private var locationManager = CLLocationManager()
-    private var previousLocation: CLLocation?
-    private var totalDistance: Double = 0.0 // 총 이동한 거리 변수
-    
     @Published var status: HikingStatus = .ready //앞으로 관리할 타입 enum으로 관리? ex)준비, 등산, 정지, 정산, 하산
     //    @Published var isDescent: Bool = true
     @Published var isDescent: Bool = false
@@ -66,6 +62,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             
             //하이킹 모드 아닐 때 로그 0으로 저장 추가
             self.healthKitManager.appendHealthKitLogs(isRecord: self.isRecord())
+            self.coreLocationManager.appendCoreLocationLogs(isRecord: self.isRecord())
             
             //TODO: 타임스케줄러를 시작버튼 누를 때 돌아가도록 바꾸기
             
@@ -90,14 +87,14 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     }
     
     func checkNotification(){
-        if status == .hiking{
-            if coreLocationManager.isNotificationPeak(){
+        if status == .hiking {
+            if coreLocationManager.isNotificationPeak() {
                 print("정상입니까 알람 필요")
             }
         }
-        if status == .peak{
+        if status == .peak {
             coreLocationManager.isPeak = true
-            if coreLocationManager.isNotificationDecent(){
+            if coreLocationManager.isNotificationDecent() {
                 print("하산입니까 알람 필요")
             }
         }
