@@ -21,6 +21,9 @@ struct PhoneListView: View {
         NavigationStack{
             VStack {
                 HStack {
+                    //TODO: 테스트용 출력
+                    Text("BODY2222")
+                    Text(iosToWatch.body)
                     Text("산행기록")
                         .font(.system(size: 34, weight: .bold))
                     Spacer()
@@ -63,8 +66,7 @@ struct PhoneListView: View {
                 }
             }
             .listStyle(.plain)
-        }
-        
+        }        
     }
     
     private func editRecord(at index: Int) {

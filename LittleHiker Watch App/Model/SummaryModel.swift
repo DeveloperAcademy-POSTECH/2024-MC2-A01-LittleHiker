@@ -7,13 +7,12 @@
 
 import Foundation
 
-
 struct SummaryModel: Codable {
     var minImpulse: Int = 0
     var maxImpulse: Int = 0
     var heartRateAvg: Int = 0
-    var minheartRate: Int = 0
-    var maxheartRate: Int = 0
+    var minHeartRate: Int = 0
+    var maxHeartRate: Int = 0
     var totalAltitude: Int = 0
     var minAltitude: Int = 0
     var maxAltitude: Int = 0

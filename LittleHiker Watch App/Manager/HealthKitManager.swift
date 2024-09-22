@@ -22,14 +22,14 @@ class HealthKitManager: NSObject, ObservableObject {
     var heartRateLogs: [Int] = []
     var distanceLogs: [Double] = []
     private var startDate: Date?
-    private var lastSampleDate: Date?
+    private var lastSpeedCheckDate: Date?
     private var speedCheckTimer: Timer?
-    let checkTime = 10.0
+    let checkTime = 4.0
     private var previousDistance: Double = 0.0
     private var previousTimestamp: Date?
-    
-    @Published var workoutSession: HKWorkoutSession?
+    var workoutSession: HKWorkoutSession?
     private var workoutBuilder: HKLiveWorkoutBuilder?
+    private var SpeedLogForCorrection: [Double] = []
     
     override init() {
         super.init()
@@ -38,13 +38,13 @@ class HealthKitManager: NSObject, ObservableObject {
     }
     
     private func startSpeedCheckTimer() {
-        speedCheckTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { timer in
-//            self.checkSpeed()
+        speedCheckTimer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: true) { timer in
+            self.checkSpeed()
         }
     }
     // 정지 확인
     private func checkSpeed() {
-        guard let lastSampleDate = lastSampleDate else {
+        guard let lastSampleDate = lastSpeedCheckDate else {
             return
         }
         
@@ -54,6 +54,7 @@ class HealthKitManager: NSObject, ObservableObject {
         if timeIntervalSinceLastSample > checkTime {
             DispatchQueue.main.async {
                 self.currentSpeed = 0.0
+                print("정지 감지")
             }
         }
     }
@@ -78,7 +79,7 @@ class HealthKitManager: NSObject, ObservableObject {
     }
     
     //append 기능 추가
-    func appendHealthKitLogs(isRecord: Bool){
+    func appendHealthKitLogs(isRecord: Bool) {
         if isRecord {
             heartRateLogs.append(currentHeartRate)
             distanceLogs.append(currentDistanceWalkingRunning)
@@ -151,6 +152,7 @@ class HealthKitManager: NSObject, ObservableObject {
     
     deinit {
         speedCheckTimer?.invalidate()
+        speedCheckTimer = nil
     }
 }
 
@@ -176,8 +178,10 @@ extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelega
                         let speed = calculateSpeedInKmh(currentDistance: distanceValue, currentTimestamp: Date())
                         print("Distance: \(distanceValue) meters, Speed: \(speed) km/h at \(date)")
                         DispatchQueue.main.async {
-                            self.currentSpeed = speed
+//                            self.currentSpeed = speed
+                            self.SpeedLogForCorrection.append(speed)
                             self.currentDistanceWalkingRunning = distanceValue
+                            self.correctionSpeed()
                         }
                     }
                 }
@@ -196,6 +200,21 @@ extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelega
     
     func workoutSession(_ workoutSession: HKWorkoutSession, didFailWithError error: any Error) {
         print("에러 처리")
+    }
+    
+    func correctionSpeed() {
+        if self.SpeedLogForCorrection.count > 2 {
+
+            let sum = SpeedLogForCorrection.reduce(0, +)
+            let average = sum / Double(SpeedLogForCorrection.count)
+
+            self.currentSpeed = average
+            self.SpeedLogForCorrection.removeFirst()
+            lastSpeedCheckDate = Date()
+            print("적용 속도 : \(average), 배열 : \(self.SpeedLogForCorrection)")
+        } else {
+            print("속도 데이터 수집중")
+        }
     }
     
     // 속도 계산 함수
@@ -240,6 +259,7 @@ extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelega
                 }
             }
             self.startDate = Date()
+            self.startSpeedCheckTimer()
         } catch {
             print("Failed to start workout session: \(error.localizedDescription)")
         }

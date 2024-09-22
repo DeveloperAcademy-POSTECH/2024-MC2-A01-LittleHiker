@@ -104,4 +104,11 @@ class TimeManager: NSObject, ObservableObject {
         timer = nil
         elapsedTime = 0
     }
+
+    ///YmdHis로 변경
+    func formatToYmdHis() -> String {
+        dateFormatter.dateFormat = "YmdHis"
+        return dateFormatter.string(from: date)
+    }
+    
 }
