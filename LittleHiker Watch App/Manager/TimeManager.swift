@@ -77,16 +77,7 @@ class TimeManager: NSObject, ObservableObject {
         ascendingDuration = displayDuration
         print("a"+ascendingDuration)
     }
-    
-    func startHiking() {
-        //3,2,1 끝나고 뷰가 바뀌기 직전에 스탑워치 시작!
-        runStopWatch()
-        //기록 날짜 "yyyy년 mm월 dd일" 찍기
-        setToday()
-        //시작 시간 찍기
-        setStartTime(Date())
-    }
-    
+   
     func setDescendingDuration() {
         //종료를 누르면 호출되는 함수
         //종료를 누르면 누른 시간도 여기서 받아준다
@@ -100,6 +91,20 @@ class TimeManager: NSObject, ObservableObject {
         print("d"+descendingDuration)
     }
     
+    func startHiking() {
+        //3,2,1 끝나고 뷰가 바뀌기 직전에 스탑워치 시작!
+        runStopWatch()
+        //기록 날짜 "yyyy년 mm월 dd일" 찍기
+        setToday()
+        //시작 시간 찍기
+        setStartTime(Date())
+    }
+    
+    func initializeManager() {
+        timer = nil
+        elapsedTime = 0
+    }
+
     ///YmdHis로 변경
     func formatToYmdHis() -> String {
         dateFormatter.dateFormat = "YmdHis"

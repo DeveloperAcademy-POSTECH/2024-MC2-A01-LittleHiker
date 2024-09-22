@@ -8,20 +8,25 @@
 import SwiftUI
 
 struct PhoneRowView: View {
+    @Binding var record: HikingRecord
+    
     var body: some View {
         VStack{
             HStack{
-                Text("2024/05/01")
+                Text("\(record.title)")
+                    .font(.system(size: 22, weight: .bold))
                 Spacer()
             }
             HStack{
-                Text("subtitle")
+                Text("\(record.formattedEndDateTime)")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundStyle(Color.gray)
                 Spacer()
             }
         }
-        
     }
 }
-#Preview {
-    PhoneRowView()
-}
+
+//#Preview {
+//    PhoneRowView()
+//}
