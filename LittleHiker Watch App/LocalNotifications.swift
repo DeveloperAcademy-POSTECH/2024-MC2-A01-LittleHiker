@@ -17,6 +17,21 @@ final class LocalNotifications: NSObject, ObservableObject {
     @Published var isTipsBlocked: Bool = false
     var warningBlockCount: Int = 0
     @Published var isTipsBlockLocked: Bool = false
+    private let tips: [String] = [
+        "너무 무리하면 무릎의 충격을 흡수하는 반월상 연골이 찢어질 수 있어요!",
+        "적정 하산시간은 등산시간의 2배입니다.",
+        "적정 하산시간은 등산시간의 2배입니다.",
+        "50분 하산하고 10분 쉬어봐요.",
+        "땅에 발을 세게 내딛으면 발목이 꺾일 수 있어요.",
+    ]
+    
+    private let warnings: [String] = [
+        "다람이가 경로를 이탈했습니다!",
+        "앗 이 속도라면 내일 무릎이 아플거에요ㅠㅠ",
+        "조금 천천히 가보는거 어때요?",
+        "속도가 너무 빨라요",
+        "잠시 쉬면서 풍경을 즐겨보세요 :)",
+    ]
     
 //    func register() async throws {
 //        let current = UNUserNotificationCenter.current()
@@ -49,7 +64,7 @@ final class LocalNotifications: NSObject, ObservableObject {
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
                 content.subtitle = "다람상식"
-                content.body = "하산시에는 체중의 4.9배의 충격이 가해진다는 연구 결과가 있어요!"
+                content.body = tips[Int.random(in: 0..<tips.count)]
                 content.categoryIdentifier = "다람상식"
                 
 //                let trigger: UNTimeIntervalNotificationTrigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
@@ -94,7 +109,7 @@ final class LocalNotifications: NSObject, ObservableObject {
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
                 content.subtitle = "다람이 missing"
-                content.body = "다람이가 못따라오고 있어요."
+                content.body = warnings[Int.random(in: 0..<warnings.count)]
                 content.categoryIdentifier = self.categoryIdentifier
                 
 //                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
