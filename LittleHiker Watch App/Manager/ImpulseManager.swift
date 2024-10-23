@@ -160,7 +160,7 @@ class ImpulseManager: NSObject, ObservableObject {
         let currentImpulseRatio = self.currentImpulseMeanRatio
         let prevImpulseRatio = self.calculateImpulseRatio(prevMeanOfLastTenImpulseLogs)
         
-        if prevImpulseRatio >= 0 && prevImpulseRatio < 33 && currentImpulseRatio >= 33 && currentImpulseRatio < 66{
+        if prevImpulseRatio >= 33 && prevImpulseRatio < 50 && currentImpulseRatio >= 50 && currentImpulseRatio < 66{
             prevMeanOfLastTenImpulseLogs = currentImpulse
             return true
         }
