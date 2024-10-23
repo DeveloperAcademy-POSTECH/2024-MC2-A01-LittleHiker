@@ -59,7 +59,7 @@ final class LocalNotifications: NSObject, ObservableObject {
                 print("허용되었습니다")
                 if tipsBlockCount != 0 { return }
                 if isTipsBlocked == true { return }
-                tipsBlockCount += 10
+                tipsBlockCount += 60*3 // 3분동안의 알림 버퍼 적용
                 current.removeAllPendingNotificationRequests()
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
@@ -103,7 +103,7 @@ final class LocalNotifications: NSObject, ObservableObject {
             
             if granted {
                 if warningBlockCount != 0 { return }
-                warningBlockCount += 15
+                warningBlockCount += 60*3 //3분동안의 알림 버퍼 적용
                 current.removeAllPendingNotificationRequests()
                 print("허용되었습니다")
                 let content = UNMutableNotificationContent()
