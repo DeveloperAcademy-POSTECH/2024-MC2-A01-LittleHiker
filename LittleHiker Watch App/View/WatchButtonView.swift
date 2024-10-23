@@ -67,6 +67,10 @@ struct WatchButtonView: View {
                 .padding()
             } else if viewModel.status == .descending || viewModel.status == .descendingPause{
                 VStack {
+                    // NotificationToggleButton 추가
+                    NotificationToggleButton(height: 56, localNotification: LocalNotifications.shared)
+                        .padding(.top, 8)
+                    
                     HStack {
                         //종료버튼
                         EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
@@ -192,7 +196,7 @@ struct WatchButtonView: View {
                     timeManager.runStopWatch()
                     toggle.toggle()
                     viewModel.restart()
-
+                    
                 }) {
                     RoundedRectangle(cornerRadius: 28)
                         .frame(width: 68, height: height)
@@ -289,6 +293,32 @@ struct WatchButtonView: View {
                 Text("하산")
                     .font(.system(size: 12))
             }
+        }
+    }
+    
+    // 알림 토글 버튼
+    struct NotificationToggleButton: View {
+        var height: CGFloat
+        var localNotification: LocalNotifications // 일반 객체로 변경
+        
+        var body: some View {
+            Button(action: {
+                localNotification.toggleTipsManually()
+            }) {
+                RoundedRectangle(cornerRadius: 28)
+                    .frame(width: 68, height: height)
+                    .foregroundColor(.blue)
+                    .opacity(0.25)
+                    .overlay {
+                        Image(systemName: localNotification.isTipsBlocked ? "bell.slash.fill" : "bell.fill")
+                            .foregroundStyle(Color.blue)
+                            .fontWeight(.bold)
+                    }
+            }
+            .buttonStyle(PlainButtonStyle())
+            
+            Text("알림")
+                .font(.system(size: 12))
         }
     }
 }
