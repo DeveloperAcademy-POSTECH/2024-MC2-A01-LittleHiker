@@ -33,6 +33,9 @@ final class LocalNotifications: NSObject, ObservableObject {
         "잠시 쉬면서 풍경을 즐겨보세요 :)",
     ]
     
+    var tipsBlockBufferBatch: Int = 3
+    var warningBlockBufferBatch: Int = 3
+    
 //    func register() async throws {
 //        let current = UNUserNotificationCenter.current()
 //        try await current.requestAuthorization(options: [.alert, .sound])
