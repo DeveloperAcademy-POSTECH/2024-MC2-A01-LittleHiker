@@ -53,7 +53,7 @@
 		1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB52BFCAD9F00E62BA6 /* ImpulseManager.swift */; };
 		1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */; };
 		1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */; };
-		EEF8C6A62C5095B30004D9AD /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEF8C6A52C5095B30004D9AD /* Extension.swift */; };
+		EE5068AC2CA3BB7800F5441F /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5068AB2CA3BB7300F5441F /* ColorExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -127,7 +127,7 @@
 		1A8DBE9D2BFE2CB600C3BA92 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotifications.swift; sourceTree = "<group>"; };
 		1EF68A6A2C0DDC2200DC2823 /* LittleHiker-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LittleHiker-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
-		EEF8C6A52C5095B30004D9AD /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		EE5068AB2CA3BB7300F5441F /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,7 +272,7 @@
 			children = (
 				1A43DF852BFCAC9A00E62BA6 /* ContentView.swift */,
 				1A43DFAA2BFCACDA00E62BA6 /* PhoneDetailView.swift */,
-				EEF8C6A52C5095B30004D9AD /* Extension.swift */,
+				EE5068AB2CA3BB7300F5441F /* ColorExtension.swift */,
 				1A43DFAC2BFCACEC00E62BA6 /* PhoneRowView.swift */,
 				1A43DFAE2BFCACF400E62BA6 /* PhoneListView.swift */,
 			);
@@ -426,6 +426,7 @@
 				02EE67A12BFCDA0D00F16E88 /* IOSToWatchConnector.swift in Sources */,
 				022338BA2C7ED4EC00FC1427 /* SummaryModel.swift in Sources */,
 				022338C12C800FC600FC1427 /* HealthKitManager+IOS.swift in Sources */,
+				EE5068AC2CA3BB7800F5441F /* ColorExtension.swift in Sources */,
 				02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */,
 				02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */,
 				1A43DF842BFCAC9A00E62BA6 /* LittleHikerApp.swift in Sources */,
