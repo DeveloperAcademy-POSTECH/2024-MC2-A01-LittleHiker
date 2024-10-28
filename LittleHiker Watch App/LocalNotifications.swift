@@ -16,7 +16,6 @@ final class LocalNotifications: NSObject, ObservableObject {
     var tipsBlockCount: Int = 0
     @Published var isTipsBlocked: Bool = false
     var warningBlockCount: Int = 0
-    @Published var isTipsBlockLocked: Bool = false
     
 //    func register() async throws {
 //        let current = UNUserNotificationCenter.current()
@@ -124,7 +123,6 @@ final class LocalNotifications: NSObject, ObservableObject {
     
     func turnOffTips(){
         isTipsBlocked = true
-        isTipsBlockLocked = true
     }
     
     
@@ -132,7 +130,7 @@ final class LocalNotifications: NSObject, ObservableObject {
         if tipsBlockCount > 0 {
             tipsBlockCount -= 1
         }
-        if tipsBlockCount == 0 && !isTipsBlockLocked {
+        if tipsBlockCount == 0 && !isTipsBlocked {
             self.turnOnTips()
         }
     }
@@ -141,7 +139,6 @@ final class LocalNotifications: NSObject, ObservableObject {
     func turnOnTips(){
         tipsBlockCount = 0
         isTipsBlocked = false
-        isTipsBlockLocked = false
     }
     
     
@@ -152,18 +149,16 @@ final class LocalNotifications: NSObject, ObservableObject {
     }
     
     func toggleTipsManually(){
-        if isTipsBlockLocked {
-            isTipsBlockLocked = false
+        if isTipsBlocked {
             isTipsBlocked = false
             tipsBlockCount = 0
         } else {
-            isTipsBlockLocked = true
             isTipsBlocked = true
         }
     }
     
     func toggleTipsLock(){
-        isTipsBlockLocked = !isTipsBlockLocked
+        isTipsBlocked = !isTipsBlocked
     }
 }
 
