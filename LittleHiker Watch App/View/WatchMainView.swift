@@ -28,6 +28,10 @@ struct WatchMainView: View {
     
     let alertTitle: String = "충격량 정보"
     
+    //버퍼 조절 피커에 사용될 변수
+    @State private var option = 3
+    @State private var selectionOption = Array(0...50)
+    
     var body: some View {
         ZStack {
             VStack(spacing: 0) {
@@ -128,6 +132,54 @@ struct WatchMainView: View {
 //                    .foregroundStyle(.green)
             }
             Spacer()
+            if viewModel.isDescent{
+                Button(action: {
+//                    localNotification.toggleTipsManually()
+                    isShowing = true
+                }) {
+                    Image(systemName: "info")
+                }
+                .frame(width: 40, height: 40)
+                .background(Color.white.opacity(0.2))
+                .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                .buttonStyle(PlainButtonStyle())
+                .fullScreenCover(isPresented: $isShowing) {
+                    VStack{
+                        //picker 띄우기
+                        Picker("", selection: $option) {
+                            ForEach(0 ..< selectionOption.count) {
+                                Text(String(selectionOption[$0]))
+                            }
+                        }
+                        Button {
+                            localNotification.tipsBlockBufferBatch = selectionOption[option]
+                        } label : {
+                        Text("다람상식 버퍼 변경")
+                        }
+                        Button {
+                            localNotification.warningBlockBufferBatch = selectionOption[option]
+                        } label : {
+                            Text("경고 버퍼 변경")
+                        }
+                    }
+                }
+//                .fullScreenCover(isPresented: $isShowing) {
+//                    VStack{
+//                        Button(action: {
+//                            //                            다람상식 보내기
+//                            viewModel.impulseManager.sendTipsNotification()
+//                        }) {
+//                            Text("다람상식")
+//                        }
+//                        Button(action: {
+//                            //                            경고 보내기
+//                            viewModel.impulseManager.sendWarningNotification()
+//                        }) {
+//                            Text("경고")
+//                        }
+//                    }
+//                }
+            }
         }
         .padding(.horizontal, 9)
         .padding(.top, 32)
