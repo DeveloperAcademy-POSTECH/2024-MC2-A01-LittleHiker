@@ -19,7 +19,10 @@ struct WatchButtonView: View {
     
     var body: some View {
         VStack {
-            HStack {
+            HStack(alignment: .top) {
+                if viewModel.status == .descending {
+                    NotificationToggleButton(height: 56, localNotification: LocalNotifications.shared)
+                }
                 Spacer()
                 Text("\(viewModel.status.getData)")
                     .foregroundStyle(Color.main)
@@ -66,20 +69,20 @@ struct WatchButtonView: View {
                 }
                 .padding()
             } else if viewModel.status == .descending || viewModel.status == .descendingPause{
-                VStack {
-                    HStack {
-                        //종료버튼
-                        EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
-                            .padding(.trailing, 8)
-                        
-                        //일시정지,재개버튼
-                        if pauseResumeToggle == true {
-                            PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle, viewModel: viewModel)
-                        } else {
-                            RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle, viewModel: viewModel)
-                        }
+                Spacer()
+                HStack {
+                    //종료버튼
+                    EndButton(height: 56, timeManager: timeManager, viewModel: viewModel, selection: $selection)
+                        .padding(.trailing, 8)
+                    
+                    //일시정지,재개버튼
+                    if pauseResumeToggle == true {
+                        PauseButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle, viewModel: viewModel)
+                    } else {
+                        RestartButton(height: 56, timeManager: timeManager, toggle: $pauseResumeToggle, viewModel: viewModel)
                     }
-                }.padding()
+                }
+                .padding()
             }
             Spacer()
         }
@@ -192,7 +195,7 @@ struct WatchButtonView: View {
                     timeManager.runStopWatch()
                     toggle.toggle()
                     viewModel.restart()
-
+                    
                 }) {
                     RoundedRectangle(cornerRadius: 28)
                         .frame(width: 68, height: height)
@@ -289,6 +292,25 @@ struct WatchButtonView: View {
                 Text("하산")
                     .font(.system(size: 12))
             }
+        }
+    }
+    
+    // 알림 토글 버튼
+    struct NotificationToggleButton: View {
+        var height: CGFloat
+        @ObservedObject var localNotification = LocalNotifications.shared
+        
+        var body: some View {
+            Button(action: {
+                localNotification.toggleTipsManually()
+            }) {
+                Image(systemName: localNotification.isTipsBlocked ? "bell.slash.fill" : "bell.fill")
+                
+            }
+            .frame(width: 40, height: 40)
+            .background(Color.white.opacity(0.2))
+            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+            .buttonStyle(PlainButtonStyle())
         }
     }
 }

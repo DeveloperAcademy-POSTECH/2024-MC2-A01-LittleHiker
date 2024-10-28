@@ -16,7 +16,7 @@ final class LocalNotifications: NSObject, ObservableObject {
     var tipsBlockCount: Int = 0
     @Published var isTipsBlocked: Bool = false
     var warningBlockCount: Int = 0
-    @Published var isTipsBlockLocked: Bool = false
+
     private let tips: [String] = [
         "너무 무리하면 무릎의 충격을 흡수하는 반월상 연골이 찢어질 수 있어요!",
         "적정 하산시간은 등산시간의 2배입니다.",
@@ -142,7 +142,6 @@ final class LocalNotifications: NSObject, ObservableObject {
     
     func turnOffTips(){
         isTipsBlocked = true
-        isTipsBlockLocked = true
     }
     
     
@@ -150,7 +149,7 @@ final class LocalNotifications: NSObject, ObservableObject {
         if tipsBlockCount > 0 {
             tipsBlockCount -= 1
         }
-        if tipsBlockCount == 0 && !isTipsBlockLocked {
+        if tipsBlockCount == 0 && !isTipsBlocked {
             self.turnOnTips()
         }
     }
@@ -159,7 +158,6 @@ final class LocalNotifications: NSObject, ObservableObject {
     func turnOnTips(){
         tipsBlockCount = 0
         isTipsBlocked = false
-        isTipsBlockLocked = false
     }
     
     
@@ -170,18 +168,16 @@ final class LocalNotifications: NSObject, ObservableObject {
     }
     
     func toggleTipsManually(){
-        if isTipsBlockLocked {
-            isTipsBlockLocked = false
+        if isTipsBlocked {
             isTipsBlocked = false
             tipsBlockCount = 0
         } else {
-            isTipsBlockLocked = true
             isTipsBlocked = true
         }
     }
     
     func toggleTipsLock(){
-        isTipsBlockLocked = !isTipsBlockLocked
+        isTipsBlocked = !isTipsBlocked
     }
 }
 
