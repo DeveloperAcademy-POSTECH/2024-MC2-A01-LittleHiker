@@ -124,6 +124,7 @@ class HealthKitManager {
         dateFormatter.dateFormat = "yyyy-MM-dd"
         let title = dateFormatter.string(from: hkWorkOut.startDate)
 
+        // SummaryModel에서 고도, 스피드, 충격량, 심박수를 가져온다. 
         // TODO: - 고도, 스피드, 충격량, 심박수는 workout 말고 따로 가지고 와야해서 일단 0으로 기록
         let hikingRecord = HikingRecord(
             id: id,
