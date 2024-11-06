@@ -36,23 +36,7 @@ final class LocalNotifications: NSObject, ObservableObject {
     var tipsBlockBufferBatch: Int = 3
     var warningBlockBufferBatch: Int = 3
     
-//    func register() async throws {
-//        let current = UNUserNotificationCenter.current()
-//        try await current.requestAuthorization(options: [.alert, .sound])
-//        //이전에 나가려고 했던 pending된 Notification 다 지우기
-//        current.removeAllPendingNotificationRequests()
-//        
-//        let action = UNNotificationAction(identifier: actionIdentifier,
-//                                          title: "닫기",
-//                                          options : .foreground)
-//        let category = UNNotificationCategory(identifier: categoryIdentifier,
-//                                              actions: [action],
-//                                              intentIdentifiers: [])
-//        
-//        current.setNotificationCategories([category])
-//        current.delegate = self
-//    }
-    
+
     func schedule() {
         let current = UNUserNotificationCenter.current()
         current.requestAuthorization(options: [.alert, .sound]) {[weak self] granted, error in
@@ -62,7 +46,7 @@ final class LocalNotifications: NSObject, ObservableObject {
                 print("허용되었습니다")
                 if tipsBlockCount != 0 { return }
                 if isTipsBlocked == true { return }
-                tipsBlockCount += 60*3 // 3분동안의 알림 버퍼 적용
+                tipsBlockCount += 60*tipsBlockBufferBatch // 3분동안의 알림 버퍼 적용
                 current.removeAllPendingNotificationRequests()
                 let content = UNMutableNotificationContent()
                 content.title = "잠깐"
@@ -106,7 +90,8 @@ final class LocalNotifications: NSObject, ObservableObject {
             
             if granted {
                 if warningBlockCount != 0 { return }
-                warningBlockCount += 60*3 //3분동안의 알림 버퍼 적용
+                if isTipsBlocked == true { return }
+                warningBlockCount += 60*warningBlockBufferBatch //3분동안의 알림 버퍼 적용
                 current.removeAllPendingNotificationRequests()
                 print("허용되었습니다")
                 let content = UNMutableNotificationContent()
@@ -115,7 +100,6 @@ final class LocalNotifications: NSObject, ObservableObject {
                 content.body = warnings[Int.random(in: 0..<warnings.count)]
                 content.categoryIdentifier = self.categoryIdentifier
                 
-//                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
                 let request = UNNotificationRequest(identifier: UUID().uuidString,
                                                     content: content,
                                                     trigger: nil)
@@ -142,6 +126,7 @@ final class LocalNotifications: NSObject, ObservableObject {
     
     func turnOffTips(){
         isTipsBlocked = true
+        tipsBlockCount = Int.max
     }
     
     
@@ -149,7 +134,7 @@ final class LocalNotifications: NSObject, ObservableObject {
         if tipsBlockCount > 0 {
             tipsBlockCount -= 1
         }
-        if tipsBlockCount == 0 && !isTipsBlocked {
+        if tipsBlockCount == 0 {
             self.turnOnTips()
         }
     }
@@ -169,16 +154,13 @@ final class LocalNotifications: NSObject, ObservableObject {
     
     func toggleTipsManually(){
         if isTipsBlocked {
-            isTipsBlocked = false
             tipsBlockCount = 0
         } else {
-            isTipsBlocked = true
+            tipsBlockCount = Int.max
         }
+        isTipsBlocked.toggle()
     }
-    
-    func toggleTipsLock(){
-        isTipsBlocked = !isTipsBlocked
-    }
+
 }
 
 let sharedLocalNotifications = LocalNotifications.shared
