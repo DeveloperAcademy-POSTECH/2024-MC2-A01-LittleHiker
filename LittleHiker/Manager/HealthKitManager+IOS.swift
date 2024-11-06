@@ -12,27 +12,27 @@ class HealthKitManager {
     let dataSource: DataSource = DataSource.shared // SwiftData + MVVM을 위해 필요한 변수
     let healthStore = HKHealthStore()
     
-    func saveWorkoutData(uuidString: String) {
-        fetchWorkoutByUUID(uuidString: uuidString) { workout in
+    func saveWorkoutData(uuid: UUID) {
+        fetchWorkoutByUUID(uuid: uuid) { workout in
             guard let workout = workout else {
-                print("No workout found with UUID: \(uuidString)")
+                print("No workout found with UUID: \(uuid)")
                 return
             }
             
             DispatchQueue.main.async {
-                let hikingRecord = self.createHikingRecord(uuidString, workout)
+                let hikingRecord = self.createHikingRecord(uuid, workout)
                 self.dataSource.saveItem(hikingRecord)
             }
         }
     }
     
     // UUID로 workout 정보 가져옴
-    func fetchWorkoutByUUID(uuidString: String, completion: @escaping (HKWorkout?) -> Void) {
+    func fetchWorkoutByUUID(uuid: UUID, completion: @escaping (HKWorkout?) -> Void) {
         // UUID 객체 생성
-        guard let uuid = UUID(uuidString: uuidString) else {
-            completion(nil)
-            return
-        }
+//        guard let uuid = UUID(uuid: uuid) else {
+//            completion(nil)
+//            return
+//        }
         
         // UUID로 검색하는 Predicate
         let predicate = HKQuery.predicateForObject(with: uuid)
@@ -55,10 +55,10 @@ class HealthKitManager {
 
     // TODO: - HikingLog에 저장해야함. HikingRecord 저장용으로 가공해야 함
     /// HKQuery로 정보 가지고 오는 함수(현재는 심박수, 고도)
-    func fetchHKQueryInfo(uuidString: String, completion: @escaping (_ heartRates: [(Double, Date)], _ altitudes: [(Double, Date)]) -> Void) {
-        fetchWorkoutByUUID(uuidString: uuidString) { workout in
+    func fetchHKQueryInfo(uuid: UUID, completion: @escaping (_ heartRates: [(Double, Date)], _ altitudes: [(Double, Date)]) -> Void) {
+        fetchWorkoutByUUID(uuid: uuid) { workout in
             guard let workout = workout else {
-                print("No workout found with UUID: \(uuidString)")
+                print("No workout found with UUID: \(uuid)")
                 completion([], []) // No workout, return empty arrays
                 return
             }
@@ -118,7 +118,7 @@ class HealthKitManager {
     }
 
     
-    func createHikingRecord(_ id: String, _ hkWorkOut: HKWorkout) -> HikingRecord {
+    func createHikingRecord(_ id: UUID, _ hkWorkOut: HKWorkout) -> HikingRecord {
         let dateFormatter = DateFormatter()
         
         dateFormatter.dateFormat = "yyyy-MM-dd"
@@ -140,7 +140,8 @@ class HealthKitManager {
             avgForce: 0,
             minHeartRate: 0,
             maxHeartRate: 0,
-            avgHeartRate: 0
+            avgHeartRate: 0,
+            hikingLog: [:]
         )
         
         return hikingRecord

@@ -18,18 +18,81 @@ class HikingViewModel {
             // watch에서 온 데이터
             let resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
             
-            var hikingRecords = dataSource.fetchHikingRecords()
+            // watch에서 받은 데이터를 HikingRecord에 저장
+            let hikingRecords = dataSource.fetchHikingRecords()
+            if resultArray["data"] != nil { //summaryModel
+                saveReceivedSummaryData(resultArray, hikingRecords, dataSource)
+            }
+            
+            // watch에서 받은 로그데이터를 HikingRecord 내의 Log에 저장
+            if resultArray["logs"] != nil { //summaryModel
+                // TODO: - HikingLog 저장
+                saveReceivedLogs(resultArray, hikingRecords, dataSource)
+            }
+            
+            // TODO: - 헬스킷 조회
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+    
+    
+    extension HikingViewModel {
+        @MainActor
+        func saveReceivedSummaryData(_ resultArray: [String: Any], _ hikingRecords: [HikingRecord], _ dataSource: DataSource) {
             if let data = resultArray["data"] as? [String: Any] {
                 // 스위프트 데이터에 watch에서 온 데이터가 있으면
                 if let hikingRecord = hikingRecords.first(where: {$0.id == data["id"] as? UUID}) {
                     hikingRecord.id = data["id"] as! UUID
-                    hikingRecord.startDateTime = data["startDate"] as! Date
-                    hikingRecord.endDateTime = data["endDate"] as! Date
-                    hikingRecord.duration = data["duration"] as! Int
+                    
+                    // TODO: - 더 간단하게 쓸 수 있을지 리팩토링
+                    if let title = data["title"] as? String {
+                        hikingRecord.title = title
+                    }
+                    if let startAltitude = data["startAltitude"] as? Int {
+                        hikingRecord.startAltitude = startAltitude
+                    }
+                    if let peakAltitude = data["peakAltitude"] as? Int {
+                        hikingRecord.peakAltitude = peakAltitude
+                    }
+                    if let endAltitude = data["endAltitude"] as? Int {
+                        hikingRecord.endAltitude = endAltitude
+                    }
+                    if let maxAltitude = data["maxAltitude"] as? Int {
+                        hikingRecord.peakAltitude = maxAltitude
+                    }
+                    if let startDate = data["startDate"] as? Date {
+                        hikingRecord.startDateTime = startDate
+                    }
+                    if let endDate = data["endDate"] as? Date {
+                        hikingRecord.endDateTime = endDate
+                    }
+                    if let duration = data["duration"] as? Int {
+                        hikingRecord.duration = duration
+                    }
+                    if let ascendAvgSpeed = data["ascendAvgSpeed"] as? Int {
+                        hikingRecord.ascendAvgSpeed = ascendAvgSpeed
+                    }
+                    if let descendAvgSpeed = data["descendAvgSpeed"] as? Int {
+                        hikingRecord.descendAvgSpeed = descendAvgSpeed
+                    }
+                    if let heartRateAvg = data["heartRateAvg"] as? Int {
+                        hikingRecord.avgHeartRate = heartRateAvg
+                    }
+                    if let heartRateMax = data["heartRateMax"] as? Int {
+                        hikingRecord.maxHeartRate = heartRateMax
+                    }
+                    if let heartRateMin = data["heartRateMin"] as? Int {
+                        hikingRecord.minHeartRate = heartRateMin
+                    }
+                    
+                    dataSource.saveItem(hikingRecord)
+                    
                 } else {
                     let newHikingRecord = HikingRecord(
                         id: data["id"] as? UUID ?? UUID(),
-                        title: "aa",
+                        title: "\(data["startDate"] as? String ?? "-")",
                         duration: data["duration"] as? Int ?? 0,
                         startDateTime: data["startDate"] as? Date ?? Date(),
                         endDateTime: data["endDate"] as? Date ?? Date(),
@@ -43,74 +106,43 @@ class HikingViewModel {
                         minHeartRate: data["minHeartRate"] as? Int ?? 0,
                         maxHeartRate: data["maxHeartRate"] as? Int ?? 0,
                         avgHeartRate: data["avgHeartRate"] as? Int ?? 0,
-                        hikingLog: []
+                        hikingLog: [:]
                     )
                     dataSource.saveItem(newHikingRecord)
                 }
-            } else {
-//                var title: String       //iOS title
-//                var duration: Int       //등산소요시간
-//                var startDateTime: Date //시작시간
-//                // var peakDateTime 필요하네
-//                var endDateTime: Date   //종료시간
-//                var startAltitude: Int  //시작고도
-//                var peakAltitude: Int   //최고고도
-//                var endAltitude: Int    //종료고도
-//                var ascendAvgSpeed: Int //등산평균속도
-//                var descendAvgSpeed: Int//하산평균속도
-//                var avgForce: Int       //평균충격량
-//                var painRate: Int? = nil //고통지수
-//                var minHeartRate: Int   //최소심박수
-//                var maxHeartRate: Int   //최고심박수
-//                var avgHeartRate: Int   //평균심박수
-                let newHikingRecord = HikingRecord(
-                    id: data["id"],
-                    title: "aa",
-                    startDateTime: data["startDate"] as! Date,
-                    endDateTime: data["endDate"] as! Date,
-                    startAltitude: data["startAltitude"] as! Int,
-                    endAltitude: data["endAltitude"] as! Int,
-                    ascendAvgSpeed: data["ascendAvgSpeed"] as! Int,
-                    descendAvgSpeed: data["descendAvgSpeed"] as! Int,
-                    avgForce: data["avgForce"] as! Int,
-                    painRate: data["painRate"] as? Int,
-                    minHeartRate: data["minHeartRate"] as! Int,
-                    maxHeartRate: data["maxHeartRate"] as! Int,
-                    avgHeartRate: data["avgHeartRate"] as! Int
-                )
             }
-            
-//            for todo in todoItemsPastDueDate {
-//              if let todo = todos.first(where: { $0.id == todo.id }) {
-//                  modelContext.delete(todo)
-//                  deletionCount += 1
-//              }
-//            }
-            
-            if resultArray["data"] != nil { //summaryModel
-                if let data = resultArray["data"] as? [String: Any] {
-                    let uuid = resultArray["id"]
-                    
-                    // TODO: - 조회와 저장 분리
-                    // 데이터 조회 및 저장
-                    self.healthKitManager.saveWorkoutData(uuidString: uuid as! String)
-                }
-            } else if resultArray["logs"] != nil{ //log보냄
-                if let logs = resultArray["logs"] as? [String: Any] {
-                    let keys = logs.keys
-                    
-                    // 각 키를 출력
-                    for key in keys {
-//                    self.body.append("Key: \(key)")
-                    }
-                    
-                } else {
-//                self.body.append("Logs is not available or in unexpected format")
-                }
-            }
-        } catch {
-            print(error.localizedDescription)
         }
         
+        @MainActor
+        func saveReceivedLogs(_ resultArray: [String: Any], _ hikingRecords: [HikingRecord], _ dataSource: DataSource) {
+            if let logs = resultArray["logs"] as? [String: Any] {
+                if let hikingRecord = hikingRecords.first(where: {$0.id == logs["id"] as? UUID}) {
+                    hikingRecord.hikingLog = logs["logs"] as? [String: String] ?? [:]
+                    dataSource.saveItem(hikingRecord)
+                } else {
+                    let newHikingRecord = HikingRecord(
+                        id: UUID(),
+                        title: "-",
+                        duration: 0,
+                        startDateTime: Date(),
+                        endDateTime: Date(),
+                        startAltitude: 0,
+                        peakAltitude: 0,
+                        endAltitude: 0,
+                        ascendAvgSpeed: 0,
+                        descendAvgSpeed: 0,
+                        avgForce: 0,
+                        painRate: 0,
+                        minHeartRate: 0,
+                        maxHeartRate: 0,
+                        avgHeartRate: 0,
+                        hikingLog: logs["logs"] as? [String: String] ?? [:]
+                    )
+                    dataSource.saveItem(newHikingRecord)
+                    
+                }
+            }
+        }
+        
+        
     }
-}

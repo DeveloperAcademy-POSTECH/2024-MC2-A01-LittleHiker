@@ -156,7 +156,7 @@ struct PhoneDetailView: View {
 }
 
 #Preview {
-    PhoneDetailView(record: .constant(HikingRecord.sampleData[0]))
+//    PhoneDetailView(record: .constant(HikingRecord.sampleData[0]))
 }
 
 
