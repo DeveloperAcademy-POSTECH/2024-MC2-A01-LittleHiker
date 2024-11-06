@@ -12,21 +12,47 @@
 		022338C12C800FC600FC1427 /* HealthKitManager+IOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022338C02C800FC600FC1427 /* HealthKitManager+IOS.swift */; };
 		022338C22C801AFC00FC1427 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB492C3EC6FA00891AC6 /* DataSource.swift */; };
 		024F330F2C5631B90091A086 /* FileTransferObservers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024F330E2C5631B90091A086 /* FileTransferObservers.swift */; };
+		024F33102C5631B90091A086 /* FileTransferObservers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024F330E2C5631B90091A086 /* FileTransferObservers.swift */; };
 		027E6D872C8D686B00BF2AE1 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB452C3E251400891AC6 /* CustomData.swift */; };
 		02AEC24D2C4CD81400AF1F6D /* Method.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02AEC24C2C4CD81400AF1F6D /* Method.swift */; };
 		02EE67A12BFCDA0D00F16E88 /* IOSToWatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A02BFCDA0D00F16E88 /* IOSToWatchConnector.swift */; };
+		02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A22BFCDA3B00F16E88 /* WatchToIOSConnector.swift */; };
 		02EE67A62BFDC88A00F16E88 /* HikingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */; };
 		02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A52BFDC88A00F16E88 /* HikingLog.swift */; };
+		1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB392C32C7B000891AC6 /* AppDelegate.swift */; };
+		1A35BB3C2C37972700891AC6 /* LabelCoefficients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB3B2C37972700891AC6 /* LabelCoefficients.swift */; };
+		1A35BB3E2C37977100891AC6 /* GifAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB3D2C37977100891AC6 /* GifAnimation.swift */; };
+		1A35BB422C3797D900891AC6 /* KickOffStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB412C3797D900891AC6 /* KickOffStatus.swift */; };
+		1A35BB442C3797FB00891AC6 /* HikingStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB432C3797FB00891AC6 /* HikingStatus.swift */; };
+		1A35BB462C3E251400891AC6 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB452C3E251400891AC6 /* CustomData.swift */; };
+		1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */; };
+		1A35BB4A2C3EC6FA00891AC6 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB492C3EC6FA00891AC6 /* DataSource.swift */; };
+		1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0B2BFCAF0400880ED5 /* WatchSummaryView.swift */; };
+		1A36FB0E2BFCAF1000880ED5 /* WatchRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0D2BFCAF1000880ED5 /* WatchRootView.swift */; };
+		1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB0F2BFCAF1800880ED5 /* WatchDetailView.swift */; };
+		1A36FB122BFCAF2300880ED5 /* WatchRestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB112BFCAF2300880ED5 /* WatchRestView.swift */; };
+		1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB132BFCAF2B00880ED5 /* WatchMainView.swift */; };
+		1A36FB162BFCAF3A00880ED5 /* WatchButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB152BFCAF3A00880ED5 /* WatchButtonView.swift */; };
+		1A36FB182BFCAF5100880ED5 /* WatchKickOffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB172BFCAF5100880ED5 /* WatchKickOffView.swift */; };
+		1A36FB1A2BFCAF5D00880ED5 /* HikingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB192BFCAF5D00880ED5 /* HikingViewModel.swift */; };
+		1A36FB272BFDE27900880ED5 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB262BFDE27900880ED5 /* NotificationView.swift */; };
+		1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A36FB282BFDE29400880ED5 /* NotificationController.swift */; };
 		1A43DF842BFCAC9A00E62BA6 /* LittleHikerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF832BFCAC9A00E62BA6 /* LittleHikerApp.swift */; };
 		1A43DF862BFCAC9A00E62BA6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF852BFCAC9A00E62BA6 /* ContentView.swift */; };
 		1A43DF882BFCAC9B00E62BA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF872BFCAC9B00E62BA6 /* Assets.xcassets */; };
 		1A43DF8B2BFCAC9B00E62BA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF8A2BFCAC9B00E62BA6 /* Preview Assets.xcassets */; };
 		1A43DF912BFCAC9B00E62BA6 /* LittleHiker Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1A43DF902BFCAC9B00E62BA6 /* LittleHiker Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1A43DF962BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DF952BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift */; };
 		1A43DF9A2BFCAC9C00E62BA6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */; };
 		1A43DF9D2BFCAC9C00E62BA6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A43DF9C2BFCAC9C00E62BA6 /* Preview Assets.xcassets */; };
 		1A43DFAB2BFCACDA00E62BA6 /* PhoneDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFAA2BFCACDA00E62BA6 /* PhoneDetailView.swift */; };
 		1A43DFAD2BFCACEC00E62BA6 /* PhoneRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFAC2BFCACEC00E62BA6 /* PhoneRowView.swift */; };
 		1A43DFAF2BFCACF400E62BA6 /* PhoneListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFAE2BFCACF400E62BA6 /* PhoneListView.swift */; };
+		1A43DFB22BFCAD8B00E62BA6 /* HealthKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB12BFCAD8B00E62BA6 /* HealthKitManager.swift */; };
+		1A43DFB42BFCAD9500E62BA6 /* CoreLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB32BFCAD9500E62BA6 /* CoreLocationManager.swift */; };
+		1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB52BFCAD9F00E62BA6 /* ImpulseManager.swift */; };
+		1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */; };
+		1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */; };
 		EE5068AC2CA3BB7800F5441F /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5068AB2CA3BB7300F5441F /* ColorExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -134,7 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				024F330E2C5631B90091A086 /* FileTransferObservers.swift */,
-				1A35BB492C3EC6FA00891AC6 /* DataSource.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -148,6 +173,7 @@
 				1A35BB432C3797FB00891AC6 /* HikingStatus.swift */,
 				1A35BB452C3E251400891AC6 /* CustomData.swift */,
 				1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */,
+				1A35BB492C3EC6FA00891AC6 /* DataSource.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -313,6 +339,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1A43DFA02BFCAC9C00E62BA6 /* Build configuration list for PBXNativeTarget "LittleHiker Watch App" */;
 			buildPhases = (
+				1A43DF8C2BFCAC9B00E62BA6 /* Sources */,
 				1A43DF8D2BFCAC9B00E62BA6 /* Frameworks */,
 				1A43DF8E2BFCAC9B00E62BA6 /* Resources */,
 			);
@@ -404,6 +431,39 @@
 				02EE67A72BFDC88A00F16E88 /* HikingLog.swift in Sources */,
 				1A43DF842BFCAC9A00E62BA6 /* LittleHikerApp.swift in Sources */,
 				02AEC24D2C4CD81400AF1F6D /* Method.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A43DF8C2BFCAC9B00E62BA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */,
+				1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */,
+				1A35BB462C3E251400891AC6 /* CustomData.swift in Sources */,
+				02EE67A32BFCDA3B00F16E88 /* WatchToIOSConnector.swift in Sources */,
+				1A36FB272BFDE27900880ED5 /* NotificationView.swift in Sources */,
+				1A36FB162BFCAF3A00880ED5 /* WatchButtonView.swift in Sources */,
+				1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */,
+				1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */,
+				1A35BB3E2C37977100891AC6 /* GifAnimation.swift in Sources */,
+				1A36FB0C2BFCAF0400880ED5 /* WatchSummaryView.swift in Sources */,
+				024F33102C5631B90091A086 /* FileTransferObservers.swift in Sources */,
+				1A35BB422C3797D900891AC6 /* KickOffStatus.swift in Sources */,
+				1A36FB0E2BFCAF1000880ED5 /* WatchRootView.swift in Sources */,
+				1A36FB182BFCAF5100880ED5 /* WatchKickOffView.swift in Sources */,
+				1A36FB1A2BFCAF5D00880ED5 /* HikingViewModel.swift in Sources */,
+				1A35BB442C3797FB00891AC6 /* HikingStatus.swift in Sources */,
+				1A43DFB42BFCAD9500E62BA6 /* CoreLocationManager.swift in Sources */,
+				1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */,
+				1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */,
+				1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */,
+				1A43DF962BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift in Sources */,
+				1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */,
+				1A36FB122BFCAF2300880ED5 /* WatchRestView.swift in Sources */,
+				1A35BB3C2C37972700891AC6 /* LabelCoefficients.swift in Sources */,
+				1A35BB4A2C3EC6FA00891AC6 /* DataSource.swift in Sources */,
+				1A43DFB22BFCAD8B00E62BA6 /* HealthKitManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
