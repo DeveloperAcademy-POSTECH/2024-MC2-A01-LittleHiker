@@ -23,6 +23,7 @@ final class HikingRecord {
     var endAltitude: Int    //종료고도
     var ascendAvgSpeed: Int //등산평균속도
     var descendAvgSpeed: Int//하산평균속도
+//    var avgImpulse: Int
     var avgForce: Int       //평균충격량
     var painRate: Int? = nil //고통지수
     var minHeartRate: Int   //최소심박수

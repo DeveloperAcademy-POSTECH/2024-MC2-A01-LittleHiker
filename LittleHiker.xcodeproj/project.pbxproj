@@ -134,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				024F330E2C5631B90091A086 /* FileTransferObservers.swift */,
+				1A35BB492C3EC6FA00891AC6 /* DataSource.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -147,7 +148,6 @@
 				1A35BB432C3797FB00891AC6 /* HikingStatus.swift */,
 				1A35BB452C3E251400891AC6 /* CustomData.swift */,
 				1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */,
-				1A35BB492C3EC6FA00891AC6 /* DataSource.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

@@ -29,6 +29,15 @@ final class DataSource {
         }
     }
     
+    // 데이터 조회 TODO: - 다 하나로 합치고 싶음
+    func fetchHikingRecords() -> [HikingRecord] {
+        do {
+            return try modelContext.fetch(FetchDescriptor<HikingRecord>())
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
     func fetchCustomComplementaryHikingData() -> [CustomComplementaryHikingData] {
         do {
             return try modelContext.fetch(FetchDescriptor<CustomComplementaryHikingData>())

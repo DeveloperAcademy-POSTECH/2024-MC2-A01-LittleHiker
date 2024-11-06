@@ -51,6 +51,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     // 파일 수신 메서드
+    @MainActor
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         let fileURL = file.fileURL
         
