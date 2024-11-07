@@ -12,6 +12,8 @@
 		022338C12C800FC600FC1427 /* HealthKitManager+IOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 022338C02C800FC600FC1427 /* HealthKitManager+IOS.swift */; };
 		0232D4A72CDB50DC00FDBFAF /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0232D4A52CDB50DC00FDBFAF /* DataSource.swift */; };
 		0232D4A82CDB515500FDBFAF /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0232D4A52CDB50DC00FDBFAF /* DataSource.swift */; };
+		0232D4A92CDC6D8B00FDBFAF /* HikingRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A42BFDC88A00F16E88 /* HikingRecord.swift */; };
+		0232D4AA2CDC6DA000FDBFAF /* HikingLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02EE67A52BFDC88A00F16E88 /* HikingLog.swift */; };
 		024F330F2C5631B90091A086 /* FileTransferObservers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024F330E2C5631B90091A086 /* FileTransferObservers.swift */; };
 		024F33102C5631B90091A086 /* FileTransferObservers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 024F330E2C5631B90091A086 /* FileTransferObservers.swift */; };
 		027E6D872C8D686B00BF2AE1 /* CustomData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A35BB452C3E251400891AC6 /* CustomData.swift */; };
@@ -160,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				024F330E2C5631B90091A086 /* FileTransferObservers.swift */,
+				0232D4A52CDB50DC00FDBFAF /* DataSource.swift */,
 			);
 			path = shared;
 			sourceTree = "<group>";
@@ -173,7 +176,6 @@
 				1A35BB432C3797FB00891AC6 /* HikingStatus.swift */,
 				1A35BB452C3E251400891AC6 /* CustomData.swift */,
 				1A35BB472C3EB04F00891AC6 /* SummaryModel.swift */,
-				0232D4A52CDB50DC00FDBFAF /* DataSource.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -438,6 +440,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0232D4A92CDC6D8B00FDBFAF /* HikingRecord.swift in Sources */,
 				1A36FB102BFCAF1800880ED5 /* WatchDetailView.swift in Sources */,
 				1A35BB3A2C32C7B000891AC6 /* AppDelegate.swift in Sources */,
 				1A35BB462C3E251400891AC6 /* CustomData.swift in Sources */,
@@ -459,6 +462,7 @@
 				1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */,
 				1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */,
 				1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */,
+				0232D4AA2CDC6DA000FDBFAF /* HikingLog.swift in Sources */,
 				1A43DF962BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift in Sources */,
 				1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */,
 				1A36FB122BFCAF2300880ED5 /* WatchRestView.swift in Sources */,
