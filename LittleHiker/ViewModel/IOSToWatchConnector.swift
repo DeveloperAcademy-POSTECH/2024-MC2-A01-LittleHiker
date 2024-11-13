@@ -7,13 +7,14 @@
 
 import Foundation
 import WatchConnectivity
+import SwiftUI
 
 final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     @Published var id: String = ""
     @Published var body: String = ""
     @Published var resultArray: [String:Any] = [:]
     
-    let viewModel = HikingViewModel()
+    @ObservedObject private var viewModel = HikingViewModel.shared
     var session: WCSession
     init(session: WCSession = .default) {
         self.session = session
