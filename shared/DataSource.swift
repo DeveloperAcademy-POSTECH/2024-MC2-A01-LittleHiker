@@ -15,7 +15,7 @@ final class DataSource {
     static let shared = DataSource()
     
     private init() {
-        self.modelContainer = try! ModelContainer(for: CustomComplementaryHikingData.self, LogsWithTimeStamps.self)
+        self.modelContainer = try! ModelContainer(for: CustomComplementaryHikingData.self, LogsWithTimeStamps.self, HikingLog.self, HikingRecord.self)
         self.modelContext = modelContainer.mainContext
     }
     
@@ -24,6 +24,15 @@ final class DataSource {
         modelContext.insert(item)
         do {
             try modelContext.save()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
+    }
+    
+    // 데이터 조회 TODO: - 다 하나로 합치고 싶음
+    func fetchHikingRecords() -> [HikingRecord] {
+        do {
+            return try modelContext.fetch(FetchDescriptor<HikingRecord>())
         } catch {
             fatalError(error.localizedDescription)
         }

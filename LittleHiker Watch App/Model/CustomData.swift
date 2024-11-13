@@ -33,7 +33,7 @@ class CustomComplementaryHikingData: Encodable {
 @Model
 class LogsWithTimeStamps: Encodable {
     var id: String
-    var logs: [String: String]
+    var logs: [String: String] //key가 시간, value가 충격량
     
     init() {
         self.id = ""

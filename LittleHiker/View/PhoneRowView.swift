@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PhoneRowView: View {
-    @Binding var record: HikingRecord
+    var record: HikingRecord
     
     var body: some View {
         VStack{

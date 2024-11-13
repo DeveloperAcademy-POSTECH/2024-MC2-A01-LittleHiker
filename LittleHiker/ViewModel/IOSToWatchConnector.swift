@@ -7,13 +7,14 @@
 
 import Foundation
 import WatchConnectivity
+import SwiftUI
 
 final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     @Published var id: String = ""
     @Published var body: String = ""
     @Published var resultArray: [String:Any] = [:]
     
-    let viewModel = HikingViewModel()
+    @ObservedObject private var viewModel = HikingViewModel.shared
     var session: WCSession
     init(session: WCSession = .default) {
         self.session = session
@@ -51,6 +52,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     }
     
     // 파일 수신 메서드
+    @MainActor
     func session(_ session: WCSession, didReceive file: WCSessionFile) {
         let fileURL = file.fileURL
         
@@ -64,7 +66,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             
             // 데이터가공 후 저장
             viewModel.saveDataFromWatch(data)
-
+            
             //debug용
             let resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
             
