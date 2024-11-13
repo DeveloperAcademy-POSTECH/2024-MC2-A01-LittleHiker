@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct PhoneDetailView: View {
-    @Binding var record: HikingRecord
+    var record: HikingRecord
     
     //충격량 추이 그래프 샘플 데이터
     let sampleData: [ImpluseValues] = generateSampleData()

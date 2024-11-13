@@ -12,6 +12,7 @@ import SwiftData
 struct PhoneListView: View {
     @StateObject var iosToWatch = IOSToWatchConnector()
     
+    @Environment(\.modelContext) private var modelContext
     //리스트 그리기 샘플데이터
     @Query private var records: [HikingRecord]
     
@@ -40,33 +41,35 @@ struct PhoneListView: View {
                 .background(Color(.systemGray5))
                 .cornerRadius(10)
             }
-            List {
-                //                ForEach(records.indices, id: \.self) { index in
-                //
-                //                    NavigationLink(destination: PhoneDetailView(record: $records[index])) {
-                //
-                //                        PhoneRowView(record: $records[index])
-                //                            .swipeActions(edge: .trailing) {
-                //                                Button(action: {
-                //                                    // Edit action
-                //                                    editRecord(at: index)
-                //                                }) {
-                //                                    Label("Edit", systemImage: "pencil")
-                //                                }
-                //                                .tint(.blue)
-                //
-                //                                Button(action: {
-                //                                    // Delete action
-                //                                    deleteRecord(at: index)
-                //                                }) {
-                //                                    Label("Delete", systemImage: "trash")
-                //                                }
-                //                                .tint(.red)
-                //                            }
-                //                    }
+            if !records.isEmpty {
+                List {
+                    ForEach(records) { record in
+                        NavigationLink(destination: PhoneDetailView(record: record)) {
+                            
+                            PhoneRowView(record: record)
+                                .swipeActions(edge: .trailing) {
+                                    Button(action: {
+                                        // Edit action
+                                        //                                    editRecord(at: index)
+                                    }) {
+                                        Label("Edit", systemImage: "pencil")
+                                    }
+                                    .tint(.blue)
+                                    
+                                    Button(action: {
+                                        // Delete action
+//                                        deleteRecord(at: index)
+                                    }) {
+                                        Label("Delete", systemImage: "trash")
+                                    }
+                                    .tint(.red)
+                                }
+                        }
+                    }
+                }
+                .listStyle(.plain)
             }
         }
-        .listStyle(.plain)
     }
 }
 
@@ -80,6 +83,6 @@ private func deleteRecord(at index: Int) {
     //        records.remove(at: index)
 }
 
-#Preview {
-    PhoneListView()
-}
+//#Preview {
+//    PhoneListView()
+//}

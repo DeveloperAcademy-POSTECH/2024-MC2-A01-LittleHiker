@@ -10,7 +10,7 @@ import SwiftData
 
 // MARK: - HikingLog 등산실시간로그
 @Model
-final class HikingLog {
+class HikingLog {
     
     @Attribute(.unique) var id: UUID   //구분값
     var hikingRecordId: UUID // HikingRecord Model ID
