@@ -20,18 +20,20 @@ class HikingViewModel: ObservableObject {
             let resultArray = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] ?? [:]
             
             // watch에서 받은 데이터를 HikingRecord에 저장
-            let hikingRecords = dataSource.fetchHikingRecords()
-            if resultArray["data"] != nil { //summaryModel
-                saveReceivedSummaryData(resultArray, hikingRecords, dataSource)
-                
-            }
+            var hikingRecords = dataSource.fetchHikingRecords()
             
-            // watch에서 받은 로그데이터를 HikingRecord 내의 Log에 저장
-            if resultArray["logs"] != nil { //summaryModel
-                // TODO: - HikingLog 저장
-                saveReceivedLogs(resultArray, hikingRecords, dataSource)
-            }
             
+            Task{
+                if resultArray["data"] != nil { //summaryModel
+                    await saveReceivedSummaryData(resultArray, hikingRecords, dataSource)
+                }
+                hikingRecords = dataSource.fetchHikingRecords()
+                // watch에서 받은 로그데이터를 HikingRecord 내의 Log에 저장
+                if resultArray["logs"] != nil { //summaryModel
+                    // TODO: - HikingLog 저장
+                    await saveReceivedLogs(resultArray, hikingRecords, dataSource)
+                }
+            }
             // TODO: - 헬스킷 조회
         } catch {
             print(error.localizedDescription)
@@ -41,15 +43,15 @@ class HikingViewModel: ObservableObject {
     
 extension HikingViewModel {
     @MainActor
-    func saveReceivedSummaryData(
+    func saveReceivedSummaryData (
         _ resultArray: [String: Any],
         _ hikingRecords: [HikingRecord],
         _ dataSource: DataSource
-    ) {
+    ) async {
         if let data = resultArray["data"] as? [String: Any] {
             // 스위프트 데이터에 watch에서 온 데이터가 있으면
             if let hikingRecord = hikingRecords.first(
-                where: {$0.id == resultArray["id"] as? UUID
+                where: {$0.id == UUID(uuidString: resultArray["id"] as? String ?? "")
                 }) {
                 hikingRecord.id = resultArray["id"] as! UUID
                     
@@ -57,13 +59,13 @@ extension HikingViewModel {
                 if let title = data["title"] as? String {
                     hikingRecord.title = title
                 }
-                if let startAltitude = data["startAltitude"] as? Int {
+                if let startAltitude = data["minAltitude"] as? Int {
                     hikingRecord.startAltitude = startAltitude
                 }
-                if let peakAltitude = data["peakAltitude"] as? Int {
+                if let peakAltitude = data["maxAltitude"] as? Int {
                     hikingRecord.peakAltitude = peakAltitude
                 }
-                if let endAltitude = data["endAltitude"] as? Int {
+                if let endAltitude = data["minAltitude"] as? Int {
                     hikingRecord.endAltitude = endAltitude
                 }
                 if let maxAltitude = data["maxAltitude"] as? Int {
@@ -78,10 +80,10 @@ extension HikingViewModel {
                 if let duration = data["duration"] as? Int {
                     hikingRecord.duration = duration
                 }
-                if let ascendAvgSpeed = data["ascendAvgSpeed"] as? Int {
+                if let ascendAvgSpeed = data["speedAvg"] as? Int {
                     hikingRecord.ascendAvgSpeed = ascendAvgSpeed
                 }
-                if let descendAvgSpeed = data["descendAvgSpeed"] as? Int {
+                if let descendAvgSpeed = data["speedAvg"] as? Int {
                     hikingRecord.descendAvgSpeed = descendAvgSpeed
                 }
                 if let heartRateAvg = data["heartRateAvg"] as? Int {
@@ -98,21 +100,21 @@ extension HikingViewModel {
                     
             } else {
                 let newHikingRecord = HikingRecord(
-                    id: resultArray["id"] as? UUID ?? UUID(),
+                    id: UUID(uuidString: resultArray["id"] as! String) ?? UUID(),
                     title: "\(data["startDate"] as? String ?? "-")",
                     duration: data["duration"] as? Int ?? 0,
                     startDateTime: data["startDate"] as? Date ?? Date(),
                     endDateTime: data["endDate"] as? Date ?? Date(),
-                    startAltitude: data["startAltitude"] as? Int ?? 0,
-                    peakAltitude: data["peakAltitude"] as? Int ?? 0,
-                    endAltitude: data["endAltitude"] as? Int ?? 0,
+                    startAltitude: data["minAltitude"] as? Int ?? 0,
+                    peakAltitude: data["maxAltitude"] as? Int ?? 0,
+                    endAltitude: data["maxAltitude"] as? Int ?? 0,
                     ascendAvgSpeed: data["ascendAvgSpeed"] as? Int ?? 0,
                     descendAvgSpeed: data["descendAvgSpeed"] as? Int ?? 0,
                     avgForce: data["avgForce"] as? Int ?? 0,
                     painRate: data["painRate"] as? Int ?? 0,
                     minHeartRate: data["minHeartRate"] as? Int ?? 0,
                     maxHeartRate: data["maxHeartRate"] as? Int ?? 0,
-                    avgHeartRate: data["avgHeartRate"] as? Int ?? 0,
+                    avgHeartRate: data["heartRateAvg"] as? Int ?? 0,
                     hikingLog: [:]
                 )
                 dataSource.saveItem(newHikingRecord)
@@ -121,20 +123,20 @@ extension HikingViewModel {
     }
         
     @MainActor
-    func saveReceivedLogs(
+    func saveReceivedLogs  (
         _ resultArray: [String: Any],
         _ hikingRecords: [HikingRecord],
         _ dataSource: DataSource
-    ) {
+    ) async {
         if let logs = resultArray["logs"] as? [String: Any] {
             if let hikingRecord = hikingRecords.first(
-                where: {$0.id == logs["id"] as? UUID
+                where: {$0.id == UUID(uuidString: resultArray["id"] as? String ?? "")
                 }) {
                 hikingRecord.hikingLog = logs["logs"] as? [String: String] ?? [:]
                 dataSource.saveItem(hikingRecord)
             } else {
                 let newHikingRecord = HikingRecord(
-                    id: UUID(),
+                    id: UUID(uuidString: resultArray["id"] as! String) ?? UUID(),
                     title: "-",
                     duration: 0,
                     startDateTime: Date(),
