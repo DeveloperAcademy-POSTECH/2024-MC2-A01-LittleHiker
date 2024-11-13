@@ -15,7 +15,7 @@ final class DataSource {
     static let shared = DataSource()
     
     private init() {
-        self.modelContainer = try! ModelContainer(for: CustomComplementaryHikingData.self, LogsWithTimeStamps.self)
+        self.modelContainer = try! ModelContainer(for: CustomComplementaryHikingData.self, LogsWithTimeStamps.self, HikingLog.self, HikingRecord.self)
         self.modelContext = modelContainer.mainContext
     }
     
