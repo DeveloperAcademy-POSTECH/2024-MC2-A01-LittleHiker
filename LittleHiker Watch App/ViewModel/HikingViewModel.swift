@@ -114,7 +114,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         self.healthKitManager.fetchHeartRateStatistics { (averageHeartRate, minHeartRate, maxHeartRate, error) in
             DispatchQueue.main.async {
                 if let averageHeartRate = averageHeartRate, let minHeartRate = minHeartRate, let maxHeartRate = maxHeartRate {
-                    self.summaryModel.heartRateAvg = Int(averageHeartRate)
+                    self.summaryModel.avgHeartRate = Int(averageHeartRate)
                     self.summaryModel.maxHeartRate = Int(maxHeartRate)
                     self.summaryModel.minHeartRate = Int(minHeartRate)
                 } else {
@@ -137,8 +137,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 }
                 
                 self.summaryModel.totalDistance = self.healthKitManager.currentDistanceWalkingRunning // 헬스킷에서 총 거리 가져오기
-                self.summaryModel.speedAvg = self.healthKitManager.getSpeedAvg() //헬스킷에서 평균 속도 가져오기
-                self.summaryModel.impulseAvg = self.impulseManager.getImpulseAvg()
+                self.summaryModel.avgSpeed = self.healthKitManager.getAvgSpeed() //헬스킷에서 평균 속도 가져오기
+                self.summaryModel.avgImpulse = self.impulseManager.getAvgImpulse()
                 
                 if let minImpulse = self.impulseManager.findNonZeroMin() {
                     self.summaryModel.minImpulse = Int(minImpulse)

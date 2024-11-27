@@ -11,24 +11,36 @@ import SwiftData
 // MARK: - HikingRecord 등산정보
 @Model
 class HikingRecord {
-    
     @Attribute(.unique) var id: UUID   //구분값
     var title: String       //iOS title
     var duration: Int       //등산소요시간
+    // TODO: healthKit에서 조회해 와야 함
     var startDateTime: Date //시작시간
     // var peakDateTime 필요하네
+    var peakDateTime: Date?
     var endDateTime: Date   //종료시간
-    var startAltitude: Int  //시작고도
-    var peakAltitude: Int   //최고고도
-    var endAltitude: Int    //종료고도
-    var ascendAvgSpeed: Int //등산평균속도
-    var descendAvgSpeed: Int//하산평균속도
-//    var avgImpulse: Int
-    var avgForce: Int       //평균충격량
-    var painRate: Int? = nil //고통지수
+    
     var minHeartRate: Int   //최소심박수
     var maxHeartRate: Int   //최고심박수
     var avgHeartRate: Int   //평균심박수
+    
+    var startAltitude: Int  //시작고도 → healthKit에서 처음 고도값 가져오기.
+    var peakAltitude: Int   //최고고도 → 최고 고도
+    var endAltitude: Int    //종료고도 → healthKit에서 마지막 고도값 가져오기.. 근데 필요할까?
+    var totalDistance: Int? = nil
+    
+    // TODO: healthKit에서 조회해 와야 함
+    var ascendAvgSpeed: Int //등산평균속도
+    //등산 시작 시간을 healthKit에서 가져와서, 하산 시작 시간 이전까지의 속도의 평균값
+    var descendAvgSpeed: Int//하산평균속도
+    //impulseLogs 처음 시간 == 하산 시작 시간
+    //healthKit에서 하산 시작 시간 이후의 속도의 평균값
+    var avgSpeed: Double
+    
+//    var avgImpulse: Int
+    var avgImpulse: Double       //평균충격량
+    var painRate: Int? = nil //고통지수
+    
     
     @Relationship(deleteRule: .cascade, inverse: \HikingLog.hikingRecord)
     var hikingLog: [String: String]
@@ -79,23 +91,25 @@ class HikingRecord {
         }
     }
     
-    init(id: UUID, title: String, duration: Int, startDateTime: Date, endDateTime: Date, startAltitude: Int, peakAltitude: Int, endAltitude: Int, ascendAvgSpeed: Int, descendAvgSpeed: Int, avgForce: Int, painRate: Int? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, hikingLog: [String :String]) {
+    init(id: UUID, title: String, duration: Int, startDateTime: Date, peakDateTime: Date? = nil, endDateTime: Date, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int, peakAltitude: Int, endAltitude: Int, totalDistance: Int? = nil, ascendAvgSpeed: Int, descendAvgSpeed: Int, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [String : String]) {
         self.id = id
         self.title = title
         self.duration = duration
         self.startDateTime = startDateTime
+        self.peakDateTime = peakDateTime
         self.endDateTime = endDateTime
-        self.startAltitude = startAltitude
-        self.peakAltitude = peakAltitude
-        self.endAltitude = endAltitude
-        self.ascendAvgSpeed = ascendAvgSpeed
-        self.descendAvgSpeed = descendAvgSpeed
-        self.avgForce = avgForce
-        self.painRate = painRate
         self.minHeartRate = minHeartRate
         self.maxHeartRate = maxHeartRate
         self.avgHeartRate = avgHeartRate
+        self.startAltitude = startAltitude
+        self.peakAltitude = peakAltitude
+        self.endAltitude = endAltitude
+        self.totalDistance = totalDistance
+        self.ascendAvgSpeed = ascendAvgSpeed
+        self.descendAvgSpeed = descendAvgSpeed
+        self.avgSpeed = avgSpeed
+        self.avgImpulse = avgImpulse
+        self.painRate = painRate
         self.hikingLog = hikingLog
     }
-    
 }
