@@ -24,7 +24,6 @@ struct SummaryModel: Codable {
     
     var avgSpeed: Double = 0.0 //평균속도
 
-    
     var minImpulse: Int = 0 //최소 충격량
     var maxImpulse: Int = 0 //최대 충격량
     var avgImpulse: Double = 0.0 //평균 충격량
