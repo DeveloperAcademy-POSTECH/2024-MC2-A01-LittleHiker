@@ -8,21 +8,30 @@
 import Foundation
 
 struct SummaryModel: Codable {
-    var minImpulse: Int = 0
-    var maxImpulse: Int = 0
-    var heartRateAvg: Int = 0
+    // TODO: 정상 눌렀을 때 시간, 고도 기록
+    var peakDateTime : Date?
+    var peakAltitude : Int?
+    
     var minHeartRate: Int = 0
     var maxHeartRate: Int = 0
-    var totalAltitude: Int = 0
+    var avgHeartRate: Int = 0 //
+    
     var minAltitude: Int = 0 
     var maxAltitude: Int = 0
+    var totalAltitude: Int = 0
+    
     var totalDistance: Double = 0.0
-    var speedAvg: Double = 0.0 //평균 페이스
-    var impulseAvg: Double = 0.0 //평균 충격량
+    
+    var avgSpeed: Double = 0.0 //평균속도
+
+    
+    var minImpulse: Int = 0 //최소 충격량
+    var maxImpulse: Int = 0 //최대 충격량
+    var avgImpulse: Double = 0.0 //평균 충격량
 }
 
-//iOS의 hikingRecord에 없는 것
+//iOS의 hikingRecord에 있고 watchd에는 없는 것
 // startAltitude
-// startDate, endDate
+// startDateTime, endDateTime
 // duration
 // ascendingSpeed, DescendingSpeed

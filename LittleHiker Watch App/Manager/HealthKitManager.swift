@@ -135,7 +135,7 @@ class HealthKitManager: NSObject, ObservableObject {
         healthStore.execute(query)
     }
     
-    func getSpeedAvg() -> Double {
+    func getAvgSpeed() -> Double {
         //0.5km/h이상의 값만 유효한 값으로 인식
         let nonZeroSpeedLogs = speedLogs.filter { $0 >= 0.5 }
 

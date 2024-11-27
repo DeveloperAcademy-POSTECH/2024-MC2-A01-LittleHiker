@@ -138,7 +138,7 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     
-    func getImpulseAvg() -> Double {
+    func getAvgImpulse() -> Double {
         let nonZeroImpulseLogs = impulseLogs.filter { $0 != 0 }
         
         guard !nonZeroImpulseLogs.isEmpty else {

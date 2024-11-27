@@ -59,6 +59,24 @@ extension HikingViewModel {
                 if let title = data["title"] as? String {
                     hikingRecord.title = title
                 }
+                if let duration = data["duration"] as? Int {
+                    hikingRecord.duration = duration
+                }
+                if let startDate = data["startDate"] as? Date {
+                    hikingRecord.startDateTime = startDate
+                }
+                if let endDate = data["endDate"] as? Date {
+                    hikingRecord.endDateTime = endDate
+                }
+                if let minHeartRate = data["minHeartRate"] as? Int {
+                    hikingRecord.minHeartRate = minHeartRate
+                }
+                if let maxHeartRate = data["maxHeartRate"] as? Int {
+                    hikingRecord.maxHeartRate = maxHeartRate
+                }
+                if let avgHeartRate = data["avgHeartRate"] as? Int {
+                    hikingRecord.avgHeartRate = avgHeartRate
+                }
                 if let startAltitude = data["minAltitude"] as? Int {
                     hikingRecord.startAltitude = startAltitude
                 }
@@ -68,34 +86,20 @@ extension HikingViewModel {
                 if let endAltitude = data["minAltitude"] as? Int {
                     hikingRecord.endAltitude = endAltitude
                 }
-                if let maxAltitude = data["maxAltitude"] as? Int {
-                    hikingRecord.peakAltitude = maxAltitude
-                }
-                if let startDate = data["startDate"] as? Date {
-                    hikingRecord.startDateTime = startDate
-                }
-                if let endDate = data["endDate"] as? Date {
-                    hikingRecord.endDateTime = endDate
-                }
-                if let duration = data["duration"] as? Int {
-                    hikingRecord.duration = duration
-                }
-                if let ascendAvgSpeed = data["speedAvg"] as? Int {
+                if let ascendAvgSpeed = data["ascendAvgSpeed"] as? Int {
                     hikingRecord.ascendAvgSpeed = ascendAvgSpeed
                 }
-                if let descendAvgSpeed = data["speedAvg"] as? Int {
+                if let descendAvgSpeed = data["descendAvgSpeed"] as? Int {
                     hikingRecord.descendAvgSpeed = descendAvgSpeed
                 }
-                if let heartRateAvg = data["heartRateAvg"] as? Int {
-                    hikingRecord.avgHeartRate = heartRateAvg
+                if let avgSpeed = data["avgSpeed"] as? Double {
+                    hikingRecord.avgSpeed = avgSpeed
                 }
-                if let heartRateMax = data["maxHeartRate"] as? Int {
-                    hikingRecord.maxHeartRate = heartRateMax
+                if let avgImpulse = data["avgImpulse"] as? Double {
+                    hikingRecord.avgImpulse = avgImpulse
                 }
-                if let heartRateMin = data["minHeartRate"] as? Int {
-                    hikingRecord.minHeartRate = heartRateMin
-                }
-                    
+                
+
                 dataSource.saveItem(hikingRecord)
                     
             } else {
@@ -105,18 +109,17 @@ extension HikingViewModel {
                     duration: data["duration"] as? Int ?? 0,
                     startDateTime: data["startDate"] as? Date ?? Date(),
                     endDateTime: data["endDate"] as? Date ?? Date(),
-                    startAltitude: data["minAltitude"] as? Int ?? 0,
-                    peakAltitude: data["maxAltitude"] as? Int ?? 0,
-                    endAltitude: data["maxAltitude"] as? Int ?? 0,
-                    ascendAvgSpeed: data["ascendAvgSpeed"] as? Int ?? 0,
-                    descendAvgSpeed: data["descendAvgSpeed"] as? Int ?? 0,
-                    avgForce: data["avgForce"] as? Int ?? 0,
-                    painRate: data["painRate"] as? Int ?? 0,
                     minHeartRate: data["minHeartRate"] as? Int ?? 0,
                     maxHeartRate: data["maxHeartRate"] as? Int ?? 0,
                     avgHeartRate: data["heartRateAvg"] as? Int ?? 0,
-                    hikingLog: [:]
-                )
+                    startAltitude: data["minAltitude"] as? Int ?? 0,
+                    peakAltitude: data["maxAltitude"] as? Int ?? 0,
+                    endAltitude: data["minAltitude"] as? Int ?? 0,
+                    ascendAvgSpeed: data["ascendAvgSpeed"] as? Int ?? 0,
+                    descendAvgSpeed: data["descendAvgSpeed"] as? Int ?? 0,
+                    avgSpeed: data["avgSpeed"] as? Double ?? 0.0,
+                    avgImpulse: data["avgImpulse"] as? Double ?? 0.0,
+                    hikingLog: [:])
                 dataSource.saveItem(newHikingRecord)
             }
         }
@@ -135,22 +138,23 @@ extension HikingViewModel {
                 hikingRecord.hikingLog = logs["logs"] as? [String: String] ?? [:]
                 dataSource.saveItem(hikingRecord)
             } else {
-                let newHikingRecord = HikingRecord(
+                let newHikingRecord =
+                HikingRecord(
                     id: UUID(uuidString: resultArray["id"] as! String) ?? UUID(),
                     title: "-",
                     duration: 0,
                     startDateTime: Date(),
                     endDateTime: Date(),
+                    minHeartRate: 0,
+                    maxHeartRate: 0,
+                    avgHeartRate: 0,
                     startAltitude: 0,
                     peakAltitude: 0,
                     endAltitude: 0,
                     ascendAvgSpeed: 0,
                     descendAvgSpeed: 0,
-                    avgForce: 0,
-                    painRate: 0,
-                    minHeartRate: 0,
-                    maxHeartRate: 0,
-                    avgHeartRate: 0,
+                    avgSpeed: 0.0,
+                    avgImpulse: 0.0,
                     hikingLog: logs["logs"] as? [String: String] ?? [:]
                 )
                 dataSource.saveItem(newHikingRecord)

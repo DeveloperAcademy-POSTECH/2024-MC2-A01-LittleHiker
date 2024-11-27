@@ -132,18 +132,18 @@ class HealthKitManager {
             duration: Int(hkWorkOut.duration),
             startDateTime: hkWorkOut.startDate,
             endDateTime: hkWorkOut.endDate,
+            minHeartRate: 0,
+            maxHeartRate: 0,
+            avgHeartRate: 0,
             startAltitude: 0,
             peakAltitude: 0,
             endAltitude: 0,
             ascendAvgSpeed: 0,
             descendAvgSpeed: 0,
-            avgForce: 0,
-            minHeartRate: 0,
-            maxHeartRate: 0,
-            avgHeartRate: 0,
+            avgSpeed: 0.0,
+            avgImpulse: 0.0,
             hikingLog: [:]
         )
-        
         return hikingRecord
     }
 }
