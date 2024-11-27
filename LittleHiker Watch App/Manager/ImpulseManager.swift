@@ -190,7 +190,7 @@ class ImpulseManager: NSObject, ObservableObject {
     }
     
     func stayedInRedZoneForTooLong() -> Bool {
-        if 15 <= redZoneCount {
+        if 5 <= redZoneCount {
             return true
         }
         return false
