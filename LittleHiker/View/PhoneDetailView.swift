@@ -120,7 +120,7 @@ struct PhoneDetailView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
                             //FIXME: 등반시의 평균 속도임
-                            Text("\(record.ascendAvgSpeed) KM/H")
+                            Text("\(record.avgSpeed) KM/H")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "02F5EA"))
                         }
@@ -136,7 +136,7 @@ struct PhoneDetailView: View {
                             Text("등반 고도")
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
-                            Text("\(record.peakAltitude) M")
+                            Text("\(record.totalAltitude) M")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "00DE70"))
                         }

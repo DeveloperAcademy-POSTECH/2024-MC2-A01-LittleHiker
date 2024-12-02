@@ -29,6 +29,7 @@ class HikingRecord {
     var endAltitude: Int?    //종료고도 → healthKit에서 마지막 고도값 가져오기.. 근데 필요할까?
     var minAltitude: Int // 최고 고도
     var maxAltitude : Int // 최소 고도
+    var totalAltitude: Int // 등반 고도
     var totalDistance: Int?
     
     // TODO: healthKit에서 조회해 와야 함
@@ -93,7 +94,7 @@ class HikingRecord {
         }
     }
     
-    init(id: UUID, title: String, duration: Int, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalDistance: Int? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [HikingLog]) {
+    init(id: UUID, title: String, duration: Int, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Int? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [HikingLog]) {
         self.id = id
         self.title = title
         self.duration = duration
@@ -108,6 +109,7 @@ class HikingRecord {
         self.endAltitude = endAltitude
         self.minAltitude = minAltitude
         self.maxAltitude = maxAltitude
+        self.totalAltitude = totalAltitude
         self.totalDistance = totalDistance
         self.ascendAvgSpeed = ascendAvgSpeed
         self.descendAvgSpeed = descendAvgSpeed

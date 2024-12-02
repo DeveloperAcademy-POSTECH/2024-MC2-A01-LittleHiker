@@ -52,8 +52,6 @@ extension HikingViewModel {
             if let hikingRecord = hikingRecords.first(
                 where: {$0.id == UUID(uuidString: resultArray["id"] as? String ?? "")
                 }) {
-                hikingRecord.id = resultArray["id"] as! UUID
-                
                 // TODO: - 더 간단하게 쓸 수 있을지 리팩토링
                 if let title = data["title"] as? String {
                     hikingRecord.title = title
@@ -91,15 +89,16 @@ extension HikingViewModel {
                 if let endAltitude = data["minAltitude"] as? Int {
                     hikingRecord.endAltitude = endAltitude
                 }
-                
                 // watch에서 전송받음
                 if let minAltitude = data["minAltitude"] as? Int {
                     hikingRecord.minAltitude = minAltitude
                 }
-                
                 // watch에서 전송받음
                 if let maxAltitude = data["maxAltitude"] as? Int {
                     hikingRecord.maxAltitude = maxAltitude
+                }
+                if let totalAltitude = data["totalAltitude"] as? Int {
+                    hikingRecord.totalAltitude = totalAltitude
                 }
                 // 헬스킷에 없어서 watch에서 전송받아야 함 (현재 전송 로직 없음)
                 if let ascendAvgSpeed = data["ascendAvgSpeed"] as? Int {
@@ -140,6 +139,7 @@ extension HikingViewModel {
                     peakAltitude: data["maxAltitude"] as? Int? ?? nil,
                     minAltitude: data["minAltitude"] as? Int ?? 0,
                     maxAltitude: data["maxAltitude"] as? Int ?? 0,
+                    totalAltitude: data["totalAltitude"] as? Int ?? 0,
                     ascendAvgSpeed: data["ascendAvgSpeed"] as? Int ?? 0,
                     descendAvgSpeed: data["descendAvgSpeed"] as? Int ?? 0,
                     avgSpeed: data["avgSpeed"] as? Double ?? 0.0,
@@ -160,7 +160,7 @@ extension HikingViewModel {
             if let hikingRecord = hikingRecords.first(
                 where: {$0.id == UUID(uuidString: resultArray["id"] as? String ?? "")
                 }) {
-                hikingRecord.hikingLog = logs["logs"] as? [HikingLog] ?? []
+                hikingRecord.hikingLog = convertLogsToHikingLogs(from: resultArray["logs"] as? [String: String] ?? [:])
                 dataSource.saveItem(hikingRecord)
             } else {
                 let newHikingRecord =
@@ -168,13 +168,12 @@ extension HikingViewModel {
                     id: UUID(uuidString: resultArray["id"] as? String ?? UUID().uuidString) ?? UUID(),
                     title: "-",
                     duration: 0,
-                    startDateTime: Date(),
-                    endDateTime: Date(),
                     minHeartRate: 0,
                     maxHeartRate: 0,
                     avgHeartRate: 0,
                     minAltitude: 0,
                     maxAltitude: 0,
+                    totalAltitude: 0,
                     ascendAvgSpeed: 0,
                     descendAvgSpeed: 0,
                     avgSpeed: 0.0,

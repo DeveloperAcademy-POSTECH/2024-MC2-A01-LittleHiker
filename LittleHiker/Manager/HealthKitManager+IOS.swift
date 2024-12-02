@@ -137,6 +137,7 @@ class HealthKitManager {
             avgHeartRate: 0,
             minAltitude: 0,
             maxAltitude: 0,
+            totalAltitude: 0,
             ascendAvgSpeed: 0,
             descendAvgSpeed: 0,
             avgSpeed: 0.0,
