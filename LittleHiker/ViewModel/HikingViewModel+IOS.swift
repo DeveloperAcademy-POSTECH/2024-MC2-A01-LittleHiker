@@ -185,8 +185,7 @@ extension HikingViewModel {
             }
         }
     }
-    
-    
+
     func convertLogsToHikingLogs(from logs: [String:String]) -> [HikingLog] {
         var convertedLogs: [HikingLog] = []
         for (timeStampString, impulseLog) in logs {
@@ -194,10 +193,19 @@ extension HikingViewModel {
                 HikingLog(
                     id: UUID(),
                     impulse: Int(impulseLog) ?? 0 ,
-                    timeStamp: Date(timeIntervalSince1970: Double(timeStampString)!)
+                    timeStamp: convertTimeStapStringToDateTime(from : timeStampString)
                 )
             )
         }
         return convertedLogs
+    }
+    
+    func convertTimeStapStringToDateTime(from timeStampString: String) -> Date {
+        let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // Adjust to match your date string's format
+            dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensures consistent parsing
+            
+            // Parse the date string and return the Date object
+            return dateFormatter.date(from: timeStampString) ?? Date()
     }
 }
