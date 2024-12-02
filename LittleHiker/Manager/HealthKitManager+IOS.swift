@@ -135,14 +135,14 @@ class HealthKitManager {
             minHeartRate: 0,
             maxHeartRate: 0,
             avgHeartRate: 0,
-            startAltitude: 0,
-            peakAltitude: 0,
-            endAltitude: 0,
+            minAltitude: 0,
+            maxAltitude: 0,
+            totalAltitude: 0,
             ascendAvgSpeed: 0,
             descendAvgSpeed: 0,
             avgSpeed: 0.0,
             avgImpulse: 0.0,
-            hikingLog: [:]
+            hikingLog: []
         )
         return hikingRecord
     }
