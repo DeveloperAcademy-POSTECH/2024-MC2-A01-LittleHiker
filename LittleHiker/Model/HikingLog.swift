@@ -11,24 +11,21 @@ import SwiftData
 // MARK: - HikingLog 등산실시간로그
 @Model
 class HikingLog {
-    
     @Attribute(.unique) var id: UUID   //구분값
-    var hikingRecordId: UUID // HikingRecord Model ID
-    var altitude: Int        //고도
-    var speed: Int           //속도
-    var force: Int           //충격량
-    var heartRate: Int       //심박수
-    var timestamp: Date      //시간
+    var hikingRecord: HikingRecord? //로그가 속한 hikingRecord
+    var altitude: Int?       //고도
+    var speed: Int?           //속도
+    var impulse: Int           //충격량
+    var heartRate: Int?      //심박수
+    var timeStamp: Date      //시간
     
-    var hikingRecord: HikingRecord?
-    
-    init(id: UUID, hikingRecordId: UUID, altitude: Int, speed: Int, force: Int, heartRate: Int, timestamp: Date) {
+    init(id: UUID, hikingRecord: HikingRecord? = nil, altitude: Int? = nil, speed: Int? = nil, impulse: Int, heartRate: Int? = nil, timeStamp: Date) {
         self.id = id
-        self.hikingRecordId = hikingRecordId
+        self.hikingRecord = hikingRecord
         self.altitude = altitude
         self.speed = speed
-        self.force = force
+        self.impulse = impulse
         self.heartRate = heartRate
-        self.timestamp = timestamp
+        self.timeStamp = timeStamp
     }
 }
