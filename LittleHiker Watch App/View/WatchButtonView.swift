@@ -238,8 +238,6 @@ struct WatchButtonView: View {
                     viewModel.status = .peak
                     //하이킹 워크아웃 일시정지
                     viewModel.healthKitManager.pauseHikingWorkout()
-                    
-                    
                     selection = "default"
                 }) {
                     RoundedRectangle(cornerRadius: 28)
