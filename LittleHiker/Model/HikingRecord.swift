@@ -48,6 +48,35 @@ class HikingRecord {
     @Relationship(deleteRule: .cascade, inverse: \HikingLog.hikingRecord)
     var hikingLog: [HikingLog]
     
+    
+    init(id: UUID, title: String, duration: Int, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Int? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [HikingLog]) {
+        self.id = id
+        self.title = title
+        self.duration = duration
+        self.startDateTime = startDateTime
+        self.peakDateTime = peakDateTime
+        self.endDateTime = endDateTime
+        self.minHeartRate = minHeartRate
+        self.maxHeartRate = maxHeartRate
+        self.avgHeartRate = avgHeartRate
+        self.startAltitude = startAltitude
+        self.peakAltitude = peakAltitude
+        self.endAltitude = endAltitude
+        self.minAltitude = minAltitude
+        self.maxAltitude = maxAltitude
+        self.totalAltitude = totalAltitude
+        self.totalDistance = totalDistance
+        self.ascendAvgSpeed = ascendAvgSpeed
+        self.descendAvgSpeed = descendAvgSpeed
+        self.avgSpeed = avgSpeed
+        self.avgImpulse = avgImpulse
+        self.painRate = painRate
+        self.hikingLog = hikingLog
+    }
+}
+
+
+extension HikingRecord {
     var formattedStartTime: String {
         let dateFormatter = DateFormatter()
         
@@ -92,30 +121,5 @@ class HikingRecord {
         } else {
             return "Invalid time"
         }
-    }
-    
-    init(id: UUID, title: String, duration: Int, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Int? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [HikingLog]) {
-        self.id = id
-        self.title = title
-        self.duration = duration
-        self.startDateTime = startDateTime
-        self.peakDateTime = peakDateTime
-        self.endDateTime = endDateTime
-        self.minHeartRate = minHeartRate
-        self.maxHeartRate = maxHeartRate
-        self.avgHeartRate = avgHeartRate
-        self.startAltitude = startAltitude
-        self.peakAltitude = peakAltitude
-        self.endAltitude = endAltitude
-        self.minAltitude = minAltitude
-        self.maxAltitude = maxAltitude
-        self.totalAltitude = totalAltitude
-        self.totalDistance = totalDistance
-        self.ascendAvgSpeed = ascendAvgSpeed
-        self.descendAvgSpeed = descendAvgSpeed
-        self.avgSpeed = avgSpeed
-        self.avgImpulse = avgImpulse
-        self.painRate = painRate
-        self.hikingLog = hikingLog
     }
 }
