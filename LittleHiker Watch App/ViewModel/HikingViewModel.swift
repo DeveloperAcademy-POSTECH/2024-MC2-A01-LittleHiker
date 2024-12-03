@@ -220,6 +220,13 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         timer?.invalidate()
     }
 }
+extension HikingViewModel {
+    func recordTimeManagerProperties(timeManager: TimeManager) {
+        self.summaryModel.ascendingDuration = timeManager.ascendingDuration
+        self.summaryModel.descendingDuration
+        = timeManager.descendingDuration
+    }
+}
 
 extension HikingViewModel {
     //TODO: HikingViewModel 뿐 아니라 다른데서도 쓰이지 않을까? 함수 위치 변경 고려해보장
