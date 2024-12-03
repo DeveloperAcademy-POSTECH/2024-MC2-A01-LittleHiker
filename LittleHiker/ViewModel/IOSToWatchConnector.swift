@@ -73,6 +73,7 @@ final class IOSToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
             // TODO: - refactoring
             if resultArray["data"] != nil {
                 if let data = resultArray["data"] as? [String: Any] {
+                    // onAppear 상으로 옮기기
                     // heartRateAvg 값을 가져오기
                     let heartRateAvg = data["heartRateAvg"]
                     self.body.append("\(data)")

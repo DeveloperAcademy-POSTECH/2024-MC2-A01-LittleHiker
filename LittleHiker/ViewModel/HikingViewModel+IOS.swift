@@ -225,17 +225,4 @@ extension HikingViewModel {
             // Parse the date string and return the Date object
             return dateFormatter.date(from: timeStampString) ?? Date()
     }
-    
-    func decodeFromJson<T: Decodable>(_ type: T.Type, from data: Data) -> T? {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601 // Match the encoding strategy
-        do {
-            let decodedObject = try decoder.decode(type, from: data)
-            return decodedObject
-        } catch {
-            print("Error decoding data: \(error)")
-            return nil
-        }
-    }
-
 }
