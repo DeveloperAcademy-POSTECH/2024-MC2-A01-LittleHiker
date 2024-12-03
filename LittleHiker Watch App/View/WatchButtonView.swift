@@ -121,8 +121,10 @@ struct WatchButtonView: View {
                     //TODO: SwiftData를 저장하자
                     
                     //워크아웃 활동 종료 후 impulseRate 데이터 전송
-                    viewModel.healthKitManager.endHikingWorkout()
-                    viewModel.endHiking()
+                    Task{
+                        await viewModel.healthKitManager.endHikingWorkout()
+                        viewModel.endHiking()
+                    }
                     
                     viewModel.stop()
                     viewModel.status = .complete

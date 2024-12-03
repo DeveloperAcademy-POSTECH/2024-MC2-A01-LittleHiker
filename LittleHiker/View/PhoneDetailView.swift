@@ -150,8 +150,11 @@ struct PhoneDetailView: View {
             }
             
         }
-        
         .padding()
+        .onAppear{
+            let healthkitManager = HealthKitManager()
+            healthkitManager.updateCurrentRecord(currentRecord: record)
+        }
     }
 }
 
