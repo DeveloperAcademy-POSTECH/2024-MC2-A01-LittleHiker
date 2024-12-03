@@ -56,9 +56,23 @@ extension HikingViewModel {
                 if let title = data["title"] as? String {
                     hikingRecord.title = title
                 }
-                if let duration = data["duration"] as? Int {
-                    hikingRecord.duration = duration
+                
+                if let duration = data["duration"] as? String {
+                    hikingRecord.duration = Int(duration) ?? 0
                 }
+                
+                if let peakDateTime = data["peakDateTime"] as? String {
+                    hikingRecord.peakDateTime = ISO8601DateFormatter().date(from: peakDateTime)
+                }
+                
+                if let ascendingDuration = data["ascendingDuration"] as? String {
+                    hikingRecord.ascendingDuration = ascendingDuration
+                }
+                
+                if let descendingDuration = data["descendingDuration"] as? String {
+                    hikingRecord.descendingDuration = descendingDuration
+                }
+                
                 //healthKit에서 조회
                 if let startDateTime = data["startDate"] as? Date {
                     hikingRecord.startDateTime = startDateTime
@@ -67,56 +81,56 @@ extension HikingViewModel {
                 if let endDateTime = data["endDate"] as? Date {
                     hikingRecord.endDateTime = endDateTime
                 }
-                if let minHeartRate = data["minHeartRate"] as? Int {
-                    hikingRecord.minHeartRate = minHeartRate
+                if let minHeartRate = data["minHeartRate"] as? String {
+                    hikingRecord.minHeartRate = Int(minHeartRate) ?? 0
                 }
-                if let maxHeartRate = data["maxHeartRate"] as? Int {
-                    hikingRecord.maxHeartRate = maxHeartRate
+                if let maxHeartRate = data["maxHeartRate"] as? String {
+                    hikingRecord.maxHeartRate = Int(maxHeartRate) ?? 0
                 }
-                if let avgHeartRate = data["avgHeartRate"] as? Int {
-                    hikingRecord.avgHeartRate = avgHeartRate
+                if let avgHeartRate = data["avgHeartRate"] as? String {
+                    hikingRecord.avgHeartRate = Int(avgHeartRate) ?? 0
                 }
                 
                 // 헬스킷에서 조회
-                if let startAltitude = data["minAltitude"] as? Int {
-                    hikingRecord.startAltitude = startAltitude
-                }
+//                if let startAltitude = data["minAltitude"] as? Int {
+//                    hikingRecord.startAltitude = startAltitude
+//                }
                 // watch에서 전송받음
-                if let peakAltitude = data["maxAltitude"] as? Int {
-                    hikingRecord.peakAltitude = peakAltitude
+                if let peakAltitude = data["peakAltitude"] as? String {
+                    hikingRecord.peakAltitude = Int(peakAltitude) ?? 0
                 }
                 // 헬스킷에서 조회
-                if let endAltitude = data["minAltitude"] as? Int {
-                    hikingRecord.endAltitude = endAltitude
+//                if let endAltitude = data["minAltitude"] as? Int {
+//                    hikingRecord.endAltitude = endAltitude
+//                }
+                // watch에서 전송받음
+                if let minAltitude = data["minAltitude"] as? String {
+                    hikingRecord.minAltitude = Int(minAltitude) ?? 0
                 }
                 // watch에서 전송받음
-                if let minAltitude = data["minAltitude"] as? Int {
-                    hikingRecord.minAltitude = minAltitude
+                if let maxAltitude = data["maxAltitude"] as? String {
+                    hikingRecord.maxAltitude = Int(maxAltitude) ?? 0
                 }
-                // watch에서 전송받음
-                if let maxAltitude = data["maxAltitude"] as? Int {
-                    hikingRecord.maxAltitude = maxAltitude
-                }
-                if let totalAltitude = data["totalAltitude"] as? Int {
-                    hikingRecord.totalAltitude = totalAltitude
+                if let totalAltitude = data["totalAltitude"] as? String {
+                    hikingRecord.totalAltitude = Int(totalAltitude) ?? 0
                 }
                 // 헬스킷에 없어서 watch에서 전송받아야 함 (현재 전송 로직 없음)
-                if let ascendAvgSpeed = data["ascendAvgSpeed"] as? Int {
-                    hikingRecord.ascendAvgSpeed = ascendAvgSpeed
+                if let ascendAvgSpeed = data["ascendAvgSpeed"] as? String {
+                    hikingRecord.ascendAvgSpeed = Int(ascendAvgSpeed) ?? 0
                 }
                 
                 // 헬스킷에 없어서 watch에서 전송받아야 함 (현재 전송 로직 없음)
-                if let descendAvgSpeed = data["descendAvgSpeed"] as? Int {
-                    hikingRecord.descendAvgSpeed = descendAvgSpeed
+                if let descendAvgSpeed = data["descendAvgSpeed"] as? String {
+                    hikingRecord.descendAvgSpeed = Int(descendAvgSpeed)
                 }
                 
                 // watch에서 전송받음
-                if let avgSpeed = data["avgSpeed"] as? Double {
-                    hikingRecord.avgSpeed = avgSpeed
+                if let avgSpeed = data["avgSpeed"] as? String {
+                    hikingRecord.avgSpeed = Double(avgSpeed) ?? 0.0
                 }
                 
-                if let avgImpulse = data["avgImpulse"] as? Double {
-                    hikingRecord.avgImpulse = avgImpulse
+                if let avgImpulse = data["avgImpulse"] as? String {
+                    hikingRecord.avgImpulse = Double(avgImpulse) ?? 0.0
                 }
                 
                 //로그는 따로 관리
@@ -126,24 +140,27 @@ extension HikingViewModel {
                     id: UUID(uuidString: resultArray["id"] as! String) ?? UUID(),
                     title: "\(data["startDate"] as? String ?? "-")",
                     duration: data["duration"] as? Int ?? 0,
+                    
                     //optional type -> 헬스킷에서 조회
                     //                    startDateTime: data["startDate"] as? Date ?? Date(),
                     //                    endDateTime: data["endDate"] as? Date ?? Date(),
-                    peakDateTime: data["peakDate"] as? Date? ?? nil,
-                    minHeartRate: data["minHeartRate"] as? Int ?? 0,
-                    maxHeartRate: data["maxHeartRate"] as? Int ?? 0,
-                    avgHeartRate: data["heartRateAvg"] as? Int ?? 0,
+                    peakDateTime: ISO8601DateFormatter().date(from: data["peakDateTime"] as? String ?? ""),
+                    ascendingDuration: data["ascendingDuration"] as? String ?? "",
+                    descendingDuration: data["descendingDuration"] as? String ?? "",
+                    minHeartRate: Int(data["minHeartRate"] as? String ?? "") ?? 0,
+                    maxHeartRate: Int(data["maxHeartRate"] as? String ?? "") ?? 0,
+                    avgHeartRate: Int(data["heartRateAvg"] as? String ?? "") ?? 0,
                     //optional type
                     //                    startAltitude: data["minAltitude"] as? Int ?? 0,
                     //                    endAltitude: data["minAltitude"] as? Int ?? 0,
-                    peakAltitude: data["maxAltitude"] as? Int? ?? nil,
-                    minAltitude: data["minAltitude"] as? Int ?? 0,
-                    maxAltitude: data["maxAltitude"] as? Int ?? 0,
-                    totalAltitude: data["totalAltitude"] as? Int ?? 0,
-                    ascendAvgSpeed: data["ascendAvgSpeed"] as? Int ?? 0,
-                    descendAvgSpeed: data["descendAvgSpeed"] as? Int ?? 0,
-                    avgSpeed: data["avgSpeed"] as? Double ?? 0.0,
-                    avgImpulse: data["avgImpulse"] as? Double ?? 0.0,
+                    peakAltitude: Int(data["maxAltitude"] as? String ?? "") ?? nil,
+                    minAltitude: Int(data["minAltitude"] as? String ?? "") ?? 0,
+                    maxAltitude: Int(data["maxAltitude"] as? String ?? "") ?? 0,
+                    totalAltitude: Int(data["totalAltitude"] as? String ?? "") ?? 0,
+                    ascendAvgSpeed: Int(data["ascendAvgSpeed"] as? String ?? "") ?? 0,
+                    descendAvgSpeed: Int(data["descendAvgSpeed"] as? String ?? "") ?? 0,
+                    avgSpeed: Double(data["avgSpeed"] as? String ?? "") ?? 0.0,
+                    avgImpulse: Double(data["avgImpulse"] as? String ?? "") ?? 0.0,
                     hikingLog: [])
                 dataSource.saveItem(newHikingRecord)
             }
@@ -193,14 +210,14 @@ extension HikingViewModel {
                 HikingLog(
                     id: UUID(),
                     impulse: Int(impulseLog) ?? 0 ,
-                    timeStamp: convertTimeStapStringToDateTime(from : timeStampString)
+                    timeStamp: convertTimeStampStringToDateTime(from : timeStampString)
                 )
             )
         }
         return convertedLogs
     }
     
-    func convertTimeStapStringToDateTime(from timeStampString: String) -> Date {
+    func convertTimeStampStringToDateTime(from timeStampString: String) -> Date {
         let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss" // Adjust to match your date string's format
             dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensures consistent parsing
