@@ -20,6 +20,7 @@ class HealthKitManager {
             }
             
             DispatchQueue.main.async {
+                currentRecord.duration = workout.duration
                 currentRecord.startDateTime = workout.startDate
                 currentRecord.endDateTime = workout.endDate
             }
@@ -148,7 +149,7 @@ class HealthKitManager {
         let hikingRecord = HikingRecord(
             id: id,
             title: title,
-            duration: Int(hkWorkOut.duration),
+            duration: hkWorkOut.duration,
             startDateTime: hkWorkOut.startDate,
             endDateTime: hkWorkOut.endDate,
             minHeartRate: 0,

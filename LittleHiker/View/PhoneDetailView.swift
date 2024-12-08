@@ -111,7 +111,7 @@ struct PhoneDetailView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
                             //FIXME: 총거리에 해당하는 변수 필요함
-                            Text("12.88 KM")
+                            Text("\(record.totalDistance ?? 0.0) KM")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "5AC8FA"))
                         }
