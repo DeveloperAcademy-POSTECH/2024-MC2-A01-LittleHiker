@@ -30,6 +30,7 @@ class HealthKitManager: NSObject, ObservableObject {
     var workoutSession: HKWorkoutSession?
     private var workoutBuilder: HKLiveWorkoutBuilder?
     private var SpeedLogForCorrection: [Double] = []
+    var assignedUUIDString: String?
     
     override init() {
         super.init()
@@ -265,17 +266,45 @@ extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelega
         }
     }
 
-    func endHikingWorkout() {
-        workoutSession?.end()
-        workoutBuilder?.endCollection(withEnd: Date()) { (success, error) in
-            self.workoutBuilder?.finishWorkout { (workout, error) in
-                // Handle post-workout processing if needed
+    func endHikingWorkout() async -> Bool {
+        guard let workoutSession = workoutSession,
+              let workoutBuilder = workoutBuilder else {
+            print("Workout session or builder is nil.")
+            return false
+        }
+
+//        print("Before ending session: \(workoutSession.currentActivity?.uuid.uuidString ?? "No UUID")")
+
+        // End the session
+        workoutSession.end()
+
+        // Use CheckedContinuation to wait for the asynchronous result
+        return await withCheckedContinuation { continuation in
+            workoutBuilder.endCollection(withEnd: Date()) { success, error in
                 if let error = error {
-                    print("Failed to finish workout: \(error.localizedDescription)")
+                    print("Failed to end collection: \(error.localizedDescription)")
+                    continuation.resume(returning: false)
+                    return
+                }
+
+                workoutBuilder.finishWorkout { workout, error in
+                    if let error = error {
+                        print("Failed to finish workout: \(error.localizedDescription)")
+                        continuation.resume(returning: false)
+                    } else if let savedWorkout = workout {
+                        let uuidString = savedWorkout.uuid.uuidString
+                        self.assignedUUIDString = uuidString
+                        print("Workout saved with UUID: \(uuidString)")
+                        continuation.resume(returning: true)
+                    } else {
+                        print("Unknown error finishing workout.")
+                        continuation.resume(returning: false)
+                    }
                 }
             }
         }
     }
+
     
     func pauseHikingWorkout() {
         workoutSession?.pause()

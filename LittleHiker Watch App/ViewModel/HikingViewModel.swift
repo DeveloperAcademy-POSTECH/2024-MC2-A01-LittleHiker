@@ -159,7 +159,8 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
                 }
                 
                 //uuidString이 호출때마다 uuid를 생성해서 보내는 데이터 uuid 통일이 안되서 한번만 생성 후 사용
-                let uuid = self.healthKitManager.workoutSession?.currentActivity.uuid.uuidString ?? ""
+                let uuid = self.healthKitManager.assignedUUIDString ?? ""
+                print("after end string : \(uuid)")
                 if uuid != "" {
                     //산행으로 만들어진 SummaryData
                     let customComplementaryHikingData = self.createCustomComplementaryHikingData(
@@ -224,6 +225,13 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     deinit {
         timer?.invalidate()
+    }
+}
+extension HikingViewModel {
+    func recordTimeManagerProperties(timeManager: TimeManager) {
+        self.summaryModel.ascendingDuration = timeManager.ascendingDuration
+        self.summaryModel.descendingDuration
+        = timeManager.descendingDuration
     }
 }
 

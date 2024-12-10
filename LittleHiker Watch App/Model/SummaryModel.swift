@@ -11,6 +11,8 @@ struct SummaryModel: Codable {
     // TODO: 정상 눌렀을 때 시간, 고도 기록
     var peakDateTime : Date?
     var peakAltitude : Int?
+    var ascendingDuration : String?
+    var descendingDuration : String?
     
     var minHeartRate: Int = 0
     var maxHeartRate: Int = 0

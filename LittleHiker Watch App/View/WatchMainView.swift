@@ -18,6 +18,7 @@ struct WatchMainView: View {
     @ObservedObject var localNotification = LocalNotifications.shared
     @State private var frameIndex = 0
     @State private var timer: Timer?
+    @State private var lastUpdateTime: TimeInterval = 0
     //    @State private var progress: CGFloat = 50
     
     //시연용 임시방편 모달로해보기
@@ -147,24 +148,53 @@ struct WatchMainView: View {
             .background(Color.clear)
             .onAppear {
                 if viewModel.status != .hikingPause && viewModel.status != .descendingPause{
-                    animationGifTimer()
+                    startGifAnimation()
                 }
             }
             .onDisappear {
-                stopGifTimer()
+                stopGifAnimation()
             }
             .onChange(of: viewModel.impulseManager.impulseRatio){
                 if viewModel.status != .hikingPause && viewModel.status != .descendingPause{
-                    animationGifTimer()
+                    startGifAnimation()
                 }
             }
             .onChange(of: viewModel.status){
                 if viewModel.status == .hikingPause || viewModel.status == .descendingPause{
-                    stopGifTimer()
+                    stopGifAnimation()
                 } else {
-                    animationGifTimer()
+                    startGifAnimation()
                 }
             }
+    }
+    
+    //MARK: - GIF 스케쥴러
+    private func startGifAnimation() {
+        stopGifAnimation() // 중복 실행 방지
+
+        lastUpdateTime = Date().timeIntervalSince1970
+        let frameDuration = speedForValue(viewModel.impulseManager.currentImpulseMeanRatio)
+
+        timer = Timer.scheduledTimer(withTimeInterval: frameDuration, repeats: true) { _ in
+            let currentTime = Date().timeIntervalSince1970
+            let elapsedTime = currentTime - self.lastUpdateTime
+
+            // 오차 보정을 위해 프레임을 정확히 계산
+            let framesToAdvance = Int(elapsedTime / frameDuration)
+            if framesToAdvance > 0 {
+                self.frameIndex = (self.frameIndex + framesToAdvance) % self.gifAnimation.frameCount
+                self.lastUpdateTime += frameDuration * Double(framesToAdvance)
+            }
+        }
+    }
+
+    private func stopGifAnimation() {
+        timer?.invalidate()
+        timer = nil
+    }
+
+    private func restartGifAnimation() {
+        startGifAnimation()
     }
     
     //MARK: - 프로그래스바
@@ -235,20 +265,6 @@ struct WatchMainView: View {
         default:
             return 1/8
         }
-    }
-    
-    //MARK: - GIF 스케쥴러
-    private func animationGifTimer() {
-        stopGifTimer()
-        // 1.0 / 4.0이면 1초당 이미지 4번 바뀜
-        timer = Timer.scheduledTimer(withTimeInterval: speedForValue(viewModel.impulseManager.currentImpulseMeanRatio), repeats: true) { _ in
-            frameIndex = (frameIndex + 1) % gifAnimation.frameCount
-        }
-    }
-    
-    private func stopGifTimer() {
-        timer?.invalidate()
-        timer = nil
     }
 }
 

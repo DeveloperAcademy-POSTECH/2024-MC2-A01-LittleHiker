@@ -12,6 +12,21 @@ class HealthKitManager {
     let dataSource: DataSource = DataSource.shared // SwiftData + MVVM을 위해 필요한 변수
     let healthStore = HKHealthStore()
     
+    func updateCurrentRecord(currentRecord: HikingRecord) {
+        fetchWorkoutByUUID(uuid: currentRecord.id) { workout in
+            guard let workout = workout else {
+                print("No workout found with UUID: \(currentRecord.id)")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                currentRecord.duration = workout.duration
+                currentRecord.startDateTime = workout.startDate
+                currentRecord.endDateTime = workout.endDate
+            }
+        }
+    }
+    
     func saveWorkoutData(uuid: UUID) {
         fetchWorkoutByUUID(uuid: uuid) { workout in
             guard let workout = workout else {
@@ -34,11 +49,16 @@ class HealthKitManager {
 //            return
 //        }
         
+        
         // UUID로 검색하는 Predicate
         let predicate = HKQuery.predicateForObject(with: uuid)
         
         // Workout을 쿼리
         let workoutQuery = HKSampleQuery(sampleType: HKObjectType.workoutType(), predicate: predicate, limit: 1, sortDescriptors: nil) { (query, samples, error) in
+            if samples != nil {
+                print("Printing workout samples")
+                print(samples)
+            }
             
             if let error = error {
                 print("Error fetching workout: \(error.localizedDescription)")
@@ -129,7 +149,7 @@ class HealthKitManager {
         let hikingRecord = HikingRecord(
             id: id,
             title: title,
-            duration: Int(hkWorkOut.duration),
+            duration: hkWorkOut.duration,
             startDateTime: hkWorkOut.startDate,
             endDateTime: hkWorkOut.endDate,
             minHeartRate: 0,

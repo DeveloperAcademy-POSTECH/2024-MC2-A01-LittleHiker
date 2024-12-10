@@ -13,12 +13,14 @@ import SwiftData
 class HikingRecord {
     @Attribute(.unique) var id: UUID   //구분값
     var title: String       //iOS title
-    var duration: Int       //등산소요시간
+    var duration: Double       //등산소요시간
     // TODO: healthKit에서 조회해 와야 함
     var startDateTime: Date? //시작시간
     // var peakDateTime 필요하네
     var peakDateTime: Date?
     var endDateTime: Date?   //종료시간
+    var ascendingDuration: String?
+    var descendingDuration: String?
     
     var minHeartRate: Int   //최소심박수
     var maxHeartRate: Int   //최고심박수
@@ -30,7 +32,7 @@ class HikingRecord {
     var minAltitude: Int // 최고 고도
     var maxAltitude : Int // 최소 고도
     var totalAltitude: Int // 등반 고도
-    var totalDistance: Int?
+    var totalDistance: Double?
     
     // TODO: healthKit에서 조회해 와야 함
     var ascendAvgSpeed: Int? //등산평균속도
@@ -49,13 +51,15 @@ class HikingRecord {
     var hikingLog: [HikingLog]
     
     
-    init(id: UUID, title: String, duration: Int, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Int? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [HikingLog]) {
+    init(id: UUID, title: String, duration: Double, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, ascendingDuration: String? = nil, descendingDuration: String? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Double? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [HikingLog]) {
         self.id = id
         self.title = title
         self.duration = duration
         self.startDateTime = startDateTime
         self.peakDateTime = peakDateTime
         self.endDateTime = endDateTime
+        self.ascendingDuration = ascendingDuration
+        self.descendingDuration = descendingDuration
         self.minHeartRate = minHeartRate
         self.maxHeartRate = maxHeartRate
         self.avgHeartRate = avgHeartRate

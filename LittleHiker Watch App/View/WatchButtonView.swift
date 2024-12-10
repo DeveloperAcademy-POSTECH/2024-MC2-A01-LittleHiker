@@ -113,6 +113,10 @@ struct WatchButtonView: View {
                     
                     //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
                     timeManager.setDescendingDuration()
+                    
+                    //산행 시간 관련 기록
+                    viewModel.recordTimeManagerProperties(timeManager: timeManager)
+                    
                     //2. 기록이 SummaryView로 넘어감
                     //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
                     //3. iOS로 데이터 동기화(배열 보내기)
@@ -121,8 +125,10 @@ struct WatchButtonView: View {
                     //TODO: SwiftData를 저장하자
                     
                     //워크아웃 활동 종료 후 impulseRate 데이터 전송
-                    viewModel.healthKitManager.endHikingWorkout()
-                    viewModel.endHiking()
+                    Task{
+                        await viewModel.healthKitManager.endHikingWorkout()
+                        viewModel.endHiking()
+                    }
                     
                     viewModel.stop()
                     viewModel.status = .complete

@@ -92,7 +92,7 @@ struct PhoneDetailView: View {
                             Text("등산 시간")
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
-                            Text("\(record.formattedDurationTime)")
+                            Text("\(record.ascendingDuration ?? "00:00:00")")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "FED709"))
                         }
@@ -101,7 +101,7 @@ struct PhoneDetailView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
                             //FIXME: 하산 시간에 해당하는 변수가 없음. 정상 시간 받아와서 계산해야 함
-                            Text("\(record.formattedDurationTime)")
+                            Text("\(record.descendingDuration ?? "00:00:00")")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "FED709"))
                         }
@@ -111,7 +111,7 @@ struct PhoneDetailView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
                             //FIXME: 총거리에 해당하는 변수 필요함
-                            Text("12.88 KM")
+                            Text("\(record.totalDistance ?? 0.0) KM")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "5AC8FA"))
                         }
@@ -150,8 +150,11 @@ struct PhoneDetailView: View {
             }
             
         }
-        
         .padding()
+        .onAppear{
+            let healthkitManager = HealthKitManager()
+            healthkitManager.updateCurrentRecord(currentRecord: record)
+        }
     }
 }
 

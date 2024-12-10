@@ -29,7 +29,7 @@ struct WatchSummaryView: View {
                         Text("등산시간: ")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
-                        Text("\(timeManager.ascendingDuration)")
+                        Text("\(viewModel.summaryModel.ascendingDuration ?? "00:00")")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
                     }
@@ -37,7 +37,7 @@ struct WatchSummaryView: View {
                         Text("하산시간: ")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
-                        Text("\(timeManager.descendingDuration)")
+                        Text("\(viewModel.summaryModel.descendingDuration ?? "00:00")")
                             .font(.system(size: 14))
                             .foregroundColor(.gray)
                         
