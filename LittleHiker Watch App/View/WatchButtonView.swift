@@ -274,6 +274,12 @@ struct WatchButtonView: View {
                     if ((timeManager.timer?.isValid) != nil) {
                         timeManager.timer?.invalidate()
                     }
+                    
+                    // peak 버튼을 누르지 않고 바로 하산 버튼을 눌렀을 경우에 처리
+                    if viewModel.status == .hiking || viewModel.status == .hikingPause {
+                        timeManager.setAscendingDuration()
+                    }
+                    
                     timeManager.runStopWatch()
                     //하이킹 워크아웃 재시작
                     viewModel.healthKitManager.resumeHikingWorkout()
