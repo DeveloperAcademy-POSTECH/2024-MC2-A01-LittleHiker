@@ -41,15 +41,7 @@ struct PhoneListView: View {
                 ForEach(records) { record in
                     NavigationLink(destination: PhoneDetailView(record: record)) {
                         PhoneRowView(record: record)
-                            .swipeActions(edge: .trailing) {
-                                Button(action: {
-                                    // Edit action
-                                    //                                    editRecord(at: index)
-                                }) {
-                                    Label("Edit", systemImage: "pencil")
-                                }
-                                .tint(.blue)
-                                
+                            .swipeActions(edge: .trailing) {   
                                 Button(action: {
                                     deleteRecord(record: record)
                                 }) {
