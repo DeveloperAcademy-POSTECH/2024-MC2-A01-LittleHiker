@@ -64,8 +64,4 @@ struct PhoneListView: View {
         // TODO: healthKit 기록도 지울 것인지 action sheet로 확인 필요
     }
     
-    private func editRecord(record: HikingRecord) {
-        // 편집 액션 수행
-        //        print("Edit \(records[index].title)")
-    }
 }
