@@ -109,6 +109,12 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         return timestampString
     }
     
+    //정상정보 기록
+    func recordPeakData() {
+        self.summaryModel.peakDateTime = Date()
+        self.summaryModel.peakAltitude = Int(coreLocationManager.currentAltitude)
+    }
+    
     //하이킹 종료
     func endHiking() {
         self.healthKitManager.fetchHeartRateStatistics { (averageHeartRate, minHeartRate, maxHeartRate, error) in

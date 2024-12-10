@@ -237,6 +237,9 @@ struct WatchButtonView: View {
                     timeManager.pauseStopWatch()
                     //전체산행시간에서 등산시간이 정해짐
                     timeManager.setAscendingDuration()
+                    //정상도착시간, 정상고도 기록
+                    viewModel.recordPeakData()
+                    
                     //뷰모델에서 산행상태를 정상으로 변경
                     viewModel.status = .peak
                     //하이킹 워크아웃 일시정지
