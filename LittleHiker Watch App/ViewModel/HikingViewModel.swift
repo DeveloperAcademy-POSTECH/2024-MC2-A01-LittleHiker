@@ -112,7 +112,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     //정상정보 기록
     func recordPeakData() {
         self.summaryModel.peakDateTime = Date()
-        self.summaryModel.peakAltitude = Int(coreLocationManager.altitudeLogs.max() ?? 0)
+        self.summaryModel.peakAltitude = Int(coreLocationManager.currentAltitude)
     }
     
     //하이킹 종료
