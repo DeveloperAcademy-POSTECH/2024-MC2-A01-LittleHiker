@@ -48,7 +48,7 @@ class HikingRecord {
     
     
     @Relationship(deleteRule: .cascade, inverse: \HikingLog.hikingRecord)
-    var hikingLog: [HikingLog]
+    var hikingLogs: [HikingLog]
     
     
     init(id: UUID, title: String, duration: Double, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, ascendingDuration: String? = nil, descendingDuration: String? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Double? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [HikingLog]) {
@@ -75,7 +75,7 @@ class HikingRecord {
         self.avgSpeed = avgSpeed
         self.avgImpulse = avgImpulse
         self.painRate = painRate
-        self.hikingLog = hikingLog
+        self.hikingLogs = hikingLog
     }
 }
 

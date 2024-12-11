@@ -181,7 +181,7 @@ extension HikingViewModel {
             if let hikingRecord = hikingRecords.first(
                 where: {$0.id == UUID(uuidString: resultArray["id"] as? String ?? "")
                 }) {
-                hikingRecord.hikingLog = convertLogsToHikingLogs(from: resultArray["logs"] as? [String: String] ?? [:])
+                hikingRecord.hikingLogs = convertLogsToHikingLogs(from: resultArray["logs"] as? [String: String] ?? [:])
                 dataSource.saveItem(hikingRecord)
             } else {
                 let newHikingRecord =
@@ -211,7 +211,7 @@ extension HikingViewModel {
             convertedLogs.append(
                 HikingLog(
                     id: UUID(),
-                    impulse: Int(impulseLog) ?? 0 ,
+                    impulse: Double(impulseLog) ?? 0.0 ,
                     timeStamp: convertTimeStampStringToDateTime(from : timeStampString)
                 )
             )
