@@ -108,36 +108,35 @@ struct WatchButtonView: View {
         var body: some View {
             VStack {
                 Button(action: {
-                    //1. 버튼을 누르면 타이머를 멈춘다
-                    timeManager.pauseStopWatch()
-                    
-                    
-                    //hikingMode에서 바로 종료 버튼을 눌렀을 경우 등산 시간 기록이 안되어 있으므로 edgeCase 처리
-                    if viewModel.status == .hiking || viewModel.status == .hikingPause {
-                        timeManager.setAscendingDuration()
-                    }
-                    
-                    //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
-                    timeManager.setDescendingDuration()
-                    
-                    //산행 시간 관련 기록
-                    viewModel.recordTimeManagerProperties(timeManager: timeManager)
-                    
-                    //2. 기록이 SummaryView로 넘어감
-                    //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
-                    //3. iOS로 데이터 동기화(배열 보내기)
-                    //산행상태를 "완료"로 변경
-                    
-                    //TODO: SwiftData를 저장하자
-                    
-                    //워크아웃 활동 종료 후 impulseRate 데이터 전송
                     Task{
+                        //1. 버튼을 누르면 타이머를 멈춘다
+                        timeManager.pauseStopWatch()
+                        //hikingMode에서 바로 종료 버튼을 눌렀을 경우 등산 시간 기록이 안되어 있으므로 edgeCase 처리
+                        if viewModel.status == .hiking || viewModel.status == .hikingPause {
+                            timeManager.setAscendingDuration()
+                        }
+                        
+                        //전체산행시간에서 등산시간을 뺀 하산시간이 계산됨
+                        timeManager.setDescendingDuration()
+                        
+                        //산행 시간 관련 기록
+                        viewModel.recordTimeManagerProperties(timeManager: timeManager)
+                        
+                        //2. 기록이 SummaryView로 넘어감
+                        //2-1. 종료버튼을 누르면 SummaryView가 모달로 뜸
+                        //3. iOS로 데이터 동기화(배열 보내기)
+                        //산행상태를 "완료"로 변경
+                        
+                        //TODO: SwiftData를 저장하자
+                        
+                        //워크아웃 활동 종료 후 impulseRate 데이터 전송
+                        
                         await viewModel.healthKitManager.endHikingWorkout()
                         viewModel.endHiking()
+                        
+                        viewModel.stop()
+                        viewModel.status = .complete
                     }
-                    
-                    viewModel.stop()
-                    viewModel.status = .complete
                     //                viewModel.isShowingModal = true
                 }) {
                     RoundedRectangle(cornerRadius: 28)
