@@ -114,12 +114,11 @@ extension HikingRecord {
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
         formatter.zeroFormattingBehavior = .pad // 00:00 형식으로 채움
-        
-        let seconds = duration * 60
-        if let formattedString = formatter.string(from: TimeInterval(seconds)) {
+
+        if let formattedString = formatter.string(from: duration) {
             // "0:"로 시작하면 해당 부분을 제거하고 반환
-            if formattedString.hasPrefix("0") {
-                return String(formattedString.dropFirst(1))
+            if formattedString.hasPrefix("0:") {
+                return String(formattedString.dropFirst(2))
             }
             return formattedString
         } else {
