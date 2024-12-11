@@ -9,7 +9,7 @@ import SwiftUI
 import Charts
 
 struct PhoneDetailView: View {
-    var record: HikingRecord
+    @Bindable var record: HikingRecord
     
     //충격량 추이 그래프 샘플 데이터
     let sampleData: [ImpluseValues] = generateSampleData()
@@ -24,7 +24,7 @@ struct PhoneDetailView: View {
         ScrollView {
             VStack(spacing: 12) {
                 HStack {
-                    Text("\(record.title)")
+                    TextField("\(record.title)", text: $record.title)
                         .font(.system(size: 34, weight: .bold))
                     Spacer()
                 }
