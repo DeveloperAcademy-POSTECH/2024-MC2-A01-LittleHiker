@@ -15,11 +15,11 @@ class HikingLog {
     var hikingRecord: HikingRecord? //로그가 속한 hikingRecord
     var altitude: Int?       //고도
     var speed: Int?           //속도
-    var impulse: Int           //충격량
+    var impulse: Double           //충격량
     var heartRate: Int?      //심박수
     var timeStamp: Date      //시간
     
-    init(id: UUID, hikingRecord: HikingRecord? = nil, altitude: Int? = nil, speed: Int? = nil, impulse: Int, heartRate: Int? = nil, timeStamp: Date) {
+    init(id: UUID, hikingRecord: HikingRecord? = nil, altitude: Int? = nil, speed: Int? = nil, impulse: Double, heartRate: Int? = nil, timeStamp: Date) {
         self.id = id
         self.hikingRecord = hikingRecord
         self.altitude = altitude
