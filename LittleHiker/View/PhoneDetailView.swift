@@ -111,7 +111,7 @@ struct PhoneDetailView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
                             //FIXME: 총거리에 해당하는 변수 필요함
-                            Text("\(record.totalDistance ?? 0.0) KM")
+                            Text("\(String(format: "%.2f", record.totalDistance ?? 0.0)) KM")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "5AC8FA"))
                         }
@@ -120,7 +120,7 @@ struct PhoneDetailView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
                             //FIXME: 등반시의 평균 속도임
-                            Text("\(record.avgSpeed) KM/H")
+                            Text("\(String(format: "%.2f", record.avgSpeed)) KM")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "02F5EA"))
                         }
