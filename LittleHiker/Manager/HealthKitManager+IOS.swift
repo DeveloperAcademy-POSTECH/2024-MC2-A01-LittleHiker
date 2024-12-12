@@ -162,7 +162,7 @@ class HealthKitManager {
             descendAvgSpeed: 0,
             avgSpeed: 0.0,
             avgImpulse: 0.0,
-            hikingLog: []
+            hikingLogs: []
         )
         return hikingRecord
     }
