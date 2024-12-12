@@ -51,7 +51,7 @@ class HikingRecord {
     var hikingLogs: [HikingLog]
     
     
-    init(id: UUID, title: String, duration: Double, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, ascendingDuration: String? = nil, descendingDuration: String? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Double? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLog: [HikingLog]) {
+    init(id: UUID, title: String, duration: Double, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, ascendingDuration: String? = nil, descendingDuration: String? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Double? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLogs: [HikingLog]) {
         self.id = id
         self.title = title
         self.duration = duration
@@ -75,7 +75,7 @@ class HikingRecord {
         self.avgSpeed = avgSpeed
         self.avgImpulse = avgImpulse
         self.painRate = painRate
-        self.hikingLogs = hikingLog
+        self.hikingLogs = hikingLogs
     }
 }
 
@@ -114,12 +114,11 @@ extension HikingRecord {
         formatter.allowedUnits = [.hour, .minute, .second]
         formatter.unitsStyle = .positional
         formatter.zeroFormattingBehavior = .pad // 00:00 형식으로 채움
-        
-        let seconds = duration * 60
-        if let formattedString = formatter.string(from: TimeInterval(seconds)) {
+
+        if let formattedString = formatter.string(from: duration) {
             // "0:"로 시작하면 해당 부분을 제거하고 반환
-            if formattedString.hasPrefix("0") {
-                return String(formattedString.dropFirst(1))
+            if formattedString.hasPrefix("0:") {
+                return String(formattedString.dropFirst(2))
             }
             return formattedString
         } else {

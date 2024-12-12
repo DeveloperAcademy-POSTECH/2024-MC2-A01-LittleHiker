@@ -164,7 +164,7 @@ extension HikingViewModel {
                     descendAvgSpeed: data["descendAvgSpeed"] as? Int,
                     avgSpeed: data["avgSpeed"] as? Double ?? 0.0,
                     avgImpulse: data["avgImpulse"] as? Double ?? 0.0,
-                    hikingLog: []
+                    hikingLogs: []
                 )
                 dataSource.saveItem(newHikingRecord)
             }
@@ -181,7 +181,7 @@ extension HikingViewModel {
             if let hikingRecord = hikingRecords.first(
                 where: {$0.id == UUID(uuidString: resultArray["id"] as? String ?? "")
                 }) {
-                hikingRecord.hikingLogs = convertLogsToHikingLogs(from: resultArray["logs"] as? [String: String] ?? [:])
+                hikingRecord.hikingLogs = convertLogsToHikingLogs(from: logs as? [String: String] ?? [:])
                 dataSource.saveItem(hikingRecord)
             } else {
                 let newHikingRecord =
@@ -197,7 +197,7 @@ extension HikingViewModel {
                     totalAltitude: 0,
                     avgSpeed: 0.0,
                     avgImpulse: 0.0,
-                    hikingLog: convertLogsToHikingLogs(from: logs["logs"] as? [String:String] ?? [:])
+                    hikingLogs: convertLogsToHikingLogs(from: logs as? [String:String] ?? [:])
                 )
                 dataSource.saveItem(newHikingRecord)
                 

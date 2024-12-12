@@ -12,7 +12,7 @@ struct PhoneDetailView: View {
     @Bindable var record: HikingRecord
     
     //충격량 추이 그래프 샘플 데이터
-    let sampleData: [ImpluseValues] = generateSampleData()
+//    let sampleData: [ImpluseValues] = generateSampleData()
     
     //Grid 그리기용 컬럼
     let columns = [
@@ -52,17 +52,18 @@ struct PhoneDetailView: View {
                         .fill(Color.white.opacity(0.2))
                         .frame(width: 361, height: 147)
                         .overlay {
+                            // TODO: 긴 데이터에 대해 들어오는지 확인 필요
+                            // TODO: hikingLog에 대해 제대로 찍히는지 확인 필요
                             Chart {
-                                ForEach(sampleData) { data in
+                                ForEach(record.hikingLogs) { hikingLog in
                                     RectangleMark(
-                                        x: .value("time", data.minutes),
-                                        y: .value("impulse", data.impulse),
-                                        width: .ratio(0.5)
+                                        x: .value("time", hikingLog.timeStamp),
+                                        y: .value("impulse", min(hikingLog.impulse, 50))
                                     )
-                                    .foregroundStyle(data.impulse > 70 ? .red : .gray)
+                                    .foregroundStyle(hikingLog.impulse > 20 ? .red : .gray)
                                 }
                                 RuleMark(
-                                    y: .value("expectedImpulse", 70)
+                                    y: .value("expectedImpulse", 20)
                                 )
                                 .foregroundStyle(.green)
                             }
@@ -70,7 +71,7 @@ struct PhoneDetailView: View {
                             .chartYAxis {
                                 AxisMarks(position: .leading)
                             }
-                            .chartYScale(domain: 0 ... 100)
+                            .chartYScale(domain: 0 ... 50)
                             .chartXAxis(.hidden)
                             .chartPlotStyle { plotArea in
                                 plotArea
@@ -111,7 +112,7 @@ struct PhoneDetailView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
                             //FIXME: 총거리에 해당하는 변수 필요함
-                            Text("\(record.totalDistance ?? 0.0) KM")
+                            Text("\(String(format: "%.2f", record.totalDistance ?? 0.0)) KM")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "5AC8FA"))
                         }
@@ -120,7 +121,7 @@ struct PhoneDetailView: View {
                                 .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(Color(hex: "EBEBF5"))
                             //FIXME: 등반시의 평균 속도임
-                            Text("\(record.avgSpeed) KM/H")
+                            Text("\(String(format: "%.2f", record.avgSpeed)) KM")
                                 .font(.system(size: 32, weight: .medium))
                                 .foregroundStyle(Color(hex: "02F5EA"))
                         }
@@ -152,6 +153,8 @@ struct PhoneDetailView: View {
         }
         .padding()
         .onAppear{
+//            let logDetails = record.hikingLogs.map { [$0.timeStamp, $0.impulse] }
+//            print(logDetails)
             let healthkitManager = HealthKitManager()
             healthkitManager.updateCurrentRecord(currentRecord: record)
         }
