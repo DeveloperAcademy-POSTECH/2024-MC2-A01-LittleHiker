@@ -58,7 +58,7 @@ struct PhoneDetailView: View {
                                 ForEach(record.hikingLogs) { hikingLog in
                                     RectangleMark(
                                         x: .value("time", hikingLog.timeStamp),
-                                        y: .value("impulse", hikingLog.impulse)
+                                        y: .value("impulse", min(hikingLog.impulse, 50))
                                     )
                                     .foregroundStyle(hikingLog.impulse > 20 ? .red : .gray)
                                 }
