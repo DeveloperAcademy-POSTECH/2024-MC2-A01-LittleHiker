@@ -158,8 +158,6 @@ class HealthKitManager {
             minAltitude: 0,
             maxAltitude: 0,
             totalAltitude: 0,
-            ascendAvgSpeed: 0,
-            descendAvgSpeed: 0,
             avgSpeed: 0.0,
             avgImpulse: 0.0,
             hikingLogs: []
