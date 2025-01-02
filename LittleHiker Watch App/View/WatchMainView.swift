@@ -35,7 +35,7 @@ struct WatchMainView: View {
         ZStack {
             VStack(spacing: 0) {
                 headLabel
-                if viewModel.impulseManager.impulseRatio <= 80{
+                if viewModel.impulseManager.currentImpulseMeanRatio <= 80{
                     HStack{
                         squirrelGIF
                             .offset(y : -10)
@@ -154,7 +154,7 @@ struct WatchMainView: View {
             .onDisappear {
                 stopGifAnimation()
             }
-            .onChange(of: viewModel.impulseManager.impulseRatio){
+            .onChange(of: viewModel.impulseManager.currentImpulseMeanRatio){
                 if viewModel.status != .hikingPause && viewModel.status != .descendingPause{
                     startGifAnimation()
                 }

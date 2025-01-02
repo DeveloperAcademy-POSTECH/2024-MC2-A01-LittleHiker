@@ -14,7 +14,7 @@ class ImpulseManager: NSObject, ObservableObject {
     var currentImpulse = 0.0
     var currentMeanOfLastTenImpulseLogs = 0.0
     var prevMeanOfLastTenImpulseLogs = 0.0
-    var currentImpulseMeanRatio = 50.0
+    @Published var currentImpulseMeanRatio = 50.0
     
     //임의
     var localNotification = LocalNotifications.shared
