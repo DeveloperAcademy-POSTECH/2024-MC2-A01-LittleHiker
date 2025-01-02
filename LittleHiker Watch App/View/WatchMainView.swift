@@ -249,21 +249,21 @@ struct WatchMainView: View {
     func speedForValue(_ value: CGFloat) -> Double {
         switch value {
         case 0..<15:
-            return 1/4
+            return 1.0 / 4.0
         case 15..<30:
-            return 1/8
+            return 1.0 / 8.0
         case 30..<45:
-            return 1/12
+            return 1.0 / 12.0
         case 45..<60:
-            return 1/16
+            return 1.0 / 16.0
         case 60...75:
-            return 1/20
+            return 1.0 / 20.0
         case 75...90:
-            return 1/24
+            return 1.0 / 24.0
         case 90...100:
-            return 1/28
+            return 1.0 / 28.0
         default:
-            return 1/8
+            return 1.0 / 8.0
         }
     }
 }
