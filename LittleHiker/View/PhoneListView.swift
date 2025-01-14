@@ -19,43 +19,62 @@ struct PhoneListView: View {
     
     var body: some View {
         NavigationStack{
-            VStack {
-                HStack {
-                    Text("산행기록")
-                        .font(.system(size: 34, weight: .bold))
-                    Spacer()
-                }
-                HStack {
-                    Image(systemName: "magnifyingglass")
-                        .foregroundColor(.gray)
-                        .padding(.leading, 7)
-                    TextField("Search", text: $text)
-                        .padding(7)
-                        .cornerRadius(8)
-                }
-                .background(Color(.systemGray5))
-                .cornerRadius(10)
-            }
-            
-            List {
-                ForEach(records) { record in
-                    NavigationLink(destination: PhoneDetailView(record: record)) {
-                        PhoneRowView(record: record)
-                            .swipeActions(edge: .trailing) {   
-                                Button(action: {
-                                    deleteRecord(record: record)
-                                }) {
-                                    Label("Delete", systemImage: "trash")
-                                }
-                                .tint(.red)
-                            }
+            ZStack{
+                if records.count == 0 { //데이터가 없을 때 보여질 뷰
+                    VStack {
+                        Spacer()
+                        Image("NoDataSquirrel")
+                            .resizable()
+                            .frame(width: 128, height: 128)
+                        Text("아직 산행 기록이 없네요!\n지금부터 첫 산행을 기록해 보세요")
+                            .font(.custom("Moneygraphy-Rounded", size: 16))
+                            .fontWeight(.regular)
+                            .multilineTextAlignment(.center)
+                            .padding(.top, 16)
+                        Spacer()
                     }
                 }
+                VStack{
+                    VStack {
+                        HStack {
+                            Text("산행기록")
+                                .font(.system(size: 34, weight: .bold))
+                            Spacer()
+                        }
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                                .padding(.leading, 7)
+                            TextField("Search", text: $text)
+                                .padding(7)
+                                .cornerRadius(8)
+                        }
+                        .background(Color(.systemGray5))
+                        .cornerRadius(10)
+                    }
+                    
+                    
+                    List {
+                        ForEach(records) { record in
+                            NavigationLink(destination: PhoneDetailView(record: record)) {
+                                PhoneRowView(record: record)
+                                    .swipeActions(edge: .trailing) {
+                                        Button(action: {
+                                            deleteRecord(record: record)
+                                        }) {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                        .tint(.red)
+                                    }
+                            }
+                        }
+                    }
+                    .listStyle(.plain)
+                }
             }
-            .listStyle(.plain)
-            
         }
     }
+    
     
     private func deleteRecord(record: HikingRecord) {
         withAnimation {
