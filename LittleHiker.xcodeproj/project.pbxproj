@@ -55,6 +55,7 @@
 		1A43DFB62BFCAD9F00E62BA6 /* ImpulseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB52BFCAD9F00E62BA6 /* ImpulseManager.swift */; };
 		1A43DFB82BFCADAD00E62BA6 /* TimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A43DFB72BFCADAD00E62BA6 /* TimeManager.swift */; };
 		1AEB6D882BFF56B200B77565 /* LocalNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */; };
+		D30C214B2D378E740012ACAA /* WatchCountDownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D30C214A2D378E740012ACAA /* WatchCountDownView.swift */; };
 		EE5068AC2CA3BB7800F5441F /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE5068AB2CA3BB7300F5441F /* ColorExtension.swift */; };
 /* End PBXBuildFile section */
 
@@ -130,6 +131,7 @@
 		1AE1CA922CFDE88D00EE0CCC /* LittleHiker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LittleHiker.entitlements; sourceTree = "<group>"; };
 		1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotifications.swift; sourceTree = "<group>"; };
 		1EF68A6A2C0DDC2200DC2823 /* LittleHiker-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "LittleHiker-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		D30C214A2D378E740012ACAA /* WatchCountDownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCountDownView.swift; sourceTree = "<group>"; };
 		EE5068AB2CA3BB7300F5441F /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -304,6 +306,7 @@
 				1A36FB132BFCAF2B00880ED5 /* WatchMainView.swift */,
 				1A36FB152BFCAF3A00880ED5 /* WatchButtonView.swift */,
 				1A36FB172BFCAF5100880ED5 /* WatchKickOffView.swift */,
+				D30C214A2D378E740012ACAA /* WatchCountDownView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -465,6 +468,7 @@
 				1A36FB292BFDE29400880ED5 /* NotificationController.swift in Sources */,
 				1A36FB142BFCAF2B00880ED5 /* WatchMainView.swift in Sources */,
 				0232D4AA2CDC6DA000FDBFAF /* HikingLog.swift in Sources */,
+				D30C214B2D378E740012ACAA /* WatchCountDownView.swift in Sources */,
 				1A43DF962BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift in Sources */,
 				1A35BB482C3EB04F00891AC6 /* SummaryModel.swift in Sources */,
 				1A36FB122BFCAF2300880ED5 /* WatchRestView.swift in Sources */,
