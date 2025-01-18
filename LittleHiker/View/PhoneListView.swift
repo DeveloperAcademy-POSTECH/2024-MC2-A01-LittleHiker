@@ -41,6 +41,8 @@ struct PhoneListView: View {
                                 .font(.system(size: 34, weight: .bold))
                             Spacer()
                         }
+                        .padding(.leading, 16)
+                        .padding(.trailing, 16)
                         HStack {
                             Image(systemName: "magnifyingglass")
                                 .foregroundColor(.gray)
@@ -51,6 +53,8 @@ struct PhoneListView: View {
                         }
                         .background(Color(.systemGray5))
                         .cornerRadius(10)
+                        .padding(.leading, 16)
+                        .padding(.trailing, 16)
                     }
                     
                     
@@ -72,6 +76,7 @@ struct PhoneListView: View {
                     .listStyle(.plain)
                 }
             }
+            .padding(.top, 44)
         }
     }
     
