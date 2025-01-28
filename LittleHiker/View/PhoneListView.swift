@@ -21,18 +21,7 @@ struct PhoneListView: View {
         NavigationStack{
             ZStack{
                 if records.count == 0 { //데이터가 없을 때 보여질 뷰
-                    VStack {
-                        Spacer()
-                        Image("NoDataSquirrel")
-                            .resizable()
-                            .frame(width: 128, height: 128)
-                        Text("아직 산행 기록이 없네요!\n지금부터 첫 산행을 기록해 보세요")
-                            .font(.custom("Moneygraphy-Rounded", size: 16))
-                            .fontWeight(.regular)
-                            .multilineTextAlignment(.center)
-                            .padding(.top, 16)
-                        Spacer()
-                    }
+                    NoDataView()
                 }
                 VStack{
                     VStack {
@@ -88,4 +77,25 @@ struct PhoneListView: View {
         // TODO: healthKit 기록도 지울 것인지 action sheet로 확인 필요
     }
     
+}
+
+private struct NoDataView: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            Image("NoDataSquirrel")
+                .resizable()
+                .frame(width: 128, height: 128)
+            Text("아직 산행 기록이 없네요!\n지금부터 첫 산행을 기록해 보세요")
+                .font(.custom("Moneygraphy-Rounded", size: 16))
+                .fontWeight(.regular)
+                .multilineTextAlignment(.center)
+                .padding(.top, 16)
+            Spacer()
+        }
+    }
+}
+
+#Preview {
+    PhoneListView()
 }
