@@ -19,31 +19,37 @@ struct PhoneListView: View {
     
     var body: some View {
         NavigationStack{
-            ZStack{
+            ZStack(alignment: .bottom){
                 if records.count == 0 { //데이터가 없을 때 보여질 뷰
                     NoDataView()
                 }
                 VStack{
                     VStack {
-                        HStack {
-                            Text("산행기록")
-                                .font(.system(size: 34, weight: .bold))
-                            Spacer()
-                        }
-                        .padding(.leading, 16)
-                        .padding(.trailing, 16)
-                        HStack {
-                            Image(systemName: "magnifyingglass")
-                                .foregroundColor(.gray)
-                                .padding(.leading, 7)
-                            TextField("Search", text: $text)
-                                .padding(7)
-                                .cornerRadius(8)
+                        ZStack {
+                            HStack {
+                                Text("산행기록")
+                                    .font(.system(size: 34, weight: .bold))
+                                Spacer()
+                            }
+                            .padding(.top, 44)
+                            .padding(.leading, 16)
+                            .padding(.trailing, 16)
+                            .padding(.bottom, 8)
                         }
                         .background(Color(.systemGray5))
-                        .cornerRadius(10)
-                        .padding(.leading, 16)
-                        .padding(.trailing, 16)
+                        //검색 뷰 삭제
+//                        HStack {
+//                            Image(systemName: "magnifyingglass")
+//                                .foregroundColor(.gray)
+//                                .padding(.leading, 7)
+//                            TextField("Search", text: $text)
+//                                .padding(7)
+//                                .cornerRadius(8)
+//                        }
+//                        .background(Color(.systemGray5))
+//                        .cornerRadius(10)
+//                        .padding(.leading, 16)
+//                        .padding(.trailing, 16)
                     }
                     
                     
@@ -65,7 +71,7 @@ struct PhoneListView: View {
                     .listStyle(.plain)
                 }
             }
-            .padding(.top, 44)
+//            .edgesIgnoringSafeArea(.bottom)
         }
     }
     
