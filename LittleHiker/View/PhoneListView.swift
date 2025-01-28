@@ -17,6 +17,10 @@ struct PhoneListView: View {
     //추후 검색용 텍스트
     @State var text: String = ""
     
+    var sortedRecords: [HikingRecord] {
+        records.sorted { $0.startDateTime ?? Date() < $1.startDateTime ?? Date() }
+    }
+    
     var body: some View {
         NavigationStack{
             ZStack(alignment: .bottom){
@@ -54,7 +58,7 @@ struct PhoneListView: View {
                     
                     
                     List {
-                        ForEach(records) { record in
+                        ForEach(sortedRecords) { record in
                             NavigationLink(destination: PhoneDetailView(record: record)) {
                                 PhoneRowView(record: record)
                                     .swipeActions(edge: .trailing) {
