@@ -67,7 +67,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             //TODO: 타임스케줄러를 시작버튼 누를 때 돌아가도록 바꾸기
             
             if status == .descending{
-                self.impulseManager.calculateImpulse(
+                self.impulseManager.calculateImpulseFromLogs(
                     altitudeLogs: self.coreLocationManager.altitudeLogs,
                     currentSpeed: self.healthKitManager.currentSpeed
                 )
