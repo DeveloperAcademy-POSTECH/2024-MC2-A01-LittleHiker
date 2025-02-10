@@ -41,9 +41,6 @@ struct WatchCountDownView: View {
         .onAppear {
             startReadyPhase()
         }
-        .onDisappear {
-            stopTimer()
-        }
     }
     
     // "준비" 단계 시작
