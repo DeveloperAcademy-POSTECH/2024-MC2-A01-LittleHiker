@@ -34,10 +34,6 @@ class HikingRecord {
     var totalAltitude: Int // 등반 고도
     var totalDistance: Double?
     
-    // TODO: healthKit에서 조회해 와야 함
-    var ascendAvgSpeed: Int? //등산평균속도
-    //등산 시작 시간을 healthKit에서 가져와서, 하산 시작 시간 이전까지의 속도의 평균값
-    var descendAvgSpeed: Int? //하산평균속도
     //impulseLogs 처음 시간 == 하산 시작 시간
     //healthKit에서 하산 시작 시간 이후의 속도의 평균값
     var avgSpeed: Double
@@ -51,7 +47,7 @@ class HikingRecord {
     var hikingLogs: [HikingLog]
     
     
-    init(id: UUID, title: String, duration: Double, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, ascendingDuration: String? = nil, descendingDuration: String? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Double? = nil, ascendAvgSpeed: Int? = nil, descendAvgSpeed: Int? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLogs: [HikingLog]) {
+    init(id: UUID, title: String, duration: Double, startDateTime: Date? = nil, peakDateTime: Date? = nil, endDateTime: Date? = nil, ascendingDuration: String? = nil, descendingDuration: String? = nil, minHeartRate: Int, maxHeartRate: Int, avgHeartRate: Int, startAltitude: Int? = nil, peakAltitude: Int? = nil, endAltitude: Int? = nil, minAltitude: Int, maxAltitude: Int, totalAltitude: Int, totalDistance: Double? = nil, avgSpeed: Double, avgImpulse: Double, painRate: Int? = nil, hikingLogs: [HikingLog]) {
         self.id = id
         self.title = title
         self.duration = duration
@@ -70,8 +66,6 @@ class HikingRecord {
         self.maxAltitude = maxAltitude
         self.totalAltitude = totalAltitude
         self.totalDistance = totalDistance
-        self.ascendAvgSpeed = ascendAvgSpeed
-        self.descendAvgSpeed = descendAvgSpeed
         self.avgSpeed = avgSpeed
         self.avgImpulse = avgImpulse
         self.painRate = painRate
