@@ -14,6 +14,7 @@ class ImpulseManager: NSObject, ObservableObject {
     var currentMeanOfLastTenImpulseLogs = 0.0
     var prevMeanOfLastTenImpulseLogs = 0.0
     @Published var currentImpulseMeanRatio = 50.0
+    private var speechManager = SpeechManager() // 사운드 재생용
     
     //임의
     var localNotification = LocalNotifications.shared
@@ -27,6 +28,7 @@ class ImpulseManager: NSObject, ObservableObject {
     var impulseCriterion: Double {
         return self.convertVelocityToImpulse(Double(diagonalVelocityCriterion) ?? 2.95)
     }
+    
     
     
     func convertVelocityToImpulse(_ diagonalVeocity: Double)-> Double {
@@ -209,6 +211,7 @@ class ImpulseManager: NSObject, ObservableObject {
     func sendWarningIfConditionMet() -> Void {
         if stayedInRedZoneForTooLong() {
             self.sendWarningNotification()
+            speechManager.speakEmergencyAlert()
         }
     }
 }
