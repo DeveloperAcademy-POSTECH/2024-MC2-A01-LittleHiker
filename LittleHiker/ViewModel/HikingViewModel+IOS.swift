@@ -119,16 +119,6 @@ extension HikingViewModel {
                     hikingRecord.totalDistance = totalDistance
                 }
                 
-                // 헬스킷에 없어서 watch에서 전송받아야 함 (현재 전송 로직 없음)
-                if let ascendAvgSpeed = data["ascendAvgSpeed"] as? Int {
-                    hikingRecord.ascendAvgSpeed = ascendAvgSpeed
-                }
-                
-                // 헬스킷에 없어서 watch에서 전송받아야 함 (현재 전송 로직 없음)
-                if let descendAvgSpeed = data["descendAvgSpeed"] as? Int {
-                    hikingRecord.descendAvgSpeed = descendAvgSpeed
-                }
-                
                 // watch에서 전송받음
                 if let avgSpeed = data["avgSpeed"] as? Double {
                     hikingRecord.avgSpeed = avgSpeed
@@ -160,8 +150,6 @@ extension HikingViewModel {
                     maxAltitude: data["maxAltitude"] as? Int ?? 0,
                     totalAltitude: data["totalAltitude"] as? Int ?? 0,
                     totalDistance: data["totalDistance"] as? Double,
-                    ascendAvgSpeed: data["ascendAvgSpeed"] as? Int,
-                    descendAvgSpeed: data["descendAvgSpeed"] as? Int,
                     avgSpeed: data["avgSpeed"] as? Double ?? 0.0,
                     avgImpulse: data["avgImpulse"] as? Double ?? 0.0,
                     hikingLogs: []

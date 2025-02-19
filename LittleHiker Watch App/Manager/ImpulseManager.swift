@@ -10,11 +10,10 @@ import SwiftUI
 
 class ImpulseManager: NSObject, ObservableObject {
     @Published var impulseLogs: [Double] = []
-    @Published var impulseRatio = 50.0
     var currentImpulse = 0.0
     var currentMeanOfLastTenImpulseLogs = 0.0
     var prevMeanOfLastTenImpulseLogs = 0.0
-    var currentImpulseMeanRatio = 50.0
+    @Published var currentImpulseMeanRatio = 50.0
     
     //임의
     var localNotification = LocalNotifications.shared
@@ -70,7 +69,7 @@ class ImpulseManager: NSObject, ObservableObject {
         return nonZeroValues.min()
     }
     
-    func calculateImpulse(altitudeLogs:[Double] ,currentSpeed: Double){
+    func calculateImpulseFromLogs(altitudeLogs:[Double] ,currentSpeed: Double){
         guard altitudeLogs.count > 60 else {
             return
         }
@@ -78,8 +77,6 @@ class ImpulseManager: NSObject, ObservableObject {
         let verticalSpeed = calculateVerticalSpeed(altitudeLogs: altitudeLogs)
         print("수직속도 : \(verticalSpeed)km/h")
         currentImpulse = self.calculateImpulse(verticalSpeed, currentSpeed)
-        impulseRatio = self.calculateImpulseRatio(currentImpulse)
-        
     }
     
     func calculateVerticalSpeed(altitudeLogs: [Double]) -> Double {
