@@ -21,7 +21,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     
     //알람용
     private var notificationPeak: Bool = false
-    private var notificationDecent: Bool = false
+    private var notificationDescent: Bool = false
     private let standardOfPeak = 600.0
     var isPeak = false
 
@@ -49,9 +49,9 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         }
     }
     
-    func isNotificationDecent() -> Bool{
-        if notificationDecent{
-            notificationDecent = false
+    func isNotificationDescent() -> Bool{
+        if notificationDescent{
+            notificationDescent = false
             return true
         }
         else{

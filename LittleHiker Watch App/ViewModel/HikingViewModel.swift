@@ -94,8 +94,9 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
         }
         if status == .peak {
             coreLocationManager.isPeak = true
-            if coreLocationManager.isNotificationDecent() {
-                print("하산입니까 알람 필요")
+            if coreLocationManager.isNotificationDescent() {
+                //하산입니까 알림 보냄
+                LocalNotifications.shared.schedule3()
             }
         }
     }

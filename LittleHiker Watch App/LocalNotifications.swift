@@ -114,9 +114,16 @@ final class LocalNotifications: NSObject, ObservableObject {
         content.title = "잠깐"
         content.subtitle = "하산중이신가요?"
         content.body = "하산 모드를 이용하세요"
-        content.categoryIdentifier = self.categoryIdentifier
-        registerNotification(content: content)
+        content.categoryIdentifier = "산행모드변경"
         
+        let action1 = UNNotificationAction(identifier: "하산모드_진입",
+                                           title: "하산하기",
+                                           options: [])
+        let category = UNNotificationCategory(identifier: "산행모드변경",
+                                              actions: [action1],
+                                              intentIdentifiers: [],
+                                              options: [])
+        registerNotification(content: content, category: category)
     }
     
     func triggerHapticFeedback() {
