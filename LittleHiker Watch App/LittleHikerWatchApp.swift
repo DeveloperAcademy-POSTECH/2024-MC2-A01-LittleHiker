@@ -5,14 +5,16 @@
 //  Created by Lyosha's MacBook   on 5/13/24.
 //
 
+import Foundation
 import SwiftUI
 import SwiftData
+import UserNotifications
+import UIKit
 
 @main
 struct LittleHiker_Watch_App: App {
     @ObservedObject private var viewModel = HikingViewModel.shared
     @StateObject private var timeManager = TimeManager()
-    
     @WKApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
     var modelContainer: ModelContainer = {
@@ -28,23 +30,27 @@ struct LittleHiker_Watch_App: App {
     
     var body: some Scene {
         WindowGroup {
-//            WatchDxetailView(viewModel: viewModel)
-            if viewModel.status == .ready{
-                WatchKickOffView(viewModel: viewModel, timeManager: timeManager)
+            Group {
+                if viewModel.status == .ready{
+                    WatchKickOffView(viewModel: viewModel, timeManager: timeManager)
+                }
+                else if viewModel.status != .ready && viewModel.status != .complete {
+                    WatchRootView(viewModel: viewModel, timeManager: timeManager)
+                }
+                else if viewModel.status == .complete{
+                    WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+                }
             }
-            else if viewModel.status != .ready && viewModel.status != .complete {
-                WatchRootView(viewModel: viewModel, timeManager: timeManager)
-            }
-            else if viewModel.status == .complete{
-                WatchSummaryView(viewModel: viewModel, timeManager: timeManager)
+            .onAppear {
+                delegate.timeManager = timeManager
             }
         }
-
         
-//        #if os(watchOS)
-//        WKNotificationScene(
-//            controller: NotificationController.self,
-//            category: "myNotification")
-//        #endif
+        //        #if os(watchOS)
+        //        WKNotificationScene(
+        //            controller: NotificationController.self,
+        //            category: "myNotification")
+        //        #endif
     }
 }
+

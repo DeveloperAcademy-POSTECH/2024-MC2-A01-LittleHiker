@@ -11,6 +11,7 @@ import WatchKit
 
 class AppDelegate: NSObject, WKApplicationDelegate {
     private var notificationIdentifiers = Set<String>()
+    var timeManager: TimeManager?
     override init() {
         super.init()
         UNUserNotificationCenter.current().delegate = self
@@ -34,8 +35,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             print("Haptic feedback triggered at \(Date()).")
         }
     }
-    
-    
+
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler:
@@ -50,10 +50,31 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             // 계속 다람상식 끄기
             LocalNotifications.shared.turnOffTips()
             break
+            
+        case "하산모드_진입": {
+            let viewModel = HikingViewModel.shared
+            if let timeManager = timeManager {
+                if ((timeManager.timer?.isValid) != nil) {
+                    timeManager.timer?.invalidate()
+                }
+                let viewModel = HikingViewModel.shared
+                // peak 버튼을 누르지 않고 바로 하산 버튼을 눌렀을 경우에 처리
+                if viewModel.status == .hiking || viewModel.status == .hikingPause {
+                    timeManager.setAscendingDuration()
+                }
+                
+                timeManager.runStopWatch()
+                //하이킹 워크아웃 재시작
+                viewModel.healthKitManager.resumeHikingWorkout()
+                
+                //뷰모델에서 산행상태를 정상으로 변경
+                viewModel.status = .descending
+                viewModel.isDescent = true
+            }
+        }()
+            
         default:
             break
-            
         }
-        
     }
 }

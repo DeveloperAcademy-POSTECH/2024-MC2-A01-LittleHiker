@@ -254,13 +254,13 @@
 				1A8DBE9D2BFE2CB600C3BA92 /* PushNotificationPayload.apns */,
 				1AEB6D872BFF56B200B77565 /* LocalNotifications.swift */,
 				1A43DF952BFCAC9B00E62BA6 /* LittleHikerWatchApp.swift */,
+				1A35BB392C32C7B000891AC6 /* AppDelegate.swift */,
 				1A43DF992BFCAC9C00E62BA6 /* Assets.xcassets */,
 				1A43DFB02BFCAD7400E62BA6 /* Manager */,
 				1A43DF9B2BFCAC9C00E62BA6 /* Preview Content */,
 				1A43DFBB2BFCADD500E62BA6 /* View */,
 				1A35BB4B2C3F61E100891AC6 /* Model */,
 				1A43DFBC2BFCADEE00E62BA6 /* ViewModel */,
-				1A35BB392C32C7B000891AC6 /* AppDelegate.swift */,
 			);
 			path = "LittleHiker Watch App";
 			sourceTree = "<group>";
