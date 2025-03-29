@@ -93,6 +93,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
             }
         }
         if status == .peak {
+            // 정상 버튼을 누른 상태일 때 체크
             coreLocationManager.isPeak = true
             if coreLocationManager.isNotificationDescent() {
                 //하산입니까 알림 보냄

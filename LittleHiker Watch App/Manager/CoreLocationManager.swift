@@ -52,6 +52,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     func isNotificationDescent() -> Bool{
         if notificationDescent{
             notificationDescent = false
+
             return true
         }
         else{
@@ -62,8 +63,12 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     // 위치가 바뀔 때 호출 됨
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            if location.altitude > 0{
+            if location.altitude > 0 {
                 self.currentAltitude = location.altitude
+                // 정상 상태일 때 위치 변화 감지 시 작동
+                if isPeak {
+                    notificationDescent = true
+                }
             }
             self.calculateAltitudeDifference()
         }
