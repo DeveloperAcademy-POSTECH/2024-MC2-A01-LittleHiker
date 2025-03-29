@@ -88,7 +88,7 @@ class HikingViewModel: NSObject, CLLocationManagerDelegate, ObservableObject {
     
     func checkNotification(){
         if status == .hiking {
-            if coreLocationManager.isNotificationPeak() {
+            if coreLocationManager.isUpdateIntervalExceeded() {
                 print("정상입니까 알람 필요")
             }
         }

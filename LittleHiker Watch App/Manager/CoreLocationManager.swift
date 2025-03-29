@@ -23,6 +23,7 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     private var notificationPeak: Bool = false
     private var notificationDescent: Bool = false
     private let standardOfPeak = 600.0
+    private var updateTime: Date?
     var isPeak = false
 
     override init() {
@@ -39,25 +40,27 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         locationManager.startUpdatingLocation()
     }
     
-    func isNotificationPeak() -> Bool{
-        if notificationPeak{
-            notificationPeak = false
-            return true
+    func isUpdateIntervalExceeded() -> Bool {
+        if let updateTime {
+            let diff = Date().timeIntervalSince(updateTime)
+            
+            // 거리 변화감지 시간이 15분 이상 차이날 때 작동
+            if diff > 900 {
+                return true
+            }
         }
-        else{
-            return false
-        }
+        
+        return false
     }
     
     func isNotificationDescent() -> Bool{
-        if notificationDescent{
+        if notificationDescent {
             notificationDescent = false
 
             return true
         }
-        else{
-            return false
-        }
+            
+        return false
     }
 
     // 위치가 바뀔 때 호출 됨
@@ -65,12 +68,13 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
         if let location = locations.last {
             if location.altitude > 0 {
                 self.currentAltitude = location.altitude
-                // 정상 상태일 때 위치 변화 감지 시 작동
+                // 정상 상태일 때 위치 변화 감지 시 작동 (현재 정상 상태이면서 100m이상의 이동이 발생 했을 때 작동)
                 if isPeak {
                     notificationDescent = true
                 }
             }
             self.calculateAltitudeDifference()
+            updateTime = Date()
         }
     }
 
