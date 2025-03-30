@@ -43,9 +43,10 @@ class CoreLocationManager : NSObject, CLLocationManagerDelegate, ObservableObjec
     func isUpdateIntervalExceeded() -> Bool {
         if let updateTime {
             let diff = Date().timeIntervalSince(updateTime)
-            
+
             // 거리 변화감지 시간이 15분 이상 차이날 때 작동
             if diff > 900 {
+                self.updateTime = Date()
                 return true
             }
         }

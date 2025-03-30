@@ -169,7 +169,7 @@ extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelega
                 
                 if quantityType == HKQuantityType.quantityType(forIdentifier: .heartRate) {
                     if let heartRateValue = statistics.mostRecentQuantity()?.doubleValue(for: HKUnit.count().unitDivided(by: HKUnit.minute())){
-                        print("Heart Rate: \(String(describing: heartRateValue)) BPM at \(date)")
+//                        print("Heart Rate: \(String(describing: heartRateValue)) BPM at \(date)")
                         DispatchQueue.main.async {
                             self.currentHeartRate = Int(heartRateValue)
                         }
@@ -177,7 +177,7 @@ extension HealthKitManager: HKWorkoutSessionDelegate, HKLiveWorkoutBuilderDelega
                 } else if quantityType == HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) {
                     if let distanceValue = statistics.sumQuantity()?.doubleValue(for: HKUnit.meterUnit(with: .kilo)) {
                         let speed = calculateSpeedInKmh(currentDistance: distanceValue, currentTimestamp: Date())
-                        print("Distance: \(distanceValue) meters, Speed: \(speed) km/h at \(date)")
+//                        print("Distance: \(distanceValue) meters, Speed: \(speed) km/h at \(date)")
                         DispatchQueue.main.async {
 //                            self.currentSpeed = speed
                             self.SpeedLogForCorrection.append(speed)
