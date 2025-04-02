@@ -2,6 +2,9 @@
 # LITTLE HIKER
 
 빠르게 하산을 하는 희아에게 직관적으로 충격량을 보여주고, 충격량이 커질수록 빨리 달리는 다람쥐로 무릎의 건강을 신경쓰면서 하산할 수 있도록 도와주는 워치 앱
+## 🕸 아키텍처 다이어그램
+![diagram-4](https://github.com/user-attachments/assets/2f502e5e-6f09-4cc8-9154-bf022df91571)
+https://gitdiagram.com/developeracademy-postech/2024-mc2-a01-littlehiker
 
 ## <span id="team">🛠 기술 및 개발환경</span>
 #### 언어
